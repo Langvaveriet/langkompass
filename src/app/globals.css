@@ -1,26 +1,137 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  --background: #f4f1ea;
+  --foreground: #20231f;
+
+  --surface: #faf8f3;
+  --surface-raised: #ffffff;
+  --surface-muted: #ebe7de;
+
+  --forest: #123f35;
+  --forest-strong: #07372e;
+  --forest-soft: #dbe7df;
+
+  --copper: #a4532d;
+  --copper-soft: #ead8cc;
+
+  --text-primary: #20231f;
+  --text-secondary: #696961;
+  --text-muted: #85847b;
+
+  --border: #dedbd3;
+  --border-strong: #c9c5ba;
+
+  --focus: #a4532d;
+
+  --success: #356447;
+  --warning: #9a6b24;
+  --danger: #a63d32;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+
+  --shadow-sm: 0 1px 2px rgb(32 35 31 / 0.04);
+  --shadow-md: 0 10px 30px rgb(32 35 31 / 0.06);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: #151916;
+  --foreground: #f1eee6;
+
+  --surface: #1b201c;
+  --surface-raised: #222823;
+  --surface-muted: #2a302b;
+
+  --forest: #9bc0aa;
+  --forest-strong: #b7d2c2;
+  --forest-soft: #263c31;
+
+  --copper: #d18a62;
+  --copper-soft: #493326;
+
+  --text-primary: #f1eee6;
+  --text-secondary: #c3c0b7;
+  --text-muted: #99978f;
+
+  --border: #353b36;
+  --border-strong: #485049;
+
+  --focus: #d18a62;
+
+  --success: #82b18f;
+  --warning: #d7ad65;
+  --danger: #db8177;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.18);
+  --shadow-md: 0 10px 30px rgb(0 0 0 / 0.22);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-muted: var(--surface-muted);
+
+  --color-forest: var(--forest);
+  --color-forest-strong: var(--forest-strong);
+  --color-forest-soft: var(--forest-soft);
+
+  --color-copper: var(--copper);
+  --color-copper-soft: var(--copper-soft);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--background);
 }
 
 body {
+  min-height: 100vh;
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
 }
