@@ -10,39 +10,75 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
+import { prisma } from "@/lib/prisma";
 
-const overviewCards = [
-  {
-    title: "Gesundheitsprofil",
-    value: "Noch nicht eingerichtet",
-    description:
-      "Persönliche Basisdaten, Gesundheitsziele und relevante Rahmenbedingungen.",
-    href: "/gesundheitsprofil",
-  },
-  {
-    title: "Laborwerte",
-    value: "0 Messungen",
-    description:
-      "Blutwerte und andere Laborergebnisse strukturiert erfassen und vergleichen.",
-    href: "/laborwerte",
-  },
-  {
-    title: "Compass AI",
-    value: "Bereit für Kontext",
-    description:
-      "Ruhige, verständliche Einordnung auf Basis deiner freigegebenen Gesundheitsdaten.",
-    href: "/compass-ai",
-  },
-  {
-    title: "Tageserfassung",
-    value: "Heute noch offen",
-    description:
-      "Wohlbefinden, Symptome, Schlaf und persönliche Beobachtungen dokumentieren.",
-    href: "/tageserfassung",
-  },
-];
+export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+
+const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
+
+export default async function HomePage() {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: LOCAL_USER_EMAIL,
+    },
+    include: {
+      healthProfile: true,
+    },
+  });
+
+  const profile = user?.healthProfile;
+
+  const completedProfileFields = [
+    profile?.firstName,
+    profile?.lastName,
+    profile?.dateOfBirth,
+    profile?.heightCm,
+    profile?.weightKg,
+    profile?.primaryGoal,
+    profile?.activityGoal,
+  ].filter((value) => value !== null && value !== undefined && value !== "")
+    .length;
+
+  const totalProfileFields = 7;
+  const profileProgress = Math.round(
+    (completedProfileFields / totalProfileFields) * 100,
+  );
+
+  const overviewCards = [
+    {
+      title: "Gesundheitsprofil",
+      value: profile
+        ? `${profileProgress} % vollständig`
+        : "Noch nicht eingerichtet",
+      description: profile
+        ? "Persönliche Basisdaten und Gesundheitsziele sind bereits gespeichert."
+        : "Persönliche Basisdaten, Gesundheitsziele und relevante Rahmenbedingungen.",
+      href: "/gesundheitsprofil",
+    },
+    {
+      title: "Laborwerte",
+      value: "0 Messungen",
+      description:
+        "Blutwerte und andere Laborergebnisse strukturiert erfassen und vergleichen.",
+      href: "/laborwerte",
+    },
+    {
+      title: "Compass AI",
+      value: profile ? "Profilkontext verfügbar" : "Bereit für Kontext",
+      description:
+        "Ruhige, verständliche Einordnung auf Basis deiner freigegebenen Gesundheitsdaten.",
+      href: "/compass-ai",
+    },
+    {
+      title: "Tageserfassung",
+      value: "Heute noch offen",
+      description:
+        "Wohlbefinden, Symptome, Schlaf und persönliche Beobachtungen dokumentieren.",
+      href: "/tageserfassung",
+    },
+  ];
+
   return (
     <AppLayout>
       <Page>
@@ -113,7 +149,10 @@ export default function HomePage() {
 
             <CardContent>
               <ul className="grid gap-4 text-sm text-text-muted">
-                <li>Gesundheitsprofil vervollständigen</li>
+                {!profile ? (
+                  <li>Gesundheitsprofil vervollständigen</li>
+                ) : null}
+
                 <li>Erste Tageserfassung anlegen</li>
                 <li>Laborbericht hinzufügen</li>
               </ul>
