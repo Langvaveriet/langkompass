@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  HealthProfile: 'HealthProfile'
+  HealthProfile: 'HealthProfile',
+  DailyEntry: 'DailyEntry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -97,6 +98,27 @@ export const HealthProfileScalarFieldEnum = {
 } as const
 
 export type HealthProfileScalarFieldEnum = (typeof HealthProfileScalarFieldEnum)[keyof typeof HealthProfileScalarFieldEnum]
+
+
+export const DailyEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  entryDate: 'entryDate',
+  wellbeing: 'wellbeing',
+  energy: 'energy',
+  sleepHours: 'sleepHours',
+  sleepQuality: 'sleepQuality',
+  painLevel: 'painLevel',
+  stressLevel: 'stressLevel',
+  symptoms: 'symptoms',
+  symptomTags: 'symptomTags',
+  activityTags: 'activityTags',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyEntryScalarFieldEnum = (typeof DailyEntryScalarFieldEnum)[keyof typeof DailyEntryScalarFieldEnum]
 
 
 export const SortOrder = {

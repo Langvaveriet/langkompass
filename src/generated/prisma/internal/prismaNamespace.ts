@@ -398,7 +398,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
-  HealthProfile: 'HealthProfile'
+  HealthProfile: 'HealthProfile',
+  DailyEntry: 'DailyEntry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "healthProfile"
+    modelProps: "user" | "healthProfile" | "dailyEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -566,6 +567,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DailyEntry: {
+      payload: Prisma.$DailyEntryPayload<ExtArgs>
+      fields: Prisma.DailyEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>
+        }
+        findMany: {
+          args: Prisma.DailyEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>[]
+        }
+        create: {
+          args: Prisma.DailyEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>
+        }
+        createMany: {
+          args: Prisma.DailyEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>
+        }
+        update: {
+          args: Prisma.DailyEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyEntry>
+        }
+        groupBy: {
+          args: Prisma.DailyEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyEntryCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -631,6 +706,27 @@ export const HealthProfileScalarFieldEnum = {
 } as const
 
 export type HealthProfileScalarFieldEnum = (typeof HealthProfileScalarFieldEnum)[keyof typeof HealthProfileScalarFieldEnum]
+
+
+export const DailyEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  entryDate: 'entryDate',
+  wellbeing: 'wellbeing',
+  energy: 'energy',
+  sleepHours: 'sleepHours',
+  sleepQuality: 'sleepQuality',
+  painLevel: 'painLevel',
+  stressLevel: 'stressLevel',
+  symptoms: 'symptoms',
+  symptomTags: 'symptomTags',
+  activityTags: 'activityTags',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyEntryScalarFieldEnum = (typeof DailyEntryScalarFieldEnum)[keyof typeof DailyEntryScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -885,6 +981,7 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   healthProfile?: Prisma.HealthProfileOmit
+  dailyEntry?: Prisma.DailyEntryOmit
 }
 
 /* Types for Logging */

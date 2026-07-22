@@ -10,4 +10,5 @@
  */
 export type * from './models/User'
 export type * from './models/HealthProfile'
+export type * from './models/DailyEntry'
 export type * from './commonInputTypes'

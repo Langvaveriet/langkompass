@@ -183,6 +183,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   healthProfile?: Prisma.XOR<Prisma.HealthProfileNullableScalarRelationFilter, Prisma.HealthProfileWhereInput> | null
+  dailyEntries?: Prisma.DailyEntryListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -192,6 +193,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   healthProfile?: Prisma.HealthProfileOrderByWithRelationInput
+  dailyEntries?: Prisma.DailyEntryOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -204,6 +206,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   healthProfile?: Prisma.XOR<Prisma.HealthProfileNullableScalarRelationFilter, Prisma.HealthProfileWhereInput> | null
+  dailyEntries?: Prisma.DailyEntryListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -235,6 +238,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -244,6 +248,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -253,6 +258,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -262,6 +268,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -343,12 +350,27 @@ export type UserUpdateOneRequiredWithoutHealthProfileNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutHealthProfileInput, Prisma.UserUpdateWithoutHealthProfileInput>, Prisma.UserUncheckedUpdateWithoutHealthProfileInput>
 }
 
+export type UserCreateNestedOneWithoutDailyEntriesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDailyEntriesInput, Prisma.UserUncheckedCreateWithoutDailyEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDailyEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDailyEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDailyEntriesInput, Prisma.UserUncheckedCreateWithoutDailyEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDailyEntriesInput
+  upsert?: Prisma.UserUpsertWithoutDailyEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDailyEntriesInput, Prisma.UserUpdateWithoutDailyEntriesInput>, Prisma.UserUncheckedUpdateWithoutDailyEntriesInput>
+}
+
 export type UserCreateWithoutHealthProfileInput = {
   id?: string
   email: string
   name?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutHealthProfileInput = {
@@ -357,6 +379,7 @@ export type UserUncheckedCreateWithoutHealthProfileInput = {
   name?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutHealthProfileInput = {
@@ -381,6 +404,7 @@ export type UserUpdateWithoutHealthProfileInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutHealthProfileInput = {
@@ -389,8 +413,90 @@ export type UserUncheckedUpdateWithoutHealthProfileInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
+export type UserCreateWithoutDailyEntriesInput = {
+  id?: string
+  email: string
+  name?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDailyEntriesInput = {
+  id?: string
+  email: string
+  name?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDailyEntriesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDailyEntriesInput, Prisma.UserUncheckedCreateWithoutDailyEntriesInput>
+}
+
+export type UserUpsertWithoutDailyEntriesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDailyEntriesInput, Prisma.UserUncheckedUpdateWithoutDailyEntriesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDailyEntriesInput, Prisma.UserUncheckedCreateWithoutDailyEntriesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDailyEntriesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDailyEntriesInput, Prisma.UserUncheckedUpdateWithoutDailyEntriesInput>
+}
+
+export type UserUpdateWithoutDailyEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDailyEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
+}
+
+
+/**
+ * Count Type UserCountOutputType
+ */
+
+export type UserCountOutputType = {
+  dailyEntries: number
+}
+
+export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dailyEntries?: boolean | UserCountOutputTypeCountDailyEntriesArgs
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCountOutputType
+   */
+  select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDailyEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyEntryWhereInput
+}
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -400,6 +506,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   healthProfile?: boolean | Prisma.User$healthProfileArgs<ExtArgs>
+  dailyEntries?: boolean | Prisma.User$dailyEntriesArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -429,6 +537,8 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   healthProfile?: boolean | Prisma.User$healthProfileArgs<ExtArgs>
+  dailyEntries?: boolean | Prisma.User$dailyEntriesArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -437,6 +547,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     healthProfile: Prisma.$HealthProfilePayload<ExtArgs> | null
+    dailyEntries: Prisma.$DailyEntryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -839,6 +950,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   healthProfile<T extends Prisma.User$healthProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$healthProfileArgs<ExtArgs>>): Prisma.Prisma__HealthProfileClient<runtime.Types.Result.GetResult<Prisma.$HealthProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  dailyEntries<T extends Prisma.User$dailyEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$dailyEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1282,6 +1394,30 @@ export type User$healthProfileArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   include?: Prisma.HealthProfileInclude<ExtArgs> | null
   where?: Prisma.HealthProfileWhereInput
+}
+
+/**
+ * User.dailyEntries
+ */
+export type User$dailyEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyEntry
+   */
+  select?: Prisma.DailyEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyEntry
+   */
+  omit?: Prisma.DailyEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyEntryInclude<ExtArgs> | null
+  where?: Prisma.DailyEntryWhereInput
+  orderBy?: Prisma.DailyEntryOrderByWithRelationInput | Prisma.DailyEntryOrderByWithRelationInput[]
+  cursor?: Prisma.DailyEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyEntryScalarFieldEnum | Prisma.DailyEntryScalarFieldEnum[]
 }
 
 /**

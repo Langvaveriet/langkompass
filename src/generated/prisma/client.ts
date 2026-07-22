@@ -51,3 +51,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type HealthProfile = Prisma.HealthProfileModel
+/**
+ * Model DailyEntry
+ * 
+ */
+export type DailyEntry = Prisma.DailyEntryModel
