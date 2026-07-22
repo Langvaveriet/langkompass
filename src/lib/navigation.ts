@@ -9,6 +9,10 @@ export const navigationItems: NavigationItem[] = [
     href: "/",
   },
   {
+    label: "Gesundheitsprofil",
+    href: "/gesundheitsprofil",
+  },
+  {
     label: "Tageserfassung",
     href: "/tageserfassung",
   },

@@ -17,7 +17,7 @@ const overviewCards = [
     value: "Noch nicht eingerichtet",
     description:
       "Persönliche Basisdaten, Gesundheitsziele und relevante Rahmenbedingungen.",
-    href: "/tageserfassung",
+    href: "/gesundheitsprofil",
   },
   {
     title: "Laborwerte",
