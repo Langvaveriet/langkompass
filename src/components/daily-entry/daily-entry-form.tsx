@@ -168,6 +168,10 @@ export function DailyEntryForm({
             label="Was ist heute aufgefallen?"
             options={symptomOptions}
             defaultValues={values.symptomTags}
+            emptyOption={{
+              label: "Keine Symptome",
+              emoji: "✓",
+            }}
           />
         </div>
       </details>
@@ -190,6 +194,10 @@ export function DailyEntryForm({
             label="Was hat deinen Tag geprägt?"
             options={activityOptions}
             defaultValues={values.activityTags}
+            emptyOption={{
+              label: "Nichts Besonderes",
+              emoji: "○",
+            }}
           />
         </div>
       </details>
