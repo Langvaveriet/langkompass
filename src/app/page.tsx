@@ -51,9 +51,32 @@ export default async function HomePage() {
         select: {
           id: true,
           status: true,
+          meals: {
+            select: {
+              id: true,
+              items: {
+                select: {
+                  energyKcal: true,
+                },
+              },
+            },
+          },
         },
       })
     : null;
+
+  const todayMealCount = todayEntry?.meals.length ?? 0;
+  const todayEnergyKcal = Math.round(
+    todayEntry?.meals.reduce(
+      (mealSum, meal) =>
+        mealSum +
+        meal.items.reduce(
+          (itemSum, item) => itemSum + Number(item.energyKcal ?? 0),
+          0,
+        ),
+      0,
+    ) ?? 0,
+  );
 
   const dailyEntryStatus = (() => {
     switch (todayEntry?.status) {
@@ -119,6 +142,15 @@ export default async function HomePage() {
         "Wohlbefinden, Symptome, Schlaf und persönliche Beobachtungen dokumentieren.",
       href: "/tageserfassung",
     },
+    {
+      title: "Ernährung",
+      value: todayMealCount > 0
+        ? `${todayMealCount} ${todayMealCount === 1 ? "Eintrag" : "Einträge"} · ca. ${todayEnergyKcal} kcal`
+        : "Heute noch nichts erfasst",
+      description:
+        "Mahlzeiten, Getränke und mögliche Reaktionen strukturiert dokumentieren.",
+      href: "/ernaehrung",
+    },
   ];
 
   return (
@@ -135,13 +167,13 @@ export default async function HomePage() {
 
         <Section
           aria-label="Gesundheitsübersicht"
-          className="grid grid-cols-12 gap-5"
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-5"
         >
           {overviewCards.map((card) => (
             <Link
               key={card.title}
               href={card.href}
-              className="group col-span-12 rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4 sm:col-span-6 xl:col-span-3"
+              className="group rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4"
             >
               <Card className="h-full transition duration-200 group-hover:-translate-y-1 group-hover:shadow-md">
                 <CardHeader>
@@ -195,7 +227,8 @@ export default async function HomePage() {
                   <li>Gesundheitsprofil vervollständigen</li>
                 ) : null}
 
-                <li>Erste Tageserfassung anlegen</li>
+                {!todayEntry ? <li>Erste Tageserfassung anlegen</li> : null}
+                {todayMealCount === 0 ? <li>Erste Mahlzeit erfassen</li> : null}
                 <li>Laborbericht hinzufügen</li>
               </ul>
             </CardContent>
