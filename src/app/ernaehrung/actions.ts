@@ -5,6 +5,10 @@ import { redirect } from "next/navigation";
 
 import type { MealType, PortionSize } from "@/generated/prisma/enums";
 import { foodCatalogByKey } from "@/lib/nutrition/food-catalog";
+import {
+  allowedPostMealSymptoms,
+  allowedReactionDelays,
+} from "@/lib/nutrition/post-meal-reactions";
 import { prisma } from "@/lib/prisma";
 
 const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
@@ -29,6 +33,20 @@ export async function saveMeal(formData: FormData) {
   const time = text(formData, "consumedTime");
   const typeValue = text(formData, "type") as MealType | null;
   const mealId = text(formData, "mealId");
+  const postMealSymptomTags = formData
+    .getAll("postMealSymptomTags")
+    .filter((value): value is string => typeof value === "string")
+    .filter((value) => allowedPostMealSymptoms.has(value));
+  const reactionDelayValue = text(formData, "reactionDelayMinutes");
+  const parsedReactionDelay = reactionDelayValue === null
+    ? null
+    : Number(reactionDelayValue);
+  const reactionDelayMinutes =
+    postMealSymptomTags.length > 0 &&
+    parsedReactionDelay !== null &&
+    allowedReactionDelays.has(parsedReactionDelay)
+      ? parsedReactionDelay
+      : null;
 
   if (!time || !/^\d{2}:\d{2}$/.test(time) || !typeValue || !mealTypes.has(typeValue)) {
     redirect(`/ernaehrung?date=${date}&error=meal`);
@@ -102,6 +120,8 @@ export async function saveMeal(formData: FormData) {
     type: typeValue,
     consumedAt: new Date(`${date}T${time}:00.000Z`),
     notes: text(formData, "notes"),
+    postMealSymptomTags,
+    reactionDelayMinutes,
     items: { create: items },
   };
 

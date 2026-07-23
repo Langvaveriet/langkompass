@@ -10,6 +10,10 @@ import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import type { MealType } from "@/generated/prisma/enums";
 import { calculateDailyCalorieTarget } from "@/lib/nutrition/calorie-target";
 import { foodCatalogByKey } from "@/lib/nutrition/food-catalog";
+import {
+  postMealSymptomLabels,
+  reactionDelayLabels,
+} from "@/lib/nutrition/post-meal-reactions";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -70,7 +74,9 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
     customFood: editedMeal.items.filter((item) => !item.foodKey).map((item) => item.name).join(", "),
     customQuantity: editedMeal.items.find((item) => !item.foodKey)?.quantity?.toString() ?? "",
     notes: editedMeal.notes ?? "",
-  } : { type: "BREAKFAST" as const, time: currentTime(), foods: [], customFood: "", customQuantity: "", notes: "" };
+    postMealSymptomTags: editedMeal.postMealSymptomTags,
+    reactionDelayMinutes: editedMeal.reactionDelayMinutes,
+  } : { type: "BREAKFAST" as const, time: currentTime(), foods: [], customFood: "", customQuantity: "", notes: "", postMealSymptomTags: [], reactionDelayMinutes: null };
   const personalEnergyTarget = calculateDailyCalorieTarget(
     user?.healthProfile,
     new Date(`${date}T12:00:00.000Z`),
@@ -201,6 +207,17 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
                           </li>
                         ))}
                       </ul>
+                      {meal.postMealSymptomTags.length > 0 ? (
+                        <div className="mt-3 rounded-[var(--radius-md)] bg-surface-muted px-3 py-2 text-xs leading-5 text-text-muted">
+                          <span className="font-semibold text-text-primary">Reaktion: </span>
+                          {meal.postMealSymptomTags
+                            .map((tag) => postMealSymptomLabels.get(tag) ?? tag)
+                            .join(", ")}
+                          {meal.reactionDelayMinutes !== null
+                            ? ` · ${reactionDelayLabels.get(meal.reactionDelayMinutes) ?? `${meal.reactionDelayMinutes} Min. später`}`
+                            : ""}
+                        </div>
+                      ) : null}
                       <form action={deleteMeal} className="mt-3">
                         <input type="hidden" name="entryDate" value={date} /><input type="hidden" name="mealId" value={meal.id} />
                         <button className="text-xs font-semibold text-danger">Löschen</button>

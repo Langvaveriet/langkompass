@@ -3,8 +3,13 @@
 import { useState } from "react";
 
 import { saveMeal } from "@/app/ernaehrung/actions";
+import { ChipSelector } from "@/components/health-input/chip-selector";
 import type { MealType, PortionSize } from "@/generated/prisma/enums";
 import { foodCatalog, foodCatalogByKey } from "@/lib/nutrition/food-catalog";
+import {
+  postMealSymptomOptions,
+  reactionDelayOptions,
+} from "@/lib/nutrition/post-meal-reactions";
 
 type SelectedFoodValue = {
   key: string;
@@ -19,6 +24,8 @@ type MealFormValues = {
   customFood: string;
   customQuantity: string;
   notes: string;
+  postMealSymptomTags: string[];
+  reactionDelayMinutes: number | null;
 };
 
 type MealFormProps = { entryDate: string; values: MealFormValues };
@@ -126,6 +133,38 @@ export function MealForm({ entryDate, values }: MealFormProps) {
         <label htmlFor="customQuantity" className="text-sm font-semibold text-text-primary">Ungefähre Menge in Gramm <span className="font-normal text-text-muted">(optional)</span></label>
         <input id="customQuantity" name="customQuantity" type="number" min="1" max="5000" step="1" inputMode="numeric" defaultValue={values.customQuantity} placeholder="z. B. 150" className="min-h-12 rounded-[var(--radius-md)] border border-border-strong bg-surface-primary px-4 text-base text-text-primary placeholder:text-text-muted focus:border-forest-strong focus:ring-2 focus:ring-forest-soft" />
       </div>
+
+      <details className="rounded-[var(--radius-md)] border border-border-subtle">
+        <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-text-primary">Reaktion danach <span className="font-normal text-text-muted">(optional)</span></summary>
+        <div className="grid gap-6 border-t border-border-subtle p-4">
+          <ChipSelector
+            name="postMealSymptomTags"
+            label="Welche Beschwerden sind aufgetreten?"
+            options={[...postMealSymptomOptions]}
+            defaultValues={values.postMealSymptomTags}
+          />
+
+          <fieldset className="grid gap-3">
+            <legend className="text-sm font-semibold text-text-primary">Wann ungefähr?</legend>
+            <div className="flex flex-wrap gap-2">
+              {reactionDelayOptions.map((option) => (
+                <label key={option.value} className="cursor-pointer">
+                  <input
+                    className="peer sr-only"
+                    type="radio"
+                    name="reactionDelayMinutes"
+                    value={option.value}
+                    defaultChecked={values.reactionDelayMinutes === option.value}
+                  />
+                  <span className="inline-flex min-h-11 items-center rounded-full border border-border-strong bg-surface-primary px-4 py-2 text-sm font-medium text-text-primary transition peer-checked:border-forest-strong peer-checked:bg-forest-soft peer-checked:text-forest-strong peer-checked:ring-2 peer-checked:ring-forest-soft peer-focus-visible:ring-2 peer-focus-visible:ring-forest-strong">
+                    {option.label}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      </details>
 
       <details className="rounded-[var(--radius-md)] border border-border-subtle">
         <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-text-primary">Optionale Notiz</summary>
