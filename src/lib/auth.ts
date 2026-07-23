@@ -70,7 +70,15 @@ export const auth = betterAuth({
             },
           });
 
-          if (!user || user.passkeys.length > 0) {
+          const hasExistingPasskey = (user?.passkeys.length ?? 0) > 0;
+          const additionalDevelopmentPasskeyAllowed =
+            process.env.NODE_ENV !== "production" &&
+            new URL(authOrigin).hostname === "localhost";
+
+          if (
+            !user ||
+            (hasExistingPasskey && !additionalDevelopmentPasskeyAllowed)
+          ) {
             throw new Error("Die Passkey-Ersteinrichtung ist nicht verfügbar.");
           }
 

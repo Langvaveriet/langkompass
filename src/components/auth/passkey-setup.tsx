@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
+import { signInWithVerifiedPasskey } from "@/lib/passkey-authentication";
 
 export function PasskeySetup() {
   const [token, setToken] = useState("");
@@ -31,9 +32,16 @@ export function PasskeySetup() {
       return;
     }
 
-    const signIn = await authClient.signIn.passkey();
+    let authenticated = false;
 
-    if (signIn.error) {
+    try {
+      authenticated = await signInWithVerifiedPasskey();
+    } catch {
+      window.location.assign("/anmeldung?setup=1");
+      return;
+    }
+
+    if (!authenticated) {
       window.location.assign("/anmeldung?setup=1");
       return;
     }

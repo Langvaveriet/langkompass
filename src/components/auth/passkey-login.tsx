@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
+import { signInWithVerifiedPasskey } from "@/lib/passkey-authentication";
 
 export function PasskeyLogin() {
   const [error, setError] = useState<string | null>(null);
@@ -13,9 +13,15 @@ export function PasskeyLogin() {
     setError(null);
     setIsPending(true);
 
-    const result = await authClient.signIn.passkey();
+    try {
+      const authenticated = await signInWithVerifiedPasskey();
 
-    if (result.error) {
+      if (!authenticated) {
+        setError("Die Anmeldung konnte nicht abgeschlossen werden.");
+        setIsPending(false);
+        return;
+      }
+    } catch {
       setError("Die Anmeldung konnte nicht abgeschlossen werden.");
       setIsPending(false);
       return;
