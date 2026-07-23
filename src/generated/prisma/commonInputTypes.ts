@@ -143,6 +143,27 @@ export type DecimalNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedDecimalNullableFilter<$PrismaModel> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
+export type EnumCalorieFormulaSexNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.CalorieFormulaSex | Prisma.EnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CalorieFormulaSex[] | Prisma.ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CalorieFormulaSex[] | Prisma.ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCalorieFormulaSexNullableFilter<$PrismaModel> | $Enums.CalorieFormulaSex | null
+}
+
+export type EnumActivityLevelNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ActivityLevel | Prisma.EnumActivityLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ActivityLevel[] | Prisma.ListEnumActivityLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ActivityLevel[] | Prisma.ListEnumActivityLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumActivityLevelNullableFilter<$PrismaModel> | $Enums.ActivityLevel | null
+}
+
+export type EnumWeightGoalNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.WeightGoal | Prisma.EnumWeightGoalFieldRefInput<$PrismaModel> | null
+  in?: $Enums.WeightGoal[] | Prisma.ListEnumWeightGoalFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.WeightGoal[] | Prisma.ListEnumWeightGoalFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumWeightGoalNullableFilter<$PrismaModel> | $Enums.WeightGoal | null
+}
+
 export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -187,6 +208,36 @@ export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+}
+
+export type EnumCalorieFormulaSexNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CalorieFormulaSex | Prisma.EnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CalorieFormulaSex[] | Prisma.ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CalorieFormulaSex[] | Prisma.ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCalorieFormulaSexNullableWithAggregatesFilter<$PrismaModel> | $Enums.CalorieFormulaSex | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCalorieFormulaSexNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCalorieFormulaSexNullableFilter<$PrismaModel>
+}
+
+export type EnumActivityLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ActivityLevel | Prisma.EnumActivityLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ActivityLevel[] | Prisma.ListEnumActivityLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ActivityLevel[] | Prisma.ListEnumActivityLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumActivityLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.ActivityLevel | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumActivityLevelNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumActivityLevelNullableFilter<$PrismaModel>
+}
+
+export type EnumWeightGoalNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.WeightGoal | Prisma.EnumWeightGoalFieldRefInput<$PrismaModel> | null
+  in?: $Enums.WeightGoal[] | Prisma.ListEnumWeightGoalFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.WeightGoal[] | Prisma.ListEnumWeightGoalFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumWeightGoalNullableWithAggregatesFilter<$PrismaModel> | $Enums.WeightGoal | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumWeightGoalNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumWeightGoalNullableFilter<$PrismaModel>
 }
 
 export type EnumDailyEntryStatusFilter<$PrismaModel = never> = {
@@ -405,6 +456,27 @@ export type NestedDecimalNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedDecimalNullableFilter<$PrismaModel> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
+export type NestedEnumCalorieFormulaSexNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.CalorieFormulaSex | Prisma.EnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CalorieFormulaSex[] | Prisma.ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CalorieFormulaSex[] | Prisma.ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCalorieFormulaSexNullableFilter<$PrismaModel> | $Enums.CalorieFormulaSex | null
+}
+
+export type NestedEnumActivityLevelNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ActivityLevel | Prisma.EnumActivityLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ActivityLevel[] | Prisma.ListEnumActivityLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ActivityLevel[] | Prisma.ListEnumActivityLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumActivityLevelNullableFilter<$PrismaModel> | $Enums.ActivityLevel | null
+}
+
+export type NestedEnumWeightGoalNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.WeightGoal | Prisma.EnumWeightGoalFieldRefInput<$PrismaModel> | null
+  in?: $Enums.WeightGoal[] | Prisma.ListEnumWeightGoalFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.WeightGoal[] | Prisma.ListEnumWeightGoalFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumWeightGoalNullableFilter<$PrismaModel> | $Enums.WeightGoal | null
+}
+
 export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -460,6 +532,36 @@ export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumCalorieFormulaSexNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CalorieFormulaSex | Prisma.EnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CalorieFormulaSex[] | Prisma.ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CalorieFormulaSex[] | Prisma.ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCalorieFormulaSexNullableWithAggregatesFilter<$PrismaModel> | $Enums.CalorieFormulaSex | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCalorieFormulaSexNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCalorieFormulaSexNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumActivityLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ActivityLevel | Prisma.EnumActivityLevelFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ActivityLevel[] | Prisma.ListEnumActivityLevelFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ActivityLevel[] | Prisma.ListEnumActivityLevelFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumActivityLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.ActivityLevel | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumActivityLevelNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumActivityLevelNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumWeightGoalNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.WeightGoal | Prisma.EnumWeightGoalFieldRefInput<$PrismaModel> | null
+  in?: $Enums.WeightGoal[] | Prisma.ListEnumWeightGoalFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.WeightGoal[] | Prisma.ListEnumWeightGoalFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumWeightGoalNullableWithAggregatesFilter<$PrismaModel> | $Enums.WeightGoal | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumWeightGoalNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumWeightGoalNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumDailyEntryStatusFilter<$PrismaModel = never> = {

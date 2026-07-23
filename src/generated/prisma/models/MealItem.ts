@@ -28,10 +28,12 @@ export type AggregateMealItem = {
 
 export type MealItemAvgAggregateOutputType = {
   quantity: runtime.Decimal | null
+  energyKcal: runtime.Decimal | null
 }
 
 export type MealItemSumAggregateOutputType = {
   quantity: runtime.Decimal | null
+  energyKcal: runtime.Decimal | null
 }
 
 export type MealItemMinAggregateOutputType = {
@@ -43,6 +45,7 @@ export type MealItemMinAggregateOutputType = {
   portion: $Enums.PortionSize | null
   quantity: runtime.Decimal | null
   unit: $Enums.QuantityUnit | null
+  energyKcal: runtime.Decimal | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +59,7 @@ export type MealItemMaxAggregateOutputType = {
   portion: $Enums.PortionSize | null
   quantity: runtime.Decimal | null
   unit: $Enums.QuantityUnit | null
+  energyKcal: runtime.Decimal | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -69,6 +73,7 @@ export type MealItemCountAggregateOutputType = {
   portion: number
   quantity: number
   unit: number
+  energyKcal: number
   traits: number
   createdAt: number
   updatedAt: number
@@ -78,10 +83,12 @@ export type MealItemCountAggregateOutputType = {
 
 export type MealItemAvgAggregateInputType = {
   quantity?: true
+  energyKcal?: true
 }
 
 export type MealItemSumAggregateInputType = {
   quantity?: true
+  energyKcal?: true
 }
 
 export type MealItemMinAggregateInputType = {
@@ -93,6 +100,7 @@ export type MealItemMinAggregateInputType = {
   portion?: true
   quantity?: true
   unit?: true
+  energyKcal?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +114,7 @@ export type MealItemMaxAggregateInputType = {
   portion?: true
   quantity?: true
   unit?: true
+  energyKcal?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -119,6 +128,7 @@ export type MealItemCountAggregateInputType = {
   portion?: true
   quantity?: true
   unit?: true
+  energyKcal?: true
   traits?: true
   createdAt?: true
   updatedAt?: true
@@ -220,6 +230,7 @@ export type MealItemGroupByOutputType = {
   portion: $Enums.PortionSize
   quantity: runtime.Decimal | null
   unit: $Enums.QuantityUnit | null
+  energyKcal: runtime.Decimal | null
   traits: $Enums.FoodTrait[]
   createdAt: Date
   updatedAt: Date
@@ -257,6 +268,7 @@ export type MealItemWhereInput = {
   portion?: Prisma.EnumPortionSizeFilter<"MealItem"> | $Enums.PortionSize
   quantity?: Prisma.DecimalNullableFilter<"MealItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.EnumQuantityUnitNullableFilter<"MealItem"> | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.DecimalNullableFilter<"MealItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.EnumFoodTraitNullableListFilter<"MealItem">
   createdAt?: Prisma.DateTimeFilter<"MealItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MealItem"> | Date | string
@@ -272,6 +284,7 @@ export type MealItemOrderByWithRelationInput = {
   portion?: Prisma.SortOrder
   quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   unit?: Prisma.SortOrderInput | Prisma.SortOrder
+  energyKcal?: Prisma.SortOrderInput | Prisma.SortOrder
   traits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -290,6 +303,7 @@ export type MealItemWhereUniqueInput = Prisma.AtLeast<{
   portion?: Prisma.EnumPortionSizeFilter<"MealItem"> | $Enums.PortionSize
   quantity?: Prisma.DecimalNullableFilter<"MealItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.EnumQuantityUnitNullableFilter<"MealItem"> | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.DecimalNullableFilter<"MealItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.EnumFoodTraitNullableListFilter<"MealItem">
   createdAt?: Prisma.DateTimeFilter<"MealItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MealItem"> | Date | string
@@ -305,6 +319,7 @@ export type MealItemOrderByWithAggregationInput = {
   portion?: Prisma.SortOrder
   quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   unit?: Prisma.SortOrderInput | Prisma.SortOrder
+  energyKcal?: Prisma.SortOrderInput | Prisma.SortOrder
   traits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -327,6 +342,7 @@ export type MealItemScalarWhereWithAggregatesInput = {
   portion?: Prisma.EnumPortionSizeWithAggregatesFilter<"MealItem"> | $Enums.PortionSize
   quantity?: Prisma.DecimalNullableWithAggregatesFilter<"MealItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.EnumQuantityUnitNullableWithAggregatesFilter<"MealItem"> | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.DecimalNullableWithAggregatesFilter<"MealItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.EnumFoodTraitNullableListFilter<"MealItem">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MealItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MealItem"> | Date | string
@@ -340,6 +356,7 @@ export type MealItemCreateInput = {
   portion?: $Enums.PortionSize
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: $Enums.QuantityUnit | null
+  energyKcal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemCreatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -355,6 +372,7 @@ export type MealItemUncheckedCreateInput = {
   portion?: $Enums.PortionSize
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: $Enums.QuantityUnit | null
+  energyKcal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemCreatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -368,6 +386,7 @@ export type MealItemUpdateInput = {
   portion?: Prisma.EnumPortionSizeFieldUpdateOperationsInput | $Enums.PortionSize
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableEnumQuantityUnitFieldUpdateOperationsInput | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemUpdatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,6 +402,7 @@ export type MealItemUncheckedUpdateInput = {
   portion?: Prisma.EnumPortionSizeFieldUpdateOperationsInput | $Enums.PortionSize
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableEnumQuantityUnitFieldUpdateOperationsInput | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemUpdatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -397,6 +417,7 @@ export type MealItemCreateManyInput = {
   portion?: $Enums.PortionSize
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: $Enums.QuantityUnit | null
+  energyKcal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemCreatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -410,6 +431,7 @@ export type MealItemUpdateManyMutationInput = {
   portion?: Prisma.EnumPortionSizeFieldUpdateOperationsInput | $Enums.PortionSize
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableEnumQuantityUnitFieldUpdateOperationsInput | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemUpdatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -424,6 +446,7 @@ export type MealItemUncheckedUpdateManyInput = {
   portion?: Prisma.EnumPortionSizeFieldUpdateOperationsInput | $Enums.PortionSize
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableEnumQuantityUnitFieldUpdateOperationsInput | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemUpdatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -456,6 +479,7 @@ export type MealItemCountOrderByAggregateInput = {
   portion?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit?: Prisma.SortOrder
+  energyKcal?: Prisma.SortOrder
   traits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -463,6 +487,7 @@ export type MealItemCountOrderByAggregateInput = {
 
 export type MealItemAvgOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
+  energyKcal?: Prisma.SortOrder
 }
 
 export type MealItemMaxOrderByAggregateInput = {
@@ -474,6 +499,7 @@ export type MealItemMaxOrderByAggregateInput = {
   portion?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit?: Prisma.SortOrder
+  energyKcal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -487,12 +513,14 @@ export type MealItemMinOrderByAggregateInput = {
   portion?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit?: Prisma.SortOrder
+  energyKcal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type MealItemSumOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
+  energyKcal?: Prisma.SortOrder
 }
 
 export type MealItemCreateNestedManyWithoutMealInput = {
@@ -566,6 +594,7 @@ export type MealItemCreateWithoutMealInput = {
   portion?: $Enums.PortionSize
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: $Enums.QuantityUnit | null
+  energyKcal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemCreatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -579,6 +608,7 @@ export type MealItemUncheckedCreateWithoutMealInput = {
   portion?: $Enums.PortionSize
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: $Enums.QuantityUnit | null
+  energyKcal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemCreatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -622,6 +652,7 @@ export type MealItemScalarWhereInput = {
   portion?: Prisma.EnumPortionSizeFilter<"MealItem"> | $Enums.PortionSize
   quantity?: Prisma.DecimalNullableFilter<"MealItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.EnumQuantityUnitNullableFilter<"MealItem"> | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.DecimalNullableFilter<"MealItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.EnumFoodTraitNullableListFilter<"MealItem">
   createdAt?: Prisma.DateTimeFilter<"MealItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MealItem"> | Date | string
@@ -635,6 +666,7 @@ export type MealItemCreateManyMealInput = {
   portion?: $Enums.PortionSize
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: $Enums.QuantityUnit | null
+  energyKcal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemCreatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -648,6 +680,7 @@ export type MealItemUpdateWithoutMealInput = {
   portion?: Prisma.EnumPortionSizeFieldUpdateOperationsInput | $Enums.PortionSize
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableEnumQuantityUnitFieldUpdateOperationsInput | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemUpdatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -661,6 +694,7 @@ export type MealItemUncheckedUpdateWithoutMealInput = {
   portion?: Prisma.EnumPortionSizeFieldUpdateOperationsInput | $Enums.PortionSize
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableEnumQuantityUnitFieldUpdateOperationsInput | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemUpdatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -674,6 +708,7 @@ export type MealItemUncheckedUpdateManyWithoutMealInput = {
   portion?: Prisma.EnumPortionSizeFieldUpdateOperationsInput | $Enums.PortionSize
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unit?: Prisma.NullableEnumQuantityUnitFieldUpdateOperationsInput | $Enums.QuantityUnit | null
+  energyKcal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   traits?: Prisma.MealItemUpdatetraitsInput | $Enums.FoodTrait[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -690,6 +725,7 @@ export type MealItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   portion?: boolean
   quantity?: boolean
   unit?: boolean
+  energyKcal?: boolean
   traits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -705,6 +741,7 @@ export type MealItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   portion?: boolean
   quantity?: boolean
   unit?: boolean
+  energyKcal?: boolean
   traits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -720,6 +757,7 @@ export type MealItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   portion?: boolean
   quantity?: boolean
   unit?: boolean
+  energyKcal?: boolean
   traits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -735,12 +773,13 @@ export type MealItemSelectScalar = {
   portion?: boolean
   quantity?: boolean
   unit?: boolean
+  energyKcal?: boolean
   traits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MealItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mealId" | "foodKey" | "name" | "category" | "portion" | "quantity" | "unit" | "traits" | "createdAt" | "updatedAt", ExtArgs["result"]["mealItem"]>
+export type MealItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "mealId" | "foodKey" | "name" | "category" | "portion" | "quantity" | "unit" | "energyKcal" | "traits" | "createdAt" | "updatedAt", ExtArgs["result"]["mealItem"]>
 export type MealItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   meal?: boolean | Prisma.MealDefaultArgs<ExtArgs>
 }
@@ -765,6 +804,7 @@ export type $MealItemPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     portion: $Enums.PortionSize
     quantity: runtime.Decimal | null
     unit: $Enums.QuantityUnit | null
+    energyKcal: runtime.Decimal | null
     traits: $Enums.FoodTrait[]
     createdAt: Date
     updatedAt: Date
@@ -1200,6 +1240,7 @@ export interface MealItemFieldRefs {
   readonly portion: Prisma.FieldRef<"MealItem", 'PortionSize'>
   readonly quantity: Prisma.FieldRef<"MealItem", 'Decimal'>
   readonly unit: Prisma.FieldRef<"MealItem", 'QuantityUnit'>
+  readonly energyKcal: Prisma.FieldRef<"MealItem", 'Decimal'>
   readonly traits: Prisma.FieldRef<"MealItem", 'FoodTrait[]'>
   readonly createdAt: Prisma.FieldRef<"MealItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MealItem", 'DateTime'>

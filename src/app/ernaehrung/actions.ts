@@ -79,6 +79,9 @@ export async function saveMeal(formData: FormData) {
         portion,
         quantity: food.portions[portion],
         unit: food.unit,
+        energyKcal: Math.round(
+          (food.kcalPer100 * food.portions[portion]) / 100,
+        ),
         traits: food.traits,
       };
     }),
@@ -90,6 +93,7 @@ export async function saveMeal(formData: FormData) {
           portion: "MEDIUM" as const,
           quantity: hasValidCustomQuantity ? customQuantity : null,
           unit: hasValidCustomQuantity ? "GRAM" as const : null,
+          energyKcal: null,
           traits: [],
         }]
       : []),

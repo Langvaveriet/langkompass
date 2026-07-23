@@ -8,10 +8,13 @@ import { MealForm } from "@/components/nutrition/meal-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import type { MealType } from "@/generated/prisma/enums";
+import { calculateDailyCalorieTarget } from "@/lib/nutrition/calorie-target";
+import { foodCatalogByKey } from "@/lib/nutrition/food-catalog";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
+const DAILY_ENERGY_REFERENCE_KCAL = 2000;
 const mealLabels: Record<MealType, string> = { BREAKFAST: "Frühstück", LUNCH: "Mittagessen", DINNER: "Abendessen", SNACK: "Snack", DRINK: "Getränk" };
 
 type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; deleted?: string; error?: string }> };
@@ -28,10 +31,30 @@ function currentTime(): string {
   return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date());
 }
 
+function estimatedEnergy(item: {
+  energyKcal: unknown;
+  foodKey: string | null;
+  quantity: unknown;
+}): number | null {
+  if (item.energyKcal !== null && item.energyKcal !== undefined) {
+    return Number(item.energyKcal);
+  }
+
+  const food = item.foodKey ? foodCatalogByKey.get(item.foodKey) : null;
+  if (!food || item.quantity === null || item.quantity === undefined) {
+    return null;
+  }
+
+  return Math.round((food.kcalPer100 * Number(item.quantity)) / 100);
+}
+
 export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const query = await searchParams;
   const date = validDate(query.date);
-  const user = await prisma.user.findUnique({ where: { email: LOCAL_USER_EMAIL }, select: { id: true } });
+  const user = await prisma.user.findUnique({
+    where: { email: LOCAL_USER_EMAIL },
+    select: { id: true, healthProfile: true },
+  });
   const entry = user ? await prisma.dailyEntry.findUnique({
     where: { userId_entryDate: { userId: user.id, entryDate: new Date(`${date}T00:00:00.000Z`) } },
     include: { meals: { include: { items: true }, orderBy: { consumedAt: "asc" } } },
@@ -48,6 +71,34 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
     customQuantity: editedMeal.items.find((item) => !item.foodKey)?.quantity?.toString() ?? "",
     notes: editedMeal.notes ?? "",
   } : { type: "BREAKFAST" as const, time: currentTime(), foods: [], customFood: "", customQuantity: "", notes: "" };
+  const personalEnergyTarget = calculateDailyCalorieTarget(
+    user?.healthProfile,
+    new Date(`${date}T12:00:00.000Z`),
+  );
+  const dailyEnergyTarget =
+    personalEnergyTarget ?? DAILY_ENERGY_REFERENCE_KCAL;
+  const mealEnergy = new Map(
+    entry?.meals.map((meal) => [
+      meal.id,
+      meal.items.reduce(
+        (sum, item) => sum + (estimatedEnergy(item) ?? 0),
+        0,
+      ),
+    ]) ?? [],
+  );
+  const dailyEnergy = Array.from(mealEnergy.values()).reduce(
+    (sum, energy) => sum + energy,
+    0,
+  );
+  const dailyEnergyProgress = Math.min(
+    100,
+    Math.round((dailyEnergy / dailyEnergyTarget) * 100),
+  );
+  const uncalculatedItems = entry?.meals.reduce(
+    (count, meal) =>
+      count + meal.items.filter((item) => estimatedEnergy(item) === null).length,
+    0,
+  ) ?? 0;
 
   return (
     <AppLayout>
@@ -59,6 +110,27 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
 
         {query.saved === "1" || query.deleted === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : "Mahlzeit wurde gespeichert."}</div> : null}
         {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel.</div> : null}
+
+        <section className="mt-8 rounded-[var(--radius-lg)] border border-border-subtle bg-surface-raised p-5" aria-label="Kalorienübersicht">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-text-muted">Kalorien heute</p>
+              <p className="mt-1 text-2xl font-semibold text-text-primary">
+                ca. {dailyEnergy} <span className="text-base font-medium text-text-muted">/ {dailyEnergyTarget} kcal</span>
+              </p>
+            </div>
+            <p className="text-sm font-semibold text-forest-strong">{Math.round((dailyEnergy / dailyEnergyTarget) * 100)} %</p>
+          </div>
+          <div className="mt-4 h-3 overflow-hidden rounded-full bg-surface-muted" role="progressbar" aria-label="Kalorienfortschritt" aria-valuenow={dailyEnergy} aria-valuemin={0} aria-valuemax={dailyEnergyTarget}>
+            <div className="h-full rounded-full bg-forest-strong transition-[width]" style={{ width: `${dailyEnergyProgress}%` }} />
+          </div>
+          <p className="mt-3 text-xs leading-5 text-text-muted">
+            {personalEnergyTarget
+              ? "Persönlicher Näherungswert aus Profil, Aktivität und Gewichtsziel."
+              : "Allgemeiner EU-Referenzwert für einen durchschnittlichen Erwachsenen. Vervollständige dein Gesundheitsprofil für einen persönlichen Näherungswert."}
+            {uncalculatedItems > 0 ? ` ${uncalculatedItems} individueller Eintrag wurde nicht mitberechnet.` : ""}
+          </p>
+        </section>
 
         <div className="mt-8 max-w-sm">
           <form method="get" className="grid gap-2">
@@ -94,6 +166,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
                         <div><p className="font-semibold text-text-primary">{mealLabels[meal.type]}</p><p className="mt-1 text-xs text-text-muted">{meal.consumedAt.toISOString().slice(11, 16)} Uhr</p></div>
                         <Link href={`/ernaehrung?date=${date}&edit=${meal.id}`} className="text-sm font-semibold text-forest-strong">Bearbeiten</Link>
                       </div>
+                      <p className="mt-3 text-sm font-semibold text-copper">ca. {Math.round(mealEnergy.get(meal.id) ?? 0)} kcal</p>
                       <ul className="mt-3 grid gap-1 text-sm leading-6 text-text-primary">
                         {meal.items.map((item) => (
                           <li key={item.id}>

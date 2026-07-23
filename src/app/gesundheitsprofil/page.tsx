@@ -44,6 +44,10 @@ export default async function GesundheitsprofilPage({
       : "",
     height: profile?.heightCm?.toString() ?? "",
     weight: profile?.weightKg?.toString() ?? "",
+    calorieFormulaSex: profile?.calorieFormulaSex ?? "",
+    activityLevel: profile?.activityLevel ?? "",
+    weightGoal: profile?.weightGoal ?? "",
+    manualDailyCalorieTarget: profile?.manualDailyCalorieTarget?.toString() ?? "",
     primaryGoal: profile?.primaryGoal ?? "",
     activityGoal: profile?.activityGoal ?? "",
   };

@@ -74,12 +74,15 @@ export default async function HomePage() {
     profile?.dateOfBirth,
     profile?.heightCm,
     profile?.weightKg,
+    profile?.calorieFormulaSex,
+    profile?.activityLevel,
+    profile?.weightGoal,
     profile?.primaryGoal,
     profile?.activityGoal,
   ].filter((value) => value !== null && value !== undefined && value !== "")
     .length;
 
-  const totalProfileFields = 7;
+  const totalProfileFields = 10;
   const profileProgress = Math.round(
     (completedProfileFields / totalProfileFields) * 100,
   );

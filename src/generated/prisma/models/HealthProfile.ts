@@ -29,11 +29,13 @@ export type AggregateHealthProfile = {
 export type HealthProfileAvgAggregateOutputType = {
   heightCm: number | null
   weightKg: runtime.Decimal | null
+  manualDailyCalorieTarget: number | null
 }
 
 export type HealthProfileSumAggregateOutputType = {
   heightCm: number | null
   weightKg: runtime.Decimal | null
+  manualDailyCalorieTarget: number | null
 }
 
 export type HealthProfileMinAggregateOutputType = {
@@ -44,6 +46,10 @@ export type HealthProfileMinAggregateOutputType = {
   dateOfBirth: Date | null
   heightCm: number | null
   weightKg: runtime.Decimal | null
+  calorieFormulaSex: $Enums.CalorieFormulaSex | null
+  activityLevel: $Enums.ActivityLevel | null
+  weightGoal: $Enums.WeightGoal | null
+  manualDailyCalorieTarget: number | null
   primaryGoal: string | null
   activityGoal: string | null
   createdAt: Date | null
@@ -58,6 +64,10 @@ export type HealthProfileMaxAggregateOutputType = {
   dateOfBirth: Date | null
   heightCm: number | null
   weightKg: runtime.Decimal | null
+  calorieFormulaSex: $Enums.CalorieFormulaSex | null
+  activityLevel: $Enums.ActivityLevel | null
+  weightGoal: $Enums.WeightGoal | null
+  manualDailyCalorieTarget: number | null
   primaryGoal: string | null
   activityGoal: string | null
   createdAt: Date | null
@@ -72,6 +82,10 @@ export type HealthProfileCountAggregateOutputType = {
   dateOfBirth: number
   heightCm: number
   weightKg: number
+  calorieFormulaSex: number
+  activityLevel: number
+  weightGoal: number
+  manualDailyCalorieTarget: number
   primaryGoal: number
   activityGoal: number
   createdAt: number
@@ -83,11 +97,13 @@ export type HealthProfileCountAggregateOutputType = {
 export type HealthProfileAvgAggregateInputType = {
   heightCm?: true
   weightKg?: true
+  manualDailyCalorieTarget?: true
 }
 
 export type HealthProfileSumAggregateInputType = {
   heightCm?: true
   weightKg?: true
+  manualDailyCalorieTarget?: true
 }
 
 export type HealthProfileMinAggregateInputType = {
@@ -98,6 +114,10 @@ export type HealthProfileMinAggregateInputType = {
   dateOfBirth?: true
   heightCm?: true
   weightKg?: true
+  calorieFormulaSex?: true
+  activityLevel?: true
+  weightGoal?: true
+  manualDailyCalorieTarget?: true
   primaryGoal?: true
   activityGoal?: true
   createdAt?: true
@@ -112,6 +132,10 @@ export type HealthProfileMaxAggregateInputType = {
   dateOfBirth?: true
   heightCm?: true
   weightKg?: true
+  calorieFormulaSex?: true
+  activityLevel?: true
+  weightGoal?: true
+  manualDailyCalorieTarget?: true
   primaryGoal?: true
   activityGoal?: true
   createdAt?: true
@@ -126,6 +150,10 @@ export type HealthProfileCountAggregateInputType = {
   dateOfBirth?: true
   heightCm?: true
   weightKg?: true
+  calorieFormulaSex?: true
+  activityLevel?: true
+  weightGoal?: true
+  manualDailyCalorieTarget?: true
   primaryGoal?: true
   activityGoal?: true
   createdAt?: true
@@ -227,6 +255,10 @@ export type HealthProfileGroupByOutputType = {
   dateOfBirth: Date | null
   heightCm: number | null
   weightKg: runtime.Decimal | null
+  calorieFormulaSex: $Enums.CalorieFormulaSex | null
+  activityLevel: $Enums.ActivityLevel | null
+  weightGoal: $Enums.WeightGoal | null
+  manualDailyCalorieTarget: number | null
   primaryGoal: string | null
   activityGoal: string | null
   createdAt: Date
@@ -264,6 +296,10 @@ export type HealthProfileWhereInput = {
   dateOfBirth?: Prisma.DateTimeNullableFilter<"HealthProfile"> | Date | string | null
   heightCm?: Prisma.IntNullableFilter<"HealthProfile"> | number | null
   weightKg?: Prisma.DecimalNullableFilter<"HealthProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.EnumCalorieFormulaSexNullableFilter<"HealthProfile"> | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.EnumActivityLevelNullableFilter<"HealthProfile"> | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.EnumWeightGoalNullableFilter<"HealthProfile"> | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.IntNullableFilter<"HealthProfile"> | number | null
   primaryGoal?: Prisma.StringNullableFilter<"HealthProfile"> | string | null
   activityGoal?: Prisma.StringNullableFilter<"HealthProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"HealthProfile"> | Date | string
@@ -279,6 +315,10 @@ export type HealthProfileOrderByWithRelationInput = {
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   heightCm?: Prisma.SortOrderInput | Prisma.SortOrder
   weightKg?: Prisma.SortOrderInput | Prisma.SortOrder
+  calorieFormulaSex?: Prisma.SortOrderInput | Prisma.SortOrder
+  activityLevel?: Prisma.SortOrderInput | Prisma.SortOrder
+  weightGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualDailyCalorieTarget?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   activityGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -297,6 +337,10 @@ export type HealthProfileWhereUniqueInput = Prisma.AtLeast<{
   dateOfBirth?: Prisma.DateTimeNullableFilter<"HealthProfile"> | Date | string | null
   heightCm?: Prisma.IntNullableFilter<"HealthProfile"> | number | null
   weightKg?: Prisma.DecimalNullableFilter<"HealthProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.EnumCalorieFormulaSexNullableFilter<"HealthProfile"> | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.EnumActivityLevelNullableFilter<"HealthProfile"> | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.EnumWeightGoalNullableFilter<"HealthProfile"> | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.IntNullableFilter<"HealthProfile"> | number | null
   primaryGoal?: Prisma.StringNullableFilter<"HealthProfile"> | string | null
   activityGoal?: Prisma.StringNullableFilter<"HealthProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"HealthProfile"> | Date | string
@@ -312,6 +356,10 @@ export type HealthProfileOrderByWithAggregationInput = {
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   heightCm?: Prisma.SortOrderInput | Prisma.SortOrder
   weightKg?: Prisma.SortOrderInput | Prisma.SortOrder
+  calorieFormulaSex?: Prisma.SortOrderInput | Prisma.SortOrder
+  activityLevel?: Prisma.SortOrderInput | Prisma.SortOrder
+  weightGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualDailyCalorieTarget?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   activityGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -334,6 +382,10 @@ export type HealthProfileScalarWhereWithAggregatesInput = {
   dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"HealthProfile"> | Date | string | null
   heightCm?: Prisma.IntNullableWithAggregatesFilter<"HealthProfile"> | number | null
   weightKg?: Prisma.DecimalNullableWithAggregatesFilter<"HealthProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.EnumCalorieFormulaSexNullableWithAggregatesFilter<"HealthProfile"> | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.EnumActivityLevelNullableWithAggregatesFilter<"HealthProfile"> | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.EnumWeightGoalNullableWithAggregatesFilter<"HealthProfile"> | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.IntNullableWithAggregatesFilter<"HealthProfile"> | number | null
   primaryGoal?: Prisma.StringNullableWithAggregatesFilter<"HealthProfile"> | string | null
   activityGoal?: Prisma.StringNullableWithAggregatesFilter<"HealthProfile"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"HealthProfile"> | Date | string
@@ -347,6 +399,10 @@ export type HealthProfileCreateInput = {
   dateOfBirth?: Date | string | null
   heightCm?: number | null
   weightKg?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: $Enums.CalorieFormulaSex | null
+  activityLevel?: $Enums.ActivityLevel | null
+  weightGoal?: $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
   createdAt?: Date | string
@@ -362,6 +418,10 @@ export type HealthProfileUncheckedCreateInput = {
   dateOfBirth?: Date | string | null
   heightCm?: number | null
   weightKg?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: $Enums.CalorieFormulaSex | null
+  activityLevel?: $Enums.ActivityLevel | null
+  weightGoal?: $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
   createdAt?: Date | string
@@ -375,6 +435,10 @@ export type HealthProfileUpdateInput = {
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   heightCm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   weightKg?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.NullableEnumCalorieFormulaSexFieldUpdateOperationsInput | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.NullableEnumActivityLevelFieldUpdateOperationsInput | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.NullableEnumWeightGoalFieldUpdateOperationsInput | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -390,6 +454,10 @@ export type HealthProfileUncheckedUpdateInput = {
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   heightCm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   weightKg?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.NullableEnumCalorieFormulaSexFieldUpdateOperationsInput | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.NullableEnumActivityLevelFieldUpdateOperationsInput | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.NullableEnumWeightGoalFieldUpdateOperationsInput | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -404,6 +472,10 @@ export type HealthProfileCreateManyInput = {
   dateOfBirth?: Date | string | null
   heightCm?: number | null
   weightKg?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: $Enums.CalorieFormulaSex | null
+  activityLevel?: $Enums.ActivityLevel | null
+  weightGoal?: $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
   createdAt?: Date | string
@@ -417,6 +489,10 @@ export type HealthProfileUpdateManyMutationInput = {
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   heightCm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   weightKg?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.NullableEnumCalorieFormulaSexFieldUpdateOperationsInput | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.NullableEnumActivityLevelFieldUpdateOperationsInput | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.NullableEnumWeightGoalFieldUpdateOperationsInput | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -431,6 +507,10 @@ export type HealthProfileUncheckedUpdateManyInput = {
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   heightCm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   weightKg?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.NullableEnumCalorieFormulaSexFieldUpdateOperationsInput | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.NullableEnumActivityLevelFieldUpdateOperationsInput | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.NullableEnumWeightGoalFieldUpdateOperationsInput | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -450,6 +530,10 @@ export type HealthProfileCountOrderByAggregateInput = {
   dateOfBirth?: Prisma.SortOrder
   heightCm?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
+  calorieFormulaSex?: Prisma.SortOrder
+  activityLevel?: Prisma.SortOrder
+  weightGoal?: Prisma.SortOrder
+  manualDailyCalorieTarget?: Prisma.SortOrder
   primaryGoal?: Prisma.SortOrder
   activityGoal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -459,6 +543,7 @@ export type HealthProfileCountOrderByAggregateInput = {
 export type HealthProfileAvgOrderByAggregateInput = {
   heightCm?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
+  manualDailyCalorieTarget?: Prisma.SortOrder
 }
 
 export type HealthProfileMaxOrderByAggregateInput = {
@@ -469,6 +554,10 @@ export type HealthProfileMaxOrderByAggregateInput = {
   dateOfBirth?: Prisma.SortOrder
   heightCm?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
+  calorieFormulaSex?: Prisma.SortOrder
+  activityLevel?: Prisma.SortOrder
+  weightGoal?: Prisma.SortOrder
+  manualDailyCalorieTarget?: Prisma.SortOrder
   primaryGoal?: Prisma.SortOrder
   activityGoal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -483,6 +572,10 @@ export type HealthProfileMinOrderByAggregateInput = {
   dateOfBirth?: Prisma.SortOrder
   heightCm?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
+  calorieFormulaSex?: Prisma.SortOrder
+  activityLevel?: Prisma.SortOrder
+  weightGoal?: Prisma.SortOrder
+  manualDailyCalorieTarget?: Prisma.SortOrder
   primaryGoal?: Prisma.SortOrder
   activityGoal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -492,6 +585,7 @@ export type HealthProfileMinOrderByAggregateInput = {
 export type HealthProfileSumOrderByAggregateInput = {
   heightCm?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
+  manualDailyCalorieTarget?: Prisma.SortOrder
 }
 
 export type HealthProfileCreateNestedOneWithoutUserInput = {
@@ -546,6 +640,18 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
+export type NullableEnumCalorieFormulaSexFieldUpdateOperationsInput = {
+  set?: $Enums.CalorieFormulaSex | null
+}
+
+export type NullableEnumActivityLevelFieldUpdateOperationsInput = {
+  set?: $Enums.ActivityLevel | null
+}
+
+export type NullableEnumWeightGoalFieldUpdateOperationsInput = {
+  set?: $Enums.WeightGoal | null
+}
+
 export type HealthProfileCreateWithoutUserInput = {
   id?: string
   firstName?: string | null
@@ -553,6 +659,10 @@ export type HealthProfileCreateWithoutUserInput = {
   dateOfBirth?: Date | string | null
   heightCm?: number | null
   weightKg?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: $Enums.CalorieFormulaSex | null
+  activityLevel?: $Enums.ActivityLevel | null
+  weightGoal?: $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
   createdAt?: Date | string
@@ -566,6 +676,10 @@ export type HealthProfileUncheckedCreateWithoutUserInput = {
   dateOfBirth?: Date | string | null
   heightCm?: number | null
   weightKg?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: $Enums.CalorieFormulaSex | null
+  activityLevel?: $Enums.ActivityLevel | null
+  weightGoal?: $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
   createdAt?: Date | string
@@ -595,6 +709,10 @@ export type HealthProfileUpdateWithoutUserInput = {
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   heightCm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   weightKg?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.NullableEnumCalorieFormulaSexFieldUpdateOperationsInput | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.NullableEnumActivityLevelFieldUpdateOperationsInput | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.NullableEnumWeightGoalFieldUpdateOperationsInput | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -608,6 +726,10 @@ export type HealthProfileUncheckedUpdateWithoutUserInput = {
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   heightCm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   weightKg?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  calorieFormulaSex?: Prisma.NullableEnumCalorieFormulaSexFieldUpdateOperationsInput | $Enums.CalorieFormulaSex | null
+  activityLevel?: Prisma.NullableEnumActivityLevelFieldUpdateOperationsInput | $Enums.ActivityLevel | null
+  weightGoal?: Prisma.NullableEnumWeightGoalFieldUpdateOperationsInput | $Enums.WeightGoal | null
+  manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -624,6 +746,10 @@ export type HealthProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   dateOfBirth?: boolean
   heightCm?: boolean
   weightKg?: boolean
+  calorieFormulaSex?: boolean
+  activityLevel?: boolean
+  weightGoal?: boolean
+  manualDailyCalorieTarget?: boolean
   primaryGoal?: boolean
   activityGoal?: boolean
   createdAt?: boolean
@@ -639,6 +765,10 @@ export type HealthProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   dateOfBirth?: boolean
   heightCm?: boolean
   weightKg?: boolean
+  calorieFormulaSex?: boolean
+  activityLevel?: boolean
+  weightGoal?: boolean
+  manualDailyCalorieTarget?: boolean
   primaryGoal?: boolean
   activityGoal?: boolean
   createdAt?: boolean
@@ -654,6 +784,10 @@ export type HealthProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   dateOfBirth?: boolean
   heightCm?: boolean
   weightKg?: boolean
+  calorieFormulaSex?: boolean
+  activityLevel?: boolean
+  weightGoal?: boolean
+  manualDailyCalorieTarget?: boolean
   primaryGoal?: boolean
   activityGoal?: boolean
   createdAt?: boolean
@@ -669,13 +803,17 @@ export type HealthProfileSelectScalar = {
   dateOfBirth?: boolean
   heightCm?: boolean
   weightKg?: boolean
+  calorieFormulaSex?: boolean
+  activityLevel?: boolean
+  weightGoal?: boolean
+  manualDailyCalorieTarget?: boolean
   primaryGoal?: boolean
   activityGoal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type HealthProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "dateOfBirth" | "heightCm" | "weightKg" | "primaryGoal" | "activityGoal" | "createdAt" | "updatedAt", ExtArgs["result"]["healthProfile"]>
+export type HealthProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "dateOfBirth" | "heightCm" | "weightKg" | "calorieFormulaSex" | "activityLevel" | "weightGoal" | "manualDailyCalorieTarget" | "primaryGoal" | "activityGoal" | "createdAt" | "updatedAt", ExtArgs["result"]["healthProfile"]>
 export type HealthProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -699,6 +837,10 @@ export type $HealthProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
     dateOfBirth: Date | null
     heightCm: number | null
     weightKg: runtime.Decimal | null
+    calorieFormulaSex: $Enums.CalorieFormulaSex | null
+    activityLevel: $Enums.ActivityLevel | null
+    weightGoal: $Enums.WeightGoal | null
+    manualDailyCalorieTarget: number | null
     primaryGoal: string | null
     activityGoal: string | null
     createdAt: Date
@@ -1134,6 +1276,10 @@ export interface HealthProfileFieldRefs {
   readonly dateOfBirth: Prisma.FieldRef<"HealthProfile", 'DateTime'>
   readonly heightCm: Prisma.FieldRef<"HealthProfile", 'Int'>
   readonly weightKg: Prisma.FieldRef<"HealthProfile", 'Decimal'>
+  readonly calorieFormulaSex: Prisma.FieldRef<"HealthProfile", 'CalorieFormulaSex'>
+  readonly activityLevel: Prisma.FieldRef<"HealthProfile", 'ActivityLevel'>
+  readonly weightGoal: Prisma.FieldRef<"HealthProfile", 'WeightGoal'>
+  readonly manualDailyCalorieTarget: Prisma.FieldRef<"HealthProfile", 'Int'>
   readonly primaryGoal: Prisma.FieldRef<"HealthProfile", 'String'>
   readonly activityGoal: Prisma.FieldRef<"HealthProfile", 'String'>
   readonly createdAt: Prisma.FieldRef<"HealthProfile", 'DateTime'>

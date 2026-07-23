@@ -4,8 +4,18 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
+import type {
+  ActivityLevel,
+  CalorieFormulaSex,
+  WeightGoal,
+} from "@/generated/prisma/enums";
 
 const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
+const formulaSexValues = new Set<CalorieFormulaSex>(["FEMALE", "MALE"]);
+const activityLevelValues = new Set<ActivityLevel>([
+  "SEDENTARY", "LIGHT", "MODERATE", "HIGH", "VERY_HIGH",
+]);
+const weightGoalValues = new Set<WeightGoal>(["LOSE", "MAINTAIN", "GAIN"]);
 
 function optionalText(formData: FormData, field: string): string | null {
   const value = formData.get(field);
@@ -62,6 +72,10 @@ export async function saveHealthProfile(formData: FormData) {
   const dateOfBirth = optionalDate(formData, "dateOfBirth");
   const heightCm = optionalInteger(formData, "height");
   const weightKg = optionalDecimal(formData, "weight");
+  const calorieFormulaSexValue = optionalText(formData, "calorieFormulaSex") as CalorieFormulaSex | null;
+  const activityLevelValue = optionalText(formData, "activityLevel") as ActivityLevel | null;
+  const weightGoalValue = optionalText(formData, "weightGoal") as WeightGoal | null;
+  const manualDailyCalorieTarget = optionalInteger(formData, "manualDailyCalorieTarget");
   const primaryGoal = optionalText(formData, "primaryGoal");
   const activityGoal = optionalText(formData, "activityGoal");
 
@@ -75,6 +89,20 @@ export async function saveHealthProfile(formData: FormData) {
   ) {
     redirect("/gesundheitsprofil?error=weight");
   }
+
+  if (
+    (calorieFormulaSexValue && !formulaSexValues.has(calorieFormulaSexValue)) ||
+    (activityLevelValue && !activityLevelValues.has(activityLevelValue)) ||
+    (weightGoalValue && !weightGoalValues.has(weightGoalValue)) ||
+    (manualDailyCalorieTarget !== null &&
+      (manualDailyCalorieTarget < 1000 || manualDailyCalorieTarget > 6000))
+  ) {
+    redirect("/gesundheitsprofil?error=calories");
+  }
+
+  const calorieFormulaSex = calorieFormulaSexValue || null;
+  const activityLevel = activityLevelValue || null;
+  const weightGoal = weightGoalValue || null;
 
   const user = await prisma.user.upsert({
     where: {
@@ -103,6 +131,10 @@ export async function saveHealthProfile(formData: FormData) {
       dateOfBirth,
       heightCm,
       weightKg,
+      calorieFormulaSex,
+      activityLevel,
+      weightGoal,
+      manualDailyCalorieTarget,
       primaryGoal,
       activityGoal,
     },
@@ -113,6 +145,10 @@ export async function saveHealthProfile(formData: FormData) {
       dateOfBirth,
       heightCm,
       weightKg,
+      calorieFormulaSex,
+      activityLevel,
+      weightGoal,
+      manualDailyCalorieTarget,
       primaryGoal,
       activityGoal,
     },

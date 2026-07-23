@@ -93,6 +93,10 @@ export const HealthProfileScalarFieldEnum = {
   dateOfBirth: 'dateOfBirth',
   heightCm: 'heightCm',
   weightKg: 'weightKg',
+  calorieFormulaSex: 'calorieFormulaSex',
+  activityLevel: 'activityLevel',
+  weightGoal: 'weightGoal',
+  manualDailyCalorieTarget: 'manualDailyCalorieTarget',
   primaryGoal: 'primaryGoal',
   activityGoal: 'activityGoal',
   createdAt: 'createdAt',
@@ -148,6 +152,7 @@ export const MealItemScalarFieldEnum = {
   portion: 'portion',
   quantity: 'quantity',
   unit: 'unit',
+  energyKcal: 'energyKcal',
   traits: 'traits',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

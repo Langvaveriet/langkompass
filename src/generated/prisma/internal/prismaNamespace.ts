@@ -849,6 +849,10 @@ export const HealthProfileScalarFieldEnum = {
   dateOfBirth: 'dateOfBirth',
   heightCm: 'heightCm',
   weightKg: 'weightKg',
+  calorieFormulaSex: 'calorieFormulaSex',
+  activityLevel: 'activityLevel',
+  weightGoal: 'weightGoal',
+  manualDailyCalorieTarget: 'manualDailyCalorieTarget',
   primaryGoal: 'primaryGoal',
   activityGoal: 'activityGoal',
   createdAt: 'createdAt',
@@ -904,6 +908,7 @@ export const MealItemScalarFieldEnum = {
   portion: 'portion',
   quantity: 'quantity',
   unit: 'unit',
+  energyKcal: 'energyKcal',
   traits: 'traits',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -995,6 +1000,48 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CalorieFormulaSex'
+ */
+export type EnumCalorieFormulaSexFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CalorieFormulaSex'>
+    
+
+
+/**
+ * Reference to a field of type 'CalorieFormulaSex[]'
+ */
+export type ListEnumCalorieFormulaSexFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CalorieFormulaSex[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ActivityLevel'
+ */
+export type EnumActivityLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'ActivityLevel[]'
+ */
+export type ListEnumActivityLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WeightGoal'
+ */
+export type EnumWeightGoalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WeightGoal'>
+    
+
+
+/**
+ * Reference to a field of type 'WeightGoal[]'
+ */
+export type ListEnumWeightGoalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WeightGoal[]'>
     
 
 

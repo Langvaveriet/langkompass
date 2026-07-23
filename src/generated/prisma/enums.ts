@@ -9,6 +9,34 @@
 * 🟢 You can import this file directly.
 */
 
+export const CalorieFormulaSex = {
+  FEMALE: 'FEMALE',
+  MALE: 'MALE'
+} as const
+
+export type CalorieFormulaSex = (typeof CalorieFormulaSex)[keyof typeof CalorieFormulaSex]
+
+
+export const ActivityLevel = {
+  SEDENTARY: 'SEDENTARY',
+  LIGHT: 'LIGHT',
+  MODERATE: 'MODERATE',
+  HIGH: 'HIGH',
+  VERY_HIGH: 'VERY_HIGH'
+} as const
+
+export type ActivityLevel = (typeof ActivityLevel)[keyof typeof ActivityLevel]
+
+
+export const WeightGoal = {
+  LOSE: 'LOSE',
+  MAINTAIN: 'MAINTAIN',
+  GAIN: 'GAIN'
+} as const
+
+export type WeightGoal = (typeof WeightGoal)[keyof typeof WeightGoal]
+
+
 export const DailyEntryStatus = {
   OPEN: 'OPEN',
   MORNING_DONE: 'MORNING_DONE',

@@ -18,19 +18,42 @@ model User {
 }
 
 model HealthProfile {
-  id           String    @id @default(cuid())
-  userId       String    @unique
-  firstName    String?
-  lastName     String?
-  dateOfBirth  DateTime?
-  heightCm     Int?
-  weightKg     Decimal?  @db.Decimal(5, 2)
-  primaryGoal  String?
-  activityGoal String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id                       String             @id @default(cuid())
+  userId                   String             @unique
+  firstName                String?
+  lastName                 String?
+  dateOfBirth              DateTime?
+  heightCm                 Int?
+  weightKg                 Decimal?           @db.Decimal(5, 2)
+  calorieFormulaSex        CalorieFormulaSex?
+  activityLevel            ActivityLevel?
+  weightGoal               WeightGoal?
+  manualDailyCalorieTarget Int?
+  primaryGoal              String?
+  activityGoal             String?
+  createdAt                DateTime           @default(now())
+  updatedAt                DateTime           @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum CalorieFormulaSex {
+  FEMALE
+  MALE
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+enum WeightGoal {
+  LOSE
+  MAINTAIN
+  GAIN
 }
 
 enum DailyEntryStatus {
@@ -134,17 +157,18 @@ model Meal {
 }
 
 model MealItem {
-  id        String        @id @default(cuid())
-  mealId    String
-  foodKey   String?
-  name      String
-  category  FoodCategory
-  portion   PortionSize   @default(MEDIUM)
-  quantity  Decimal?      @db.Decimal(7, 2)
-  unit      QuantityUnit?
-  traits    FoodTrait[]   @default([])
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  id         String        @id @default(cuid())
+  mealId     String
+  foodKey    String?
+  name       String
+  category   FoodCategory
+  portion    PortionSize   @default(MEDIUM)
+  quantity   Decimal?      @db.Decimal(7, 2)
+  unit       QuantityUnit?
+  energyKcal Decimal?      @db.Decimal(7, 2)
+  traits     FoodTrait[]   @default([])
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 
   meal Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
 
