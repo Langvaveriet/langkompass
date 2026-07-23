@@ -375,6 +375,40 @@ export type EnumEntrySourceWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumEntrySourceFilter<$PrismaModel>
 }
 
+export type EnumExerciseCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.ExerciseCategory | Prisma.EnumExerciseCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumExerciseCategoryFilter<$PrismaModel> | $Enums.ExerciseCategory
+}
+
+export type EnumExerciseEquipmentFilter<$PrismaModel = never> = {
+  equals?: $Enums.ExerciseEquipment | Prisma.EnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  in?: $Enums.ExerciseEquipment[] | Prisma.ListEnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ExerciseEquipment[] | Prisma.ListEnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumExerciseEquipmentFilter<$PrismaModel> | $Enums.ExerciseEquipment
+}
+
+export type EnumExerciseCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ExerciseCategory | Prisma.EnumExerciseCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumExerciseCategoryWithAggregatesFilter<$PrismaModel> | $Enums.ExerciseCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumExerciseCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumExerciseCategoryFilter<$PrismaModel>
+}
+
+export type EnumExerciseEquipmentWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ExerciseEquipment | Prisma.EnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  in?: $Enums.ExerciseEquipment[] | Prisma.ListEnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ExerciseEquipment[] | Prisma.ListEnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumExerciseEquipmentWithAggregatesFilter<$PrismaModel> | $Enums.ExerciseEquipment
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumExerciseEquipmentFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumExerciseEquipmentFilter<$PrismaModel>
+}
+
 export type EnumMealTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.MealType | Prisma.EnumMealTypeFieldRefInput<$PrismaModel>
   in?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
@@ -815,6 +849,40 @@ export type NestedEnumEntrySourceWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumEntrySourceFilter<$PrismaModel>
   _max?: Prisma.NestedEnumEntrySourceFilter<$PrismaModel>
+}
+
+export type NestedEnumExerciseCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.ExerciseCategory | Prisma.EnumExerciseCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumExerciseCategoryFilter<$PrismaModel> | $Enums.ExerciseCategory
+}
+
+export type NestedEnumExerciseEquipmentFilter<$PrismaModel = never> = {
+  equals?: $Enums.ExerciseEquipment | Prisma.EnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  in?: $Enums.ExerciseEquipment[] | Prisma.ListEnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ExerciseEquipment[] | Prisma.ListEnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumExerciseEquipmentFilter<$PrismaModel> | $Enums.ExerciseEquipment
+}
+
+export type NestedEnumExerciseCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ExerciseCategory | Prisma.EnumExerciseCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumExerciseCategoryWithAggregatesFilter<$PrismaModel> | $Enums.ExerciseCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumExerciseCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumExerciseCategoryFilter<$PrismaModel>
+}
+
+export type NestedEnumExerciseEquipmentWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ExerciseEquipment | Prisma.EnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  in?: $Enums.ExerciseEquipment[] | Prisma.ListEnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ExerciseEquipment[] | Prisma.ListEnumExerciseEquipmentFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumExerciseEquipmentWithAggregatesFilter<$PrismaModel> | $Enums.ExerciseEquipment
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumExerciseEquipmentFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumExerciseEquipmentFilter<$PrismaModel>
 }
 
 export type NestedEnumMealTypeFilter<$PrismaModel = never> = {

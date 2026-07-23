@@ -67,6 +67,45 @@ export const EntrySource = {
 export type EntrySource = (typeof EntrySource)[keyof typeof EntrySource]
 
 
+export const ExerciseCategory = {
+  STRENGTH: 'STRENGTH',
+  MOBILITY: 'MOBILITY',
+  CARDIO: 'CARDIO',
+  BALANCE: 'BALANCE'
+} as const
+
+export type ExerciseCategory = (typeof ExerciseCategory)[keyof typeof ExerciseCategory]
+
+
+export const ExerciseEquipment = {
+  BODYWEIGHT: 'BODYWEIGHT',
+  DUMBBELL: 'DUMBBELL',
+  BARBELL: 'BARBELL',
+  KETTLEBELL: 'KETTLEBELL',
+  MACHINE: 'MACHINE',
+  CABLE: 'CABLE',
+  RESISTANCE_BAND: 'RESISTANCE_BAND',
+  CARDIO_MACHINE: 'CARDIO_MACHINE',
+  OTHER: 'OTHER'
+} as const
+
+export type ExerciseEquipment = (typeof ExerciseEquipment)[keyof typeof ExerciseEquipment]
+
+
+export const MuscleGroup = {
+  CHEST: 'CHEST',
+  BACK: 'BACK',
+  SHOULDERS: 'SHOULDERS',
+  ARMS: 'ARMS',
+  CORE: 'CORE',
+  GLUTES: 'GLUTES',
+  LEGS: 'LEGS',
+  FULL_BODY: 'FULL_BODY'
+} as const
+
+export type MuscleGroup = (typeof MuscleGroup)[keyof typeof MuscleGroup]
+
+
 export const MealType = {
   BREAKFAST: 'BREAKFAST',
   LUNCH: 'LUNCH',

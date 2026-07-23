@@ -406,6 +406,7 @@ export const ModelName = {
   HealthProfile: 'HealthProfile',
   DailyEntry: 'DailyEntry',
   BodyMeasurement: 'BodyMeasurement',
+  Exercise: 'Exercise',
   Meal: 'Meal',
   MealItem: 'MealItem'
 } as const
@@ -423,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "meal" | "mealItem"
+    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "exercise" | "meal" | "mealItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1093,6 +1094,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Exercise: {
+      payload: Prisma.$ExercisePayload<ExtArgs>
+      fields: Prisma.ExerciseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExerciseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExerciseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
+        }
+        findFirst: {
+          args: Prisma.ExerciseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExerciseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
+        }
+        findMany: {
+          args: Prisma.ExerciseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>[]
+        }
+        create: {
+          args: Prisma.ExerciseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
+        }
+        createMany: {
+          args: Prisma.ExerciseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExerciseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>[]
+        }
+        delete: {
+          args: Prisma.ExerciseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
+        }
+        update: {
+          args: Prisma.ExerciseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
+        }
+        deleteMany: {
+          args: Prisma.ExerciseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExerciseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExerciseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>[]
+        }
+        upsert: {
+          args: Prisma.ExerciseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
+        }
+        aggregate: {
+          args: Prisma.ExerciseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExercise>
+        }
+        groupBy: {
+          args: Prisma.ExerciseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExerciseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExerciseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExerciseCountAggregateOutputType> | number
+        }
+      }
+    }
     Meal: {
       payload: Prisma.$MealPayload<ExtArgs>
       fields: Prisma.MealFieldRefs
@@ -1427,6 +1502,23 @@ export const BodyMeasurementScalarFieldEnum = {
 export type BodyMeasurementScalarFieldEnum = (typeof BodyMeasurementScalarFieldEnum)[keyof typeof BodyMeasurementScalarFieldEnum]
 
 
+export const ExerciseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  normalizedName: 'normalizedName',
+  category: 'category',
+  equipment: 'equipment',
+  muscleGroups: 'muscleGroups',
+  notes: 'notes',
+  archivedAt: 'archivedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExerciseScalarFieldEnum = (typeof ExerciseScalarFieldEnum)[keyof typeof ExerciseScalarFieldEnum]
+
+
 export const MealScalarFieldEnum = {
   id: 'id',
   dailyEntryId: 'dailyEntryId',
@@ -1648,6 +1740,48 @@ export type EnumEntrySourceFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'EntrySource[]'
  */
 export type ListEnumEntrySourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EntrySource[]'>
+
+
+
+/**
+ * Reference to a field of type 'ExerciseCategory'
+ */
+export type EnumExerciseCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExerciseCategory'>
+
+
+
+/**
+ * Reference to a field of type 'ExerciseCategory[]'
+ */
+export type ListEnumExerciseCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExerciseCategory[]'>
+
+
+
+/**
+ * Reference to a field of type 'ExerciseEquipment'
+ */
+export type EnumExerciseEquipmentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExerciseEquipment'>
+
+
+
+/**
+ * Reference to a field of type 'ExerciseEquipment[]'
+ */
+export type ListEnumExerciseEquipmentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExerciseEquipment[]'>
+
+
+
+/**
+ * Reference to a field of type 'MuscleGroup[]'
+ */
+export type ListEnumMuscleGroupFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MuscleGroup[]'>
+
+
+
+/**
+ * Reference to a field of type 'MuscleGroup'
+ */
+export type EnumMuscleGroupFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MuscleGroup'>
 
 
 
@@ -1894,6 +2028,7 @@ export type GlobalOmitConfig = {
   healthProfile?: Prisma.HealthProfileOmit
   dailyEntry?: Prisma.DailyEntryOmit
   bodyMeasurement?: Prisma.BodyMeasurementOmit
+  exercise?: Prisma.ExerciseOmit
   meal?: Prisma.MealOmit
   mealItem?: Prisma.MealItemOmit
 }

@@ -202,6 +202,7 @@ export type UserWhereInput = {
   settings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
   dailyEntries?: Prisma.DailyEntryListRelationFilter
   measurements?: Prisma.BodyMeasurementListRelationFilter
+  exercises?: Prisma.ExerciseListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   passkeys?: Prisma.PasskeyListRelationFilter
@@ -219,6 +220,7 @@ export type UserOrderByWithRelationInput = {
   settings?: Prisma.UserSettingsOrderByWithRelationInput
   dailyEntries?: Prisma.DailyEntryOrderByRelationAggregateInput
   measurements?: Prisma.BodyMeasurementOrderByRelationAggregateInput
+  exercises?: Prisma.ExerciseOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   passkeys?: Prisma.PasskeyOrderByRelationAggregateInput
@@ -239,6 +241,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   settings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
   dailyEntries?: Prisma.DailyEntryListRelationFilter
   measurements?: Prisma.BodyMeasurementListRelationFilter
+  exercises?: Prisma.ExerciseListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   passkeys?: Prisma.PasskeyListRelationFilter
@@ -282,6 +285,7 @@ export type UserCreateInput = {
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -299,6 +303,7 @@ export type UserUncheckedCreateInput = {
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -316,6 +321,7 @@ export type UserUpdateInput = {
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -333,6 +339,7 @@ export type UserUncheckedUpdateInput = {
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -517,6 +524,20 @@ export type UserUpdateOneRequiredWithoutMeasurementsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMeasurementsInput, Prisma.UserUpdateWithoutMeasurementsInput>, Prisma.UserUncheckedUpdateWithoutMeasurementsInput>
 }
 
+export type UserCreateNestedOneWithoutExercisesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExercisesInput, Prisma.UserUncheckedCreateWithoutExercisesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExercisesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExercisesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExercisesInput, Prisma.UserUncheckedCreateWithoutExercisesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExercisesInput
+  upsert?: Prisma.UserUpsertWithoutExercisesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExercisesInput, Prisma.UserUpdateWithoutExercisesInput>, Prisma.UserUncheckedUpdateWithoutExercisesInput>
+}
+
 export type UserCreateWithoutSettingsInput = {
   id?: string
   email: string
@@ -528,6 +549,7 @@ export type UserCreateWithoutSettingsInput = {
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -544,6 +566,7 @@ export type UserUncheckedCreateWithoutSettingsInput = {
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -576,6 +599,7 @@ export type UserUpdateWithoutSettingsInput = {
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -592,6 +616,7 @@ export type UserUncheckedUpdateWithoutSettingsInput = {
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -609,6 +634,7 @@ export type UserCreateWithoutSessionsInput = {
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
 }
@@ -625,6 +651,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
 }
@@ -657,6 +684,7 @@ export type UserUpdateWithoutSessionsInput = {
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
 }
@@ -673,6 +701,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -689,6 +718,7 @@ export type UserCreateWithoutAccountsInput = {
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
 }
@@ -705,6 +735,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
 }
@@ -737,6 +768,7 @@ export type UserUpdateWithoutAccountsInput = {
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
 }
@@ -753,6 +785,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -769,6 +802,7 @@ export type UserCreateWithoutPasskeysInput = {
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
 }
@@ -785,6 +819,7 @@ export type UserUncheckedCreateWithoutPasskeysInput = {
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
 }
@@ -817,6 +852,7 @@ export type UserUpdateWithoutPasskeysInput = {
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
 }
@@ -833,6 +869,7 @@ export type UserUncheckedUpdateWithoutPasskeysInput = {
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -848,6 +885,7 @@ export type UserCreateWithoutHealthProfileInput = {
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -864,6 +902,7 @@ export type UserUncheckedCreateWithoutHealthProfileInput = {
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
   measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -896,6 +935,7 @@ export type UserUpdateWithoutHealthProfileInput = {
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -912,6 +952,7 @@ export type UserUncheckedUpdateWithoutHealthProfileInput = {
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -928,6 +969,7 @@ export type UserCreateWithoutDailyEntriesInput = {
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -944,6 +986,7 @@ export type UserUncheckedCreateWithoutDailyEntriesInput = {
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
   measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -976,6 +1019,7 @@ export type UserUpdateWithoutDailyEntriesInput = {
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -992,6 +1036,7 @@ export type UserUncheckedUpdateWithoutDailyEntriesInput = {
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
   measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1008,6 +1053,7 @@ export type UserCreateWithoutMeasurementsInput = {
   healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
   settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1024,6 +1070,7 @@ export type UserUncheckedCreateWithoutMeasurementsInput = {
   healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
   settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
   dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1056,6 +1103,7 @@ export type UserUpdateWithoutMeasurementsInput = {
   healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
   settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1072,6 +1120,91 @@ export type UserUncheckedUpdateWithoutMeasurementsInput = {
   healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
   settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
   dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutExercisesInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutExercisesInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExercisesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExercisesInput, Prisma.UserUncheckedCreateWithoutExercisesInput>
+}
+
+export type UserUpsertWithoutExercisesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExercisesInput, Prisma.UserUncheckedUpdateWithoutExercisesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExercisesInput, Prisma.UserUncheckedCreateWithoutExercisesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExercisesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExercisesInput, Prisma.UserUncheckedUpdateWithoutExercisesInput>
+}
+
+export type UserUpdateWithoutExercisesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExercisesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1085,6 +1218,7 @@ export type UserUncheckedUpdateWithoutMeasurementsInput = {
 export type UserCountOutputType = {
   dailyEntries: number
   measurements: number
+  exercises: number
   sessions: number
   accounts: number
   passkeys: number
@@ -1093,6 +1227,7 @@ export type UserCountOutputType = {
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dailyEntries?: boolean | UserCountOutputTypeCountDailyEntriesArgs
   measurements?: boolean | UserCountOutputTypeCountMeasurementsArgs
+  exercises?: boolean | UserCountOutputTypeCountExercisesArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   passkeys?: boolean | UserCountOutputTypeCountPasskeysArgs
@@ -1120,6 +1255,13 @@ export type UserCountOutputTypeCountDailyEntriesArgs<ExtArgs extends runtime.Typ
  */
 export type UserCountOutputTypeCountMeasurementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.BodyMeasurementWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountExercisesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExerciseWhereInput
 }
 
 /**
@@ -1156,6 +1298,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   settings?: boolean | Prisma.User$settingsArgs<ExtArgs>
   dailyEntries?: boolean | Prisma.User$dailyEntriesArgs<ExtArgs>
   measurements?: boolean | Prisma.User$measurementsArgs<ExtArgs>
+  exercises?: boolean | Prisma.User$exercisesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   passkeys?: boolean | Prisma.User$passkeysArgs<ExtArgs>
@@ -1198,6 +1341,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   settings?: boolean | Prisma.User$settingsArgs<ExtArgs>
   dailyEntries?: boolean | Prisma.User$dailyEntriesArgs<ExtArgs>
   measurements?: boolean | Prisma.User$measurementsArgs<ExtArgs>
+  exercises?: boolean | Prisma.User$exercisesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   passkeys?: boolean | Prisma.User$passkeysArgs<ExtArgs>
@@ -1213,6 +1357,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     settings: Prisma.$UserSettingsPayload<ExtArgs> | null
     dailyEntries: Prisma.$DailyEntryPayload<ExtArgs>[]
     measurements: Prisma.$BodyMeasurementPayload<ExtArgs>[]
+    exercises: Prisma.$ExercisePayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     passkeys: Prisma.$PasskeyPayload<ExtArgs>[]
@@ -1623,6 +1768,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   settings<T extends Prisma.User$settingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$settingsArgs<ExtArgs>>): Prisma.Prisma__UserSettingsClient<runtime.Types.Result.GetResult<Prisma.$UserSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   dailyEntries<T extends Prisma.User$dailyEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$dailyEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   measurements<T extends Prisma.User$measurementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$measurementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BodyMeasurementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  exercises<T extends Prisma.User$exercisesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$exercisesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   passkeys<T extends Prisma.User$passkeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passkeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasskeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2138,6 +2284,30 @@ export type User$measurementsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.BodyMeasurementScalarFieldEnum | Prisma.BodyMeasurementScalarFieldEnum[]
+}
+
+/**
+ * User.exercises
+ */
+export type User$exercisesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Exercise
+   */
+  select?: Prisma.ExerciseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Exercise
+   */
+  omit?: Prisma.ExerciseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExerciseInclude<ExtArgs> | null
+  where?: Prisma.ExerciseWhereInput
+  orderBy?: Prisma.ExerciseOrderByWithRelationInput | Prisma.ExerciseOrderByWithRelationInput[]
+  cursor?: Prisma.ExerciseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExerciseScalarFieldEnum | Prisma.ExerciseScalarFieldEnum[]
 }
 
 /**

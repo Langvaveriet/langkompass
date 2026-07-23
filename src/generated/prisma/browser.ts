@@ -63,6 +63,11 @@ export type DailyEntry = Prisma.DailyEntryModel
  */
 export type BodyMeasurement = Prisma.BodyMeasurementModel
 /**
+ * Model Exercise
+ *
+ */
+export type Exercise = Prisma.ExerciseModel
+/**
  * Model Meal
  *
  */
