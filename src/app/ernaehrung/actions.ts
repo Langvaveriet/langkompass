@@ -28,19 +28,26 @@ export async function saveMeal(formData: FormData) {
   const date = selectedDate(formData);
   const time = text(formData, "consumedTime");
   const typeValue = text(formData, "type") as MealType | null;
-  const portionValue = text(formData, "portion") as PortionSize | null;
   const mealId = text(formData, "mealId");
 
   if (!time || !/^\d{2}:\d{2}$/.test(time) || !typeValue || !mealTypes.has(typeValue)) {
     redirect(`/ernaehrung?date=${date}&error=meal`);
   }
 
-  const portion = portionValue && portionSizes.has(portionValue) ? portionValue : "MEDIUM";
   const selectedKeys = formData
     .getAll("foodKeys")
     .filter((value): value is string => typeof value === "string")
     .filter((key) => foodCatalogByKey.has(key));
   const customFood = text(formData, "customFood");
+  const customQuantityValue = text(formData, "customQuantity");
+  const customQuantity = customQuantityValue
+    ? Number(customQuantityValue.replace(",", "."))
+    : null;
+  const hasValidCustomQuantity =
+    customQuantity !== null &&
+    Number.isFinite(customQuantity) &&
+    customQuantity > 0 &&
+    customQuantity <= 5000;
 
   if (selectedKeys.length === 0 && !customFood) {
     redirect(`/ernaehrung?date=${date}&error=food`);
@@ -60,10 +67,31 @@ export async function saveMeal(formData: FormData) {
   const items = [
     ...selectedKeys.map((key) => {
       const food = foodCatalogByKey.get(key)!;
-      return { foodKey: food.key, name: food.name, category: food.category, portion, traits: food.traits };
+      const portionValue = text(formData, `portion-${key}`) as PortionSize | null;
+      const portion = portionValue && portionSizes.has(portionValue)
+        ? portionValue
+        : "MEDIUM";
+
+      return {
+        foodKey: food.key,
+        name: food.name,
+        category: food.category,
+        portion,
+        quantity: food.portions[portion],
+        unit: food.unit,
+        traits: food.traits,
+      };
     }),
     ...(customFood
-      ? [{ foodKey: null, name: customFood, category: "OTHER" as const, portion, traits: [] }]
+      ? [{
+          foodKey: null,
+          name: customFood,
+          category: "OTHER" as const,
+          portion: "MEDIUM" as const,
+          quantity: hasValidCustomQuantity ? customQuantity : null,
+          unit: hasValidCustomQuantity ? "GRAM" as const : null,
+          traits: [],
+        }]
       : []),
   ];
   const data = {

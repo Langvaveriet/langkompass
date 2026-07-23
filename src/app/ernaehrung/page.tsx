@@ -41,11 +41,13 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
     id: editedMeal.id,
     type: editedMeal.type,
     time: editedMeal.consumedAt.toISOString().slice(11, 16),
-    portion: editedMeal.items[0]?.portion ?? "MEDIUM" as const,
-    foodKeys: editedMeal.items.flatMap((item) => item.foodKey ? [item.foodKey] : []),
+    foods: editedMeal.items.flatMap((item) => item.foodKey
+      ? [{ key: item.foodKey, portion: item.portion }]
+      : []),
     customFood: editedMeal.items.filter((item) => !item.foodKey).map((item) => item.name).join(", "),
+    customQuantity: editedMeal.items.find((item) => !item.foodKey)?.quantity?.toString() ?? "",
     notes: editedMeal.notes ?? "",
-  } : { type: "BREAKFAST" as const, time: currentTime(), portion: "MEDIUM" as const, foodKeys: [], customFood: "", notes: "" };
+  } : { type: "BREAKFAST" as const, time: currentTime(), foods: [], customFood: "", customQuantity: "", notes: "" };
 
   return (
     <AppLayout>
@@ -92,7 +94,16 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
                         <div><p className="font-semibold text-text-primary">{mealLabels[meal.type]}</p><p className="mt-1 text-xs text-text-muted">{meal.consumedAt.toISOString().slice(11, 16)} Uhr</p></div>
                         <Link href={`/ernaehrung?date=${date}&edit=${meal.id}`} className="text-sm font-semibold text-forest-strong">Bearbeiten</Link>
                       </div>
-                      <p className="mt-3 text-sm leading-6 text-text-primary">{meal.items.map((item) => item.name).join(", ")}</p>
+                      <ul className="mt-3 grid gap-1 text-sm leading-6 text-text-primary">
+                        {meal.items.map((item) => (
+                          <li key={item.id}>
+                            {item.name}
+                            {item.quantity
+                              ? ` · ${item.quantity.toString()} ${item.unit === "MILLILITER" ? "ml" : "g"}`
+                              : ""}
+                          </li>
+                        ))}
+                      </ul>
                       <form action={deleteMeal} className="mt-3">
                         <input type="hidden" name="entryDate" value={date} /><input type="hidden" name="mealId" value={meal.id} />
                         <button className="text-xs font-semibold text-danger">Löschen</button>
