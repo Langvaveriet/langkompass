@@ -94,6 +94,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
     100,
     Math.round((dailyEnergy / dailyEnergyTarget) * 100),
   );
+  const remainingDailyEnergy = dailyEnergyTarget - dailyEnergy;
   const uncalculatedItems = entry?.meals.reduce(
     (count, meal) =>
       count + meal.items.filter((item) => estimatedEnergy(item) === null).length,
@@ -111,25 +112,48 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
         {query.saved === "1" || query.deleted === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : "Mahlzeit wurde gespeichert."}</div> : null}
         {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel.</div> : null}
 
-        <section className="mt-8 rounded-[var(--radius-lg)] border border-border-subtle bg-surface-raised p-5" aria-label="Kalorienübersicht">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <p className="text-sm font-semibold text-text-muted">Kalorien heute</p>
-              <p className="mt-1 text-2xl font-semibold text-text-primary">
-                ca. {dailyEnergy} <span className="text-base font-medium text-text-muted">/ {dailyEnergyTarget} kcal</span>
-              </p>
+        <section className="mt-8 max-w-4xl overflow-hidden rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised shadow-sm" aria-label="Kalorienübersicht">
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-forest-soft px-5 py-3">
+            <h2 className="text-sm font-semibold text-forest-strong">Tagesenergie</h2>
+            <span className="rounded-full bg-surface-raised px-3 py-1 text-xs font-semibold text-forest-strong">
+              {personalEnergyTarget ? "Persönliches Ziel" : "Allgemeiner Richtwert"}
+            </span>
+          </div>
+
+          <div className="grid gap-4 p-5">
+            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+              <div>
+                <p className="text-3xl font-semibold tracking-tight text-text-primary">
+                  {dailyEnergy} kcal
+                </p>
+                <p className="mt-1 text-sm text-text-muted">
+                  erfasst von ca. {dailyEnergyTarget} kcal
+                </p>
+              </div>
+
+              <div className="text-left sm:text-right">
+                <p className="text-lg font-semibold text-forest-strong">
+                  {Math.round((dailyEnergy / dailyEnergyTarget) * 100)} %
+                </p>
+                <p className="text-sm text-text-muted">
+                  {remainingDailyEnergy >= 0
+                    ? `noch ca. ${remainingDailyEnergy} kcal`
+                    : `ca. ${Math.abs(remainingDailyEnergy)} kcal über Ziel`}
+                </p>
+              </div>
             </div>
-            <p className="text-sm font-semibold text-forest-strong">{Math.round((dailyEnergy / dailyEnergyTarget) * 100)} %</p>
+
+            <div className="h-3 overflow-hidden rounded-full border border-border-strong bg-surface-muted" role="progressbar" aria-label="Kalorienfortschritt" aria-valuenow={dailyEnergy} aria-valuemin={0} aria-valuemax={dailyEnergyTarget}>
+              <div className="h-full rounded-full bg-forest-strong transition-[width]" style={{ width: `${dailyEnergyProgress}%` }} />
+            </div>
+
+            <p className="text-xs leading-5 text-text-muted">
+              {personalEnergyTarget
+                ? "Näherungswert aus Profil, Aktivität und Gewichtsziel – kein medizinischer Grenzwert."
+                : "Allgemeiner EU-Referenzwert für Erwachsene. Vervollständige dein Gesundheitsprofil für einen persönlichen Näherungswert."}
+              {uncalculatedItems > 0 ? ` ${uncalculatedItems} individueller Eintrag wurde nicht mitberechnet.` : ""}
+            </p>
           </div>
-          <div className="mt-4 h-3 overflow-hidden rounded-full bg-surface-muted" role="progressbar" aria-label="Kalorienfortschritt" aria-valuenow={dailyEnergy} aria-valuemin={0} aria-valuemax={dailyEnergyTarget}>
-            <div className="h-full rounded-full bg-forest-strong transition-[width]" style={{ width: `${dailyEnergyProgress}%` }} />
-          </div>
-          <p className="mt-3 text-xs leading-5 text-text-muted">
-            {personalEnergyTarget
-              ? "Persönlicher Näherungswert aus Profil, Aktivität und Gewichtsziel."
-              : "Allgemeiner EU-Referenzwert für einen durchschnittlichen Erwachsenen. Vervollständige dein Gesundheitsprofil für einen persönlichen Näherungswert."}
-            {uncalculatedItems > 0 ? ` ${uncalculatedItems} individueller Eintrag wurde nicht mitberechnet.` : ""}
-          </p>
         </section>
 
         <div className="mt-8 max-w-sm">
