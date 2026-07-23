@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { WeightTrend } from "@/components/dashboard/weight-trend";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
@@ -10,17 +11,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
+import { summarizeCheckIns } from "@/lib/dashboard/check-in-summary";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
-import { dateInTimeZone, defaultTimeZone } from "@/lib/user-settings";
+import {
+  dateInTimeZone,
+  defaultTimeZone,
+  localDateTimeToUtc,
+} from "@/lib/user-settings";
 
 export const dynamic = "force-dynamic";
-
 
 function getTodayEntryDate(timeZone: string): Date {
   const localDate = dateInTimeZone(new Date(), timeZone);
   return new Date(`${localDate}T00:00:00.000Z`);
+}
+
+function addUtcDays(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setUTCDate(result.getUTCDate() + days);
+  return result;
+}
+
+function formatAverage(value: number | null, suffix = ""): string {
+  return value === null ? "–" : `${value.toFixed(1).replace(".", ",")}${suffix}`;
 }
 
 export default async function HomePage() {
@@ -37,33 +52,78 @@ export default async function HomePage() {
 
   const profile = user?.healthProfile;
   const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
+  const todayEntryDate = getTodayEntryDate(timeZone);
+  const sevenDayStart = addUtcDays(todayEntryDate, -6);
+  const weightStartDate = addUtcDays(todayEntryDate, -29)
+    .toISOString()
+    .slice(0, 10);
+  const weightPeriodStart = localDateTimeToUtc(
+    weightStartDate,
+    "00:00",
+    timeZone,
+  );
+  const tomorrowDate = addUtcDays(todayEntryDate, 1)
+    .toISOString()
+    .slice(0, 10);
+  const weightPeriodEnd = localDateTimeToUtc(
+    tomorrowDate,
+    "00:00",
+    timeZone,
+  );
 
-  const todayEntry = user
-    ? await prisma.dailyEntry.findUnique({
-        where: {
-          userId_entryDate: {
-            userId: user.id,
-            entryDate: getTodayEntryDate(timeZone),
+  const [todayEntry, weightMeasurementsDescending, recentEntries] = user
+    ? await Promise.all([
+        prisma.dailyEntry.findUnique({
+          where: {
+            userId_entryDate: {
+              userId: user.id,
+              entryDate: todayEntryDate,
+            },
           },
-        },
-        select: {
-          id: true,
-          status: true,
-          meals: {
-            select: {
-              id: true,
-              items: {
-                select: {
-                  energyKcal: true,
-                  foodKey: true,
-                  quantity: true,
+          select: {
+            id: true,
+            status: true,
+            meals: {
+              select: {
+                id: true,
+                items: {
+                  select: {
+                    energyKcal: true,
+                    foodKey: true,
+                    quantity: true,
+                  },
                 },
               },
             },
           },
-        },
-      })
-    : null;
+        }),
+        prisma.bodyMeasurement.findMany({
+          where: {
+            userId: user.id,
+            type: "WEIGHT",
+            measuredAt: { gte: weightPeriodStart, lt: weightPeriodEnd },
+          },
+          select: { id: true, value: true, measuredAt: true },
+          orderBy: { measuredAt: "desc" },
+        }),
+        prisma.dailyEntry.findMany({
+          where: {
+            userId: user.id,
+            entryDate: { gte: sevenDayStart, lte: todayEntryDate },
+          },
+          select: {
+            status: true,
+            sleepHours: true,
+            energy: true,
+            wellbeing: true,
+          },
+          orderBy: { entryDate: "desc" },
+        }),
+      ])
+    : [null, [], []];
+  const weightMeasurements = weightMeasurementsDescending.toReversed();
+  const latestWeight = weightMeasurements.at(-1);
+  const checkInSummary = summarizeCheckIns(recentEntries);
 
   const todayMealCount = todayEntry?.meals.length ?? 0;
   const todayEnergyKcal = Math.round(
@@ -96,7 +156,7 @@ export default async function HomePage() {
     profile?.lastName,
     profile?.dateOfBirth,
     profile?.heightCm,
-    profile?.weightKg,
+    profile?.weightKg ?? latestWeight?.value,
     profile?.calorieFormulaSex,
     profile?.activityLevel,
     profile?.weightGoal,
@@ -167,7 +227,7 @@ export default async function HomePage() {
 
         <Section
           aria-label="Gesundheitsübersicht"
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-5"
+          className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3"
         >
           {overviewCards.map((card) => (
             <Link
@@ -199,37 +259,123 @@ export default async function HomePage() {
         </Section>
 
         <Section
-          aria-label="Weitere Übersicht"
+          aria-label="Gesundheitsverlauf"
           className="grid grid-cols-12 gap-5"
         >
-          <Card className="col-span-12 xl:col-span-8">
-            <CardHeader>
-              <CardTitle>Gesundheitsverlauf</CardTitle>
-            </CardHeader>
-
-            <CardContent>
-              <div className="flex min-h-64 items-center justify-center rounded-[var(--radius-md)] border border-dashed border-border-strong bg-surface-muted">
-                <p className="text-sm text-text-muted">
-                  Diagramme und zeitliche Entwicklungen erscheinen hier.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="col-span-12 xl:col-span-8">
+            <WeightTrend
+              measurements={weightMeasurements}
+              timeZone={timeZone}
+            />
+          </div>
 
           <Card className="col-span-12 xl:col-span-4">
+            <CardHeader>
+              <CardTitle>Letzte 7 Tage</CardTitle>
+            </CardHeader>
+
+            <CardContent className="grid gap-5">
+              <p className="text-sm leading-6 text-text-muted">
+                Zusammenfassung aus deinen tatsächlich erfassten Check-ins.
+              </p>
+
+              <dl className="grid grid-cols-2 gap-3">
+                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                  <dt className="text-xs text-text-muted">Erfasste Tage</dt>
+                  <dd className="mt-1 text-lg font-semibold text-text-primary">
+                    {checkInSummary.recordedDays} / 7
+                  </dd>
+                </div>
+                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                  <dt className="text-xs text-text-muted">Abgeschlossen</dt>
+                  <dd className="mt-1 text-lg font-semibold text-text-primary">
+                    {checkInSummary.completedDays}
+                  </dd>
+                </div>
+                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                  <dt className="text-xs text-text-muted">Ø Schlaf</dt>
+                  <dd className="mt-1 text-lg font-semibold text-text-primary">
+                    {formatAverage(checkInSummary.averageSleepHours, " Std.")}
+                  </dd>
+                </div>
+                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                  <dt className="text-xs text-text-muted">Ø Energie</dt>
+                  <dd className="mt-1 text-lg font-semibold text-text-primary">
+                    {formatAverage(checkInSummary.averageEnergy, " / 10")}
+                  </dd>
+                </div>
+              </dl>
+
+              {checkInSummary.averageWellbeing !== null ? (
+                <p className="text-xs leading-5 text-text-muted">
+                  Durchschnittliches Wohlbefinden am Abend:{" "}
+                  {formatAverage(
+                    checkInSummary.averageWellbeing,
+                    " / 10",
+                  )}
+                </p>
+              ) : null}
+            </CardContent>
+          </Card>
+        </Section>
+
+        <Section aria-label="Nächste Schritte">
+          <Card>
             <CardHeader>
               <CardTitle>Nächste Schritte</CardTitle>
             </CardHeader>
 
             <CardContent>
-              <ul className="grid gap-4 text-sm text-text-muted">
-                {!profile ? (
-                  <li>Gesundheitsprofil vervollständigen</li>
+              <ul className="grid gap-3 text-sm">
+                {profileProgress < 100 ? (
+                  <li>
+                    <Link
+                      href="/gesundheitsprofil"
+                      className="font-semibold text-forest-strong"
+                    >
+                      Gesundheitsprofil vervollständigen →
+                    </Link>
+                  </li>
                 ) : null}
 
-                {!todayEntry ? <li>Erste Tageserfassung anlegen</li> : null}
-                {todayMealCount === 0 ? <li>Erste Mahlzeit erfassen</li> : null}
-                <li>Laborbericht hinzufügen</li>
+                {!todayEntry ? (
+                  <li>
+                    <Link
+                      href="/tageserfassung"
+                      className="font-semibold text-forest-strong"
+                    >
+                      Heutigen Check-in beginnen →
+                    </Link>
+                  </li>
+                ) : null}
+                {todayMealCount === 0 ? (
+                  <li>
+                    <Link
+                      href="/ernaehrung"
+                      className="font-semibold text-forest-strong"
+                    >
+                      Erste Mahlzeit heute erfassen →
+                    </Link>
+                  </li>
+                ) : null}
+                {weightMeasurements.length < 2 ? (
+                  <li>
+                    <Link
+                      href="/tageserfassung"
+                      className="font-semibold text-forest-strong"
+                    >
+                      Weiteren Gewichtswert erfassen →
+                    </Link>
+                  </li>
+                ) : null}
+                {profileProgress === 100 &&
+                todayEntry &&
+                todayMealCount > 0 &&
+                weightMeasurements.length >= 2 ? (
+                  <li className="text-text-muted">
+                    Alles Wichtige für heute ist erfasst.
+                  </li>
+                ) : null}
               </ul>
             </CardContent>
           </Card>
