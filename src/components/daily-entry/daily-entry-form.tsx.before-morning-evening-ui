@@ -5,13 +5,7 @@ import { ScaleSlider } from "@/components/health-input/scale-slider";
 import { SleepDurationPicker } from "@/components/health-input/sleep-duration-picker";
 import { Button } from "@/components/ui/button";
 
-export type DailyEntryStatus =
-  | "OPEN"
-  | "MORNING_DONE"
-  | "COMPLETED";
-
 export type DailyEntryFormValues = {
-  status: DailyEntryStatus;
   entryDate: string;
   wellbeing: number | null;
   energy: number | null;
@@ -26,7 +20,6 @@ export type DailyEntryFormValues = {
 
 type DailyEntryFormProps = {
   values: DailyEntryFormValues;
-  status: DailyEntryStatus;
 };
 
 const wellbeingOptions = [
@@ -85,13 +78,7 @@ const activityOptions = [
 
 export function DailyEntryForm({
   values,
-  status,
 }: DailyEntryFormProps) {
-  const progress =
-    status === "COMPLETED" ? 100 : status === "MORNING_DONE" ? 50 : 0;
-
-  const eveningAvailable = status !== "OPEN";
-  const dayCompleted = status === "COMPLETED";
   return (
     <form action={saveDailyEntry} className="grid gap-8">
       <div className="grid gap-2">
@@ -112,48 +99,30 @@ export function DailyEntryForm({
         />
       </div>
 
-      <section className="rounded-[var(--radius-lg)] border border-border-subtle bg-surface-primary p-4 sm:p-6">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-text-muted">
-              Tagesfortschritt
-            </p>
-
-            <p className="mt-1 text-lg font-semibold text-text-primary">
-              {progress}% erledigt
-            </p>
-          </div>
-
-          <span className="text-sm font-medium text-text-muted">
-            {status === "COMPLETED"
-              ? "Abgeschlossen"
-              : status === "MORNING_DONE"
-                ? "Morgen erledigt"
-                : "Noch offen"}
-          </span>
-        </div>
-
-        <div
-          className="mt-4 h-2 overflow-hidden rounded-full bg-surface-muted"
-          aria-label={`Tagesfortschritt ${progress}%`}
-        >
-          <div
-            className="h-full rounded-full bg-forest-strong transition-[width]"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      </section>
-
       <section className="grid gap-6 rounded-[var(--radius-lg)] bg-surface-muted p-4 sm:p-6">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-text-muted">
-            Morgen-Check
+            Quick Check
           </p>
 
           <h2 className="mt-1 text-lg font-semibold text-text-primary">
-            Wie bist du heute gestartet?
+            Wie war dein Tag?
           </h2>
         </div>
+
+        <RatingSelector
+          name="wellbeing"
+          label="Wohlbefinden"
+          defaultValue={values.wellbeing}
+          options={wellbeingOptions}
+        />
+
+        <RatingSelector
+          name="energy"
+          label="Energie"
+          defaultValue={values.energy}
+          options={energyOptions}
+        />
 
         <RatingSelector
           name="sleepQuality"
@@ -164,41 +133,26 @@ export function DailyEntryForm({
 
         <SleepDurationPicker defaultValue={values.sleepHours} />
 
-        <RatingSelector
-          name="energy"
-          label="Energie am Morgen"
-          defaultValue={values.energy}
-          options={energyOptions}
+        <ScaleSlider
+          name="painLevel"
+          label="Schmerzen"
+          defaultValue={values.painLevel}
+          minimumLabel="Keine"
+          maximumLabel="Sehr stark"
         />
 
-        <ChipSelector
-          name="symptomTags"
-          label="Symptome nach dem Aufstehen"
-          options={symptomOptions}
-          defaultValues={values.symptomTags}
-          emptyOption={{
-            label: "Keine Symptome",
-            emoji: "✓",
-          }}
+        <ScaleSlider
+          name="stressLevel"
+          label="Stress"
+          defaultValue={values.stressLevel}
+          minimumLabel="Entspannt"
+          maximumLabel="Sehr hoch"
         />
       </section>
 
-      <details
-        open={eveningAvailable}
-        className="group rounded-[var(--radius-lg)] border border-border-subtle bg-surface-primary"
-      >
-        <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-text-muted">
-              Abend-Check
-            </p>
-
-            <h2 className="mt-1 font-semibold text-text-primary">
-              {eveningAvailable
-                ? "Wie hat sich dein Tag entwickelt?"
-                : "Nach dem Morgen-Check verfügbar"}
-            </h2>
-          </div>
+      <details className="group rounded-[var(--radius-lg)] border border-border-subtle bg-surface-primary">
+        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-semibold text-text-primary sm:px-6">
+          Symptome hinzufügen
 
           <span
             aria-hidden="true"
@@ -208,33 +162,36 @@ export function DailyEntryForm({
           </span>
         </summary>
 
-        <div className="grid gap-6 border-t border-border-subtle px-4 py-5 sm:px-6">
-          <RatingSelector
-            name="wellbeing"
-            label="Wohlbefinden am Abend"
-            defaultValue={values.wellbeing}
-            options={wellbeingOptions}
+        <div className="border-t border-border-subtle px-4 py-5 sm:px-6">
+          <ChipSelector
+            name="symptomTags"
+            label="Was ist heute aufgefallen?"
+            options={symptomOptions}
+            defaultValues={values.symptomTags}
+            emptyOption={{
+              label: "Keine Symptome",
+              emoji: "✓",
+            }}
           />
+        </div>
+      </details>
 
-          <ScaleSlider
-            name="painLevel"
-            label="Schmerzen"
-            defaultValue={values.painLevel}
-            minimumLabel="Keine"
-            maximumLabel="Sehr stark"
-          />
+      <details className="group rounded-[var(--radius-lg)] border border-border-subtle bg-surface-primary">
+        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-semibold text-text-primary sm:px-6">
+          Aktivitäten und Einflüsse
 
-          <ScaleSlider
-            name="stressLevel"
-            label="Stress"
-            defaultValue={values.stressLevel}
-            minimumLabel="Entspannt"
-            maximumLabel="Sehr hoch"
-          />
+          <span
+            aria-hidden="true"
+            className="text-xl transition group-open:rotate-45"
+          >
+            +
+          </span>
+        </summary>
 
+        <div className="border-t border-border-subtle px-4 py-5 sm:px-6">
           <ChipSelector
             name="activityTags"
-            label="Aktivitäten und Einflüsse"
+            label="Was hat deinen Tag geprägt?"
             options={activityOptions}
             defaultValues={values.activityTags}
             emptyOption={{
@@ -242,24 +199,37 @@ export function DailyEntryForm({
               emoji: "○",
             }}
           />
+        </div>
+      </details>
 
-          <div>
-            <label
-              htmlFor="notes"
-              className="mb-2 block text-sm font-semibold text-text-primary"
-            >
-              Optionale Tagesnotiz
-            </label>
+      <details className="group rounded-[var(--radius-lg)] border border-border-subtle bg-surface-primary">
+        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-semibold text-text-primary sm:px-6">
+          Optionale Notiz
 
-            <textarea
-              id="notes"
-              name="notes"
-              rows={4}
-              defaultValue={values.notes}
-              placeholder="Nur ergänzen, wenn etwas Besonderes festgehalten werden soll."
-              className="w-full rounded-[var(--radius-md)] border border-border-strong bg-surface-primary px-4 py-3 text-base text-text-primary outline-none transition placeholder:text-text-muted focus:border-forest-strong focus:ring-2 focus:ring-forest-soft"
-            />
-          </div>
+          <span
+            aria-hidden="true"
+            className="text-xl transition group-open:rotate-45"
+          >
+            +
+          </span>
+        </summary>
+
+        <div className="border-t border-border-subtle px-4 py-5 sm:px-6">
+          <label
+            htmlFor="notes"
+            className="sr-only"
+          >
+            Optionale Tagesnotiz
+          </label>
+
+          <textarea
+            id="notes"
+            name="notes"
+            rows={4}
+            defaultValue={values.notes}
+            placeholder="Nur ergänzen, wenn etwas Besonderes festgehalten werden soll."
+            className="w-full rounded-[var(--radius-md)] border border-border-strong bg-surface-primary px-4 py-3 text-base text-text-primary outline-none transition placeholder:text-text-muted focus:border-forest-strong focus:ring-2 focus:ring-forest-soft"
+          />
         </div>
       </details>
 
@@ -272,19 +242,16 @@ export function DailyEntryForm({
             variant="secondary"
             className="min-h-12 w-full justify-center text-base"
           >
-            {status === "OPEN"
-              ? "Morgen-Check speichern"
-              : "Zwischenstand speichern"}
+            Speichern
           </Button>
 
           <Button
             type="submit"
             name="submitIntent"
             value="complete"
-            disabled={!eveningAvailable || dayCompleted}
             className="min-h-12 w-full justify-center text-base"
           >
-            {dayCompleted ? "Tag abgeschlossen" : "Tag abschließen"}
+            Tag abschließen
           </Button>
         </div>
       </div>

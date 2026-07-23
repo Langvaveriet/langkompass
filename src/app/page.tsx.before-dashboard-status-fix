@@ -17,17 +17,6 @@ export const dynamic = "force-dynamic";
 
 const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
 
-function getTodayEntryDate(): Date {
-  const localDate = new Intl.DateTimeFormat("sv-SE", {
-    timeZone: "Europe/Stockholm",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date());
-
-  return new Date(`${localDate}T00:00:00.000Z`);
-}
-
 export default async function HomePage() {
   const user = await prisma.user.findUnique({
     where: {
@@ -39,34 +28,6 @@ export default async function HomePage() {
   });
 
   const profile = user?.healthProfile;
-
-  const todayEntry = user
-    ? await prisma.dailyEntry.findUnique({
-        where: {
-          userId_entryDate: {
-            userId: user.id,
-            entryDate: getTodayEntryDate(),
-          },
-        },
-        select: {
-          id: true,
-          status: true,
-        },
-      })
-    : null;
-
-  const dailyEntryStatus = (() => {
-    switch (todayEntry?.status) {
-      case "COMPLETED":
-        return "Tag abgeschlossen";
-      case "MORNING_DONE":
-        return "Morgen-Check erledigt";
-      case "OPEN":
-        return "Heute begonnen";
-      default:
-        return "Heute noch offen";
-    }
-  })();
 
   const completedProfileFields = [
     profile?.firstName,
@@ -111,7 +72,7 @@ export default async function HomePage() {
     },
     {
       title: "Tageserfassung",
-      value: dailyEntryStatus,
+      value: "Heute noch offen",
       description:
         "Wohlbefinden, Symptome, Schlaf und persönliche Beobachtungen dokumentieren.",
       href: "/tageserfassung",

@@ -89,11 +89,6 @@ function validateScale(
 }
 
 export async function saveDailyEntry(formData: FormData) {
-
-  const submitIntent = getText(formData, "submitIntent");
-  const nextStatus =
-    submitIntent === "complete" ? "COMPLETED" : "MORNING_DONE";
-
   const entryDate = getDate(formData);
 
   const wellbeing = validateScale(
@@ -153,7 +148,7 @@ export async function saveDailyEntry(formData: FormData) {
       },
     },
     update: {
-      status: nextStatus,
+      status: "MORNING_DONE",
       wellbeing,
       energy,
       sleepHours,
@@ -168,7 +163,7 @@ export async function saveDailyEntry(formData: FormData) {
     create: {
       userId: user.id,
       entryDate: entryDate.databaseValue,
-      status: nextStatus,
+      status: "MORNING_DONE",
       wellbeing,
       energy,
       sleepHours,
@@ -185,10 +180,7 @@ export async function saveDailyEntry(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/tageserfassung");
 
-  const completionParameter =
-    nextStatus === "COMPLETED" ? "&completed=1" : "";
-
   redirect(
-    `/tageserfassung?date=${entryDate.inputValue}&saved=1${completionParameter}`,
+    `/tageserfassung?date=${entryDate.inputValue}&saved=1`,
   );
 }

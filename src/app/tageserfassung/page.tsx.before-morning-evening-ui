@@ -27,7 +27,6 @@ type TageserfassungPageProps = {
   searchParams: Promise<{
     date?: string;
     saved?: string;
-    completed?: string;
     error?: string;
   }>;
 };
@@ -94,7 +93,6 @@ export default async function TageserfassungPage({
     : [];
 
   const values: DailyEntryFormValues = {
-    status: entry?.status ?? "OPEN",
     entryDate: selectedDate,
     wellbeing: entry?.wellbeing ?? null,
     energy: entry?.energy ?? null,
@@ -122,11 +120,9 @@ export default async function TageserfassungPage({
         {query.saved === "1" ? (
           <div
             role="status"
-            className="rounded-[var(--radius-md)] border border-border-subtle bg-surface-muted px-4 py-3 text-sm text-text-primary"
+            className="mt-8 rounded-[var(--radius-md)] border border-forest-strong bg-forest-soft px-5 py-4 text-sm font-medium text-forest-strong"
           >
-            {query.completed === "1"
-              ? "Der Tag wurde abgeschlossen."
-              : "Der Zwischenstand wurde gespeichert."}
+            Die Tageserfassung für {selectedDate} wurde gespeichert.
           </div>
         ) : null}
 
@@ -154,7 +150,7 @@ export default async function TageserfassungPage({
             </CardHeader>
 
             <CardContent>
-              <DailyEntryForm values={values} status={values.status} />
+              <DailyEntryForm values={values} />
             </CardContent>
           </Card>
 

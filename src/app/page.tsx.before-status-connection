@@ -50,23 +50,9 @@ export default async function HomePage() {
         },
         select: {
           id: true,
-          status: true,
         },
       })
     : null;
-
-  const dailyEntryStatus = (() => {
-    switch (todayEntry?.status) {
-      case "COMPLETED":
-        return "Tag abgeschlossen";
-      case "MORNING_DONE":
-        return "Morgen-Check erledigt";
-      case "OPEN":
-        return "Heute begonnen";
-      default:
-        return "Heute noch offen";
-    }
-  })();
 
   const completedProfileFields = [
     profile?.firstName,
@@ -111,7 +97,7 @@ export default async function HomePage() {
     },
     {
       title: "Tageserfassung",
-      value: dailyEntryStatus,
+      value: todayEntry ? "Heute erfasst" : "Heute noch offen",
       description:
         "Wohlbefinden, Symptome, Schlaf und persönliche Beobachtungen dokumentieren.",
       href: "/tageserfassung",

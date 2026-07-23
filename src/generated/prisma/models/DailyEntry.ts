@@ -48,6 +48,7 @@ export type DailyEntryMinAggregateOutputType = {
   id: string | null
   userId: string | null
   entryDate: Date | null
+  status: $Enums.DailyEntryStatus | null
   wellbeing: number | null
   energy: number | null
   sleepHours: runtime.Decimal | null
@@ -64,6 +65,7 @@ export type DailyEntryMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   entryDate: Date | null
+  status: $Enums.DailyEntryStatus | null
   wellbeing: number | null
   energy: number | null
   sleepHours: runtime.Decimal | null
@@ -80,6 +82,7 @@ export type DailyEntryCountAggregateOutputType = {
   id: number
   userId: number
   entryDate: number
+  status: number
   wellbeing: number
   energy: number
   sleepHours: number
@@ -118,6 +121,7 @@ export type DailyEntryMinAggregateInputType = {
   id?: true
   userId?: true
   entryDate?: true
+  status?: true
   wellbeing?: true
   energy?: true
   sleepHours?: true
@@ -134,6 +138,7 @@ export type DailyEntryMaxAggregateInputType = {
   id?: true
   userId?: true
   entryDate?: true
+  status?: true
   wellbeing?: true
   energy?: true
   sleepHours?: true
@@ -150,6 +155,7 @@ export type DailyEntryCountAggregateInputType = {
   id?: true
   userId?: true
   entryDate?: true
+  status?: true
   wellbeing?: true
   energy?: true
   sleepHours?: true
@@ -255,6 +261,7 @@ export type DailyEntryGroupByOutputType = {
   id: string
   userId: string
   entryDate: Date
+  status: $Enums.DailyEntryStatus
   wellbeing: number | null
   energy: number | null
   sleepHours: runtime.Decimal | null
@@ -296,6 +303,7 @@ export type DailyEntryWhereInput = {
   id?: Prisma.StringFilter<"DailyEntry"> | string
   userId?: Prisma.StringFilter<"DailyEntry"> | string
   entryDate?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
+  status?: Prisma.EnumDailyEntryStatusFilter<"DailyEntry"> | $Enums.DailyEntryStatus
   wellbeing?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   energy?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   sleepHours?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -315,6 +323,7 @@ export type DailyEntryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   entryDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrderInput | Prisma.SortOrder
   energy?: Prisma.SortOrderInput | Prisma.SortOrder
   sleepHours?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -338,6 +347,7 @@ export type DailyEntryWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.DailyEntryWhereInput | Prisma.DailyEntryWhereInput[]
   userId?: Prisma.StringFilter<"DailyEntry"> | string
   entryDate?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
+  status?: Prisma.EnumDailyEntryStatusFilter<"DailyEntry"> | $Enums.DailyEntryStatus
   wellbeing?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   energy?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   sleepHours?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -357,6 +367,7 @@ export type DailyEntryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   entryDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrderInput | Prisma.SortOrder
   energy?: Prisma.SortOrderInput | Prisma.SortOrder
   sleepHours?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -383,6 +394,7 @@ export type DailyEntryScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"DailyEntry"> | string
   userId?: Prisma.StringWithAggregatesFilter<"DailyEntry"> | string
   entryDate?: Prisma.DateTimeWithAggregatesFilter<"DailyEntry"> | Date | string
+  status?: Prisma.EnumDailyEntryStatusWithAggregatesFilter<"DailyEntry"> | $Enums.DailyEntryStatus
   wellbeing?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
   energy?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
   sleepHours?: Prisma.DecimalNullableWithAggregatesFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -400,6 +412,7 @@ export type DailyEntryScalarWhereWithAggregatesInput = {
 export type DailyEntryCreateInput = {
   id?: string
   entryDate: Date | string
+  status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -419,6 +432,7 @@ export type DailyEntryUncheckedCreateInput = {
   id?: string
   userId: string
   entryDate: Date | string
+  status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -436,6 +450,7 @@ export type DailyEntryUncheckedCreateInput = {
 export type DailyEntryUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -455,6 +470,7 @@ export type DailyEntryUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -473,6 +489,7 @@ export type DailyEntryCreateManyInput = {
   id?: string
   userId: string
   entryDate: Date | string
+  status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -490,6 +507,7 @@ export type DailyEntryCreateManyInput = {
 export type DailyEntryUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -508,6 +526,7 @@ export type DailyEntryUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -549,6 +568,7 @@ export type DailyEntryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   entryDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrder
   energy?: Prisma.SortOrder
   sleepHours?: Prisma.SortOrder
@@ -576,6 +596,7 @@ export type DailyEntryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   entryDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrder
   energy?: Prisma.SortOrder
   sleepHours?: Prisma.SortOrder
@@ -592,6 +613,7 @@ export type DailyEntryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   entryDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrder
   energy?: Prisma.SortOrder
   sleepHours?: Prisma.SortOrder
@@ -663,6 +685,10 @@ export type DailyEntryCreateactivityTagsInput = {
   set: string[]
 }
 
+export type EnumDailyEntryStatusFieldUpdateOperationsInput = {
+  set?: $Enums.DailyEntryStatus
+}
+
 export type DailyEntryUpdatesymptomTagsInput = {
   set?: string[]
   push?: string | string[]
@@ -676,6 +702,7 @@ export type DailyEntryUpdateactivityTagsInput = {
 export type DailyEntryCreateWithoutUserInput = {
   id?: string
   entryDate: Date | string
+  status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -693,6 +720,7 @@ export type DailyEntryCreateWithoutUserInput = {
 export type DailyEntryUncheckedCreateWithoutUserInput = {
   id?: string
   entryDate: Date | string
+  status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -740,6 +768,7 @@ export type DailyEntryScalarWhereInput = {
   id?: Prisma.StringFilter<"DailyEntry"> | string
   userId?: Prisma.StringFilter<"DailyEntry"> | string
   entryDate?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
+  status?: Prisma.EnumDailyEntryStatusFilter<"DailyEntry"> | $Enums.DailyEntryStatus
   wellbeing?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   energy?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   sleepHours?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -757,6 +786,7 @@ export type DailyEntryScalarWhereInput = {
 export type DailyEntryCreateManyUserInput = {
   id?: string
   entryDate: Date | string
+  status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -774,6 +804,7 @@ export type DailyEntryCreateManyUserInput = {
 export type DailyEntryUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -791,6 +822,7 @@ export type DailyEntryUpdateWithoutUserInput = {
 export type DailyEntryUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -808,6 +840,7 @@ export type DailyEntryUncheckedUpdateWithoutUserInput = {
 export type DailyEntryUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -828,6 +861,7 @@ export type DailyEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   userId?: boolean
   entryDate?: boolean
+  status?: boolean
   wellbeing?: boolean
   energy?: boolean
   sleepHours?: boolean
@@ -847,6 +881,7 @@ export type DailyEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   userId?: boolean
   entryDate?: boolean
+  status?: boolean
   wellbeing?: boolean
   energy?: boolean
   sleepHours?: boolean
@@ -866,6 +901,7 @@ export type DailyEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   userId?: boolean
   entryDate?: boolean
+  status?: boolean
   wellbeing?: boolean
   energy?: boolean
   sleepHours?: boolean
@@ -885,6 +921,7 @@ export type DailyEntrySelectScalar = {
   id?: boolean
   userId?: boolean
   entryDate?: boolean
+  status?: boolean
   wellbeing?: boolean
   energy?: boolean
   sleepHours?: boolean
@@ -899,7 +936,7 @@ export type DailyEntrySelectScalar = {
   updatedAt?: boolean
 }
 
-export type DailyEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "entryDate" | "wellbeing" | "energy" | "sleepHours" | "sleepQuality" | "painLevel" | "stressLevel" | "symptoms" | "symptomTags" | "activityTags" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["dailyEntry"]>
+export type DailyEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "entryDate" | "status" | "wellbeing" | "energy" | "sleepHours" | "sleepQuality" | "painLevel" | "stressLevel" | "symptoms" | "symptomTags" | "activityTags" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["dailyEntry"]>
 export type DailyEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -919,6 +956,7 @@ export type $DailyEntryPayload<ExtArgs extends runtime.Types.Extensions.Internal
     id: string
     userId: string
     entryDate: Date
+    status: $Enums.DailyEntryStatus
     wellbeing: number | null
     energy: number | null
     sleepHours: runtime.Decimal | null
@@ -1358,6 +1396,7 @@ export interface DailyEntryFieldRefs {
   readonly id: Prisma.FieldRef<"DailyEntry", 'String'>
   readonly userId: Prisma.FieldRef<"DailyEntry", 'String'>
   readonly entryDate: Prisma.FieldRef<"DailyEntry", 'DateTime'>
+  readonly status: Prisma.FieldRef<"DailyEntry", 'DailyEntryStatus'>
   readonly wellbeing: Prisma.FieldRef<"DailyEntry", 'Int'>
   readonly energy: Prisma.FieldRef<"DailyEntry", 'Int'>
   readonly sleepHours: Prisma.FieldRef<"DailyEntry", 'Decimal'>

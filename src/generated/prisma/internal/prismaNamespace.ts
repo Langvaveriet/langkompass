@@ -712,6 +712,7 @@ export const DailyEntryScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   entryDate: 'entryDate',
+  status: 'status',
   wellbeing: 'wellbeing',
   energy: 'energy',
   sleepHours: 'sleepHours',
@@ -812,6 +813,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DailyEntryStatus'
+ */
+export type EnumDailyEntryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DailyEntryStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'DailyEntryStatus[]'
+ */
+export type ListEnumDailyEntryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DailyEntryStatus[]'>
     
 
 

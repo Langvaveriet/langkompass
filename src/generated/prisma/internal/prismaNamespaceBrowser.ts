@@ -104,6 +104,7 @@ export const DailyEntryScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   entryDate: 'entryDate',
+  status: 'status',
   wellbeing: 'wellbeing',
   energy: 'energy',
   sleepHours: 'sleepHours',

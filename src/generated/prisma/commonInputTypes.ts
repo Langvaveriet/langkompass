@@ -189,6 +189,23 @@ export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
 }
 
+export type EnumDailyEntryStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DailyEntryStatus | Prisma.EnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DailyEntryStatus[] | Prisma.ListEnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DailyEntryStatus[] | Prisma.ListEnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel> | $Enums.DailyEntryStatus
+}
+
+export type EnumDailyEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DailyEntryStatus | Prisma.EnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DailyEntryStatus[] | Prisma.ListEnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DailyEntryStatus[] | Prisma.ListEnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDailyEntryStatusWithAggregatesFilter<$PrismaModel> | $Enums.DailyEntryStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -375,6 +392,23 @@ export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumDailyEntryStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.DailyEntryStatus | Prisma.EnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DailyEntryStatus[] | Prisma.ListEnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DailyEntryStatus[] | Prisma.ListEnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel> | $Enums.DailyEntryStatus
+}
+
+export type NestedEnumDailyEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DailyEntryStatus | Prisma.EnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.DailyEntryStatus[] | Prisma.ListEnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DailyEntryStatus[] | Prisma.ListEnumDailyEntryStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDailyEntryStatusWithAggregatesFilter<$PrismaModel> | $Enums.DailyEntryStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel>
 }
 
 
