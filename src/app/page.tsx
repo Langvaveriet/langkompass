@@ -13,18 +13,13 @@ import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
+import { dateInTimeZone, defaultTimeZone } from "@/lib/user-settings";
 
 export const dynamic = "force-dynamic";
 
 
-function getTodayEntryDate(): Date {
-  const localDate = new Intl.DateTimeFormat("sv-SE", {
-    timeZone: "Europe/Stockholm",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date());
-
+function getTodayEntryDate(timeZone: string): Date {
+  const localDate = dateInTimeZone(new Date(), timeZone);
   return new Date(`${localDate}T00:00:00.000Z`);
 }
 
@@ -36,17 +31,19 @@ export default async function HomePage() {
     },
     include: {
       healthProfile: true,
+      settings: true,
     },
   });
 
   const profile = user?.healthProfile;
+  const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
 
   const todayEntry = user
     ? await prisma.dailyEntry.findUnique({
         where: {
           userId_entryDate: {
             userId: user.id,
-            entryDate: getTodayEntryDate(),
+            entryDate: getTodayEntryDate(timeZone),
           },
         },
         select: {

@@ -32,6 +32,10 @@ export const navigationItems: NavigationItem[] = [
     label: "Compass AI",
     href: "/compass-ai",
   },
+  {
+    label: "Einstellungen",
+    href: "/einstellungen",
+  },
 ];
 
 export function isNavigationItemActive(

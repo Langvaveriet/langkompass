@@ -129,8 +129,8 @@ export default async function GesundheitsprofilPage({
 
               <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
                 <p className="text-sm leading-6 text-text-muted">
-                  Der lokale Entwicklungsbenutzer wird später durch die
-                  Auth.js-Benutzeranmeldung ersetzt.
+                  Der Zugriff ist durch deine Passkey-Anmeldung geschützt.
+                  Kontosicherheit und Passkeys findest du in den Einstellungen.
                 </p>
               </div>
             </CardContent>

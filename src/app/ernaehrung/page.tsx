@@ -16,6 +16,11 @@ import {
 } from "@/lib/nutrition/post-meal-reactions";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
+import {
+  dateInTimeZone,
+  defaultTimeZone,
+  timeInTimeZone,
+} from "@/lib/user-settings";
 
 export const dynamic = "force-dynamic";
 const DAILY_ENERGY_REFERENCE_KCAL = 2000;
@@ -23,26 +28,21 @@ const mealLabels: Record<MealType, string> = { BREAKFAST: "Frühstück", LUNCH: 
 
 type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; deleted?: string; error?: string }> };
 
-function today(): string {
-  return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-}
-
-function validDate(value?: string): string {
-  return value && /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : today();
-}
-
-function currentTime(): string {
-  return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date());
+function validDate(value: string | undefined, timeZone: string): string {
+  return value && /^\d{4}-\d{2}-\d{2}$/.test(value)
+    ? value
+    : dateInTimeZone(new Date(), timeZone);
 }
 
 export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const query = await searchParams;
-  const date = validDate(query.date);
   const sessionUser = await requireUser();
   const user = await prisma.user.findUnique({
     where: { id: sessionUser.id },
-    select: { id: true, healthProfile: true },
+    select: { id: true, healthProfile: true, settings: true },
   });
+  const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
+  const date = validDate(query.date, timeZone);
   const entry = user ? await prisma.dailyEntry.findUnique({
     where: { userId_entryDate: { userId: user.id, entryDate: new Date(`${date}T00:00:00.000Z`) } },
     include: { meals: { include: { items: true }, orderBy: { consumedAt: "asc" } } },
@@ -51,7 +51,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const values = editedMeal ? {
     id: editedMeal.id,
     type: editedMeal.type,
-    time: editedMeal.consumedAt.toISOString().slice(11, 16),
+    time: timeInTimeZone(editedMeal.consumedAt, timeZone),
     foods: editedMeal.items.flatMap((item) => item.foodKey
       ? [{ key: item.foodKey, portion: item.portion }]
       : []),
@@ -60,7 +60,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
     notes: editedMeal.notes ?? "",
     postMealSymptomTags: editedMeal.postMealSymptomTags,
     reactionDelayMinutes: editedMeal.reactionDelayMinutes,
-  } : { type: "BREAKFAST" as const, time: currentTime(), foods: [], customFood: "", customQuantity: "", notes: "", postMealSymptomTags: [], reactionDelayMinutes: null };
+  } : { type: "BREAKFAST" as const, time: timeInTimeZone(new Date(), timeZone), foods: [], customFood: "", customQuantity: "", notes: "", postMealSymptomTags: [], reactionDelayMinutes: null };
   const personalEnergyTarget = calculateDailyCalorieTarget(
     user?.healthProfile,
     new Date(`${date}T12:00:00.000Z`),
@@ -198,7 +198,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
                 <p className="mt-2 text-lg font-semibold text-text-primary">{mealWindowLabel}</p>
                 <p className="mt-1 text-xs text-text-muted">
                   {firstFoodMeal && lastFoodMeal && foodMeals.length > 1
-                    ? `${firstFoodMeal.consumedAt.toISOString().slice(11, 16)}–${lastFoodMeal.consumedAt.toISOString().slice(11, 16)} Uhr`
+                    ? `${timeInTimeZone(firstFoodMeal.consumedAt, timeZone)}–${timeInTimeZone(lastFoodMeal.consumedAt, timeZone)} Uhr`
                     : "Ab zwei Mahlzeiten berechenbar"}
                 </p>
               </div>
@@ -253,7 +253,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
                   {entry.meals.map((meal) => (
                     <li key={meal.id} className="rounded-[var(--radius-md)] border border-border-subtle p-4">
                       <div className="flex items-start justify-between gap-3">
-                        <div><p className="font-semibold text-text-primary">{mealLabels[meal.type]}</p><p className="mt-1 text-xs text-text-muted">{meal.consumedAt.toISOString().slice(11, 16)} Uhr</p></div>
+                        <div><p className="font-semibold text-text-primary">{mealLabels[meal.type]}</p><p className="mt-1 text-xs text-text-muted">{timeInTimeZone(meal.consumedAt, timeZone)} Uhr</p></div>
                         <Link href={`/ernaehrung?date=${date}&edit=${meal.id}`} className="text-sm font-semibold text-forest-strong">Bearbeiten</Link>
                       </div>
                       <p className="mt-3 text-sm font-semibold text-copper">ca. {Math.round(mealEnergy.get(meal.id) ?? 0)} kcal</p>

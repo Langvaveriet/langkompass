@@ -14,12 +14,24 @@ model User {
   emailVerified Boolean        @default(false)
   image         String?
   healthProfile HealthProfile?
+  settings      UserSettings?
   dailyEntries  DailyEntry[]
   sessions      Session[]
   accounts      Account[]
   passkeys      Passkey[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+}
+
+model UserSettings {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  timeZone  String   @default("Europe/Stockholm")
+  locale    String   @default("de-DE")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {

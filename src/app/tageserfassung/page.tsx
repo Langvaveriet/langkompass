@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/typography";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
+import { dateInTimeZone, defaultTimeZone } from "@/lib/user-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -31,21 +32,12 @@ type TageserfassungPageProps = {
   }>;
 };
 
-function getTodayInSweden(): string {
-  return new Intl.DateTimeFormat("sv-SE", {
-    timeZone: "Europe/Stockholm",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date());
-}
-
-function getSelectedDate(value?: string): string {
+function getSelectedDate(value: string | undefined, timeZone: string): string {
   if (value && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return value;
   }
 
-  return getTodayInSweden();
+  return dateInTimeZone(new Date(), timeZone);
 }
 
 function formatDecimal(value: unknown): string {
@@ -61,14 +53,18 @@ export default async function TageserfassungPage({
 }: TageserfassungPageProps) {
   const query = await searchParams;
   const sessionUser = await requireUser();
-  const selectedDate = getSelectedDate(query.date);
-  const entryDate = new Date(`${selectedDate}T00:00:00.000Z`);
 
   const user = await prisma.user.findUnique({
     where: {
       id: sessionUser.id,
     },
+    include: {
+      settings: true,
+    },
   });
+  const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
+  const selectedDate = getSelectedDate(query.date, timeZone);
+  const entryDate = new Date(`${selectedDate}T00:00:00.000Z`);
 
   const entry = user
     ? await prisma.dailyEntry.findUnique({

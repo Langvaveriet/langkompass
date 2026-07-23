@@ -11,6 +11,7 @@ import {
 } from "@/lib/nutrition/post-meal-reactions";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
+import { defaultTimeZone, localDateTimeToUtc } from "@/lib/user-settings";
 
 const mealTypes = new Set<MealType>(["BREAKFAST", "LUNCH", "DINNER", "SNACK", "DRINK"]);
 const portionSizes = new Set<PortionSize>(["SMALL", "MEDIUM", "LARGE"]);
@@ -30,6 +31,11 @@ function selectedDate(formData: FormData): string {
 
 export async function saveMeal(formData: FormData) {
   const user = await requireUser();
+  const settings = await prisma.userSettings.findUnique({
+    where: { userId: user.id },
+    select: { timeZone: true },
+  });
+  const timeZone = settings?.timeZone ?? defaultTimeZone;
   const date = selectedDate(formData);
   const time = text(formData, "consumedTime");
   const typeValue = text(formData, "type") as MealType | null;
@@ -114,7 +120,7 @@ export async function saveMeal(formData: FormData) {
   ];
   const data = {
     type: typeValue,
-    consumedAt: new Date(`${date}T${time}:00.000Z`),
+    consumedAt: localDateTimeToUtc(date, time, timeZone),
     notes: text(formData, "notes"),
     postMealSymptomTags,
     reactionDelayMinutes,
