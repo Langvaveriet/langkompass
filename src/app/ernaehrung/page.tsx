@@ -109,10 +109,10 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
             </span>
           </div>
 
-          <div className="grid gap-4 p-5">
+          <div className="grid gap-5" style={{ padding: "1.25rem" }}>
             <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
               <div>
-                <p className="text-3xl font-semibold tracking-tight text-text-primary">
+                <p className="font-semibold tracking-tight text-text-primary" style={{ fontSize: "1.875rem", lineHeight: "2.25rem" }}>
                   {dailyEnergy} kcal
                 </p>
                 <p className="mt-1 text-sm text-text-muted">
@@ -132,8 +132,8 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
               </div>
             </div>
 
-            <div className="h-3 overflow-hidden rounded-full border border-border-strong bg-surface-muted" role="progressbar" aria-label="Kalorienfortschritt" aria-valuenow={dailyEnergy} aria-valuemin={0} aria-valuemax={dailyEnergyTarget}>
-              <div className="h-full rounded-full bg-forest-strong transition-[width]" style={{ width: `${dailyEnergyProgress}%` }} />
+            <div className="overflow-hidden rounded-full border border-border-strong bg-surface-muted" style={{ height: "0.75rem" }} role="progressbar" aria-label="Kalorienfortschritt" aria-valuenow={dailyEnergy} aria-valuemin={0} aria-valuemax={dailyEnergyTarget}>
+              <div className="rounded-full bg-forest-strong transition-[width]" style={{ width: `${dailyEnergyProgress}%`, height: "100%" }} />
             </div>
 
             <p className="text-xs leading-5 text-text-muted">
