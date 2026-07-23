@@ -1,8 +1,24 @@
-const { spawn } = require("child_process");
+/* eslint-disable @typescript-eslint/no-require-imports */
+const { createServer } = require("http");
+const next = require("next");
 
-const child = spawn("node", ["node_modules/next/dist/bin/next", "start"], {
-  stdio: "inherit",
-  env: process.env,
-});
+const hostname = process.env.HOSTNAME || "0.0.0.0";
+const port = Number.parseInt(process.env.PORT || "3000", 10);
+const app = next({ dev: false, hostname, port });
+const handle = app.getRequestHandler();
 
-child.on("close", (code) => process.exit(code));
+app
+  .prepare()
+  .then(() => {
+    createServer((request, response) => handle(request, response)).listen(
+      port,
+      hostname,
+      () => {
+        console.log(`LångKompass läuft auf http://${hostname}:${port}`);
+      },
+    );
+  })
+  .catch((error) => {
+    console.error("LångKompass konnte nicht gestartet werden:", error);
+    process.exit(1);
+  });
