@@ -89,6 +89,34 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
       count + meal.items.filter((item) => estimatedFoodEnergy(item) === null).length,
     0,
   ) ?? 0;
+  const foodMeals = entry?.meals.filter((meal) => meal.type !== "DRINK") ?? [];
+  const drinkEntries = entry?.meals.filter((meal) => meal.type === "DRINK").length ?? 0;
+  const reactionEntries = entry?.meals.filter(
+    (meal) => meal.postMealSymptomTags.length > 0,
+  ).length ?? 0;
+  const firstFoodMeal = foodMeals.at(0);
+  const lastFoodMeal = foodMeals.at(-1);
+  const mealWindowMinutes = firstFoodMeal && lastFoodMeal && foodMeals.length > 1
+    ? Math.round(
+        (lastFoodMeal.consumedAt.getTime() - firstFoodMeal.consumedAt.getTime()) /
+          60_000,
+      )
+    : null;
+  const mealWindowLabel = mealWindowMinutes !== null
+    ? `${Math.floor(mealWindowMinutes / 60)} Std.${mealWindowMinutes % 60 > 0 ? ` ${mealWindowMinutes % 60} Min.` : ""}`
+    : "Noch offen";
+  const foodTraits = new Set(
+    entry?.meals.flatMap((meal) => meal.items.flatMap((item) => item.traits)) ?? [],
+  );
+  const dailySignals = [
+    foodTraits.has("HISTAMINE_RICH") || foodTraits.has("HISTAMINE_LIBERATOR")
+      ? "Histaminbezug"
+      : null,
+    foodTraits.has("ALCOHOLIC") ? "Alkohol" : null,
+    foodTraits.has("HIGH_SUGAR") ? "Hoher Zuckeranteil" : null,
+    foodTraits.has("HIGHLY_PROCESSED") ? "Stark verarbeitet" : null,
+    foodTraits.has("CAFFEINATED") ? "Koffein" : null,
+  ].filter((signal): signal is string => signal !== null);
 
   return (
     <AppLayout>
@@ -144,6 +172,54 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
             </p>
           </div>
         </section>
+
+        {entry && entry.meals.length > 0 ? (
+          <section className="mt-5 max-w-4xl rounded-[var(--radius-lg)] border border-border-subtle bg-surface-raised" style={{ padding: "1.25rem" }} aria-labelledby="daily-pattern-heading">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 id="daily-pattern-heading" className="font-semibold text-text-primary">Tagesmuster</h2>
+                <p className="mt-1 text-sm text-text-muted">Neutrale Zusammenfassung deiner strukturierten Einträge.</p>
+              </div>
+              <span className="rounded-full bg-surface-muted px-3 py-1 text-xs font-semibold text-text-muted">
+                {entry.meals.length} {entry.meals.length === 1 ? "Eintrag" : "Einträge"}
+              </span>
+            </div>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-text-muted">Rhythmus</p>
+                <p className="mt-2 text-lg font-semibold text-text-primary">{foodMeals.length} {foodMeals.length === 1 ? "Mahlzeit" : "Mahlzeiten"}</p>
+                <p className="mt-1 text-xs text-text-muted">{drinkEntries > 0 ? `${drinkEntries} ${drinkEntries === 1 ? "Getränkeeintrag" : "Getränkeeinträge"} zusätzlich` : "Keine Getränke separat erfasst"}</p>
+              </div>
+
+              <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-text-muted">Essenszeitraum</p>
+                <p className="mt-2 text-lg font-semibold text-text-primary">{mealWindowLabel}</p>
+                <p className="mt-1 text-xs text-text-muted">
+                  {firstFoodMeal && lastFoodMeal && foodMeals.length > 1
+                    ? `${firstFoodMeal.consumedAt.toISOString().slice(11, 16)}–${lastFoodMeal.consumedAt.toISOString().slice(11, 16)} Uhr`
+                    : "Ab zwei Mahlzeiten berechenbar"}
+                </p>
+              </div>
+
+              <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-text-muted">Reaktionen</p>
+                <p className="mt-2 text-lg font-semibold text-text-primary">{reactionEntries}</p>
+                <p className="mt-1 text-xs text-text-muted">Mahlzeiten mit erfassten Beschwerden</p>
+              </div>
+            </div>
+
+            {dailySignals.length > 0 ? (
+              <div className="mt-4 flex flex-wrap gap-2" aria-label="Erfasste Lebensmittelmerkmale">
+                {dailySignals.map((signal) => (
+                  <span key={signal} className="rounded-full border border-border-subtle bg-surface-primary px-3 py-1.5 text-xs font-semibold text-text-muted">
+                    {signal}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+          </section>
+        ) : null}
 
         <div className="mt-8 max-w-sm">
           <form method="get" className="grid gap-2">
