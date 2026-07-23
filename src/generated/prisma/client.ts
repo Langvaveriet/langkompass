@@ -82,6 +82,11 @@ export type HealthProfile = Prisma.HealthProfileModel
  */
 export type DailyEntry = Prisma.DailyEntryModel
 /**
+ * Model BodyMeasurement
+ *
+ */
+export type BodyMeasurement = Prisma.BodyMeasurementModel
+/**
  * Model Meal
  *
  */

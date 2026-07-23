@@ -8,19 +8,20 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  email         String         @unique
-  name          String         @default("LångKompass Benutzer")
-  emailVerified Boolean        @default(false)
+  id            String            @id @default(cuid())
+  email         String            @unique
+  name          String            @default("LångKompass Benutzer")
+  emailVerified Boolean           @default(false)
   image         String?
   healthProfile HealthProfile?
   settings      UserSettings?
   dailyEntries  DailyEntry[]
+  measurements  BodyMeasurement[]
   sessions      Session[]
   accounts      Account[]
   passkeys      Passkey[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
 }
 
 model UserSettings {
@@ -144,6 +145,18 @@ enum DailyEntryStatus {
   COMPLETED
 }
 
+enum MeasurementType {
+  WEIGHT
+}
+
+enum MeasurementUnit {
+  KILOGRAM
+}
+
+enum EntrySource {
+  MANUAL
+}
+
 enum MealType {
   BREAKFAST
   LUNCH
@@ -214,11 +227,32 @@ model DailyEntry {
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
 
-  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  meals Meal[]
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meals        Meal[]
+  measurements BodyMeasurement[]
 
   @@unique([userId, entryDate])
   @@index([userId, entryDate])
+}
+
+model BodyMeasurement {
+  id           String          @id @default(cuid())
+  userId       String
+  dailyEntryId String
+  type         MeasurementType
+  value        Decimal         @db.Decimal(8, 2)
+  unit         MeasurementUnit
+  measuredAt   DateTime
+  source       EntrySource     @default(MANUAL)
+  note         String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dailyEntry DailyEntry @relation(fields: [dailyEntryId], references: [id], onDelete: Cascade)
+
+  @@unique([dailyEntryId, type])
+  @@index([userId, type, measuredAt])
 }
 
 model Meal {

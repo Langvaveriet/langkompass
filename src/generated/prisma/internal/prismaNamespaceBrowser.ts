@@ -59,6 +59,7 @@ export const ModelName = {
   Passkey: 'Passkey',
   HealthProfile: 'HealthProfile',
   DailyEntry: 'DailyEntry',
+  BodyMeasurement: 'BodyMeasurement',
   Meal: 'Meal',
   MealItem: 'MealItem'
 } as const
@@ -207,6 +208,23 @@ export const DailyEntryScalarFieldEnum = {
 } as const
 
 export type DailyEntryScalarFieldEnum = (typeof DailyEntryScalarFieldEnum)[keyof typeof DailyEntryScalarFieldEnum]
+
+
+export const BodyMeasurementScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  dailyEntryId: 'dailyEntryId',
+  type: 'type',
+  value: 'value',
+  unit: 'unit',
+  measuredAt: 'measuredAt',
+  source: 'source',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BodyMeasurementScalarFieldEnum = (typeof BodyMeasurementScalarFieldEnum)[keyof typeof BodyMeasurementScalarFieldEnum]
 
 
 export const MealScalarFieldEnum = {

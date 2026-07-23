@@ -5,7 +5,10 @@ import { redirect } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
-
+import {
+  defaultTimeZone,
+  localDateTimeToUtc,
+} from "@/lib/user-settings";
 
 function getText(formData: FormData, field: string): string | null {
   const value = formData.get(field);
@@ -88,12 +91,38 @@ function validateScale(
   return value;
 }
 
+function getWeight(formData: FormData): string | null {
+  const value = getText(formData, "weightKg");
+
+  if (value === null) {
+    return null;
+  }
+
+  const normalizedValue = value.replace(",", ".");
+
+  if (!/^\d{2,3}(?:\.\d{1,2})?$/.test(normalizedValue)) {
+    redirect("/tageserfassung?error=weightKg");
+  }
+
+  const parsedValue = Number(normalizedValue);
+
+  if (parsedValue < 20 || parsedValue > 400) {
+    redirect("/tageserfassung?error=weightKg");
+  }
+
+  return normalizedValue;
+}
+
 export async function saveDailyEntry(formData: FormData) {
   const user = await requireUser();
+  const settings = await prisma.userSettings.findUnique({
+    where: { userId: user.id },
+    select: { timeZone: true },
+  });
+  const timeZone = settings?.timeZone ?? defaultTimeZone;
 
   const submitIntent = getText(formData, "submitIntent");
-  const nextStatus =
-    submitIntent === "complete" ? "COMPLETED" : "MORNING_DONE";
+  const completionRequested = submitIntent === "complete";
 
   const entryDate = getDate(formData);
 
@@ -123,6 +152,8 @@ export async function saveDailyEntry(formData: FormData) {
   );
 
   const sleepHours = getDecimal(formData, "sleepHours");
+  const weightKg = getWeight(formData);
+  const weightMeasuredTime = getText(formData, "weightMeasuredTime");
 
   if (
     sleepHours !== null &&
@@ -131,52 +162,115 @@ export async function saveDailyEntry(formData: FormData) {
     redirect("/tageserfassung?error=sleepHours");
   }
 
+  if (
+    weightKg !== null &&
+    (weightMeasuredTime === null ||
+      !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(weightMeasuredTime))
+  ) {
+    redirect("/tageserfassung?error=weightMeasuredTime");
+  }
+
   const symptomTags = getStringList(formData, "symptomTags");
   const activityTags = getStringList(formData, "activityTags");
   const notes = getText(formData, "notes");
 
-  await prisma.dailyEntry.upsert({
-    where: {
-      userId_entryDate: {
+  await prisma.$transaction(async (transaction) => {
+    const existingEntry = await transaction.dailyEntry.findUnique({
+      where: {
+        userId_entryDate: {
+          userId: user.id,
+          entryDate: entryDate.databaseValue,
+        },
+      },
+      select: { status: true },
+    });
+    const nextStatus =
+      completionRequested || existingEntry?.status === "COMPLETED"
+        ? "COMPLETED"
+        : "MORNING_DONE";
+
+    const dailyEntry = await transaction.dailyEntry.upsert({
+      where: {
+        userId_entryDate: {
+          userId: user.id,
+          entryDate: entryDate.databaseValue,
+        },
+      },
+      update: {
+        status: nextStatus,
+        wellbeing,
+        energy,
+        sleepHours,
+        sleepQuality,
+        painLevel,
+        stressLevel,
+        symptoms: null,
+        symptomTags,
+        activityTags,
+        notes,
+      },
+      create: {
         userId: user.id,
         entryDate: entryDate.databaseValue,
+        status: nextStatus,
+        wellbeing,
+        energy,
+        sleepHours,
+        sleepQuality,
+        painLevel,
+        stressLevel,
+        symptoms: null,
+        symptomTags,
+        activityTags,
+        notes,
       },
-    },
-    update: {
-      status: nextStatus,
-      wellbeing,
-      energy,
-      sleepHours,
-      sleepQuality,
-      painLevel,
-      stressLevel,
-      symptoms: null,
-      symptomTags,
-      activityTags,
-      notes,
-    },
-    create: {
-      userId: user.id,
-      entryDate: entryDate.databaseValue,
-      status: nextStatus,
-      wellbeing,
-      energy,
-      sleepHours,
-      sleepQuality,
-      painLevel,
-      stressLevel,
-      symptoms: null,
-      symptomTags,
-      activityTags,
-      notes,
-    },
+    });
+
+    if (weightKg !== null && weightMeasuredTime !== null) {
+      const measuredAt = localDateTimeToUtc(
+        entryDate.inputValue,
+        weightMeasuredTime,
+        timeZone,
+      );
+
+      await transaction.bodyMeasurement.upsert({
+        where: {
+          dailyEntryId_type: {
+            dailyEntryId: dailyEntry.id,
+            type: "WEIGHT",
+          },
+        },
+        update: {
+          value: weightKg,
+          measuredAt,
+          unit: "KILOGRAM",
+          source: "MANUAL",
+        },
+        create: {
+          userId: user.id,
+          dailyEntryId: dailyEntry.id,
+          type: "WEIGHT",
+          value: weightKg,
+          unit: "KILOGRAM",
+          measuredAt,
+          source: "MANUAL",
+        },
+      });
+    } else {
+      await transaction.bodyMeasurement.deleteMany({
+        where: {
+          userId: user.id,
+          dailyEntryId: dailyEntry.id,
+          type: "WEIGHT",
+        },
+      });
+    }
   });
 
   revalidatePath("/");
   revalidatePath("/tageserfassung");
 
-  const completionParameter =
-    nextStatus === "COMPLETED" ? "&completed=1" : "";
+  const completionParameter = completionRequested ? "&completed=1" : "";
 
   redirect(
     `/tageserfassung?date=${entryDate.inputValue}&saved=1${completionParameter}`,

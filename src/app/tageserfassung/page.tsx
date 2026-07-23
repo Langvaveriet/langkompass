@@ -19,7 +19,11 @@ import {
 } from "@/components/ui/typography";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
-import { dateInTimeZone, defaultTimeZone } from "@/lib/user-settings";
+import {
+  dateInTimeZone,
+  defaultTimeZone,
+  timeInTimeZone,
+} from "@/lib/user-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -48,6 +52,21 @@ function formatDecimal(value: unknown): string {
   return String(value);
 }
 
+function errorMessage(error: string): string {
+  if (error === "weightKg") {
+    return "Das Gewicht muss zwischen 20 und 400 kg liegen.";
+  }
+
+  if (error === "weightMeasuredTime") {
+    return "Bitte prüfe die Uhrzeit der Gewichtsmessung.";
+  }
+
+  return (
+    "Bitte prüfe Datum und Eingabewerte. " +
+    "Skalenwerte müssen zwischen 1 und 10 liegen."
+  );
+}
+
 export default async function TageserfassungPage({
   searchParams,
 }: TageserfassungPageProps) {
@@ -60,6 +79,7 @@ export default async function TageserfassungPage({
     },
     include: {
       settings: true,
+      healthProfile: true,
     },
   });
   const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
@@ -74,24 +94,49 @@ export default async function TageserfassungPage({
             entryDate,
           },
         },
+        include: {
+          measurements: {
+            where: { type: "WEIGHT" },
+          },
+        },
       })
     : null;
 
-  const recentEntries = user
-    ? await prisma.dailyEntry.findMany({
-        where: {
-          userId: user.id,
-        },
-        orderBy: {
-          entryDate: "desc",
-        },
-        take: 7,
-      })
-    : [];
+  const [recentEntries, latestWeight] = user
+    ? await Promise.all([
+        prisma.dailyEntry.findMany({
+          where: {
+            userId: user.id,
+          },
+          orderBy: {
+            entryDate: "desc",
+          },
+          take: 7,
+          include: {
+            measurements: {
+              where: { type: "WEIGHT" },
+            },
+          },
+        }),
+        prisma.bodyMeasurement.findFirst({
+          where: { userId: user.id, type: "WEIGHT" },
+          orderBy: { measuredAt: "desc" },
+        }),
+      ])
+    : [[], null];
+
+  const weightMeasurement = entry?.measurements[0];
 
   const values: DailyEntryFormValues = {
     status: entry?.status ?? "OPEN",
     entryDate: selectedDate,
+    weightKg: formatDecimal(weightMeasurement?.value),
+    suggestedWeightKg: formatDecimal(
+      latestWeight?.value ?? user?.healthProfile?.weightKg,
+    ),
+    weightMeasuredTime: weightMeasurement
+      ? timeInTimeZone(weightMeasurement.measuredAt, timeZone)
+      : timeInTimeZone(new Date(), timeZone),
     wellbeing: entry?.wellbeing ?? null,
     energy: entry?.energy ?? null,
     sleepHours: formatDecimal(entry?.sleepHours),
@@ -131,8 +176,7 @@ export default async function TageserfassungPage({
             role="alert"
             className="mt-8 rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-5 py-4 text-sm font-medium text-red-800"
           >
-            Bitte prüfe Datum und Eingabewerte. Skalenwerte müssen zwischen 1
-            und 10 liegen.
+            {errorMessage(query.error)}
           </div>
         ) : null}
 
@@ -182,8 +226,10 @@ export default async function TageserfassungPage({
                           </p>
 
                           <p className="mt-1 text-xs text-text-muted">
-                            Wohlbefinden:{" "}
-                            {recentEntry.wellbeing ?? "nicht angegeben"}
+                            {recentEntry.measurements[0]
+                              ? `${formatDecimal(recentEntry.measurements[0].value).replace(".", ",")} kg`
+                              : "Kein Gewicht angegeben"}
+                            {" · "}Wohlbefinden: {recentEntry.wellbeing ?? "–"}
                           </p>
                         </Link>
                       </li>

@@ -3,6 +3,7 @@ import { ChipSelector } from "@/components/health-input/chip-selector";
 import { RatingSelector } from "@/components/health-input/rating-selector";
 import { ScaleSlider } from "@/components/health-input/scale-slider";
 import { SleepDurationPicker } from "@/components/health-input/sleep-duration-picker";
+import { WeightPicker } from "@/components/health-input/weight-picker";
 import { Button } from "@/components/ui/button";
 
 export type DailyEntryStatus =
@@ -13,6 +14,9 @@ export type DailyEntryStatus =
 export type DailyEntryFormValues = {
   status: DailyEntryStatus;
   entryDate: string;
+  weightKg: string;
+  suggestedWeightKg: string;
+  weightMeasuredTime: string;
   wellbeing: number | null;
   energy: number | null;
   sleepHours: string;
@@ -163,6 +167,12 @@ export function DailyEntryForm({
         />
 
         <SleepDurationPicker defaultValue={values.sleepHours} />
+
+        <WeightPicker
+          defaultValue={values.weightKg}
+          suggestedValue={values.suggestedWeightKg}
+          defaultTime={values.weightMeasuredTime}
+        />
 
         <RatingSelector
           name="energy"

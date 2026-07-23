@@ -39,7 +39,16 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const sessionUser = await requireUser();
   const user = await prisma.user.findUnique({
     where: { id: sessionUser.id },
-    select: { id: true, healthProfile: true, settings: true },
+    select: {
+      id: true,
+      healthProfile: true,
+      settings: true,
+      measurements: {
+        where: { type: "WEIGHT" },
+        orderBy: { measuredAt: "desc" },
+        take: 1,
+      },
+    },
   });
   const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
   const date = validDate(query.date, timeZone);
@@ -61,8 +70,15 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
     postMealSymptomTags: editedMeal.postMealSymptomTags,
     reactionDelayMinutes: editedMeal.reactionDelayMinutes,
   } : { type: "BREAKFAST" as const, time: timeInTimeZone(new Date(), timeZone), foods: [], customFood: "", customQuantity: "", notes: "", postMealSymptomTags: [], reactionDelayMinutes: null };
+  const calorieTargetProfile = user?.healthProfile
+    ? {
+        ...user.healthProfile,
+        weightKg:
+          user.measurements[0]?.value ?? user.healthProfile.weightKg,
+      }
+    : null;
   const personalEnergyTarget = calculateDailyCalorieTarget(
-    user?.healthProfile,
+    calorieTargetProfile,
     new Date(`${date}T12:00:00.000Z`),
   );
   const dailyEnergyTarget =
