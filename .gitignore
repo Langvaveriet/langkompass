@@ -42,6 +42,7 @@ next-env.d.ts
 
 # LångKompass
 /docs/.obsidian/
+/private-docs/
 .env
 .env.local
 .env.*.local
