@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import type { MealType } from "@/generated/prisma/enums";
 import { calculateDailyCalorieTarget } from "@/lib/nutrition/calorie-target";
-import { foodCatalogByKey } from "@/lib/nutrition/food-catalog";
+import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import {
   postMealSymptomLabels,
   reactionDelayLabels,
@@ -33,23 +33,6 @@ function validDate(value?: string): string {
 
 function currentTime(): string {
   return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date());
-}
-
-function estimatedEnergy(item: {
-  energyKcal: unknown;
-  foodKey: string | null;
-  quantity: unknown;
-}): number | null {
-  if (item.energyKcal !== null && item.energyKcal !== undefined) {
-    return Number(item.energyKcal);
-  }
-
-  const food = item.foodKey ? foodCatalogByKey.get(item.foodKey) : null;
-  if (!food || item.quantity === null || item.quantity === undefined) {
-    return null;
-  }
-
-  return Math.round((food.kcalPer100 * Number(item.quantity)) / 100);
 }
 
 export default async function ErnaehrungPage({ searchParams }: PageProps) {
@@ -87,7 +70,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
     entry?.meals.map((meal) => [
       meal.id,
       meal.items.reduce(
-        (sum, item) => sum + (estimatedEnergy(item) ?? 0),
+        (sum, item) => sum + (estimatedFoodEnergy(item) ?? 0),
         0,
       ),
     ]) ?? [],
@@ -103,7 +86,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const remainingDailyEnergy = dailyEnergyTarget - dailyEnergy;
   const uncalculatedItems = entry?.meals.reduce(
     (count, meal) =>
-      count + meal.items.filter((item) => estimatedEnergy(item) === null).length,
+      count + meal.items.filter((item) => estimatedFoodEnergy(item) === null).length,
     0,
   ) ?? 0;
 

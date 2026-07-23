@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
+import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -57,6 +58,8 @@ export default async function HomePage() {
               items: {
                 select: {
                   energyKcal: true,
+                  foodKey: true,
+                  quantity: true,
                 },
               },
             },
@@ -71,7 +74,7 @@ export default async function HomePage() {
       (mealSum, meal) =>
         mealSum +
         meal.items.reduce(
-          (itemSum, item) => itemSum + Number(item.energyKcal ?? 0),
+          (itemSum, item) => itemSum + (estimatedFoodEnergy(item) ?? 0),
           0,
         ),
       0,
