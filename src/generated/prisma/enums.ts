@@ -16,3 +16,70 @@ export const DailyEntryStatus = {
 } as const
 
 export type DailyEntryStatus = (typeof DailyEntryStatus)[keyof typeof DailyEntryStatus]
+
+
+export const MealType = {
+  BREAKFAST: 'BREAKFAST',
+  LUNCH: 'LUNCH',
+  DINNER: 'DINNER',
+  SNACK: 'SNACK',
+  DRINK: 'DRINK'
+} as const
+
+export type MealType = (typeof MealType)[keyof typeof MealType]
+
+
+export const FoodCategory = {
+  VEGETABLE: 'VEGETABLE',
+  FRUIT: 'FRUIT',
+  GRAIN: 'GRAIN',
+  LEGUME: 'LEGUME',
+  NUT_SEED: 'NUT_SEED',
+  DAIRY: 'DAIRY',
+  EGG: 'EGG',
+  MEAT: 'MEAT',
+  FISH_SEAFOOD: 'FISH_SEAFOOD',
+  FAT_OIL: 'FAT_OIL',
+  SWEET: 'SWEET',
+  BEVERAGE: 'BEVERAGE',
+  CONDIMENT: 'CONDIMENT',
+  PREPARED_MEAL: 'PREPARED_MEAL',
+  OTHER: 'OTHER'
+} as const
+
+export type FoodCategory = (typeof FoodCategory)[keyof typeof FoodCategory]
+
+
+export const PortionSize = {
+  SMALL: 'SMALL',
+  MEDIUM: 'MEDIUM',
+  LARGE: 'LARGE'
+} as const
+
+export type PortionSize = (typeof PortionSize)[keyof typeof PortionSize]
+
+
+export const QuantityUnit = {
+  GRAM: 'GRAM',
+  MILLILITER: 'MILLILITER',
+  PIECE: 'PIECE',
+  PORTION: 'PORTION',
+  TABLESPOON: 'TABLESPOON',
+  TEASPOON: 'TEASPOON',
+  CUP: 'CUP'
+} as const
+
+export type QuantityUnit = (typeof QuantityUnit)[keyof typeof QuantityUnit]
+
+
+export const FoodTrait = {
+  HISTAMINE_RICH: 'HISTAMINE_RICH',
+  HISTAMINE_LIBERATOR: 'HISTAMINE_LIBERATOR',
+  ALCOHOLIC: 'ALCOHOLIC',
+  HIGH_SUGAR: 'HIGH_SUGAR',
+  HIGHLY_PROCESSED: 'HIGHLY_PROCESSED',
+  FERMENTED: 'FERMENTED',
+  CAFFEINATED: 'CAFFEINATED'
+} as const
+
+export type FoodTrait = (typeof FoodTrait)[keyof typeof FoodTrait]

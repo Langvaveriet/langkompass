@@ -32,3 +32,13 @@ export type HealthProfile = Prisma.HealthProfileModel
  * 
  */
 export type DailyEntry = Prisma.DailyEntryModel
+/**
+ * Model Meal
+ * 
+ */
+export type Meal = Prisma.MealModel
+/**
+ * Model MealItem
+ * 
+ */
+export type MealItem = Prisma.MealItemModel

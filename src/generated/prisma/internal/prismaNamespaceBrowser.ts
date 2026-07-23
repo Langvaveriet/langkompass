@@ -53,7 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   HealthProfile: 'HealthProfile',
-  DailyEntry: 'DailyEntry'
+  DailyEntry: 'DailyEntry',
+  Meal: 'Meal',
+  MealItem: 'MealItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -120,6 +122,38 @@ export const DailyEntryScalarFieldEnum = {
 } as const
 
 export type DailyEntryScalarFieldEnum = (typeof DailyEntryScalarFieldEnum)[keyof typeof DailyEntryScalarFieldEnum]
+
+
+export const MealScalarFieldEnum = {
+  id: 'id',
+  dailyEntryId: 'dailyEntryId',
+  type: 'type',
+  consumedAt: 'consumedAt',
+  notes: 'notes',
+  postMealSymptomTags: 'postMealSymptomTags',
+  reactionDelayMinutes: 'reactionDelayMinutes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MealScalarFieldEnum = (typeof MealScalarFieldEnum)[keyof typeof MealScalarFieldEnum]
+
+
+export const MealItemScalarFieldEnum = {
+  id: 'id',
+  mealId: 'mealId',
+  foodKey: 'foodKey',
+  name: 'name',
+  category: 'category',
+  portion: 'portion',
+  quantity: 'quantity',
+  unit: 'unit',
+  traits: 'traits',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MealItemScalarFieldEnum = (typeof MealItemScalarFieldEnum)[keyof typeof MealItemScalarFieldEnum]
 
 
 export const SortOrder = {

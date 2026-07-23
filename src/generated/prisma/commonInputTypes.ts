@@ -206,6 +206,74 @@ export type EnumDailyEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel>
 }
 
+export type EnumMealTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.MealType | Prisma.EnumMealTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMealTypeFilter<$PrismaModel> | $Enums.MealType
+}
+
+export type EnumMealTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MealType | Prisma.EnumMealTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMealTypeWithAggregatesFilter<$PrismaModel> | $Enums.MealType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMealTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMealTypeFilter<$PrismaModel>
+}
+
+export type EnumFoodCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodCategory | Prisma.EnumFoodCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFoodCategoryFilter<$PrismaModel> | $Enums.FoodCategory
+}
+
+export type EnumPortionSizeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PortionSize | Prisma.EnumPortionSizeFieldRefInput<$PrismaModel>
+  in?: $Enums.PortionSize[] | Prisma.ListEnumPortionSizeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PortionSize[] | Prisma.ListEnumPortionSizeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPortionSizeFilter<$PrismaModel> | $Enums.PortionSize
+}
+
+export type EnumQuantityUnitNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuantityUnit | Prisma.EnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  in?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumQuantityUnitNullableFilter<$PrismaModel> | $Enums.QuantityUnit | null
+}
+
+export type EnumFoodCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodCategory | Prisma.EnumFoodCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFoodCategoryWithAggregatesFilter<$PrismaModel> | $Enums.FoodCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFoodCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFoodCategoryFilter<$PrismaModel>
+}
+
+export type EnumPortionSizeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PortionSize | Prisma.EnumPortionSizeFieldRefInput<$PrismaModel>
+  in?: $Enums.PortionSize[] | Prisma.ListEnumPortionSizeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PortionSize[] | Prisma.ListEnumPortionSizeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPortionSizeWithAggregatesFilter<$PrismaModel> | $Enums.PortionSize
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPortionSizeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPortionSizeFilter<$PrismaModel>
+}
+
+export type EnumQuantityUnitNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuantityUnit | Prisma.EnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  in?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumQuantityUnitNullableWithAggregatesFilter<$PrismaModel> | $Enums.QuantityUnit | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumQuantityUnitNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumQuantityUnitNullableFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -409,6 +477,74 @@ export type NestedEnumDailyEntryStatusWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumDailyEntryStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumMealTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.MealType | Prisma.EnumMealTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMealTypeFilter<$PrismaModel> | $Enums.MealType
+}
+
+export type NestedEnumMealTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MealType | Prisma.EnumMealTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MealType[] | Prisma.ListEnumMealTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMealTypeWithAggregatesFilter<$PrismaModel> | $Enums.MealType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMealTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMealTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumFoodCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodCategory | Prisma.EnumFoodCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFoodCategoryFilter<$PrismaModel> | $Enums.FoodCategory
+}
+
+export type NestedEnumPortionSizeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PortionSize | Prisma.EnumPortionSizeFieldRefInput<$PrismaModel>
+  in?: $Enums.PortionSize[] | Prisma.ListEnumPortionSizeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PortionSize[] | Prisma.ListEnumPortionSizeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPortionSizeFilter<$PrismaModel> | $Enums.PortionSize
+}
+
+export type NestedEnumQuantityUnitNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuantityUnit | Prisma.EnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  in?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumQuantityUnitNullableFilter<$PrismaModel> | $Enums.QuantityUnit | null
+}
+
+export type NestedEnumFoodCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodCategory | Prisma.EnumFoodCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFoodCategoryWithAggregatesFilter<$PrismaModel> | $Enums.FoodCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFoodCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFoodCategoryFilter<$PrismaModel>
+}
+
+export type NestedEnumPortionSizeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PortionSize | Prisma.EnumPortionSizeFieldRefInput<$PrismaModel>
+  in?: $Enums.PortionSize[] | Prisma.ListEnumPortionSizeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PortionSize[] | Prisma.ListEnumPortionSizeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPortionSizeWithAggregatesFilter<$PrismaModel> | $Enums.PortionSize
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPortionSizeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPortionSizeFilter<$PrismaModel>
+}
+
+export type NestedEnumQuantityUnitNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuantityUnit | Prisma.EnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  in?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumQuantityUnitNullableWithAggregatesFilter<$PrismaModel> | $Enums.QuantityUnit | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumQuantityUnitNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumQuantityUnitNullableFilter<$PrismaModel>
 }
 
 

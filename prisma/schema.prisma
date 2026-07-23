@@ -39,6 +39,58 @@ enum DailyEntryStatus {
   COMPLETED
 }
 
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+  DRINK
+}
+
+enum FoodCategory {
+  VEGETABLE
+  FRUIT
+  GRAIN
+  LEGUME
+  NUT_SEED
+  DAIRY
+  EGG
+  MEAT
+  FISH_SEAFOOD
+  FAT_OIL
+  SWEET
+  BEVERAGE
+  CONDIMENT
+  PREPARED_MEAL
+  OTHER
+}
+
+enum PortionSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum QuantityUnit {
+  GRAM
+  MILLILITER
+  PIECE
+  PORTION
+  TABLESPOON
+  TEASPOON
+  CUP
+}
+
+enum FoodTrait {
+  HISTAMINE_RICH
+  HISTAMINE_LIBERATOR
+  ALCOHOLIC
+  HIGH_SUGAR
+  HIGHLY_PROCESSED
+  FERMENTED
+  CAFFEINATED
+}
+
 model DailyEntry {
   id           String           @id @default(cuid())
   userId       String
@@ -57,8 +109,46 @@ model DailyEntry {
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meals Meal[]
 
   @@unique([userId, entryDate])
   @@index([userId, entryDate])
+}
+
+model Meal {
+  id                   String   @id @default(cuid())
+  dailyEntryId         String
+  type                 MealType
+  consumedAt           DateTime
+  notes                String?
+  postMealSymptomTags  String[] @default([])
+  reactionDelayMinutes Int?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  dailyEntry DailyEntry @relation(fields: [dailyEntryId], references: [id], onDelete: Cascade)
+  items      MealItem[]
+
+  @@index([dailyEntryId, consumedAt])
+}
+
+model MealItem {
+  id        String        @id @default(cuid())
+  mealId    String
+  foodKey   String?
+  name      String
+  category  FoodCategory
+  portion   PortionSize   @default(MEDIUM)
+  quantity  Decimal?      @db.Decimal(7, 2)
+  unit      QuantityUnit?
+  traits    FoodTrait[]   @default([])
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  meal Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
+
+  @@index([mealId])
+  @@index([foodKey])
+  @@index([category])
 }

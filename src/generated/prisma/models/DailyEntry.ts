@@ -317,6 +317,7 @@ export type DailyEntryWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  meals?: Prisma.MealListRelationFilter
 }
 
 export type DailyEntryOrderByWithRelationInput = {
@@ -337,6 +338,7 @@ export type DailyEntryOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  meals?: Prisma.MealOrderByRelationAggregateInput
 }
 
 export type DailyEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -361,6 +363,7 @@ export type DailyEntryWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  meals?: Prisma.MealListRelationFilter
 }, "id" | "userId_entryDate">
 
 export type DailyEntryOrderByWithAggregationInput = {
@@ -426,6 +429,7 @@ export type DailyEntryCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDailyEntriesInput
+  meals?: Prisma.MealCreateNestedManyWithoutDailyEntryInput
 }
 
 export type DailyEntryUncheckedCreateInput = {
@@ -445,6 +449,7 @@ export type DailyEntryUncheckedCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  meals?: Prisma.MealUncheckedCreateNestedManyWithoutDailyEntryInput
 }
 
 export type DailyEntryUpdateInput = {
@@ -464,6 +469,7 @@ export type DailyEntryUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDailyEntriesNestedInput
+  meals?: Prisma.MealUpdateManyWithoutDailyEntryNestedInput
 }
 
 export type DailyEntryUncheckedUpdateInput = {
@@ -483,6 +489,7 @@ export type DailyEntryUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUncheckedUpdateManyWithoutDailyEntryNestedInput
 }
 
 export type DailyEntryCreateManyInput = {
@@ -635,6 +642,11 @@ export type DailyEntrySumOrderByAggregateInput = {
   stressLevel?: Prisma.SortOrder
 }
 
+export type DailyEntryScalarRelationFilter = {
+  is?: Prisma.DailyEntryWhereInput
+  isNot?: Prisma.DailyEntryWhereInput
+}
+
 export type DailyEntryCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.DailyEntryCreateWithoutUserInput, Prisma.DailyEntryUncheckedCreateWithoutUserInput> | Prisma.DailyEntryCreateWithoutUserInput[] | Prisma.DailyEntryUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.DailyEntryCreateOrConnectWithoutUserInput | Prisma.DailyEntryCreateOrConnectWithoutUserInput[]
@@ -699,6 +711,20 @@ export type DailyEntryUpdateactivityTagsInput = {
   push?: string | string[]
 }
 
+export type DailyEntryCreateNestedOneWithoutMealsInput = {
+  create?: Prisma.XOR<Prisma.DailyEntryCreateWithoutMealsInput, Prisma.DailyEntryUncheckedCreateWithoutMealsInput>
+  connectOrCreate?: Prisma.DailyEntryCreateOrConnectWithoutMealsInput
+  connect?: Prisma.DailyEntryWhereUniqueInput
+}
+
+export type DailyEntryUpdateOneRequiredWithoutMealsNestedInput = {
+  create?: Prisma.XOR<Prisma.DailyEntryCreateWithoutMealsInput, Prisma.DailyEntryUncheckedCreateWithoutMealsInput>
+  connectOrCreate?: Prisma.DailyEntryCreateOrConnectWithoutMealsInput
+  upsert?: Prisma.DailyEntryUpsertWithoutMealsInput
+  connect?: Prisma.DailyEntryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DailyEntryUpdateToOneWithWhereWithoutMealsInput, Prisma.DailyEntryUpdateWithoutMealsInput>, Prisma.DailyEntryUncheckedUpdateWithoutMealsInput>
+}
+
 export type DailyEntryCreateWithoutUserInput = {
   id?: string
   entryDate: Date | string
@@ -715,6 +741,7 @@ export type DailyEntryCreateWithoutUserInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  meals?: Prisma.MealCreateNestedManyWithoutDailyEntryInput
 }
 
 export type DailyEntryUncheckedCreateWithoutUserInput = {
@@ -733,6 +760,7 @@ export type DailyEntryUncheckedCreateWithoutUserInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  meals?: Prisma.MealUncheckedCreateNestedManyWithoutDailyEntryInput
 }
 
 export type DailyEntryCreateOrConnectWithoutUserInput = {
@@ -783,6 +811,98 @@ export type DailyEntryScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
 }
 
+export type DailyEntryCreateWithoutMealsInput = {
+  id?: string
+  entryDate: Date | string
+  status?: $Enums.DailyEntryStatus
+  wellbeing?: number | null
+  energy?: number | null
+  sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sleepQuality?: number | null
+  painLevel?: number | null
+  stressLevel?: number | null
+  symptoms?: string | null
+  symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
+  activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutDailyEntriesInput
+}
+
+export type DailyEntryUncheckedCreateWithoutMealsInput = {
+  id?: string
+  userId: string
+  entryDate: Date | string
+  status?: $Enums.DailyEntryStatus
+  wellbeing?: number | null
+  energy?: number | null
+  sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sleepQuality?: number | null
+  painLevel?: number | null
+  stressLevel?: number | null
+  symptoms?: string | null
+  symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
+  activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DailyEntryCreateOrConnectWithoutMealsInput = {
+  where: Prisma.DailyEntryWhereUniqueInput
+  create: Prisma.XOR<Prisma.DailyEntryCreateWithoutMealsInput, Prisma.DailyEntryUncheckedCreateWithoutMealsInput>
+}
+
+export type DailyEntryUpsertWithoutMealsInput = {
+  update: Prisma.XOR<Prisma.DailyEntryUpdateWithoutMealsInput, Prisma.DailyEntryUncheckedUpdateWithoutMealsInput>
+  create: Prisma.XOR<Prisma.DailyEntryCreateWithoutMealsInput, Prisma.DailyEntryUncheckedCreateWithoutMealsInput>
+  where?: Prisma.DailyEntryWhereInput
+}
+
+export type DailyEntryUpdateToOneWithWhereWithoutMealsInput = {
+  where?: Prisma.DailyEntryWhereInput
+  data: Prisma.XOR<Prisma.DailyEntryUpdateWithoutMealsInput, Prisma.DailyEntryUncheckedUpdateWithoutMealsInput>
+}
+
+export type DailyEntryUpdateWithoutMealsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
+  wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
+  activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutDailyEntriesNestedInput
+}
+
+export type DailyEntryUncheckedUpdateWithoutMealsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
+  wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
+  activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type DailyEntryCreateManyUserInput = {
   id?: string
   entryDate: Date | string
@@ -817,6 +937,7 @@ export type DailyEntryUpdateWithoutUserInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUpdateManyWithoutDailyEntryNestedInput
 }
 
 export type DailyEntryUncheckedUpdateWithoutUserInput = {
@@ -835,6 +956,7 @@ export type DailyEntryUncheckedUpdateWithoutUserInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUncheckedUpdateManyWithoutDailyEntryNestedInput
 }
 
 export type DailyEntryUncheckedUpdateManyWithoutUserInput = {
@@ -856,6 +978,35 @@ export type DailyEntryUncheckedUpdateManyWithoutUserInput = {
 }
 
 
+/**
+ * Count Type DailyEntryCountOutputType
+ */
+
+export type DailyEntryCountOutputType = {
+  meals: number
+}
+
+export type DailyEntryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  meals?: boolean | DailyEntryCountOutputTypeCountMealsArgs
+}
+
+/**
+ * DailyEntryCountOutputType without action
+ */
+export type DailyEntryCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyEntryCountOutputType
+   */
+  select?: Prisma.DailyEntryCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * DailyEntryCountOutputType without action
+ */
+export type DailyEntryCountOutputTypeCountMealsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MealWhereInput
+}
+
 
 export type DailyEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -875,6 +1026,8 @@ export type DailyEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  meals?: boolean | Prisma.DailyEntry$mealsArgs<ExtArgs>
+  _count?: boolean | Prisma.DailyEntryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dailyEntry"]>
 
 export type DailyEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -939,6 +1092,8 @@ export type DailyEntrySelectScalar = {
 export type DailyEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "entryDate" | "status" | "wellbeing" | "energy" | "sleepHours" | "sleepQuality" | "painLevel" | "stressLevel" | "symptoms" | "symptomTags" | "activityTags" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["dailyEntry"]>
 export type DailyEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  meals?: boolean | Prisma.DailyEntry$mealsArgs<ExtArgs>
+  _count?: boolean | Prisma.DailyEntryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DailyEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -951,6 +1106,7 @@ export type $DailyEntryPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "DailyEntry"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    meals: Prisma.$MealPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1364,6 +1520,7 @@ readonly fields: DailyEntryFieldRefs;
 export interface Prisma__DailyEntryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  meals<T extends Prisma.DailyEntry$mealsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DailyEntry$mealsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1807,6 +1964,30 @@ export type DailyEntryDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many DailyEntries to delete.
    */
   limit?: number
+}
+
+/**
+ * DailyEntry.meals
+ */
+export type DailyEntry$mealsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Meal
+   */
+  select?: Prisma.MealSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Meal
+   */
+  omit?: Prisma.MealOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MealInclude<ExtArgs> | null
+  where?: Prisma.MealWhereInput
+  orderBy?: Prisma.MealOrderByWithRelationInput | Prisma.MealOrderByWithRelationInput[]
+  cursor?: Prisma.MealWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MealScalarFieldEnum | Prisma.MealScalarFieldEnum[]
 }
 
 /**
