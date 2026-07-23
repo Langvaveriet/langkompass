@@ -4,7 +4,11 @@ import { useState } from "react";
 
 import { saveMeal } from "@/app/ernaehrung/actions";
 import { ChipSelector } from "@/components/health-input/chip-selector";
-import type { MealType, PortionSize } from "@/generated/prisma/enums";
+import type {
+  FoodCategory,
+  MealType,
+  PortionSize,
+} from "@/generated/prisma/enums";
 import { foodCatalog, foodCatalogByKey } from "@/lib/nutrition/food-catalog";
 import {
   postMealSymptomOptions,
@@ -40,9 +44,56 @@ const mealTypes = [
 
 const portionSizes = ["SMALL", "MEDIUM", "LARGE"] as const;
 
+const foodGroups = [
+  {
+    key: "BASICS",
+    label: "Grundlagen",
+    emoji: "🥗",
+    categories: ["GRAIN", "VEGETABLE", "FRUIT"] satisfies FoodCategory[],
+  },
+  {
+    key: "PROTEIN",
+    label: "Eiweiß & Beilagen",
+    emoji: "🍳",
+    categories: [
+      "LEGUME",
+      "NUT_SEED",
+      "DAIRY",
+      "EGG",
+      "MEAT",
+      "FISH_SEAFOOD",
+      "FAT_OIL",
+      "CONDIMENT",
+    ] satisfies FoodCategory[],
+  },
+  {
+    key: "CONVENIENCE",
+    label: "Snacks & Fertiges",
+    emoji: "🍫",
+    categories: ["SWEET", "PREPARED_MEAL", "OTHER"] satisfies FoodCategory[],
+  },
+  {
+    key: "DRINKS",
+    label: "Getränke",
+    emoji: "🥤",
+    categories: ["BEVERAGE"] satisfies FoodCategory[],
+  },
+] as const;
+
+type FoodGroupKey = (typeof foodGroups)[number]["key"];
+
 export function MealForm({ entryDate, values }: MealFormProps) {
   const [selectedFoods, setSelectedFoods] = useState<SelectedFoodValue[]>(
     values.foods,
+  );
+  const [activeFoodGroup, setActiveFoodGroup] = useState<FoodGroupKey>(
+    values.type === "DRINK" ? "DRINKS" : "BASICS",
+  );
+
+  const selectedFoodKeys = new Set(selectedFoods.map((food) => food.key));
+  const activeGroup = foodGroups.find((group) => group.key === activeFoodGroup)!;
+  const visibleFoods = foodCatalog.filter((food) =>
+    (activeGroup.categories as readonly FoodCategory[]).includes(food.category),
   );
 
   function toggleFood(key: string) {
@@ -86,8 +137,46 @@ export function MealForm({ entryDate, values }: MealFormProps) {
       <fieldset className="grid gap-3">
         <legend className="text-sm font-semibold text-text-primary">Was war dabei?</legend>
         <p className="text-sm text-text-muted">Lebensmittel auswählen und danach die passende Menge antippen.</p>
+
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4" aria-label="Lebensmittelbereiche">
+          {foodGroups.map((group) => {
+            const selectedCount = foodCatalog.filter(
+              (food) =>
+                (group.categories as readonly FoodCategory[]).includes(food.category) &&
+                selectedFoodKeys.has(food.key),
+            ).length;
+            const active = group.key === activeFoodGroup;
+
+            return (
+              <button
+                key={group.key}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setActiveFoodGroup(group.key)}
+                className={[
+                  "relative min-h-14 rounded-[var(--radius-md)] border px-3 py-2 text-left text-sm font-semibold transition",
+                  active
+                    ? "border-forest-strong bg-forest-soft text-forest-strong"
+                    : "border-border-strong bg-surface-raised text-text-primary hover:border-forest-strong",
+                ].join(" ")}
+              >
+                <span aria-hidden="true" className="mr-1">{group.emoji}</span>
+                {group.label}
+                {selectedCount > 0 ? (
+                  <span className="absolute right-2 top-2 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-forest-strong px-1 text-[11px] text-surface">
+                    {selectedCount}
+                  </span>
+                ) : null}
+              </button>
+            );
+          })}
+        </div>
+
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-text-muted">
+          {activeGroup.label}
+        </p>
         <div className="flex flex-wrap gap-2">
-          {foodCatalog.map((food) => {
+          {visibleFoods.map((food) => {
             const selected = selectedFoods.some((item) => item.key === food.key);
             const unit = food.unit === "MILLILITER" ? "ml" : "g";
 
