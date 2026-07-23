@@ -1,16 +1,109 @@
+import Link from "next/link";
+
+import { deleteMeal } from "@/app/ernaehrung/actions";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
+import { Section } from "@/components/layout/section";
+import { MealForm } from "@/components/nutrition/meal-form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
+import type { MealType } from "@/generated/prisma/enums";
+import { prisma } from "@/lib/prisma";
 
-export default function ErnaehrungPage() {
+export const dynamic = "force-dynamic";
+const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
+const mealLabels: Record<MealType, string> = { BREAKFAST: "Frühstück", LUNCH: "Mittagessen", DINNER: "Abendessen", SNACK: "Snack", DRINK: "Getränk" };
+
+type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; deleted?: string; error?: string }> };
+
+function today(): string {
+  return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+}
+
+function validDate(value?: string): string {
+  return value && /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : today();
+}
+
+function currentTime(): string {
+  return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date());
+}
+
+export default async function ErnaehrungPage({ searchParams }: PageProps) {
+  const query = await searchParams;
+  const date = validDate(query.date);
+  const user = await prisma.user.findUnique({ where: { email: LOCAL_USER_EMAIL }, select: { id: true } });
+  const entry = user ? await prisma.dailyEntry.findUnique({
+    where: { userId_entryDate: { userId: user.id, entryDate: new Date(`${date}T00:00:00.000Z`) } },
+    include: { meals: { include: { items: true }, orderBy: { consumedAt: "asc" } } },
+  }) : null;
+  const editedMeal = query.edit ? entry?.meals.find((meal) => meal.id === query.edit) : undefined;
+  const values = editedMeal ? {
+    id: editedMeal.id,
+    type: editedMeal.type,
+    time: editedMeal.consumedAt.toISOString().slice(11, 16),
+    portion: editedMeal.items[0]?.portion ?? "MEDIUM" as const,
+    foodKeys: editedMeal.items.flatMap((item) => item.foodKey ? [item.foodKey] : []),
+    customFood: editedMeal.items.filter((item) => !item.foodKey).map((item) => item.name).join(", "),
+    notes: editedMeal.notes ?? "",
+  } : { type: "BREAKFAST" as const, time: currentTime(), portion: "MEDIUM" as const, foodKeys: [], customFood: "", notes: "" };
+
   return (
     <AppLayout>
       <Page>
-        <PageTitle>Ernährung</PageTitle>
+        <header className="max-w-4xl">
+          <PageTitle>Ernährung</PageTitle>
+          <PageSubtitle className="mt-4">Mahlzeiten schnell dokumentieren und langfristige Zusammenhänge erkennen.</PageSubtitle>
+        </header>
 
-        <PageSubtitle className="mt-4 max-w-3xl">
-          Dokumentiere Mahlzeiten und erkenne langfristige Zusammenhänge.
-        </PageSubtitle>
+        {query.saved === "1" || query.deleted === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : "Mahlzeit wurde gespeichert."}</div> : null}
+        {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel.</div> : null}
+
+        <div className="mt-8 max-w-sm">
+          <form method="get" className="grid gap-2">
+            <label htmlFor="date" className="text-sm font-semibold text-text-primary">Tag auswählen</label>
+            <input id="date" name="date" type="date" defaultValue={date} className="min-h-12 rounded-[var(--radius-md)] border border-border-strong bg-surface-primary px-4 text-base text-text-primary" />
+            <button className="min-h-11 rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-sm font-semibold text-text-primary">Tag anzeigen</button>
+          </form>
+        </div>
+
+        <Section aria-label="Ernährungserfassung" className="grid grid-cols-12 gap-5">
+          <Card className="col-span-12 xl:col-span-8">
+            <CardHeader className="flex flex-row items-center justify-between gap-4">
+              <CardTitle>{editedMeal ? "Mahlzeit bearbeiten" : "Mahlzeit hinzufügen"}</CardTitle>
+              {editedMeal ? <Link href={`/ernaehrung?date=${date}`} className="text-sm font-semibold text-forest-strong">Abbrechen</Link> : null}
+            </CardHeader>
+            <CardContent>
+              <MealForm
+                key={editedMeal?.id ?? `new-${date}`}
+                entryDate={date}
+                values={values}
+              />
+            </CardContent>
+          </Card>
+
+          <Card className="col-span-12 xl:col-span-4">
+            <CardHeader><CardTitle>Mahlzeiten am Tag</CardTitle></CardHeader>
+            <CardContent>
+              {!entry || entry.meals.length === 0 ? <p className="text-sm leading-6 text-text-muted">Für diesen Tag wurden noch keine Mahlzeiten erfasst.</p> : (
+                <ul className="grid gap-3">
+                  {entry.meals.map((meal) => (
+                    <li key={meal.id} className="rounded-[var(--radius-md)] border border-border-subtle p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div><p className="font-semibold text-text-primary">{mealLabels[meal.type]}</p><p className="mt-1 text-xs text-text-muted">{meal.consumedAt.toISOString().slice(11, 16)} Uhr</p></div>
+                        <Link href={`/ernaehrung?date=${date}&edit=${meal.id}`} className="text-sm font-semibold text-forest-strong">Bearbeiten</Link>
+                      </div>
+                      <p className="mt-3 text-sm leading-6 text-text-primary">{meal.items.map((item) => item.name).join(", ")}</p>
+                      <form action={deleteMeal} className="mt-3">
+                        <input type="hidden" name="entryDate" value={date} /><input type="hidden" name="mealId" value={meal.id} />
+                        <button className="text-xs font-semibold text-danger">Löschen</button>
+                      </form>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </CardContent>
+          </Card>
+        </Section>
       </Page>
     </AppLayout>
   );
