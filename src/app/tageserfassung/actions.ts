@@ -4,8 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
+import { requireUser } from "@/lib/session";
 
-const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
 
 function getText(formData: FormData, field: string): string | null {
   const value = formData.get(field);
@@ -89,6 +89,7 @@ function validateScale(
 }
 
 export async function saveDailyEntry(formData: FormData) {
+  const user = await requireUser();
 
   const submitIntent = getText(formData, "submitIntent");
   const nextStatus =
@@ -133,17 +134,6 @@ export async function saveDailyEntry(formData: FormData) {
   const symptomTags = getStringList(formData, "symptomTags");
   const activityTags = getStringList(formData, "activityTags");
   const notes = getText(formData, "notes");
-
-  const user = await prisma.user.upsert({
-    where: {
-      email: LOCAL_USER_EMAIL,
-    },
-    update: {},
-    create: {
-      email: LOCAL_USER_EMAIL,
-      name: "Lokaler Benutzer",
-    },
-  });
 
   await prisma.dailyEntry.upsert({
     where: {

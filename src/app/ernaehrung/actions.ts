@@ -10,8 +10,8 @@ import {
   allowedReactionDelays,
 } from "@/lib/nutrition/post-meal-reactions";
 import { prisma } from "@/lib/prisma";
+import { requireUser } from "@/lib/session";
 
-const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
 const mealTypes = new Set<MealType>(["BREAKFAST", "LUNCH", "DINNER", "SNACK", "DRINK"]);
 const portionSizes = new Set<PortionSize>(["SMALL", "MEDIUM", "LARGE"]);
 
@@ -29,6 +29,7 @@ function selectedDate(formData: FormData): string {
 }
 
 export async function saveMeal(formData: FormData) {
+  const user = await requireUser();
   const date = selectedDate(formData);
   const time = text(formData, "consumedTime");
   const typeValue = text(formData, "type") as MealType | null;
@@ -71,11 +72,6 @@ export async function saveMeal(formData: FormData) {
     redirect(`/ernaehrung?date=${date}&error=food`);
   }
 
-  const user = await prisma.user.upsert({
-    where: { email: LOCAL_USER_EMAIL },
-    update: {},
-    create: { email: LOCAL_USER_EMAIL, name: "Lokaler Benutzer" },
-  });
   const entryDate = new Date(`${date}T00:00:00.000Z`);
   const dailyEntry = await prisma.dailyEntry.upsert({
     where: { userId_entryDate: { userId: user.id, entryDate } },
@@ -146,14 +142,12 @@ export async function saveMeal(formData: FormData) {
 }
 
 export async function deleteMeal(formData: FormData) {
+  const user = await requireUser();
   const date = selectedDate(formData);
   const mealId = text(formData, "mealId");
   if (!mealId) redirect(`/ernaehrung?date=${date}&error=meal`);
 
-  const user = await prisma.user.findUnique({ where: { email: LOCAL_USER_EMAIL }, select: { id: true } });
-  if (user) {
-    await prisma.meal.deleteMany({ where: { id: mealId, dailyEntry: { userId: user.id } } });
-  }
+  await prisma.meal.deleteMany({ where: { id: mealId, dailyEntry: { userId: user.id } } });
 
   revalidatePath("/");
   revalidatePath("/ernaehrung");

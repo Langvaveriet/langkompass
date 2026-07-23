@@ -1,8 +1,11 @@
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
+import { requireUser } from "@/lib/session";
 
-export default function TrainingPage() {
+export default async function TrainingPage() {
+  await requireUser();
+
   return (
     <AppLayout>
       <Page>

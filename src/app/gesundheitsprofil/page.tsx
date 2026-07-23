@@ -10,8 +10,7 @@ import {
 } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { prisma } from "@/lib/prisma";
-
-const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
+import { requireUser } from "@/lib/session";
 
 type GesundheitsprofilPageProps = {
   searchParams: Promise<{
@@ -24,10 +23,11 @@ export default async function GesundheitsprofilPage({
   searchParams,
 }: GesundheitsprofilPageProps) {
   const query = await searchParams;
+  const sessionUser = await requireUser();
 
   const user = await prisma.user.findUnique({
     where: {
-      email: LOCAL_USER_EMAIL,
+      id: sessionUser.id,
     },
     include: {
       healthProfile: true,

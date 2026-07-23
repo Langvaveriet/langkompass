@@ -12,8 +12,11 @@
     "db:check:daily": "tsx scripts/check-daily-entries.ts"
   },
   "dependencies": {
+    "@better-auth/passkey": "1.6.24",
+    "@better-auth/prisma-adapter": "1.6.24",
     "@prisma/adapter-pg": "^7.9.0",
     "@prisma/client": "^7.9.0",
+    "better-auth": "1.6.24",
     "next": "16.2.11",
     "pg": "^8.22.0",
     "react": "19.2.4",

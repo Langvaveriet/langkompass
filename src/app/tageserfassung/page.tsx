@@ -18,10 +18,9 @@ import {
   PageTitle,
 } from "@/components/ui/typography";
 import { prisma } from "@/lib/prisma";
+import { requireUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
-
-const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
 
 type TageserfassungPageProps = {
   searchParams: Promise<{
@@ -61,12 +60,13 @@ export default async function TageserfassungPage({
   searchParams,
 }: TageserfassungPageProps) {
   const query = await searchParams;
+  const sessionUser = await requireUser();
   const selectedDate = getSelectedDate(query.date);
   const entryDate = new Date(`${selectedDate}T00:00:00.000Z`);
 
   const user = await prisma.user.findUnique({
     where: {
-      email: LOCAL_USER_EMAIL,
+      id: sessionUser.id,
     },
   });
 

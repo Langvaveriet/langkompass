@@ -1,3 +1,7 @@
+import Link from "next/link";
+
+import { SignOutButton } from "@/components/auth/sign-out-button";
+
 export function TopBar() {
   return (
     <header className="h-[72px] w-full border-b border-border-subtle bg-surface-raised">
@@ -12,9 +16,15 @@ export function TopBar() {
           </p>
         </div>
 
-        <p className="text-sm text-text-muted">
-          Sprint 1
-        </p>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/konto/sicherheit"
+            className="hidden text-sm font-semibold text-forest-strong sm:inline"
+          >
+            Sicherheit
+          </Link>
+          <SignOutButton />
+        </div>
       </div>
     </header>
   );

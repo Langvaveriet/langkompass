@@ -12,11 +12,10 @@ import {
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import { prisma } from "@/lib/prisma";
+import { requireUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
-
-const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
 
 function getTodayEntryDate(): Date {
   const localDate = new Intl.DateTimeFormat("sv-SE", {
@@ -30,9 +29,10 @@ function getTodayEntryDate(): Date {
 }
 
 export default async function HomePage() {
+  const sessionUser = await requireUser();
   const user = await prisma.user.findUnique({
     where: {
-      email: LOCAL_USER_EMAIL,
+      id: sessionUser.id,
     },
     include: {
       healthProfile: true,

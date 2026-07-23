@@ -15,9 +15,9 @@ import {
   reactionDelayLabels,
 } from "@/lib/nutrition/post-meal-reactions";
 import { prisma } from "@/lib/prisma";
+import { requireUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
-const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
 const DAILY_ENERGY_REFERENCE_KCAL = 2000;
 const mealLabels: Record<MealType, string> = { BREAKFAST: "Frühstück", LUNCH: "Mittagessen", DINNER: "Abendessen", SNACK: "Snack", DRINK: "Getränk" };
 
@@ -38,8 +38,9 @@ function currentTime(): string {
 export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const query = await searchParams;
   const date = validDate(query.date);
+  const sessionUser = await requireUser();
   const user = await prisma.user.findUnique({
-    where: { email: LOCAL_USER_EMAIL },
+    where: { id: sessionUser.id },
     select: { id: true, healthProfile: true },
   });
   const entry = user ? await prisma.dailyEntry.findUnique({

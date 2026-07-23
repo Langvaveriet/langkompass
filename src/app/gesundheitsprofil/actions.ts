@@ -4,13 +4,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
+import { requireUser } from "@/lib/session";
 import type {
   ActivityLevel,
   CalorieFormulaSex,
   WeightGoal,
 } from "@/generated/prisma/enums";
 
-const LOCAL_USER_EMAIL = "local-user@langkompass.invalid";
 const formulaSexValues = new Set<CalorieFormulaSex>(["FEMALE", "MALE"]);
 const activityLevelValues = new Set<ActivityLevel>([
   "SEDENTARY", "LIGHT", "MODERATE", "HIGH", "VERY_HIGH",
@@ -67,6 +67,7 @@ function optionalDate(formData: FormData, field: string): Date | null {
 }
 
 export async function saveHealthProfile(formData: FormData) {
+  const sessionUser = await requireUser();
   const firstName = optionalText(formData, "firstName");
   const lastName = optionalText(formData, "lastName");
   const dateOfBirth = optionalDate(formData, "dateOfBirth");
@@ -104,20 +105,14 @@ export async function saveHealthProfile(formData: FormData) {
   const activityLevel = activityLevelValue || null;
   const weightGoal = weightGoalValue || null;
 
-  const user = await prisma.user.upsert({
+  const user = await prisma.user.update({
     where: {
-      email: LOCAL_USER_EMAIL,
+      id: sessionUser.id,
     },
-    update: {
+    data: {
       name:
         [firstName, lastName].filter(Boolean).join(" ") ||
-        undefined,
-    },
-    create: {
-      email: LOCAL_USER_EMAIL,
-      name:
-        [firstName, lastName].filter(Boolean).join(" ") ||
-        null,
+        sessionUser.name,
     },
   });
 
