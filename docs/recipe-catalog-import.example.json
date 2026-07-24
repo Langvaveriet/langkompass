@@ -1,0 +1,46 @@
+[
+  {
+    "key": "mediterrane-eierpfanne",
+    "emoji": "🍳",
+    "name": "Mediterrane Eierpfanne",
+    "type": "BREAKFAST",
+    "description": "Ein importierbares Beispielrezept mit Gemüse und Olivenöl.",
+    "prepMinutes": 15,
+    "servings": 1,
+    "carbohydrateGrams": 8,
+    "proteinGrams": 24,
+    "fatGrams": 28,
+    "dietaryPatterns": ["MEDITERRANEAN", "KETOGENIC", "VEGETARIAN"],
+    "items": [
+      {
+        "name": "Eier",
+        "category": "EGG",
+        "quantity": 150,
+        "unit": "GRAM",
+        "energyKcal": 233,
+        "traits": []
+      },
+      {
+        "name": "Zucchini",
+        "category": "VEGETABLE",
+        "quantity": 150,
+        "unit": "GRAM",
+        "energyKcal": 26,
+        "traits": []
+      },
+      {
+        "name": "Olivenöl",
+        "category": "FAT_OIL",
+        "quantity": 10,
+        "unit": "MILLILITER",
+        "energyKcal": 82,
+        "traits": []
+      }
+    ],
+    "instructions": [
+      "Zucchini in Olivenöl anbraten.",
+      "Eier zugeben und bei milder Hitze vollständig stocken lassen."
+    ],
+    "sourceLabel": "Eigener Katalog"
+  }
+]

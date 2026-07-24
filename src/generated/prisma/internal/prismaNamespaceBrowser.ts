@@ -69,6 +69,8 @@ export const ModelName = {
   MealItem: 'MealItem',
   Recipe: 'Recipe',
   RecipeItem: 'RecipeItem',
+  CatalogRecipe: 'CatalogRecipe',
+  CatalogRecipeItem: 'CatalogRecipeItem',
   MealPlanEntry: 'MealPlanEntry'
 } as const
 
@@ -388,6 +390,47 @@ export const RecipeItemScalarFieldEnum = {
 } as const
 
 export type RecipeItemScalarFieldEnum = (typeof RecipeItemScalarFieldEnum)[keyof typeof RecipeItemScalarFieldEnum]
+
+
+export const CatalogRecipeScalarFieldEnum = {
+  key: 'key',
+  name: 'name',
+  emoji: 'emoji',
+  type: 'type',
+  description: 'description',
+  prepMinutes: 'prepMinutes',
+  servings: 'servings',
+  carbohydrateGrams: 'carbohydrateGrams',
+  proteinGrams: 'proteinGrams',
+  fatGrams: 'fatGrams',
+  dietaryPatterns: 'dietaryPatterns',
+  instructions: 'instructions',
+  sourceLabel: 'sourceLabel',
+  sourceUrl: 'sourceUrl',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CatalogRecipeScalarFieldEnum = (typeof CatalogRecipeScalarFieldEnum)[keyof typeof CatalogRecipeScalarFieldEnum]
+
+
+export const CatalogRecipeItemScalarFieldEnum = {
+  id: 'id',
+  catalogRecipeKey: 'catalogRecipeKey',
+  position: 'position',
+  foodKey: 'foodKey',
+  name: 'name',
+  category: 'category',
+  quantity: 'quantity',
+  unit: 'unit',
+  energyKcal: 'energyKcal',
+  traits: 'traits',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CatalogRecipeItemScalarFieldEnum = (typeof CatalogRecipeItemScalarFieldEnum)[keyof typeof CatalogRecipeItemScalarFieldEnum]
 
 
 export const MealPlanEntryScalarFieldEnum = {

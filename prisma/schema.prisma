@@ -497,6 +497,51 @@ model RecipeItem {
   @@index([category])
 }
 
+model CatalogRecipe {
+  key               String           @id
+  name              String
+  emoji             String
+  type              MealType
+  description       String
+  prepMinutes       Int
+  servings          Int
+  carbohydrateGrams Decimal          @db.Decimal(7, 2)
+  proteinGrams      Decimal          @db.Decimal(7, 2)
+  fatGrams          Decimal          @db.Decimal(7, 2)
+  dietaryPatterns   DietaryPattern[] @default([])
+  instructions      String
+  sourceLabel       String?
+  sourceUrl         String?
+  active            Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  items CatalogRecipeItem[]
+
+  @@index([active, type, name])
+}
+
+model CatalogRecipeItem {
+  id               String        @id @default(cuid())
+  catalogRecipeKey String
+  position         Int
+  foodKey          String?
+  name             String
+  category         FoodCategory
+  quantity         Decimal       @db.Decimal(7, 2)
+  unit             QuantityUnit
+  energyKcal       Decimal       @db.Decimal(7, 2)
+  traits           FoodTrait[]   @default([])
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  catalogRecipe CatalogRecipe @relation(fields: [catalogRecipeKey], references: [key], onDelete: Cascade)
+
+  @@unique([catalogRecipeKey, position])
+  @@index([foodKey])
+  @@index([category])
+}
+
 model MealPlanEntry {
   id          String    @id @default(cuid())
   userId      String

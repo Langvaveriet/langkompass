@@ -5,8 +5,10 @@ import type {
   MealType,
   QuantityUnit,
 } from "@/generated/prisma/enums";
+import { z } from "zod";
 
 export type CuratedRecipeItem = {
+  foodKey?: string;
   name: string;
   category: FoodCategory;
   quantity: number;
@@ -29,7 +31,52 @@ export type CuratedRecipe = {
   dietaryPatterns: DietaryPattern[];
   items: CuratedRecipeItem[];
   instructions: string[];
+  sourceLabel?: string;
+  sourceUrl?: string;
 };
+
+const foodCategories = [
+  "VEGETABLE", "FRUIT", "GRAIN", "LEGUME", "NUT_SEED", "DAIRY",
+  "EGG", "MEAT", "FISH_SEAFOOD", "FAT_OIL", "SWEET", "BEVERAGE",
+  "CONDIMENT", "PREPARED_MEAL", "OTHER",
+] as const;
+const quantityUnits = [
+  "GRAM", "MILLILITER", "PIECE", "PORTION", "TABLESPOON", "TEASPOON", "CUP",
+] as const;
+const foodTraits = [
+  "HISTAMINE_RICH", "HISTAMINE_LIBERATOR", "ALCOHOLIC", "HIGH_SUGAR",
+  "HIGHLY_PROCESSED", "FERMENTED", "CAFFEINATED",
+] as const;
+
+export const curatedRecipeSchema = z.object({
+  key: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).max(80),
+  emoji: z.string().min(1).max(12),
+  name: z.string().trim().min(2).max(80),
+  type: z.enum(["BREAKFAST", "LUNCH", "DINNER", "SNACK"]),
+  description: z.string().trim().min(10).max(300),
+  prepMinutes: z.number().int().min(1).max(1440),
+  servings: z.number().int().min(1).max(100),
+  carbohydrateGrams: z.number().min(0).max(5000),
+  proteinGrams: z.number().min(0).max(5000),
+  fatGrams: z.number().min(0).max(5000),
+  dietaryPatterns: z.array(
+    z.enum(["MEDITERRANEAN", "KETOGENIC", "VEGETARIAN"]),
+  ).min(1),
+  items: z.array(z.object({
+    foodKey: z.string().max(80).optional(),
+    name: z.string().trim().min(1).max(100),
+    category: z.enum(foodCategories),
+    quantity: z.number().positive().max(10000),
+    unit: z.enum(quantityUnits),
+    energyKcal: z.number().min(0).max(10000),
+    traits: z.array(z.enum(foodTraits)).optional(),
+  })).min(1).max(30),
+  instructions: z.array(z.string().trim().min(3).max(500)).min(1).max(20),
+  sourceLabel: z.string().trim().min(2).max(100).optional(),
+  sourceUrl: z.string().url().max(500).optional(),
+});
+
+export const curatedRecipeImportSchema = z.array(curatedRecipeSchema).min(1).max(1000);
 
 const patterns: DietaryPattern[] = ["MEDITERRANEAN", "KETOGENIC"];
 const fermented: FoodTrait[] = ["FERMENTED", "HISTAMINE_RICH"];
@@ -453,4 +500,76 @@ export function suggestedCuratedRecipe(
     : curatedRecipes;
 
   return candidates[seedNumber(seed) % candidates.length];
+}
+
+export function suggestedRecipeFromCatalog(
+  recipes: readonly CuratedRecipe[],
+  seed: string,
+  type?: CuratedRecipe["type"],
+): CuratedRecipe | null {
+  const candidates = type
+    ? recipes.filter((recipe) => recipe.type === type)
+    : recipes;
+
+  return candidates.length > 0
+    ? candidates[seedNumber(seed) % candidates.length]
+    : null;
+}
+
+type DecimalValue = { toString(): string };
+
+export function catalogRecipeSnapshot(recipe: {
+  key: string;
+  emoji: string;
+  name: string;
+  type: MealType;
+  description: string;
+  prepMinutes: number;
+  servings: number;
+  carbohydrateGrams: DecimalValue;
+  proteinGrams: DecimalValue;
+  fatGrams: DecimalValue;
+  dietaryPatterns: DietaryPattern[];
+  instructions: string;
+  sourceLabel: string | null;
+  sourceUrl: string | null;
+  items: Array<{
+    foodKey: string | null;
+    name: string;
+    category: FoodCategory;
+    quantity: DecimalValue;
+    unit: QuantityUnit;
+    energyKcal: DecimalValue;
+    traits: FoodTrait[];
+  }>;
+}): CuratedRecipe {
+  if (recipe.type === "DRINK") {
+    throw new Error("Getränke sind keine Katalogrezepte.");
+  }
+
+  return {
+    key: recipe.key,
+    emoji: recipe.emoji,
+    name: recipe.name,
+    type: recipe.type,
+    description: recipe.description,
+    prepMinutes: recipe.prepMinutes,
+    servings: recipe.servings,
+    carbohydrateGrams: Number(recipe.carbohydrateGrams),
+    proteinGrams: Number(recipe.proteinGrams),
+    fatGrams: Number(recipe.fatGrams),
+    dietaryPatterns: recipe.dietaryPatterns,
+    instructions: recipe.instructions.split("\n").filter(Boolean),
+    sourceLabel: recipe.sourceLabel ?? undefined,
+    sourceUrl: recipe.sourceUrl ?? undefined,
+    items: recipe.items.map((item) => ({
+      foodKey: item.foodKey ?? undefined,
+      name: item.name,
+      category: item.category,
+      quantity: Number(item.quantity),
+      unit: item.unit,
+      energyKcal: Number(item.energyKcal),
+      traits: item.traits,
+    })),
+  };
 }

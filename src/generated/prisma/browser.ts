@@ -108,6 +108,16 @@ export type Recipe = Prisma.RecipeModel
  */
 export type RecipeItem = Prisma.RecipeItemModel
 /**
+ * Model CatalogRecipe
+ *
+ */
+export type CatalogRecipe = Prisma.CatalogRecipeModel
+/**
+ * Model CatalogRecipeItem
+ *
+ */
+export type CatalogRecipeItem = Prisma.CatalogRecipeItemModel
+/**
  * Model MealPlanEntry
  *
  */

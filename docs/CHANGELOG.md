@@ -1,5 +1,20 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Erweiterbarer globaler Rezeptkatalog
+
+- Rezeptvorschläge werden aus einem globalen PostgreSQL-Katalog statt direkt
+  aus der Benutzeroberfläche geladen.
+- Katalogrezepte und Zutaten sind normalisiert, strukturiert filterbar und von
+  persönlichen Rezeptvorlagen getrennt.
+- Ein streng validierter JSON-Import ergänzt oder aktualisiert bis zu 1.000
+  Rezepte pro Datei anhand stabiler Schlüssel, ohne Duplikate anzulegen.
+- Die vorhandenen 20 Rezepte werden bei jedem Build idempotent synchronisiert;
+  zusätzlich importierte Rezeptpakete bleiben erhalten.
+- Eine dokumentierte Beispieldatei dient als Vorlage für weitere eigene oder
+  lizenzierte Rezeptpakete.
+- Der vollständige Datenweg vom PostgreSQL-Katalog bis zur mobilen
+  Vorschlagskarte wurde bei 390 Pixeln ohne Seitenüberlauf geprüft.
+
 ## 2026-07-24 – Mediterran-ketogene Rezeptvorschläge
 
 - Ein kuratierter Katalog stellt 20 strukturierte Vorschläge für Frühstück,

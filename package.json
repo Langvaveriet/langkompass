@@ -4,13 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "tsx scripts/sync-recipe-catalog.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "tsx --test src/lib/**/*.test.ts",
     "typecheck": "tsc --noEmit",
     "db:check": "tsx scripts/check-database.ts",
-    "db:check:daily": "tsx scripts/check-daily-entries.ts"
+    "db:check:daily": "tsx scripts/check-daily-entries.ts",
+    "catalog:sync": "tsx scripts/sync-recipe-catalog.ts",
+    "catalog:import": "tsx scripts/sync-recipe-catalog.ts"
   },
   "dependencies": {
     "@better-auth/passkey": "1.6.24",

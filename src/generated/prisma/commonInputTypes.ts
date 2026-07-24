@@ -494,6 +494,23 @@ export type EnumRecipeOriginWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumRecipeOriginFilter<$PrismaModel>
 }
 
+export type EnumQuantityUnitFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuantityUnit | Prisma.EnumQuantityUnitFieldRefInput<$PrismaModel>
+  in?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuantityUnitFilter<$PrismaModel> | $Enums.QuantityUnit
+}
+
+export type EnumQuantityUnitWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuantityUnit | Prisma.EnumQuantityUnitFieldRefInput<$PrismaModel>
+  in?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuantityUnitWithAggregatesFilter<$PrismaModel> | $Enums.QuantityUnit
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumQuantityUnitFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumQuantityUnitFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -985,6 +1002,23 @@ export type NestedEnumRecipeOriginWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumRecipeOriginFilter<$PrismaModel>
   _max?: Prisma.NestedEnumRecipeOriginFilter<$PrismaModel>
+}
+
+export type NestedEnumQuantityUnitFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuantityUnit | Prisma.EnumQuantityUnitFieldRefInput<$PrismaModel>
+  in?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuantityUnitFilter<$PrismaModel> | $Enums.QuantityUnit
+}
+
+export type NestedEnumQuantityUnitWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuantityUnit | Prisma.EnumQuantityUnitFieldRefInput<$PrismaModel>
+  in?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuantityUnit[] | Prisma.ListEnumQuantityUnitFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuantityUnitWithAggregatesFilter<$PrismaModel> | $Enums.QuantityUnit
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumQuantityUnitFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumQuantityUnitFilter<$PrismaModel>
 }
 
 

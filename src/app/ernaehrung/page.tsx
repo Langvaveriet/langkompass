@@ -20,8 +20,8 @@ import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import type { MealType } from "@/generated/prisma/enums";
 import { calculateDailyCalorieTarget } from "@/lib/nutrition/calorie-target";
 import {
-  curatedRecipesByKey,
-  suggestedCuratedRecipe,
+  catalogRecipeSnapshot,
+  suggestedRecipeFromCatalog,
   type CuratedRecipe,
 } from "@/lib/nutrition/curated-recipes";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
@@ -82,19 +82,9 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
   )
     ? query.suggestionType as CuratedRecipe["type"]
     : null;
-  const exactSuggestion = query.suggest
-    ? curatedRecipesByKey.get(query.suggest)
-    : undefined;
-  const suggestedRecipe = exactSuggestion &&
-    (!selectedSuggestionType || exactSuggestion.type === selectedSuggestionType)
-      ? exactSuggestion
-      : suggestedCuratedRecipe(
-          query.suggest ?? date,
-          selectedSuggestionType ?? undefined,
-        );
   const nextSuggestionSeed = globalThis.crypto.randomUUID();
   const entryDate = new Date(`${date}T00:00:00.000Z`);
-  const [entry, recentMealCandidates, recipes] = user
+  const [entry, recentMealCandidates, recipes, catalogRecipeRecords] = user
     ? await Promise.all([
         prisma.dailyEntry.findUnique({
           where: { userId_entryDate: { userId: user.id, entryDate } },
@@ -121,8 +111,28 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           include: { items: { orderBy: { position: "asc" } } },
           orderBy: { updatedAt: "desc" },
         }),
+        prisma.catalogRecipe.findMany({
+          where: {
+            active: true,
+            type: { in: ["BREAKFAST", "LUNCH", "DINNER", "SNACK"] },
+          },
+          include: { items: { orderBy: { position: "asc" } } },
+          orderBy: { name: "asc" },
+        }),
       ])
-    : [null, [], []];
+    : [null, [], [], []];
+  const catalogRecipes = catalogRecipeRecords.map(catalogRecipeSnapshot);
+  const exactSuggestion = query.suggest
+    ? catalogRecipes.find((recipe) => recipe.key === query.suggest)
+    : undefined;
+  const suggestedRecipe = exactSuggestion &&
+    (!selectedSuggestionType || exactSuggestion.type === selectedSuggestionType)
+      ? exactSuggestion
+      : suggestedRecipeFromCatalog(
+          catalogRecipes,
+          query.suggest ?? date,
+          selectedSuggestionType ?? undefined,
+        );
   const recentMealSuggestions: RecentMealSuggestion[] = uniqueRecentMeals(
     recentMealCandidates,
   ).map((meal) => ({
@@ -366,12 +376,22 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           </form>
         </div>
 
-        <CuratedRecipeSuggestion
-          date={date}
-          nextSeed={nextSuggestionSeed}
-          recipe={suggestedRecipe}
-          selectedType={selectedSuggestionType}
-        />
+        {suggestedRecipe ? (
+          <CuratedRecipeSuggestion
+            date={date}
+            nextSeed={nextSuggestionSeed}
+            recipe={suggestedRecipe}
+            selectedType={selectedSuggestionType}
+          />
+        ) : (
+          <section className="mt-8 max-w-4xl rounded-[var(--radius-lg)] border border-border-subtle bg-surface-raised p-5">
+            <h2 className="font-semibold text-text-primary">Rezeptvorschläge</h2>
+            <p className="mt-2 text-sm leading-6 text-text-muted">
+              Der Rezeptkatalog wird gerade vorbereitet. Bitte versuche es nach
+              dem nächsten Deployment erneut.
+            </p>
+          </section>
+        )}
 
         <RecipeSuggestions
           entryDate={date}

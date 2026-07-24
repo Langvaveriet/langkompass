@@ -2,9 +2,11 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  curatedRecipeImportSchema,
   curatedRecipes,
   curatedRecipesByKey,
   suggestedCuratedRecipe,
+  suggestedRecipeFromCatalog,
 } from "./curated-recipes";
 
 test("enthält zwanzig eindeutig identifizierbare Rezeptvorschläge", () => {
@@ -13,6 +15,7 @@ test("enthält zwanzig eindeutig identifizierbare Rezeptvorschläge", () => {
 });
 
 test("alle Vorschläge besitzen strukturierte Nährwerte und Zutaten", () => {
+  assert.equal(curatedRecipeImportSchema.safeParse(curatedRecipes).success, true);
   for (const recipe of curatedRecipes) {
     assert.ok(recipe.items.length >= 2);
     assert.ok(recipe.instructions.length >= 1);
@@ -21,6 +24,17 @@ test("alle Vorschläge besitzen strukturierte Nährwerte und Zutaten", () => {
     assert.ok(recipe.dietaryPatterns.includes("MEDITERRANEAN"));
     assert.ok(recipe.dietaryPatterns.includes("KETOGENIC"));
   }
+});
+
+test("wählt aus einem erweiterbaren Katalog und beachtet den Typ", () => {
+  const suggestion = suggestedRecipeFromCatalog(
+    curatedRecipes,
+    "importierter-katalog",
+    "SNACK",
+  );
+
+  assert.equal(suggestion?.type, "SNACK");
+  assert.equal(suggestedRecipeFromCatalog([], "leer"), null);
 });
 
 test("filtert einen Vorschlag stabil nach Mahlzeitentyp", () => {

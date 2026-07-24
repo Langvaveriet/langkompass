@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 import type { MealType, PortionSize } from "@/generated/prisma/enums";
 import {
-  curatedRecipesByKey,
+  catalogRecipeSnapshot,
   type CuratedRecipe,
 } from "@/lib/nutrition/curated-recipes";
 import { foodCatalogByKey } from "@/lib/nutrition/food-catalog";
@@ -102,6 +102,15 @@ async function upsertCuratedRecipe(userId: string, suggestion: CuratedRecipe) {
 
     return recipe;
   });
+}
+
+async function catalogSuggestion(key: string): Promise<CuratedRecipe | null> {
+  const recipe = await prisma.catalogRecipe.findFirst({
+    where: { key, active: true },
+    include: { items: { orderBy: { position: "asc" } } },
+  });
+
+  return recipe ? catalogRecipeSnapshot(recipe) : null;
 }
 
 export async function saveMeal(formData: FormData) {
@@ -460,8 +469,8 @@ export async function saveSuggestedRecipe(formData: FormData) {
   const date = selectedDate(formData);
   const suggestionKey = text(formData, "suggestionKey");
   const suggestion = suggestionKey
-    ? curatedRecipesByKey.get(suggestionKey)
-    : undefined;
+    ? await catalogSuggestion(suggestionKey)
+    : null;
 
   if (!suggestion) {
     redirect(`/ernaehrung?date=${date}&error=suggestion`);
@@ -478,8 +487,8 @@ export async function planSuggestedRecipe(formData: FormData) {
   const date = selectedDate(formData);
   const suggestionKey = text(formData, "suggestionKey");
   const suggestion = suggestionKey
-    ? curatedRecipesByKey.get(suggestionKey)
-    : undefined;
+    ? await catalogSuggestion(suggestionKey)
+    : null;
 
   if (!suggestion) {
     redirect(`/ernaehrung?date=${date}&error=suggestion`);
