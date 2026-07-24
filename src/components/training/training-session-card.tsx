@@ -49,6 +49,18 @@ type TrainingSessionCardProps = {
   session: ActiveTrainingSession | null;
 };
 
+function previousWeightForExercise(
+  sets: LoggedSet[],
+  exerciseId: string,
+): number {
+  const previousSet = sets.findLast(
+    (set) => set.exerciseId === exerciseId,
+  );
+  const parsedWeight = Number(previousSet?.weightKg ?? 0);
+
+  return Number.isFinite(parsedWeight) ? parsedWeight : 0;
+}
+
 function SubmitButton({ children }: { children: string }) {
   const { pending } = useFormStatus();
 
@@ -136,12 +148,22 @@ export function TrainingSessionCard({
   plans,
   session,
 }: TrainingSessionCardProps) {
+  const initialExerciseId =
+    session?.sets.at(-1)?.exerciseId ?? exercises[0]?.id ?? "";
   const [repetitions, setRepetitions] = useState(10);
-  const [weightKg, setWeightKg] = useState(0);
-  const [effort, setEffort] = useState<number | null>(null);
-  const [selectedExerciseId, setSelectedExerciseId] = useState(
-    session?.sets.at(-1)?.exerciseId ?? exercises[0]?.id ?? "",
+  const [weightKg, setWeightKg] = useState(() =>
+    previousWeightForExercise(session?.sets ?? [], initialExerciseId),
   );
+  const [effort, setEffort] = useState<number | null>(null);
+  const [selectedExerciseId, setSelectedExerciseId] =
+    useState(initialExerciseId);
+
+  function selectExercise(exerciseId: string) {
+    setSelectedExerciseId(exerciseId);
+    setWeightKg(
+      previousWeightForExercise(session?.sets ?? [], exerciseId),
+    );
+  }
 
   if (!session) {
     return (
@@ -257,7 +279,7 @@ export function TrainingSessionCard({
                     key={exercise.id}
                     type="button"
                     aria-pressed={selected}
-                    onClick={() => setSelectedExerciseId(exercise.id)}
+                    onClick={() => selectExercise(exercise.id)}
                     className={[
                       "flex min-h-16 min-w-36 shrink-0 snap-start items-center gap-2 rounded-[var(--radius-md)] border py-2 pl-2 pr-4 text-left text-sm font-semibold transition",
                       selected

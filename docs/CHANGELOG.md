@@ -1,5 +1,12 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Gewicht beim Folgesatz übernehmen
+
+- Beim nächsten Satz wird das zuletzt gespeicherte Gewicht derselben Übung
+  automatisch vorbelegt.
+- Beim Wechsel der Übung wird deren eigener letzter Gewichtswert geladen,
+  damit keine Werte zwischen Übungen vermischt werden.
+
 ## 2026-07-24 – Trainingsverlauf
 
 - Die letzten 30 abgeschlossenen Einheiten sind in einem eigenen Verlauf
