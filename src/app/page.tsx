@@ -62,6 +62,11 @@ export default async function HomePage() {
     "00:00",
     timeZone,
   );
+  const todayPeriodStart = localDateTimeToUtc(
+    todayEntryDate.toISOString().slice(0, 10),
+    "00:00",
+    timeZone,
+  );
   const tomorrowDate = addUtcDays(todayEntryDate, 1)
     .toISOString()
     .slice(0, 10);
@@ -71,7 +76,14 @@ export default async function HomePage() {
     timeZone,
   );
 
-  const [todayEntry, weightMeasurementsDescending, recentEntries] = user
+  const [
+    todayEntry,
+    weightMeasurementsDescending,
+    recentEntries,
+    activeTrainingSession,
+    todayTrainingSessions,
+    trainingPlanCount,
+  ] = user
     ? await Promise.all([
         prisma.dailyEntry.findUnique({
           where: {
@@ -119,8 +131,30 @@ export default async function HomePage() {
           },
           orderBy: { entryDate: "desc" },
         }),
+        prisma.trainingSession.findFirst({
+          where: { userId: user.id, completedAt: null },
+          orderBy: { startedAt: "desc" },
+          select: {
+            planName: true,
+            _count: { select: { sets: true } },
+          },
+        }),
+        prisma.trainingSession.findMany({
+          where: {
+            userId: user.id,
+            completedAt: { gte: todayPeriodStart, lt: weightPeriodEnd },
+          },
+          orderBy: { completedAt: "desc" },
+          select: {
+            planName: true,
+            _count: { select: { sets: true } },
+          },
+        }),
+        prisma.trainingPlan.count({
+          where: { userId: user.id, archivedAt: null },
+        }),
       ])
-    : [null, [], []];
+    : [null, [], [], null, [], 0];
   const weightMeasurements = weightMeasurementsDescending.toReversed();
   const latestWeight = weightMeasurements.at(-1);
   const checkInSummary = summarizeCheckIns(recentEntries);
@@ -150,6 +184,27 @@ export default async function HomePage() {
         return "Heute noch offen";
     }
   })();
+
+  const todayTrainingSetCount = todayTrainingSessions.reduce(
+    (sum, session) => sum + session._count.sets,
+    0,
+  );
+  const trainingStatus = activeTrainingSession
+    ? `${activeTrainingSession.planName ?? "Training"} läuft · ${activeTrainingSession._count.sets} ${activeTrainingSession._count.sets === 1 ? "Satz" : "Sätze"}`
+    : todayTrainingSessions.length > 1
+      ? `${todayTrainingSessions.length} Trainings heute · ${todayTrainingSetCount} Sätze`
+      : todayTrainingSessions.length === 1
+        ? `${todayTrainingSessions[0].planName ?? "Training"} abgeschlossen · ${todayTrainingSetCount} ${todayTrainingSetCount === 1 ? "Satz" : "Sätze"}`
+        : trainingPlanCount > 0
+          ? `${trainingPlanCount} ${trainingPlanCount === 1 ? "Trainingsplan" : "Trainingspläne"} bereit`
+          : "Noch kein Trainingsplan";
+  const trainingDescription = activeTrainingSession
+    ? "Deine laufende Einheit fortsetzen und den nächsten Satz direkt erfassen."
+    : todayTrainingSessions.length > 0
+      ? "Die heutige Aktivität ist dokumentiert und fließt in deinen Trainingsverlauf ein."
+      : trainingPlanCount > 0
+        ? "Einen vorbereiteten Trainingsplan wählen und die Einheit mit wenigen Handgriffen starten."
+        : "Wiederverwendbare Trainingspläne mit einer grafischen Übungsauswahl zusammenstellen.";
 
   const completedProfileFields = [
     profile?.firstName,
@@ -210,6 +265,12 @@ export default async function HomePage() {
       description:
         "Mahlzeiten, Getränke und mögliche Reaktionen strukturiert dokumentieren.",
       href: "/ernaehrung",
+    },
+    {
+      title: "Training",
+      value: trainingStatus,
+      description: trainingDescription,
+      href: "/training",
     },
   ];
 

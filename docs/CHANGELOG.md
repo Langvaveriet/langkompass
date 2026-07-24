@@ -10,6 +10,8 @@
 - Auch die horizontal wischbaren Übungs-Chips während des Trainings zeigen die
   vorhandenen Übungsgrafiken.
 - Bereits erfasste freie Trainingseinheiten bleiben vollständig erhalten.
+- Das Dashboard zeigt laufende oder heute abgeschlossene Trainings sowie die
+  Anzahl verfügbarer Trainingspläne als direkten Einstieg an.
 
 ## 2026-07-24 – Strukturierte Trainingserfassung
 
