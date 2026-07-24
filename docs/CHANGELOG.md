@@ -1,5 +1,13 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Trainingsverlauf
+
+- Die letzten 30 abgeschlossenen Einheiten sind in einem eigenen Verlauf
+  verfügbar.
+- Jede Einheit zeigt Planname, Zeitpunkt, Dauer, Übungen und Satzanzahl.
+- Aufklappbare Übungsdetails zeigen Wiederholungen, Gewicht und optionale
+  Anstrengung zusammen mit der jeweiligen Übungsgrafik.
+
 ## 2026-07-24 – Fehlerkorrektur Morgenerfassung
 
 - Die gültigen Nullwerte der Schmerz- und Stress-Slider blockieren das

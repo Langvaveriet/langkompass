@@ -251,8 +251,14 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
 
             {recentSessions.length > 0 ? (
               <Card>
-                <CardHeader>
+                <CardHeader className="flex flex-row items-center justify-between gap-4">
                   <CardTitle>Letzte Einheiten</CardTitle>
+                  <Link
+                    href="/training/verlauf"
+                    className="flex min-h-10 items-center text-sm font-semibold text-forest-strong"
+                  >
+                    Verlauf öffnen →
+                  </Link>
                 </CardHeader>
                 <CardContent>
                   <ul className="grid gap-2">
