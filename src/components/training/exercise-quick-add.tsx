@@ -15,6 +15,19 @@ type ExerciseQuickAddProps = {
   existingNames: string[];
 };
 
+const exerciseSpriteRows = [
+  { start: 24, height: 246 },
+  { start: 286, height: 260 },
+  { start: 558, height: 230 },
+  { start: 804, height: 208 },
+  { start: 1014, height: 218 },
+] as const;
+
+const spriteImageSize = 1254;
+const spriteCellSize = spriteImageSize / 5;
+const thumbnailSize = 96;
+const spriteScale = thumbnailSize / spriteCellSize;
+
 function normalizedName(name: string) {
   return name.toLocaleLowerCase("de-DE").replace(/\s+/g, " ");
 }
@@ -33,6 +46,7 @@ function QuickAddButton({
   spriteRow: number;
 }) {
   const { pending } = useFormStatus();
+  const row = exerciseSpriteRows[spriteRow];
 
   return (
     <button
@@ -42,13 +56,18 @@ function QuickAddButton({
     >
       <span
         aria-hidden="true"
-        className="block h-24 w-24 shrink-0 rounded-[var(--radius-sm)] bg-no-repeat"
-        style={{
-          backgroundImage: 'url("/training/exercise-catalog.webp")',
-          backgroundPosition: `${spriteColumn * 25}% ${spriteRow * 25}%`,
-          backgroundSize: "500% 500%",
-        }}
-      />
+        className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-[var(--radius-sm)] bg-[#faf8f3]"
+      >
+        <span
+          className="block w-24 shrink-0 bg-no-repeat"
+          style={{
+            height: `${row.height * spriteScale}px`,
+            backgroundImage: 'url("/training/exercise-catalog.webp")',
+            backgroundPosition: `${-spriteColumn * thumbnailSize}px ${-row.start * spriteScale}px`,
+            backgroundSize: `${spriteImageSize * spriteScale}px ${spriteImageSize * spriteScale}px`,
+          }}
+        />
+      </span>
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-semibold text-text-primary">
           {name}
