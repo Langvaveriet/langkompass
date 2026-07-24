@@ -1,5 +1,13 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Persönliche Trainingsbestwerte
+
+- Der Trainingsverlauf zeigt automatisch persönliche Bestwerte je Übung.
+- Höchstes erfasstes Gewicht, maximale Wiederholungen und Datengrundlage
+  werden aus allen abgeschlossenen Einheiten berechnet.
+- Körpergewichtsübungen werden ohne künstlichen Gewichtswert dargestellt.
+- Die Bestwertkarten sind auf Smartphones horizontal wischbar.
+
 ## 2026-07-24 – Satzvorgaben in Trainingsplänen
 
 - Für jede Planübung lassen sich Satzanzahl und Wiederholungsziel über Touch-Picker festlegen.

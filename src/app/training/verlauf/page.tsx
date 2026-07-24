@@ -4,14 +4,13 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
 import { ExerciseThumbnail } from "@/components/training/exercise-thumbnail";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { PersonalRecords } from "@/components/training/personal-records";
+import { Card, CardContent } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import { exerciseVisualByNormalizedName } from "@/lib/training/exercise-catalog";
+import { buildPersonalTrainingRecords } from "@/lib/training/personal-records";
 import {
   defaultLocale,
   defaultTimeZone,
@@ -22,32 +21,55 @@ export const dynamic = "force-dynamic";
 
 export default async function TrainingHistoryPage() {
   const user = await requireUser();
-  const [sessions, settings] = await Promise.all([
-    prisma.trainingSession.findMany({
-      where: { userId: user.id, completedAt: { not: null } },
-      orderBy: { completedAt: "desc" },
-      take: 30,
-      include: {
-        sets: {
-          orderBy: { createdAt: "asc" },
-          include: {
-            exercise: {
-              select: { id: true, name: true, normalizedName: true },
+  const [sessions, settings, recordSummaries, recordExercises] =
+    await Promise.all([
+      prisma.trainingSession.findMany({
+        where: { userId: user.id, completedAt: { not: null } },
+        orderBy: { completedAt: "desc" },
+        take: 30,
+        include: {
+          sets: {
+            orderBy: { createdAt: "asc" },
+            include: {
+              exercise: {
+                select: { id: true, name: true, normalizedName: true },
+              },
             },
           },
         },
-      },
-    }),
-    prisma.userSettings.findUnique({
-      where: { userId: user.id },
-      select: { timeZone: true, locale: true },
-    }),
-  ]);
+      }),
+      prisma.userSettings.findUnique({
+        where: { userId: user.id },
+        select: { timeZone: true, locale: true },
+      }),
+      prisma.trainingSet.groupBy({
+        by: ["exerciseId"],
+        where: {
+          userId: user.id,
+          trainingSession: { completedAt: { not: null } },
+        },
+        _max: { weightKg: true, repetitions: true },
+        _count: { _all: true },
+      }),
+      prisma.exercise.findMany({
+        where: { userId: user.id },
+        select: { id: true, name: true, normalizedName: true },
+      }),
+    ]);
   const timeZone = settings?.timeZone ?? defaultTimeZone;
   const locale = settings?.locale ?? defaultLocale;
   const totalSets = sessions.reduce(
     (sum, session) => sum + session.sets.length,
     0,
+  );
+  const personalRecords = buildPersonalTrainingRecords(
+    recordSummaries.map((summary) => ({
+      exerciseId: summary.exerciseId,
+      maximumWeightKg: summary._max.weightKg?.toNumber() ?? null,
+      maximumRepetitions: summary._max.repetitions,
+      setCount: summary._count._all,
+    })),
+    recordExercises,
   );
 
   return (
@@ -83,6 +105,8 @@ export default async function TrainingHistoryPage() {
             </div>
           </dl>
         </Section>
+
+        <PersonalRecords records={personalRecords} locale={locale} />
 
         <Section aria-label="Abgeschlossene Trainingseinheiten">
           {sessions.length === 0 ? (
