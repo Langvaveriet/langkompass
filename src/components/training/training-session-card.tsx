@@ -19,6 +19,8 @@ type ExerciseOption = {
   name: string;
   visual?: ExerciseVisual;
   previousWeightKg?: string | null;
+  targetSets: number | null;
+  targetReps: number;
 };
 
 type TrainingPlanOption = {
@@ -64,6 +66,17 @@ function previousWeightForExercise(
   );
 
   return Number.isFinite(parsedWeight) ? parsedWeight : 0;
+}
+
+function previousRepetitionsForExercise(
+  sets: LoggedSet[],
+  exercise: ExerciseOption | undefined,
+): number {
+  return (
+    sets.findLast((set) => set.exerciseId === exercise?.id)?.repetitions ??
+    exercise?.targetReps ??
+    10
+  );
 }
 
 function SubmitButton({ children }: { children: string }) {
@@ -155,7 +168,12 @@ export function TrainingSessionCard({
 }: TrainingSessionCardProps) {
   const initialExerciseId =
     session?.sets.at(-1)?.exerciseId ?? exercises[0]?.id ?? "";
-  const [repetitions, setRepetitions] = useState(10);
+  const [repetitions, setRepetitions] = useState(() =>
+    previousRepetitionsForExercise(
+      session?.sets ?? [],
+      exercises.find((exercise) => exercise.id === initialExerciseId),
+    ),
+  );
   const [weightKg, setWeightKg] = useState(() =>
     previousWeightForExercise(
       session?.sets ?? [],
@@ -167,12 +185,14 @@ export function TrainingSessionCard({
     useState(initialExerciseId);
 
   function selectExercise(exerciseId: string) {
+    const exercise = exercises.find(({ id }) => id === exerciseId);
+
     setSelectedExerciseId(exerciseId);
     setWeightKg(
-      previousWeightForExercise(
-        session?.sets ?? [],
-        exercises.find((exercise) => exercise.id === exerciseId),
-      ),
+      previousWeightForExercise(session?.sets ?? [], exercise),
+    );
+    setRepetitions(
+      previousRepetitionsForExercise(session?.sets ?? [], exercise),
     );
   }
 
@@ -284,6 +304,9 @@ export function TrainingSessionCard({
             <div className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-2">
               {exercises.map((exercise) => {
                 const selected = exercise.id === selectedExerciseId;
+                const completedSets = session.sets.filter(
+                  (set) => set.exerciseId === exercise.id,
+                ).length;
 
                 return (
                   <button
@@ -302,7 +325,15 @@ export function TrainingSessionCard({
                       name={exercise.name}
                       visual={exercise.visual}
                     />
-                    <span className="max-w-28 leading-5">{exercise.name}</span>
+                    <span className="max-w-28 leading-5">
+                      <span className="block">{exercise.name}</span>
+                      {exercise.targetSets ? (
+                        <span className="mt-0.5 block text-xs font-normal text-text-muted">
+                          {completedSets}/{exercise.targetSets} Sätze · Ziel{" "}
+                          {exercise.targetReps} Wdh.
+                        </span>
+                      ) : null}
+                    </span>
                   </button>
                 );
               })}
@@ -311,6 +342,27 @@ export function TrainingSessionCard({
               Für weitere Übungen seitlich wischen.
             </p>
           </fieldset>
+
+          {(() => {
+            const exercise = exercises.find(
+              ({ id }) => id === selectedExerciseId,
+            );
+            const completedSets = session.sets.filter(
+              (set) => set.exerciseId === selectedExerciseId,
+            ).length;
+
+            if (!exercise?.targetSets) {
+              return null;
+            }
+
+            return (
+              <p className="rounded-[var(--radius-md)] bg-forest-soft px-4 py-3 text-sm font-semibold text-forest-strong">
+                {completedSets >= exercise.targetSets
+                  ? `Vorgabe erfüllt · ${completedSets} von ${exercise.targetSets} Sätzen`
+                  : `Nächster Satz: ${completedSets + 1} von ${exercise.targetSets} · Ziel ${exercise.targetReps} Wiederholungen`}
+              </p>
+            );
+          })()}
 
           <div className="grid grid-cols-2 gap-3">
             <Stepper

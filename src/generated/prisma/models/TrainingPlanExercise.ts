@@ -28,10 +28,14 @@ export type AggregateTrainingPlanExercise = {
 
 export type TrainingPlanExerciseAvgAggregateOutputType = {
   position: number | null
+  targetSets: number | null
+  targetReps: number | null
 }
 
 export type TrainingPlanExerciseSumAggregateOutputType = {
   position: number | null
+  targetSets: number | null
+  targetReps: number | null
 }
 
 export type TrainingPlanExerciseMinAggregateOutputType = {
@@ -40,6 +44,8 @@ export type TrainingPlanExerciseMinAggregateOutputType = {
   trainingPlanId: string | null
   exerciseId: string | null
   position: number | null
+  targetSets: number | null
+  targetReps: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +56,8 @@ export type TrainingPlanExerciseMaxAggregateOutputType = {
   trainingPlanId: string | null
   exerciseId: string | null
   position: number | null
+  targetSets: number | null
+  targetReps: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,6 +68,8 @@ export type TrainingPlanExerciseCountAggregateOutputType = {
   trainingPlanId: number
   exerciseId: number
   position: number
+  targetSets: number
+  targetReps: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -68,10 +78,14 @@ export type TrainingPlanExerciseCountAggregateOutputType = {
 
 export type TrainingPlanExerciseAvgAggregateInputType = {
   position?: true
+  targetSets?: true
+  targetReps?: true
 }
 
 export type TrainingPlanExerciseSumAggregateInputType = {
   position?: true
+  targetSets?: true
+  targetReps?: true
 }
 
 export type TrainingPlanExerciseMinAggregateInputType = {
@@ -80,6 +94,8 @@ export type TrainingPlanExerciseMinAggregateInputType = {
   trainingPlanId?: true
   exerciseId?: true
   position?: true
+  targetSets?: true
+  targetReps?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -90,6 +106,8 @@ export type TrainingPlanExerciseMaxAggregateInputType = {
   trainingPlanId?: true
   exerciseId?: true
   position?: true
+  targetSets?: true
+  targetReps?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -100,6 +118,8 @@ export type TrainingPlanExerciseCountAggregateInputType = {
   trainingPlanId?: true
   exerciseId?: true
   position?: true
+  targetSets?: true
+  targetReps?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -197,6 +217,8 @@ export type TrainingPlanExerciseGroupByOutputType = {
   trainingPlanId: string
   exerciseId: string
   position: number
+  targetSets: number
+  targetReps: number
   createdAt: Date
   updatedAt: Date
   _count: TrainingPlanExerciseCountAggregateOutputType | null
@@ -230,6 +252,8 @@ export type TrainingPlanExerciseWhereInput = {
   trainingPlanId?: Prisma.StringFilter<"TrainingPlanExercise"> | string
   exerciseId?: Prisma.StringFilter<"TrainingPlanExercise"> | string
   position?: Prisma.IntFilter<"TrainingPlanExercise"> | number
+  targetSets?: Prisma.IntFilter<"TrainingPlanExercise"> | number
+  targetReps?: Prisma.IntFilter<"TrainingPlanExercise"> | number
   createdAt?: Prisma.DateTimeFilter<"TrainingPlanExercise"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainingPlanExercise"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -243,6 +267,8 @@ export type TrainingPlanExerciseOrderByWithRelationInput = {
   trainingPlanId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  targetSets?: Prisma.SortOrder
+  targetReps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -260,6 +286,8 @@ export type TrainingPlanExerciseWhereUniqueInput = Prisma.AtLeast<{
   trainingPlanId?: Prisma.StringFilter<"TrainingPlanExercise"> | string
   exerciseId?: Prisma.StringFilter<"TrainingPlanExercise"> | string
   position?: Prisma.IntFilter<"TrainingPlanExercise"> | number
+  targetSets?: Prisma.IntFilter<"TrainingPlanExercise"> | number
+  targetReps?: Prisma.IntFilter<"TrainingPlanExercise"> | number
   createdAt?: Prisma.DateTimeFilter<"TrainingPlanExercise"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainingPlanExercise"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -273,6 +301,8 @@ export type TrainingPlanExerciseOrderByWithAggregationInput = {
   trainingPlanId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  targetSets?: Prisma.SortOrder
+  targetReps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TrainingPlanExerciseCountOrderByAggregateInput
@@ -291,6 +321,8 @@ export type TrainingPlanExerciseScalarWhereWithAggregatesInput = {
   trainingPlanId?: Prisma.StringWithAggregatesFilter<"TrainingPlanExercise"> | string
   exerciseId?: Prisma.StringWithAggregatesFilter<"TrainingPlanExercise"> | string
   position?: Prisma.IntWithAggregatesFilter<"TrainingPlanExercise"> | number
+  targetSets?: Prisma.IntWithAggregatesFilter<"TrainingPlanExercise"> | number
+  targetReps?: Prisma.IntWithAggregatesFilter<"TrainingPlanExercise"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TrainingPlanExercise"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TrainingPlanExercise"> | Date | string
 }
@@ -298,6 +330,8 @@ export type TrainingPlanExerciseScalarWhereWithAggregatesInput = {
 export type TrainingPlanExerciseCreateInput = {
   id?: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTrainingPlanExercisesInput
@@ -311,6 +345,8 @@ export type TrainingPlanExerciseUncheckedCreateInput = {
   trainingPlanId: string
   exerciseId: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -318,6 +354,8 @@ export type TrainingPlanExerciseUncheckedCreateInput = {
 export type TrainingPlanExerciseUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTrainingPlanExercisesNestedInput
@@ -331,6 +369,8 @@ export type TrainingPlanExerciseUncheckedUpdateInput = {
   trainingPlanId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -341,6 +381,8 @@ export type TrainingPlanExerciseCreateManyInput = {
   trainingPlanId: string
   exerciseId: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -348,6 +390,8 @@ export type TrainingPlanExerciseCreateManyInput = {
 export type TrainingPlanExerciseUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -358,6 +402,8 @@ export type TrainingPlanExerciseUncheckedUpdateManyInput = {
   trainingPlanId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -383,12 +429,16 @@ export type TrainingPlanExerciseCountOrderByAggregateInput = {
   trainingPlanId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  targetSets?: Prisma.SortOrder
+  targetReps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TrainingPlanExerciseAvgOrderByAggregateInput = {
   position?: Prisma.SortOrder
+  targetSets?: Prisma.SortOrder
+  targetReps?: Prisma.SortOrder
 }
 
 export type TrainingPlanExerciseMaxOrderByAggregateInput = {
@@ -397,6 +447,8 @@ export type TrainingPlanExerciseMaxOrderByAggregateInput = {
   trainingPlanId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  targetSets?: Prisma.SortOrder
+  targetReps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -407,12 +459,16 @@ export type TrainingPlanExerciseMinOrderByAggregateInput = {
   trainingPlanId?: Prisma.SortOrder
   exerciseId?: Prisma.SortOrder
   position?: Prisma.SortOrder
+  targetSets?: Prisma.SortOrder
+  targetReps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TrainingPlanExerciseSumOrderByAggregateInput = {
   position?: Prisma.SortOrder
+  targetSets?: Prisma.SortOrder
+  targetReps?: Prisma.SortOrder
 }
 
 export type TrainingPlanExerciseCreateNestedManyWithoutUserInput = {
@@ -544,6 +600,8 @@ export type TrainingPlanExerciseUncheckedUpdateManyWithoutTrainingPlanNestedInpu
 export type TrainingPlanExerciseCreateWithoutUserInput = {
   id?: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   trainingPlan: Prisma.TrainingPlanCreateNestedOneWithoutExercisesInput
@@ -555,6 +613,8 @@ export type TrainingPlanExerciseUncheckedCreateWithoutUserInput = {
   trainingPlanId: string
   exerciseId: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -594,6 +654,8 @@ export type TrainingPlanExerciseScalarWhereInput = {
   trainingPlanId?: Prisma.StringFilter<"TrainingPlanExercise"> | string
   exerciseId?: Prisma.StringFilter<"TrainingPlanExercise"> | string
   position?: Prisma.IntFilter<"TrainingPlanExercise"> | number
+  targetSets?: Prisma.IntFilter<"TrainingPlanExercise"> | number
+  targetReps?: Prisma.IntFilter<"TrainingPlanExercise"> | number
   createdAt?: Prisma.DateTimeFilter<"TrainingPlanExercise"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainingPlanExercise"> | Date | string
 }
@@ -601,6 +663,8 @@ export type TrainingPlanExerciseScalarWhereInput = {
 export type TrainingPlanExerciseCreateWithoutExerciseInput = {
   id?: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTrainingPlanExercisesInput
@@ -612,6 +676,8 @@ export type TrainingPlanExerciseUncheckedCreateWithoutExerciseInput = {
   userId: string
   trainingPlanId: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -645,6 +711,8 @@ export type TrainingPlanExerciseUpdateManyWithWhereWithoutExerciseInput = {
 export type TrainingPlanExerciseCreateWithoutTrainingPlanInput = {
   id?: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTrainingPlanExercisesInput
@@ -656,6 +724,8 @@ export type TrainingPlanExerciseUncheckedCreateWithoutTrainingPlanInput = {
   userId: string
   exerciseId: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -691,6 +761,8 @@ export type TrainingPlanExerciseCreateManyUserInput = {
   trainingPlanId: string
   exerciseId: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -698,6 +770,8 @@ export type TrainingPlanExerciseCreateManyUserInput = {
 export type TrainingPlanExerciseUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   trainingPlan?: Prisma.TrainingPlanUpdateOneRequiredWithoutExercisesNestedInput
@@ -709,6 +783,8 @@ export type TrainingPlanExerciseUncheckedUpdateWithoutUserInput = {
   trainingPlanId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -718,6 +794,8 @@ export type TrainingPlanExerciseUncheckedUpdateManyWithoutUserInput = {
   trainingPlanId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -727,6 +805,8 @@ export type TrainingPlanExerciseCreateManyExerciseInput = {
   userId: string
   trainingPlanId: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -734,6 +814,8 @@ export type TrainingPlanExerciseCreateManyExerciseInput = {
 export type TrainingPlanExerciseUpdateWithoutExerciseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTrainingPlanExercisesNestedInput
@@ -745,6 +827,8 @@ export type TrainingPlanExerciseUncheckedUpdateWithoutExerciseInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   trainingPlanId?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -754,6 +838,8 @@ export type TrainingPlanExerciseUncheckedUpdateManyWithoutExerciseInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   trainingPlanId?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -763,6 +849,8 @@ export type TrainingPlanExerciseCreateManyTrainingPlanInput = {
   userId: string
   exerciseId: string
   position: number
+  targetSets?: number
+  targetReps?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -770,6 +858,8 @@ export type TrainingPlanExerciseCreateManyTrainingPlanInput = {
 export type TrainingPlanExerciseUpdateWithoutTrainingPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTrainingPlanExercisesNestedInput
@@ -781,6 +871,8 @@ export type TrainingPlanExerciseUncheckedUpdateWithoutTrainingPlanInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -790,6 +882,8 @@ export type TrainingPlanExerciseUncheckedUpdateManyWithoutTrainingPlanInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   exerciseId?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
+  targetSets?: Prisma.IntFieldUpdateOperationsInput | number
+  targetReps?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -802,6 +896,8 @@ export type TrainingPlanExerciseSelect<ExtArgs extends runtime.Types.Extensions.
   trainingPlanId?: boolean
   exerciseId?: boolean
   position?: boolean
+  targetSets?: boolean
+  targetReps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -815,6 +911,8 @@ export type TrainingPlanExerciseSelectCreateManyAndReturn<ExtArgs extends runtim
   trainingPlanId?: boolean
   exerciseId?: boolean
   position?: boolean
+  targetSets?: boolean
+  targetReps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -828,6 +926,8 @@ export type TrainingPlanExerciseSelectUpdateManyAndReturn<ExtArgs extends runtim
   trainingPlanId?: boolean
   exerciseId?: boolean
   position?: boolean
+  targetSets?: boolean
+  targetReps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -841,11 +941,13 @@ export type TrainingPlanExerciseSelectScalar = {
   trainingPlanId?: boolean
   exerciseId?: boolean
   position?: boolean
+  targetSets?: boolean
+  targetReps?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TrainingPlanExerciseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "trainingPlanId" | "exerciseId" | "position" | "createdAt" | "updatedAt", ExtArgs["result"]["trainingPlanExercise"]>
+export type TrainingPlanExerciseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "trainingPlanId" | "exerciseId" | "position" | "targetSets" | "targetReps" | "createdAt" | "updatedAt", ExtArgs["result"]["trainingPlanExercise"]>
 export type TrainingPlanExerciseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainingPlan?: boolean | Prisma.TrainingPlanDefaultArgs<ExtArgs>
@@ -875,6 +977,8 @@ export type $TrainingPlanExercisePayload<ExtArgs extends runtime.Types.Extension
     trainingPlanId: string
     exerciseId: string
     position: number
+    targetSets: number
+    targetReps: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["trainingPlanExercise"]>
@@ -1308,6 +1412,8 @@ export interface TrainingPlanExerciseFieldRefs {
   readonly trainingPlanId: Prisma.FieldRef<"TrainingPlanExercise", 'String'>
   readonly exerciseId: Prisma.FieldRef<"TrainingPlanExercise", 'String'>
   readonly position: Prisma.FieldRef<"TrainingPlanExercise", 'Int'>
+  readonly targetSets: Prisma.FieldRef<"TrainingPlanExercise", 'Int'>
+  readonly targetReps: Prisma.FieldRef<"TrainingPlanExercise", 'Int'>
   readonly createdAt: Prisma.FieldRef<"TrainingPlanExercise", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TrainingPlanExercise", 'DateTime'>
 }

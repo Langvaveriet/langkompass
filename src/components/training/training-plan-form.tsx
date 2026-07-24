@@ -16,7 +16,11 @@ export type TrainingPlanExerciseOption = {
 export type TrainingPlanFormValues = {
   id?: string;
   name: string;
-  exerciseIds: string[];
+  exercises: Array<{
+    exerciseId: string;
+    targetSets: number;
+    targetReps: number;
+  }>;
 };
 
 type TrainingPlanFormProps = {
@@ -24,22 +28,101 @@ type TrainingPlanFormProps = {
   values: TrainingPlanFormValues;
 };
 
+type ExerciseTarget = {
+  targetSets: number;
+  targetReps: number;
+};
+
+function TargetStepper({
+  label,
+  accessibleLabel = label,
+  value,
+  minimum,
+  maximum,
+  onChange,
+}: {
+  label: string;
+  accessibleLabel?: string;
+  value: number;
+  minimum: number;
+  maximum: number;
+  onChange: (value: number) => void;
+}) {
+  return (
+    <div className="grid gap-1">
+      <span className="text-xs font-semibold text-text-muted">{label}</span>
+      <div className="grid grid-cols-[2.5rem_1fr_2.5rem] overflow-hidden rounded-[var(--radius-md)] border border-border-strong bg-surface-primary">
+        <button
+          type="button"
+          aria-label={`${accessibleLabel} verringern`}
+          onClick={() => onChange(Math.max(minimum, value - 1))}
+          className="min-h-11 border-r border-border-subtle text-lg font-semibold text-forest-strong"
+        >
+          −
+        </button>
+        <span className="flex min-h-11 items-center justify-center text-base font-semibold text-text-primary">
+          {value}
+        </span>
+        <button
+          type="button"
+          aria-label={`${accessibleLabel} erhöhen`}
+          onClick={() => onChange(Math.min(maximum, value + 1))}
+          className="min-h-11 border-l border-border-subtle text-lg font-semibold text-forest-strong"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function TrainingPlanForm({
   exercises,
   values,
 }: TrainingPlanFormProps) {
-  const [selectedExerciseIds, setSelectedExerciseIds] = useState(
-    values.exerciseIds,
+  const [exerciseTargets, setExerciseTargets] = useState<
+    Record<string, ExerciseTarget>
+  >(
+    Object.fromEntries(
+      values.exercises.map((exercise) => [
+        exercise.exerciseId,
+        {
+          targetSets: exercise.targetSets,
+          targetReps: exercise.targetReps,
+        },
+      ]),
+    ),
   );
+  const selectedExerciseIds = Object.keys(exerciseTargets);
 
   function toggleExercise(exerciseId: string) {
-    setSelectedExerciseIds((current) =>
-      current.includes(exerciseId)
-        ? current.filter((id) => id !== exerciseId)
-        : current.length < 20
-          ? [...current, exerciseId]
-          : current,
-    );
+    setExerciseTargets((current) => {
+      if (current[exerciseId]) {
+        const { [exerciseId]: removed, ...remaining } = current;
+        void removed;
+        return remaining;
+      }
+
+      if (Object.keys(current).length >= 20) {
+        return current;
+      }
+
+      return {
+        ...current,
+        [exerciseId]: { targetSets: 3, targetReps: 10 },
+      };
+    });
+  }
+
+  function updateTarget(
+    exerciseId: string,
+    field: keyof ExerciseTarget,
+    value: number,
+  ) {
+    setExerciseTargets((current) => ({
+      ...current,
+      [exerciseId]: { ...current[exerciseId], [field]: value },
+    }));
   }
 
   return (
@@ -124,6 +207,74 @@ export function TrainingPlanForm({
           </div>
         )}
       </fieldset>
+
+      {selectedExerciseIds.length > 0 ? (
+        <fieldset className="grid gap-3">
+          <legend className="text-sm font-semibold text-text-primary">
+            Satzvorgaben
+          </legend>
+          <p className="text-xs leading-5 text-text-muted">
+            Diese Werte werden beim Training automatisch vorgeschlagen.
+          </p>
+          <div className="grid gap-3">
+            {selectedExerciseIds.map((exerciseId) => {
+              const exercise = exercises.find(({ id }) => id === exerciseId);
+              const target = exerciseTargets[exerciseId];
+
+              if (!exercise || !target) {
+                return null;
+              }
+
+              return (
+                <div
+                  key={exerciseId}
+                  className="grid gap-3 rounded-[var(--radius-md)] bg-surface-muted p-3 sm:grid-cols-[minmax(10rem,1fr)_8rem_8rem] sm:items-end"
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <ExerciseThumbnail
+                      name={exercise.name}
+                      visual={exercise.visual}
+                    />
+                    <span className="text-sm font-semibold text-text-primary">
+                      {exercise.name}
+                    </span>
+                  </div>
+                  <input
+                    type="hidden"
+                    name={`targetSets:${exerciseId}`}
+                    value={target.targetSets}
+                  />
+                  <input
+                    type="hidden"
+                    name={`targetReps:${exerciseId}`}
+                    value={target.targetReps}
+                  />
+                  <TargetStepper
+                    label="Sätze"
+                    accessibleLabel={`Sätze für ${exercise.name}`}
+                    value={target.targetSets}
+                    minimum={1}
+                    maximum={10}
+                    onChange={(value) =>
+                      updateTarget(exerciseId, "targetSets", value)
+                    }
+                  />
+                  <TargetStepper
+                    label="Wiederholungen"
+                    accessibleLabel={`Wiederholungen für ${exercise.name}`}
+                    value={target.targetReps}
+                    minimum={1}
+                    maximum={100}
+                    onChange={(value) =>
+                      updateTarget(exerciseId, "targetReps", value)
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </fieldset>
+      ) : null}
 
       <Button
         type="submit"

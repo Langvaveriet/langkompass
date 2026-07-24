@@ -1,5 +1,12 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Satzvorgaben in Trainingsplänen
+
+- Für jede Planübung lassen sich Satzanzahl und Wiederholungsziel über Touch-Picker festlegen.
+- Bestehende Planübungen starten mit der Vorgabe 3 × 10.
+- Während der Einheit zeigen Übungschips erledigte und geplante Sätze.
+- Wiederholungen werden aus dem letzten Satz derselben Übung oder der Planvorgabe vorbelegt.
+
 ## 2026-07-24 – Gewicht beim Folgesatz übernehmen
 
 - Beim nächsten Satz wird das zuletzt gespeicherte Gewicht derselben Übung

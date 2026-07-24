@@ -71,9 +71,15 @@ export default async function TrainingPlansPage({
     ? {
         id: editedPlan.id,
         name: editedPlan.name,
-        exerciseIds: editedPlan.exercises.map(({ exerciseId }) => exerciseId),
+        exercises: editedPlan.exercises.map(
+          ({ exerciseId, targetSets, targetReps }) => ({
+            exerciseId,
+            targetSets,
+            targetReps,
+          }),
+        ),
       }
-    : { name: "", exerciseIds: [] };
+    : { name: "", exercises: [] };
   const error = queryValue(query, "error");
   const errorMessage =
     error === "duplicate"
@@ -82,11 +88,13 @@ export default async function TrainingPlansPage({
         ? "Der Trainingsplan wurde nicht gefunden."
         : error === "exercise-not-found"
           ? "Mindestens eine ausgewählte Übung ist nicht mehr verfügbar."
-          : error === "validation"
-            ? "Bitte gib einen Namen ein und wähle mindestens eine Übung aus."
-            : editId && !editedPlan
-              ? "Der Trainingsplan wurde nicht gefunden."
-              : null;
+          : error === "targets"
+            ? "Bitte prüfe Satzanzahl und Wiederholungsziel der ausgewählten Übungen."
+            : error === "validation"
+              ? "Bitte gib einen Namen ein und wähle mindestens eine Übung aus."
+              : editId && !editedPlan
+                ? "Der Trainingsplan wurde nicht gefunden."
+                : null;
 
   return (
     <AppLayout>
@@ -215,22 +223,29 @@ export default async function TrainingPlansPage({
                       </div>
 
                       <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-                        {plan.exercises.map(({ exercise }) => (
-                          <div
-                            key={exercise.id}
-                            className="flex min-w-32 shrink-0 items-center gap-2 rounded-full bg-surface-muted py-1.5 pl-1.5 pr-3"
-                          >
-                            <ExerciseThumbnail
-                              name={exercise.name}
-                              visual={exerciseVisualByNormalizedName.get(
-                                exercise.normalizedName,
-                              )}
-                            />
-                            <span className="text-xs font-semibold text-text-primary">
-                              {exercise.name}
-                            </span>
-                          </div>
-                        ))}
+                        {plan.exercises.map(
+                          ({ exercise, targetSets, targetReps }) => (
+                            <div
+                              key={exercise.id}
+                              className="flex min-w-32 shrink-0 items-center gap-2 rounded-full bg-surface-muted py-1.5 pl-1.5 pr-3"
+                            >
+                              <ExerciseThumbnail
+                                name={exercise.name}
+                                visual={exerciseVisualByNormalizedName.get(
+                                  exercise.normalizedName,
+                                )}
+                              />
+                              <span>
+                                <span className="block text-xs font-semibold text-text-primary">
+                                  {exercise.name}
+                                </span>
+                                <span className="mt-0.5 block text-xs text-text-muted">
+                                  {targetSets} × {targetReps}
+                                </span>
+                              </span>
+                            </div>
+                          ),
+                        )}
                       </div>
 
                       <form action={archiveTrainingPlan} className="mt-3">

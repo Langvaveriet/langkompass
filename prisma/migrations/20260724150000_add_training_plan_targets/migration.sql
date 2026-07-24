@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "TrainingPlanExercise"
+ADD COLUMN "targetSets" INTEGER NOT NULL DEFAULT 3,
+ADD COLUMN "targetReps" INTEGER NOT NULL DEFAULT 10;

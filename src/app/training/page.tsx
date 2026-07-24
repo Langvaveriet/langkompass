@@ -187,14 +187,24 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
 
   const sessionExercises = activeSession?.trainingPlan
     ? activeSession.trainingPlan.exercises
-        .map(({ exercise }) => exercise)
-        .filter((exercise) => exercise.archivedAt === null)
-    : exercises;
+        .filter(({ exercise }) => exercise.archivedAt === null)
+        .map(({ exercise, targetSets, targetReps }) => ({
+          exercise,
+          targetSets,
+          targetReps,
+        }))
+    : exercises.map((exercise) => ({
+        exercise,
+        targetSets: null,
+        targetReps: 10,
+      }));
   const previousTrainingSets = activeSession
     ? await prisma.trainingSet.findMany({
         where: {
           userId: user.id,
-          exerciseId: { in: sessionExercises.map((exercise) => exercise.id) },
+          exerciseId: {
+            in: sessionExercises.map(({ exercise }) => exercise.id),
+          },
           trainingSession: { completedAt: { not: null } },
         },
         orderBy: { createdAt: "desc" },
@@ -250,14 +260,20 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
               </CardHeader>
               <CardContent>
                 <TrainingSessionCard
-                  exercises={sessionExercises.map((exercise) => ({
-                    id: exercise.id,
-                    name: exercise.name,
-                    visual: exerciseVisualByNormalizedName.get(
-                      exercise.normalizedName,
-                    ),
-                    previousWeightKg: previousWeightByExercise.get(exercise.id),
-                  }))}
+                  exercises={sessionExercises.map(
+                    ({ exercise, targetSets, targetReps }) => ({
+                      id: exercise.id,
+                      name: exercise.name,
+                      visual: exerciseVisualByNormalizedName.get(
+                        exercise.normalizedName,
+                      ),
+                      previousWeightKg: previousWeightByExercise.get(
+                        exercise.id,
+                      ),
+                      targetSets,
+                      targetReps,
+                    }),
+                  )}
                   plans={trainingPlans.map((plan) => ({
                     id: plan.id,
                     name: plan.name,

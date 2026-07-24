@@ -335,6 +335,8 @@ model TrainingPlanExercise {
   trainingPlanId String
   exerciseId     String
   position       Int
+  targetSets     Int      @default(3)
+  targetReps     Int      @default(10)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 

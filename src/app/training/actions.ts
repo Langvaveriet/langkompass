@@ -69,6 +69,12 @@ const trainingPlanSchema = z.object({
   exerciseIds: z.array(z.string().trim().min(1)).min(1).max(20),
 });
 
+const trainingPlanTargetSchema = z.object({
+  exerciseId: z.string().trim().min(1),
+  targetSets: z.coerce.number().int().min(1).max(10),
+  targetReps: z.coerce.number().int().min(1).max(100),
+});
+
 const trainingPlanIdSchema = z.object({
   trainingPlanId: z.string().trim().min(1),
 });
@@ -243,6 +249,25 @@ export async function saveTrainingPlan(formData: FormData) {
 
   const { trainingPlanId, name } = parsed.data;
   const exerciseIds = [...new Set(parsed.data.exerciseIds)];
+  const targetResults = exerciseIds.map((exerciseId) =>
+    trainingPlanTargetSchema.safeParse({
+      exerciseId,
+      targetSets: formText(formData, `targetSets:${exerciseId}`),
+      targetReps: formText(formData, `targetReps:${exerciseId}`),
+    }),
+  );
+
+  if (targetResults.some((result) => !result.success)) {
+    redirect("/training/plaene?error=targets");
+  }
+
+  const targets = targetResults.map((result) => {
+    if (!result.success) {
+      throw new Error("Ungültige Trainingsvorgabe.");
+    }
+
+    return result.data;
+  });
   const normalizedName = normalizeExerciseName(name);
   const [exercises, duplicatePlan, existingPlan] = await Promise.all([
     prisma.exercise.findMany({
@@ -296,11 +321,13 @@ export async function saveTrainingPlan(formData: FormData) {
     }
 
     await transaction.trainingPlanExercise.createMany({
-      data: exerciseIds.map((exerciseId, position) => ({
+      data: targets.map((target, position) => ({
         userId: user.id,
         trainingPlanId: plan.id,
-        exerciseId,
+        exerciseId: target.exerciseId,
         position,
+        targetSets: target.targetSets,
+        targetReps: target.targetReps,
       })),
     });
   });

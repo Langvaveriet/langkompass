@@ -1839,6 +1839,8 @@ export const TrainingPlanExerciseScalarFieldEnum = {
   trainingPlanId: 'trainingPlanId',
   exerciseId: 'exerciseId',
   position: 'position',
+  targetSets: 'targetSets',
+  targetReps: 'targetReps',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
