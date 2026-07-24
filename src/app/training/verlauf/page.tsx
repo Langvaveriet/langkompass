@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
+import { ExerciseProgress } from "@/components/training/exercise-progress";
 import { ExerciseThumbnail } from "@/components/training/exercise-thumbnail";
 import { PersonalRecords } from "@/components/training/personal-records";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,6 +11,7 @@ import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import { exerciseVisualByNormalizedName } from "@/lib/training/exercise-catalog";
+import { buildExerciseProgress } from "@/lib/training/exercise-progress";
 import { buildPersonalTrainingRecords } from "@/lib/training/personal-records";
 import {
   defaultLocale,
@@ -19,10 +21,25 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function TrainingHistoryPage() {
+type TrainingHistoryPageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+function queryValue(
+  query: Record<string, string | string[] | undefined>,
+  name: string,
+): string | undefined {
+  const value = query[name];
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function TrainingHistoryPage({
+  searchParams,
+}: TrainingHistoryPageProps) {
   const user = await requireUser();
-  const [sessions, settings, recordSummaries, recordExercises] =
+  const [query, sessions, settings, recordSummaries, recordExercises] =
     await Promise.all([
+      searchParams,
       prisma.trainingSession.findMany({
         where: { userId: user.id, completedAt: { not: null } },
         orderBy: { completedAt: "desc" },
@@ -71,6 +88,41 @@ export default async function TrainingHistoryPage() {
     })),
     recordExercises,
   );
+  const requestedExerciseId = queryValue(query, "exercise");
+  const selectedExercise =
+    personalRecords.find(
+      (record) => record.exerciseId === requestedExerciseId,
+    ) ?? personalRecords[0];
+  const progressSessions = selectedExercise
+    ? await prisma.trainingSession.findMany({
+        where: {
+          userId: user.id,
+          completedAt: { not: null },
+          sets: { some: { exerciseId: selectedExercise.exerciseId } },
+        },
+        orderBy: { completedAt: "desc" },
+        take: 12,
+        select: {
+          id: true,
+          startedAt: true,
+          completedAt: true,
+          sets: {
+            where: { exerciseId: selectedExercise.exerciseId },
+            select: { repetitions: true, weightKg: true },
+          },
+        },
+      })
+    : [];
+  const exerciseProgress = buildExerciseProgress(
+    progressSessions.map((session) => ({
+      id: session.id,
+      completedAt: session.completedAt ?? session.startedAt,
+      sets: session.sets.map((set) => ({
+        repetitions: set.repetitions,
+        weightKg: set.weightKg?.toNumber() ?? null,
+      })),
+    })),
+  );
 
   return (
     <AppLayout>
@@ -107,6 +159,24 @@ export default async function TrainingHistoryPage() {
         </Section>
 
         <PersonalRecords records={personalRecords} locale={locale} />
+
+        {selectedExercise ? (
+          <ExerciseProgress
+            exercises={personalRecords.map((record) => ({
+              id: record.exerciseId,
+              name: record.exerciseName,
+              normalizedName: record.normalizedName,
+            }))}
+            selectedExercise={{
+              id: selectedExercise.exerciseId,
+              name: selectedExercise.exerciseName,
+              normalizedName: selectedExercise.normalizedName,
+            }}
+            progress={exerciseProgress}
+            locale={locale}
+            timeZone={timeZone}
+          />
+        ) : null}
 
         <Section aria-label="Abgeschlossene Trainingseinheiten">
           {sessions.length === 0 ? (

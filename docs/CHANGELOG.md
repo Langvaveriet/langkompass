@@ -1,5 +1,14 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Übungsfortschritt im Trainingsverlauf
+
+- Übungen lassen sich im Trainingsverlauf über grafische Touch-Chips auswählen.
+- Bis zu zwölf abgeschlossene Einheiten zeigen den höchsten vergleichbaren
+  Satzwert als zugängliches Verlaufsdiagramm.
+- Gewichtsübungen verwenden Kilogramm, Körpergewichtsübungen Wiederholungen.
+- Zeitraum, letzter Wert, Veränderung und eine sachliche Textzusammenfassung
+  ergänzen das Diagramm.
+
 ## 2026-07-24 – Persönliche Trainingsbestwerte
 
 - Der Trainingsverlauf zeigt automatisch persönliche Bestwerte je Übung.
