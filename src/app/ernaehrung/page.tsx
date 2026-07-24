@@ -227,6 +227,12 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
         <header className="max-w-4xl">
           <PageTitle>Ernährung</PageTitle>
           <PageSubtitle className="mt-4">Mahlzeiten schnell dokumentieren und langfristige Zusammenhänge erkennen.</PageSubtitle>
+          <Link
+            href={`/ernaehrung/wochenplan?date=${date}`}
+            className="mt-5 inline-flex min-h-12 items-center rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-sm font-semibold text-forest-strong"
+          >
+            Wochenplan öffnen →
+          </Link>
         </header>
 
         {query.saved === "1" || query.repeated === "1" || query.deleted === "1" || query.recipeSaved === "1" || query.recipeUsed === "1" || query.recipeArchived === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" || query.recipeUsed === "1" ? "Mahlzeit wurde übernommen." : query.recipeSaved === "1" ? "Vorlage wurde gespeichert. Ein vorhandener Name wird dabei aktualisiert." : query.recipeArchived === "1" ? "Vorlage wurde entfernt." : "Mahlzeit wurde gespeichert."}</div> : null}

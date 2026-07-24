@@ -1,5 +1,19 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Touch-freundlicher Mahlzeiten-Wochenplan
+
+- Eine neue Wochenansicht plant Frühstück, Mittagessen, Abendessen und Snacks
+  aus den persönlichen Mahlzeitenvorlagen.
+- Sieben große Tageschips, Vor-/Zurück-Navigation und Vorlagenkarten ersetzen
+  klassische Dropdown-Auswahlfelder.
+- Pro Tag und Mahlzeitentyp bleibt genau ein strukturierter Planplatz bestehen;
+  Vorlagen lassen sich vor der Erfassung wechseln oder entfernen.
+- Geplante Mahlzeiten können am gewählten Tag direkt erfasst werden und bleiben
+  mit dem tatsächlich erzeugten Mahlzeitendatensatz verknüpft.
+- Eine transaktionale Sperre verhindert doppelte Erfassungen; zukünftige
+  Mahlzeiten können nicht vorzeitig als gegessen markiert werden.
+- Die Smartphone-Ansicht wurde bei 390 Pixeln ohne Seitenüberlauf geprüft.
+
 ## 2026-07-24 – Strukturierte Mahlzeitenvorlagen
 
 - Bestehende Mahlzeiten lassen sich mit einem automatisch vorgeschlagenen

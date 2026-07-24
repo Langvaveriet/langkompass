@@ -24,6 +24,7 @@ model User {
   trainingSets          TrainingSet[]
   recipes               Recipe[]
   recipeItems           RecipeItem[]
+  mealPlanEntries       MealPlanEntry[]
   sessions              Session[]
   accounts              Account[]
   passkeys              Passkey[]
@@ -403,8 +404,9 @@ model Meal {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
-  dailyEntry DailyEntry @relation(fields: [dailyEntryId], references: [id], onDelete: Cascade)
+  dailyEntry DailyEntry     @relation(fields: [dailyEntryId], references: [id], onDelete: Cascade)
   items      MealItem[]
+  planEntry  MealPlanEntry?
 
   @@index([dailyEntryId, consumedAt])
 }
@@ -440,8 +442,9 @@ model Recipe {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  user  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items RecipeItem[]
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       RecipeItem[]
+  planEntries MealPlanEntry[]
 
   @@unique([userId, normalizedName])
   @@index([userId, archivedAt, updatedAt])
@@ -470,4 +473,24 @@ model RecipeItem {
   @@index([userId, recipeId])
   @@index([foodKey])
   @@index([category])
+}
+
+model MealPlanEntry {
+  id          String    @id @default(cuid())
+  userId      String
+  recipeId    String
+  mealId      String?   @unique
+  plannedDate DateTime  @db.Date
+  type        MealType
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Restrict)
+  meal   Meal?  @relation(fields: [mealId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, plannedDate, type])
+  @@index([userId, plannedDate])
+  @@index([recipeId])
 }

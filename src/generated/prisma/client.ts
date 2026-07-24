@@ -131,3 +131,8 @@ export type Recipe = Prisma.RecipeModel
  *
  */
 export type RecipeItem = Prisma.RecipeItemModel
+/**
+ * Model MealPlanEntry
+ *
+ */
+export type MealPlanEntry = Prisma.MealPlanEntryModel
