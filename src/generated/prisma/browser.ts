@@ -68,6 +68,16 @@ export type BodyMeasurement = Prisma.BodyMeasurementModel
  */
 export type Exercise = Prisma.ExerciseModel
 /**
+ * Model TrainingSession
+ *
+ */
+export type TrainingSession = Prisma.TrainingSessionModel
+/**
+ * Model TrainingSet
+ *
+ */
+export type TrainingSet = Prisma.TrainingSetModel
+/**
  * Model Meal
  *
  */

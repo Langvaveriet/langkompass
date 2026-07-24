@@ -31,6 +31,35 @@ const catalogExerciseSchema = z.object({
   exerciseKey: z.string().trim().min(1),
 });
 
+const trainingSessionSchema = z.object({
+  trainingSessionId: z.string().trim().min(1),
+});
+
+const trainingSetSchema = trainingSessionSchema.extend({
+  exerciseId: z.string().trim().min(1),
+  repetitions: z.coerce.number().int().min(1).max(1000),
+  weightKg: z
+    .string()
+    .trim()
+    .transform((value) =>
+      value === "" ? null : Number(value.replace(",", ".")),
+    )
+    .refine(
+      (value) => value === null || (Number.isFinite(value) && value >= 0 && value <= 2000),
+    ),
+  effort: z
+    .string()
+    .trim()
+    .transform((value) => (value === "" ? null : Number(value)))
+    .refine(
+      (value) => value === null || (Number.isInteger(value) && value >= 1 && value <= 10),
+    ),
+});
+
+const trainingSetIdSchema = z.object({
+  trainingSetId: z.string().trim().min(1),
+});
+
 function formText(formData: FormData, field: string): string {
   const value = formData.get(field);
   return typeof value === "string" ? value : "";
@@ -187,4 +216,137 @@ export async function setExerciseArchived(formData: FormData) {
 
   revalidatePath("/training");
   redirect(`/training?${restoring ? "restored" : "archived"}=1`);
+}
+
+export async function startTrainingSession() {
+  const user = await requireUser();
+  const activeSession = await prisma.trainingSession.findFirst({
+    where: { userId: user.id, completedAt: null },
+    orderBy: { startedAt: "desc" },
+    select: { id: true },
+  });
+
+  if (activeSession) {
+    redirect(`/training?session=${activeSession.id}`);
+  }
+
+  const session = await prisma.trainingSession.create({
+    data: { userId: user.id },
+    select: { id: true },
+  });
+
+  revalidatePath("/training");
+  redirect(`/training?session=${session.id}&session-started=1`);
+}
+
+export async function addTrainingSet(formData: FormData) {
+  const user = await requireUser();
+  const parsed = trainingSetSchema.safeParse({
+    trainingSessionId: formText(formData, "trainingSessionId"),
+    exerciseId: formText(formData, "exerciseId"),
+    repetitions: formText(formData, "repetitions"),
+    weightKg: formText(formData, "weightKg"),
+    effort: formText(formData, "effort"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training?error=training-set-validation");
+  }
+
+  const { trainingSessionId, exerciseId, repetitions, weightKg, effort } =
+    parsed.data;
+  const [session, exercise, latestSet] = await Promise.all([
+    prisma.trainingSession.findFirst({
+      where: { id: trainingSessionId, userId: user.id, completedAt: null },
+      select: { id: true },
+    }),
+    prisma.exercise.findFirst({
+      where: { id: exerciseId, userId: user.id, archivedAt: null },
+      select: { id: true },
+    }),
+    prisma.trainingSet.aggregate({
+      where: { trainingSessionId, exerciseId, userId: user.id },
+      _max: { setNumber: true },
+    }),
+  ]);
+
+  if (!session || !exercise) {
+    redirect("/training?error=training-not-found");
+  }
+
+  await prisma.trainingSet.create({
+    data: {
+      userId: user.id,
+      trainingSessionId: session.id,
+      exerciseId: exercise.id,
+      setNumber: (latestSet._max.setNumber ?? 0) + 1,
+      repetitions,
+      weightKg,
+      effort,
+    },
+  });
+
+  revalidatePath("/training");
+  redirect(`/training?session=${session.id}&set-added=1`);
+}
+
+export async function deleteTrainingSet(formData: FormData) {
+  const user = await requireUser();
+  const parsed = trainingSetIdSchema.safeParse({
+    trainingSetId: formText(formData, "trainingSetId"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training?error=validation");
+  }
+
+  const trainingSet = await prisma.trainingSet.findFirst({
+    where: {
+      id: parsed.data.trainingSetId,
+      userId: user.id,
+      trainingSession: { completedAt: null },
+    },
+    select: { id: true, trainingSessionId: true },
+  });
+
+  if (!trainingSet) {
+    redirect("/training?error=training-not-found");
+  }
+
+  await prisma.trainingSet.delete({ where: { id: trainingSet.id } });
+
+  revalidatePath("/training");
+  redirect(`/training?session=${trainingSet.trainingSessionId}&set-deleted=1`);
+}
+
+export async function completeTrainingSession(formData: FormData) {
+  const user = await requireUser();
+  const parsed = trainingSessionSchema.safeParse({
+    trainingSessionId: formText(formData, "trainingSessionId"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training?error=validation");
+  }
+
+  const session = await prisma.trainingSession.findFirst({
+    where: {
+      id: parsed.data.trainingSessionId,
+      userId: user.id,
+      completedAt: null,
+    },
+    select: { id: true },
+  });
+
+  if (!session) {
+    redirect("/training?error=training-not-found");
+  }
+
+  await prisma.trainingSession.update({
+    where: { id: session.id },
+    data: { completedAt: new Date() },
+  });
+
+  revalidatePath("/training");
+  redirect("/training?session-completed=1");
 }

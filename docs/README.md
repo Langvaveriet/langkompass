@@ -4,6 +4,7 @@
 
 - `LangKompass_Architektur-Charta.docx` – technische und fachliche Leitplanken
 - `Projektbriefing.docx` – Projektziele, Funktionsumfang und Arbeitskontext
+- `CHANGELOG.md` – kurze Übersicht abgeschlossener Entwicklungsschritte
 
 ## Passkey-Authentifizierung
 

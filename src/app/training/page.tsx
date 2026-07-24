@@ -6,6 +6,7 @@ import {
   type ExerciseFormValues,
 } from "@/components/training/exercise-form";
 import { ExerciseQuickAdd } from "@/components/training/exercise-quick-add";
+import { TrainingSessionCard } from "@/components/training/training-session-card";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
@@ -18,6 +19,11 @@ import {
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
+import {
+  defaultLocale,
+  defaultTimeZone,
+  timeInTimeZone,
+} from "@/lib/user-settings";
 import {
   exerciseCategoryLabels,
   exerciseEquipmentLabels,
@@ -52,7 +58,8 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
   const editId = queryValue(query, "edit");
   const showArchived = queryValue(query, "view") === "archived";
 
-  const [exercises, editedExercise] = await Promise.all([
+  const [exercises, editedExercise, activeSession, recentSessions, settings] =
+    await Promise.all([
     prisma.exercise.findMany({
       where: {
         userId: user.id,
@@ -65,7 +72,30 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
           where: { id: editId, userId: user.id, archivedAt: null },
         })
       : null,
+    prisma.trainingSession.findFirst({
+      where: { userId: user.id, completedAt: null },
+      orderBy: { startedAt: "desc" },
+      include: {
+        sets: {
+          orderBy: { createdAt: "asc" },
+          include: { exercise: { select: { name: true } } },
+        },
+      },
+    }),
+    prisma.trainingSession.findMany({
+      where: { userId: user.id, completedAt: { not: null } },
+      orderBy: { completedAt: "desc" },
+      take: 3,
+      include: { _count: { select: { sets: true } } },
+    }),
+    prisma.userSettings.findUnique({
+      where: { userId: user.id },
+      select: { timeZone: true, locale: true },
+    }),
   ]);
+
+  const timeZone = settings?.timeZone ?? defaultTimeZone;
+  const locale = settings?.locale ?? defaultLocale;
 
   const formValues: ExerciseFormValues = editedExercise
     ? {
@@ -87,6 +117,10 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
         return "Die Übung wurde nicht gefunden oder gehört nicht zu deinem Konto.";
       case "validation":
         return "Bitte prüfe die Angaben. Name, Trainingsart und Gerät sind erforderlich; maximal vier Muskelgruppen sind möglich.";
+      case "training-set-validation":
+        return "Bitte prüfe Wiederholungen, Gewicht und Anstrengung des Satzes.";
+      case "training-not-found":
+        return "Die Trainingseinheit oder Übung wurde nicht gefunden.";
       default:
         return null;
     }
@@ -102,7 +136,31 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
           ? "Übung archiviert."
           : queryValue(query, "restored")
             ? "Übung wiederhergestellt."
+            : queryValue(query, "session-started")
+              ? "Training gestartet."
+              : queryValue(query, "set-added")
+                ? "Satz gespeichert."
+                : queryValue(query, "set-deleted")
+                  ? "Satz entfernt."
+                  : queryValue(query, "session-completed")
+                    ? "Training abgeschlossen."
             : null;
+
+  const sessionForCard = activeSession
+    ? {
+        id: activeSession.id,
+        startedAtLabel: timeInTimeZone(activeSession.startedAt, timeZone),
+        sets: activeSession.sets.map((set) => ({
+          id: set.id,
+          exerciseId: set.exerciseId,
+          exerciseName: set.exercise.name,
+          setNumber: set.setNumber,
+          repetitions: set.repetitions,
+          weightKg: set.weightKg?.toString() ?? null,
+          effort: set.effort,
+        })),
+      }
+    : null;
 
   return (
     <AppLayout>
@@ -110,8 +168,8 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
         <header className="max-w-4xl">
           <PageTitle>Training</PageTitle>
           <PageSubtitle className="mt-4">
-            Baue deine persönliche Übungsbibliothek auf – strukturiert,
-            alltagstauglich und später für Trainingspläne wiederverwendbar.
+            Erfasse Trainingseinheiten mit wenigen Handgriffen und entwickle
+            daraus langfristig deinen persönlichen Fortschritt.
           </PageSubtitle>
         </header>
 
@@ -131,6 +189,76 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
           >
             {successMessage}
           </p>
+        ) : null}
+
+        {!showArchived && !editedExercise ? (
+          <Section aria-label="Trainingseinheit erfassen">
+            <Card>
+              <CardHeader>
+                <CardTitle>Trainingseinheit</CardTitle>
+                <p className="mt-2 text-sm leading-6 text-text-muted">
+                  Übung wählen, Wiederholungen und Gewicht einstellen, Satz
+                  speichern.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <TrainingSessionCard
+                  exercises={exercises.map((exercise) => ({
+                    id: exercise.id,
+                    name: exercise.name,
+                  }))}
+                  session={sessionForCard}
+                />
+              </CardContent>
+            </Card>
+
+            {recentSessions.length > 0 ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Letzte Einheiten</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="grid gap-2">
+                    {recentSessions.map((session) => {
+                      const completedAt = session.completedAt ?? session.startedAt;
+                      const durationMinutes = Math.max(
+                        1,
+                        Math.round(
+                          (completedAt.getTime() - session.startedAt.getTime()) /
+                            60000,
+                        ),
+                      );
+
+                      return (
+                        <li
+                          key={session.id}
+                          className="flex items-center justify-between gap-4 rounded-[var(--radius-md)] bg-surface-muted px-4 py-3"
+                        >
+                          <div>
+                            <p className="text-sm font-semibold text-text-primary">
+                              {new Intl.DateTimeFormat(locale, {
+                                timeZone,
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              }).format(session.startedAt)}
+                            </p>
+                            <p className="mt-1 text-xs text-text-muted">
+                              {session._count.sets}{" "}
+                              {session._count.sets === 1 ? "Satz" : "Sätze"}
+                            </p>
+                          </div>
+                          <span className="text-sm font-semibold text-forest-strong">
+                            {durationMinutes} Min.
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </CardContent>
+              </Card>
+            ) : null}
+          </Section>
         ) : null}
 
         {!showArchived && !editedExercise ? (

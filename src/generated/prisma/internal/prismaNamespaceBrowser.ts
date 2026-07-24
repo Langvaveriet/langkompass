@@ -61,6 +61,8 @@ export const ModelName = {
   DailyEntry: 'DailyEntry',
   BodyMeasurement: 'BodyMeasurement',
   Exercise: 'Exercise',
+  TrainingSession: 'TrainingSession',
+  TrainingSet: 'TrainingSet',
   Meal: 'Meal',
   MealItem: 'MealItem'
 } as const
@@ -243,6 +245,35 @@ export const ExerciseScalarFieldEnum = {
 } as const
 
 export type ExerciseScalarFieldEnum = (typeof ExerciseScalarFieldEnum)[keyof typeof ExerciseScalarFieldEnum]
+
+
+export const TrainingSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrainingSessionScalarFieldEnum = (typeof TrainingSessionScalarFieldEnum)[keyof typeof TrainingSessionScalarFieldEnum]
+
+
+export const TrainingSetScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  trainingSessionId: 'trainingSessionId',
+  exerciseId: 'exerciseId',
+  setNumber: 'setNumber',
+  repetitions: 'repetitions',
+  weightKg: 'weightKg',
+  effort: 'effort',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrainingSetScalarFieldEnum = (typeof TrainingSetScalarFieldEnum)[keyof typeof TrainingSetScalarFieldEnum]
 
 
 export const MealScalarFieldEnum = {
