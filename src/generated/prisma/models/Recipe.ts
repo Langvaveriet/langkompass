@@ -20,8 +20,26 @@ export type RecipeModel = runtime.Types.Result.DefaultSelection<Prisma.$RecipePa
 
 export type AggregateRecipe = {
   _count: RecipeCountAggregateOutputType | null
+  _avg: RecipeAvgAggregateOutputType | null
+  _sum: RecipeSumAggregateOutputType | null
   _min: RecipeMinAggregateOutputType | null
   _max: RecipeMaxAggregateOutputType | null
+}
+
+export type RecipeAvgAggregateOutputType = {
+  prepMinutes: number | null
+  servings: number | null
+  carbohydrateGrams: runtime.Decimal | null
+  proteinGrams: runtime.Decimal | null
+  fatGrams: runtime.Decimal | null
+}
+
+export type RecipeSumAggregateOutputType = {
+  prepMinutes: number | null
+  servings: number | null
+  carbohydrateGrams: runtime.Decimal | null
+  proteinGrams: runtime.Decimal | null
+  fatGrams: runtime.Decimal | null
 }
 
 export type RecipeMinAggregateOutputType = {
@@ -30,6 +48,16 @@ export type RecipeMinAggregateOutputType = {
   name: string | null
   normalizedName: string | null
   type: $Enums.MealType | null
+  origin: $Enums.RecipeOrigin | null
+  description: string | null
+  prepMinutes: number | null
+  servings: number | null
+  instructions: string | null
+  carbohydrateGrams: runtime.Decimal | null
+  proteinGrams: runtime.Decimal | null
+  fatGrams: runtime.Decimal | null
+  sourceLabel: string | null
+  sourceUrl: string | null
   archivedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -41,6 +69,16 @@ export type RecipeMaxAggregateOutputType = {
   name: string | null
   normalizedName: string | null
   type: $Enums.MealType | null
+  origin: $Enums.RecipeOrigin | null
+  description: string | null
+  prepMinutes: number | null
+  servings: number | null
+  instructions: string | null
+  carbohydrateGrams: runtime.Decimal | null
+  proteinGrams: runtime.Decimal | null
+  fatGrams: runtime.Decimal | null
+  sourceLabel: string | null
+  sourceUrl: string | null
   archivedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,6 +90,17 @@ export type RecipeCountAggregateOutputType = {
   name: number
   normalizedName: number
   type: number
+  origin: number
+  description: number
+  prepMinutes: number
+  servings: number
+  instructions: number
+  carbohydrateGrams: number
+  proteinGrams: number
+  fatGrams: number
+  dietaryPatterns: number
+  sourceLabel: number
+  sourceUrl: number
   archivedAt: number
   createdAt: number
   updatedAt: number
@@ -59,12 +108,38 @@ export type RecipeCountAggregateOutputType = {
 }
 
 
+export type RecipeAvgAggregateInputType = {
+  prepMinutes?: true
+  servings?: true
+  carbohydrateGrams?: true
+  proteinGrams?: true
+  fatGrams?: true
+}
+
+export type RecipeSumAggregateInputType = {
+  prepMinutes?: true
+  servings?: true
+  carbohydrateGrams?: true
+  proteinGrams?: true
+  fatGrams?: true
+}
+
 export type RecipeMinAggregateInputType = {
   id?: true
   userId?: true
   name?: true
   normalizedName?: true
   type?: true
+  origin?: true
+  description?: true
+  prepMinutes?: true
+  servings?: true
+  instructions?: true
+  carbohydrateGrams?: true
+  proteinGrams?: true
+  fatGrams?: true
+  sourceLabel?: true
+  sourceUrl?: true
   archivedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -76,6 +151,16 @@ export type RecipeMaxAggregateInputType = {
   name?: true
   normalizedName?: true
   type?: true
+  origin?: true
+  description?: true
+  prepMinutes?: true
+  servings?: true
+  instructions?: true
+  carbohydrateGrams?: true
+  proteinGrams?: true
+  fatGrams?: true
+  sourceLabel?: true
+  sourceUrl?: true
   archivedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -87,6 +172,17 @@ export type RecipeCountAggregateInputType = {
   name?: true
   normalizedName?: true
   type?: true
+  origin?: true
+  description?: true
+  prepMinutes?: true
+  servings?: true
+  instructions?: true
+  carbohydrateGrams?: true
+  proteinGrams?: true
+  fatGrams?: true
+  dietaryPatterns?: true
+  sourceLabel?: true
+  sourceUrl?: true
   archivedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -131,6 +227,18 @@ export type RecipeAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    *
+   * Select which fields to average
+  **/
+  _avg?: RecipeAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   *
+   * Select which fields to sum
+  **/
+  _sum?: RecipeSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   *
    * Select which fields to find the minimum value
   **/
   _min?: RecipeMinAggregateInputType
@@ -161,6 +269,8 @@ export type RecipeGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   _count?: RecipeCountAggregateInputType | true
+  _avg?: RecipeAvgAggregateInputType
+  _sum?: RecipeSumAggregateInputType
   _min?: RecipeMinAggregateInputType
   _max?: RecipeMaxAggregateInputType
 }
@@ -171,10 +281,23 @@ export type RecipeGroupByOutputType = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin: $Enums.RecipeOrigin
+  description: string | null
+  prepMinutes: number | null
+  servings: number | null
+  instructions: string | null
+  carbohydrateGrams: runtime.Decimal | null
+  proteinGrams: runtime.Decimal | null
+  fatGrams: runtime.Decimal | null
+  dietaryPatterns: $Enums.DietaryPattern[]
+  sourceLabel: string | null
+  sourceUrl: string | null
   archivedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: RecipeCountAggregateOutputType | null
+  _avg: RecipeAvgAggregateOutputType | null
+  _sum: RecipeSumAggregateOutputType | null
   _min: RecipeMinAggregateOutputType | null
   _max: RecipeMaxAggregateOutputType | null
 }
@@ -203,6 +326,17 @@ export type RecipeWhereInput = {
   name?: Prisma.StringFilter<"Recipe"> | string
   normalizedName?: Prisma.StringFilter<"Recipe"> | string
   type?: Prisma.EnumMealTypeFilter<"Recipe"> | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFilter<"Recipe"> | $Enums.RecipeOrigin
+  description?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  prepMinutes?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  servings?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  instructions?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  carbohydrateGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.EnumDietaryPatternNullableListFilter<"Recipe">
+  sourceLabel?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  sourceUrl?: Prisma.StringNullableFilter<"Recipe"> | string | null
   archivedAt?: Prisma.DateTimeNullableFilter<"Recipe"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
@@ -217,6 +351,17 @@ export type RecipeOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  origin?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  prepMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  servings?: Prisma.SortOrderInput | Prisma.SortOrder
+  instructions?: Prisma.SortOrderInput | Prisma.SortOrder
+  carbohydrateGrams?: Prisma.SortOrderInput | Prisma.SortOrder
+  proteinGrams?: Prisma.SortOrderInput | Prisma.SortOrder
+  fatGrams?: Prisma.SortOrderInput | Prisma.SortOrder
+  dietaryPatterns?: Prisma.SortOrder
+  sourceLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -235,6 +380,17 @@ export type RecipeWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Recipe"> | string
   normalizedName?: Prisma.StringFilter<"Recipe"> | string
   type?: Prisma.EnumMealTypeFilter<"Recipe"> | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFilter<"Recipe"> | $Enums.RecipeOrigin
+  description?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  prepMinutes?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  servings?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  instructions?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  carbohydrateGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.EnumDietaryPatternNullableListFilter<"Recipe">
+  sourceLabel?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  sourceUrl?: Prisma.StringNullableFilter<"Recipe"> | string | null
   archivedAt?: Prisma.DateTimeNullableFilter<"Recipe"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
@@ -249,12 +405,25 @@ export type RecipeOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  origin?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  prepMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  servings?: Prisma.SortOrderInput | Prisma.SortOrder
+  instructions?: Prisma.SortOrderInput | Prisma.SortOrder
+  carbohydrateGrams?: Prisma.SortOrderInput | Prisma.SortOrder
+  proteinGrams?: Prisma.SortOrderInput | Prisma.SortOrder
+  fatGrams?: Prisma.SortOrderInput | Prisma.SortOrder
+  dietaryPatterns?: Prisma.SortOrder
+  sourceLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.RecipeCountOrderByAggregateInput
+  _avg?: Prisma.RecipeAvgOrderByAggregateInput
   _max?: Prisma.RecipeMaxOrderByAggregateInput
   _min?: Prisma.RecipeMinOrderByAggregateInput
+  _sum?: Prisma.RecipeSumOrderByAggregateInput
 }
 
 export type RecipeScalarWhereWithAggregatesInput = {
@@ -266,6 +435,17 @@ export type RecipeScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Recipe"> | string
   normalizedName?: Prisma.StringWithAggregatesFilter<"Recipe"> | string
   type?: Prisma.EnumMealTypeWithAggregatesFilter<"Recipe"> | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginWithAggregatesFilter<"Recipe"> | $Enums.RecipeOrigin
+  description?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
+  prepMinutes?: Prisma.IntNullableWithAggregatesFilter<"Recipe"> | number | null
+  servings?: Prisma.IntNullableWithAggregatesFilter<"Recipe"> | number | null
+  instructions?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
+  carbohydrateGrams?: Prisma.DecimalNullableWithAggregatesFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.DecimalNullableWithAggregatesFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.DecimalNullableWithAggregatesFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.EnumDietaryPatternNullableListFilter<"Recipe">
+  sourceLabel?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
+  sourceUrl?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
   archivedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Recipe"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Recipe"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Recipe"> | Date | string
@@ -276,6 +456,17 @@ export type RecipeCreateInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -290,6 +481,17 @@ export type RecipeUncheckedCreateInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -302,6 +504,17 @@ export type RecipeUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -316,6 +529,17 @@ export type RecipeUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -329,6 +553,17 @@ export type RecipeCreateManyInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -339,6 +574,17 @@ export type RecipeUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -350,6 +596,17 @@ export type RecipeUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -365,6 +622,14 @@ export type RecipeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type EnumDietaryPatternNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel> | null
+  has?: $Enums.DietaryPattern | Prisma.EnumDietaryPatternFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type RecipeUserIdNormalizedNameCompoundUniqueInput = {
   userId: string
   normalizedName: string
@@ -376,9 +641,28 @@ export type RecipeCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  origin?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  prepMinutes?: Prisma.SortOrder
+  servings?: Prisma.SortOrder
+  instructions?: Prisma.SortOrder
+  carbohydrateGrams?: Prisma.SortOrder
+  proteinGrams?: Prisma.SortOrder
+  fatGrams?: Prisma.SortOrder
+  dietaryPatterns?: Prisma.SortOrder
+  sourceLabel?: Prisma.SortOrder
+  sourceUrl?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type RecipeAvgOrderByAggregateInput = {
+  prepMinutes?: Prisma.SortOrder
+  servings?: Prisma.SortOrder
+  carbohydrateGrams?: Prisma.SortOrder
+  proteinGrams?: Prisma.SortOrder
+  fatGrams?: Prisma.SortOrder
 }
 
 export type RecipeMaxOrderByAggregateInput = {
@@ -387,6 +671,16 @@ export type RecipeMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  origin?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  prepMinutes?: Prisma.SortOrder
+  servings?: Prisma.SortOrder
+  instructions?: Prisma.SortOrder
+  carbohydrateGrams?: Prisma.SortOrder
+  proteinGrams?: Prisma.SortOrder
+  fatGrams?: Prisma.SortOrder
+  sourceLabel?: Prisma.SortOrder
+  sourceUrl?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -398,9 +692,27 @@ export type RecipeMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  origin?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  prepMinutes?: Prisma.SortOrder
+  servings?: Prisma.SortOrder
+  instructions?: Prisma.SortOrder
+  carbohydrateGrams?: Prisma.SortOrder
+  proteinGrams?: Prisma.SortOrder
+  fatGrams?: Prisma.SortOrder
+  sourceLabel?: Prisma.SortOrder
+  sourceUrl?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type RecipeSumOrderByAggregateInput = {
+  prepMinutes?: Prisma.SortOrder
+  servings?: Prisma.SortOrder
+  carbohydrateGrams?: Prisma.SortOrder
+  proteinGrams?: Prisma.SortOrder
+  fatGrams?: Prisma.SortOrder
 }
 
 export type RecipeScalarRelationFilter = {
@@ -450,6 +762,19 @@ export type RecipeUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.RecipeScalarWhereInput | Prisma.RecipeScalarWhereInput[]
 }
 
+export type RecipeCreatedietaryPatternsInput = {
+  set: $Enums.DietaryPattern[]
+}
+
+export type EnumRecipeOriginFieldUpdateOperationsInput = {
+  set?: $Enums.RecipeOrigin
+}
+
+export type RecipeUpdatedietaryPatternsInput = {
+  set?: $Enums.DietaryPattern[]
+  push?: $Enums.DietaryPattern | $Enums.DietaryPattern[]
+}
+
 export type RecipeCreateNestedOneWithoutItemsInput = {
   create?: Prisma.XOR<Prisma.RecipeCreateWithoutItemsInput, Prisma.RecipeUncheckedCreateWithoutItemsInput>
   connectOrCreate?: Prisma.RecipeCreateOrConnectWithoutItemsInput
@@ -483,6 +808,17 @@ export type RecipeCreateWithoutUserInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -495,6 +831,17 @@ export type RecipeUncheckedCreateWithoutUserInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -537,6 +884,17 @@ export type RecipeScalarWhereInput = {
   name?: Prisma.StringFilter<"Recipe"> | string
   normalizedName?: Prisma.StringFilter<"Recipe"> | string
   type?: Prisma.EnumMealTypeFilter<"Recipe"> | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFilter<"Recipe"> | $Enums.RecipeOrigin
+  description?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  prepMinutes?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  servings?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  instructions?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  carbohydrateGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.DecimalNullableFilter<"Recipe"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.EnumDietaryPatternNullableListFilter<"Recipe">
+  sourceLabel?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  sourceUrl?: Prisma.StringNullableFilter<"Recipe"> | string | null
   archivedAt?: Prisma.DateTimeNullableFilter<"Recipe"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
@@ -547,6 +905,17 @@ export type RecipeCreateWithoutItemsInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -560,6 +929,17 @@ export type RecipeUncheckedCreateWithoutItemsInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -587,6 +967,17 @@ export type RecipeUpdateWithoutItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -600,6 +991,17 @@ export type RecipeUncheckedUpdateWithoutItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -611,6 +1013,17 @@ export type RecipeCreateWithoutPlanEntriesInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -624,6 +1037,17 @@ export type RecipeUncheckedCreateWithoutPlanEntriesInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -651,6 +1075,17 @@ export type RecipeUpdateWithoutPlanEntriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -664,6 +1099,17 @@ export type RecipeUncheckedUpdateWithoutPlanEntriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -675,6 +1121,17 @@ export type RecipeCreateManyUserInput = {
   name: string
   normalizedName: string
   type: $Enums.MealType
+  origin?: $Enums.RecipeOrigin
+  description?: string | null
+  prepMinutes?: number | null
+  servings?: number | null
+  instructions?: string | null
+  carbohydrateGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeCreatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: string | null
+  sourceUrl?: string | null
   archivedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -685,6 +1142,17 @@ export type RecipeUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -697,6 +1165,17 @@ export type RecipeUncheckedUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -709,6 +1188,17 @@ export type RecipeUncheckedUpdateManyWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMealTypeFieldUpdateOperationsInput | $Enums.MealType
+  origin?: Prisma.EnumRecipeOriginFieldUpdateOperationsInput | $Enums.RecipeOrigin
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  instructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  carbohydrateGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteinGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fatGrams?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dietaryPatterns?: Prisma.RecipeUpdatedietaryPatternsInput | $Enums.DietaryPattern[]
+  sourceLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -760,6 +1250,17 @@ export type RecipeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name?: boolean
   normalizedName?: boolean
   type?: boolean
+  origin?: boolean
+  description?: boolean
+  prepMinutes?: boolean
+  servings?: boolean
+  instructions?: boolean
+  carbohydrateGrams?: boolean
+  proteinGrams?: boolean
+  fatGrams?: boolean
+  dietaryPatterns?: boolean
+  sourceLabel?: boolean
+  sourceUrl?: boolean
   archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -775,6 +1276,17 @@ export type RecipeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   name?: boolean
   normalizedName?: boolean
   type?: boolean
+  origin?: boolean
+  description?: boolean
+  prepMinutes?: boolean
+  servings?: boolean
+  instructions?: boolean
+  carbohydrateGrams?: boolean
+  proteinGrams?: boolean
+  fatGrams?: boolean
+  dietaryPatterns?: boolean
+  sourceLabel?: boolean
+  sourceUrl?: boolean
   archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -787,6 +1299,17 @@ export type RecipeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   name?: boolean
   normalizedName?: boolean
   type?: boolean
+  origin?: boolean
+  description?: boolean
+  prepMinutes?: boolean
+  servings?: boolean
+  instructions?: boolean
+  carbohydrateGrams?: boolean
+  proteinGrams?: boolean
+  fatGrams?: boolean
+  dietaryPatterns?: boolean
+  sourceLabel?: boolean
+  sourceUrl?: boolean
   archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -799,12 +1322,23 @@ export type RecipeSelectScalar = {
   name?: boolean
   normalizedName?: boolean
   type?: boolean
+  origin?: boolean
+  description?: boolean
+  prepMinutes?: boolean
+  servings?: boolean
+  instructions?: boolean
+  carbohydrateGrams?: boolean
+  proteinGrams?: boolean
+  fatGrams?: boolean
+  dietaryPatterns?: boolean
+  sourceLabel?: boolean
+  sourceUrl?: boolean
   archivedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RecipeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "normalizedName" | "type" | "archivedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["recipe"]>
+export type RecipeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "normalizedName" | "type" | "origin" | "description" | "prepMinutes" | "servings" | "instructions" | "carbohydrateGrams" | "proteinGrams" | "fatGrams" | "dietaryPatterns" | "sourceLabel" | "sourceUrl" | "archivedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["recipe"]>
 export type RecipeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.Recipe$itemsArgs<ExtArgs>
@@ -831,6 +1365,17 @@ export type $RecipePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     name: string
     normalizedName: string
     type: $Enums.MealType
+    origin: $Enums.RecipeOrigin
+    description: string | null
+    prepMinutes: number | null
+    servings: number | null
+    instructions: string | null
+    carbohydrateGrams: runtime.Decimal | null
+    proteinGrams: runtime.Decimal | null
+    fatGrams: runtime.Decimal | null
+    dietaryPatterns: $Enums.DietaryPattern[]
+    sourceLabel: string | null
+    sourceUrl: string | null
     archivedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1265,6 +1810,17 @@ export interface RecipeFieldRefs {
   readonly name: Prisma.FieldRef<"Recipe", 'String'>
   readonly normalizedName: Prisma.FieldRef<"Recipe", 'String'>
   readonly type: Prisma.FieldRef<"Recipe", 'MealType'>
+  readonly origin: Prisma.FieldRef<"Recipe", 'RecipeOrigin'>
+  readonly description: Prisma.FieldRef<"Recipe", 'String'>
+  readonly prepMinutes: Prisma.FieldRef<"Recipe", 'Int'>
+  readonly servings: Prisma.FieldRef<"Recipe", 'Int'>
+  readonly instructions: Prisma.FieldRef<"Recipe", 'String'>
+  readonly carbohydrateGrams: Prisma.FieldRef<"Recipe", 'Decimal'>
+  readonly proteinGrams: Prisma.FieldRef<"Recipe", 'Decimal'>
+  readonly fatGrams: Prisma.FieldRef<"Recipe", 'Decimal'>
+  readonly dietaryPatterns: Prisma.FieldRef<"Recipe", 'DietaryPattern[]'>
+  readonly sourceLabel: Prisma.FieldRef<"Recipe", 'String'>
+  readonly sourceUrl: Prisma.FieldRef<"Recipe", 'String'>
   readonly archivedAt: Prisma.FieldRef<"Recipe", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Recipe", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Recipe", 'DateTime'>

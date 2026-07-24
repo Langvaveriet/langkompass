@@ -117,6 +117,23 @@ export const MealType = {
 export type MealType = (typeof MealType)[keyof typeof MealType]
 
 
+export const RecipeOrigin = {
+  USER: 'USER',
+  CURATED: 'CURATED'
+} as const
+
+export type RecipeOrigin = (typeof RecipeOrigin)[keyof typeof RecipeOrigin]
+
+
+export const DietaryPattern = {
+  MEDITERRANEAN: 'MEDITERRANEAN',
+  KETOGENIC: 'KETOGENIC',
+  VEGETARIAN: 'VEGETARIAN'
+} as const
+
+export type DietaryPattern = (typeof DietaryPattern)[keyof typeof DietaryPattern]
+
+
 export const FoodCategory = {
   VEGETABLE: 'VEGETABLE',
   FRUIT: 'FRUIT',

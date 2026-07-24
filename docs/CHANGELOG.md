@@ -1,5 +1,21 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Mediterran-ketogene Rezeptvorschläge
+
+- Ein kuratierter Katalog stellt 20 strukturierte Vorschläge für Frühstück,
+  Mittagessen, Abendessen und Snacks bereit.
+- Große Mahlzeitenchips und „Anderes vorschlagen“ ermöglichen eine schnelle
+  Auswahl ohne Texteingabe oder Dropdown.
+- Jeder Vorschlag enthält Zutatenmengen, Zubereitung, Zeit sowie geschätzte
+  Energie- und Makronährwerte pro Portion.
+- Vorschläge lassen sich als persönliche Vorlage speichern oder direkt für
+  den gewählten Tag in den Wochenplan übernehmen.
+- Rezeptvorlagen speichern Herkunft, Ernährungsmerkmale und optionale
+  Quellenangaben für spätere lizenzierte Integrationen strukturiert.
+- Chefkoch wird ausschließlich als externe Ideensuche verlinkt; fremde
+  Rezepttexte und Bilder werden nicht automatisch übernommen.
+- Die Smartphone-Ansicht wurde bei 390 Pixeln ohne Seitenüberlauf geprüft.
+
 ## 2026-07-24 – Mahlzeitenplan auf dem Dashboard
 
 - Das Dashboard zeigt den heutigen Wochenplan mit geplantem Rezept und

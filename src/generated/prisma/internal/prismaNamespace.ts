@@ -2143,6 +2143,17 @@ export const RecipeScalarFieldEnum = {
   name: 'name',
   normalizedName: 'normalizedName',
   type: 'type',
+  origin: 'origin',
+  description: 'description',
+  prepMinutes: 'prepMinutes',
+  servings: 'servings',
+  instructions: 'instructions',
+  carbohydrateGrams: 'carbohydrateGrams',
+  proteinGrams: 'proteinGrams',
+  fatGrams: 'fatGrams',
+  dietaryPatterns: 'dietaryPatterns',
+  sourceLabel: 'sourceLabel',
+  sourceUrl: 'sourceUrl',
   archivedAt: 'archivedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2486,6 +2497,34 @@ export type ListEnumFoodTraitFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'FoodTrait'
  */
 export type EnumFoodTraitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FoodTrait'>
+
+
+
+/**
+ * Reference to a field of type 'RecipeOrigin'
+ */
+export type EnumRecipeOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecipeOrigin'>
+
+
+
+/**
+ * Reference to a field of type 'RecipeOrigin[]'
+ */
+export type ListEnumRecipeOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecipeOrigin[]'>
+
+
+
+/**
+ * Reference to a field of type 'DietaryPattern[]'
+ */
+export type ListEnumDietaryPatternFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DietaryPattern[]'>
+
+
+
+/**
+ * Reference to a field of type 'DietaryPattern'
+ */
+export type EnumDietaryPatternFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DietaryPattern'>
 
 
 

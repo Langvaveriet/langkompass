@@ -5,6 +5,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
 import { MealForm } from "@/components/nutrition/meal-form";
+import { CuratedRecipeSuggestion } from "@/components/nutrition/curated-recipe-suggestion";
 import {
   RecentMealSuggestions,
   type RecentMealSuggestion,
@@ -18,6 +19,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import type { MealType } from "@/generated/prisma/enums";
 import { calculateDailyCalorieTarget } from "@/lib/nutrition/calorie-target";
+import {
+  curatedRecipesByKey,
+  suggestedCuratedRecipe,
+  type CuratedRecipe,
+} from "@/lib/nutrition/curated-recipes";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import {
   postMealSymptomLabels,
@@ -38,7 +44,7 @@ export const dynamic = "force-dynamic";
 const DAILY_ENERGY_REFERENCE_KCAL = 2000;
 const mealLabels: Record<MealType, string> = { BREAKFAST: "Frühstück", LUNCH: "Mittagessen", DINNER: "Abendessen", SNACK: "Snack", DRINK: "Getränk" };
 
-type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; repeated?: string; deleted?: string; recipeSaved?: string; recipeUsed?: string; recipeArchived?: string; error?: string }> };
+type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; repeated?: string; deleted?: string; recipeSaved?: string; recipeUsed?: string; recipeArchived?: string; suggestionSaved?: string; suggestionPlanned?: string; suggestionType?: string; suggest?: string; error?: string }> };
 
 function validDate(value: string | undefined, timeZone: string): string {
   return value && /^\d{4}-\d{2}-\d{2}$/.test(value)
@@ -65,6 +71,28 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
   const locale = user?.settings?.locale ?? defaultLocale;
   const date = validDate(query.date, timeZone);
+  const suggestionTypes = new Set<CuratedRecipe["type"]>([
+    "BREAKFAST",
+    "LUNCH",
+    "DINNER",
+    "SNACK",
+  ]);
+  const selectedSuggestionType = suggestionTypes.has(
+    query.suggestionType as CuratedRecipe["type"],
+  )
+    ? query.suggestionType as CuratedRecipe["type"]
+    : null;
+  const exactSuggestion = query.suggest
+    ? curatedRecipesByKey.get(query.suggest)
+    : undefined;
+  const suggestedRecipe = exactSuggestion &&
+    (!selectedSuggestionType || exactSuggestion.type === selectedSuggestionType)
+      ? exactSuggestion
+      : suggestedCuratedRecipe(
+          query.suggest ?? date,
+          selectedSuggestionType ?? undefined,
+        );
+  const nextSuggestionSeed = globalThis.crypto.randomUUID();
   const entryDate = new Date(`${date}T00:00:00.000Z`);
   const [entry, recentMealCandidates, recipes] = user
     ? await Promise.all([
@@ -235,8 +263,8 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           </Link>
         </header>
 
-        {query.saved === "1" || query.repeated === "1" || query.deleted === "1" || query.recipeSaved === "1" || query.recipeUsed === "1" || query.recipeArchived === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" || query.recipeUsed === "1" ? "Mahlzeit wurde übernommen." : query.recipeSaved === "1" ? "Vorlage wurde gespeichert. Ein vorhandener Name wird dabei aktualisiert." : query.recipeArchived === "1" ? "Vorlage wurde entfernt." : "Mahlzeit wurde gespeichert."}</div> : null}
-        {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{query.error === "recipe-name" ? "Bitte gib der Vorlage einen Namen mit 2 bis 60 Zeichen." : query.error === "recipe" ? "Die Mahlzeitenvorlage wurde nicht gefunden." : "Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel."}</div> : null}
+        {query.saved === "1" || query.repeated === "1" || query.deleted === "1" || query.recipeSaved === "1" || query.recipeUsed === "1" || query.recipeArchived === "1" || query.suggestionSaved === "1" || query.suggestionPlanned === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.suggestionPlanned === "1" ? "Der Rezeptvorschlag wurde als Vorlage gespeichert und für diesen Tag eingeplant." : query.suggestionSaved === "1" ? "Der Rezeptvorschlag wurde in deinen Vorlagen gespeichert." : query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" || query.recipeUsed === "1" ? "Mahlzeit wurde übernommen." : query.recipeSaved === "1" ? "Vorlage wurde gespeichert. Ein vorhandener Name wird dabei aktualisiert." : query.recipeArchived === "1" ? "Vorlage wurde entfernt." : "Mahlzeit wurde gespeichert."}</div> : null}
+        {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{query.error === "plan-completed" ? "Die Mahlzeit dieses Typs wurde im Wochenplan bereits erfasst und kann nicht ersetzt werden." : query.error === "suggestion" ? "Der Rezeptvorschlag ist nicht mehr verfügbar." : query.error === "recipe-name" ? "Bitte gib der Vorlage einen Namen mit 2 bis 60 Zeichen." : query.error === "recipe" ? "Die Mahlzeitenvorlage wurde nicht gefunden." : "Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel."}</div> : null}
 
         <section className="mt-8 max-w-4xl overflow-hidden rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised shadow-sm" aria-label="Kalorienübersicht">
           <div className="flex flex-wrap items-center justify-between gap-3 bg-forest-soft px-5 py-3">
@@ -337,6 +365,13 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
             <button className="min-h-11 rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-sm font-semibold text-text-primary">Tag anzeigen</button>
           </form>
         </div>
+
+        <CuratedRecipeSuggestion
+          date={date}
+          nextSeed={nextSuggestionSeed}
+          recipe={suggestedRecipe}
+          selectedType={selectedSuggestionType}
+        />
 
         <RecipeSuggestions
           entryDate={date}

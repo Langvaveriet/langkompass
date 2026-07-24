@@ -203,6 +203,17 @@ enum MealType {
   DRINK
 }
 
+enum RecipeOrigin {
+  USER
+  CURATED
+}
+
+enum DietaryPattern {
+  MEDITERRANEAN
+  KETOGENIC
+  VEGETARIAN
+}
+
 enum FoodCategory {
   VEGETABLE
   FRUIT
@@ -433,14 +444,25 @@ model MealItem {
 }
 
 model Recipe {
-  id             String    @id @default(cuid())
-  userId         String
-  name           String
-  normalizedName String
-  type           MealType
-  archivedAt     DateTime?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                String           @id @default(cuid())
+  userId            String
+  name              String
+  normalizedName    String
+  type              MealType
+  origin            RecipeOrigin     @default(USER)
+  description       String?
+  prepMinutes       Int?
+  servings          Int?
+  instructions      String?
+  carbohydrateGrams Decimal?         @db.Decimal(7, 2)
+  proteinGrams      Decimal?         @db.Decimal(7, 2)
+  fatGrams          Decimal?         @db.Decimal(7, 2)
+  dietaryPatterns   DietaryPattern[] @default([])
+  sourceLabel       String?
+  sourceUrl         String?
+  archivedAt        DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
 
   user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   items       RecipeItem[]

@@ -4,6 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { MealType, PortionSize } from "@/generated/prisma/enums";
+import {
+  curatedRecipesByKey,
+  type CuratedRecipe,
+} from "@/lib/nutrition/curated-recipes";
 import { foodCatalogByKey } from "@/lib/nutrition/food-catalog";
 import {
   allowedPostMealSymptoms,
@@ -35,6 +39,69 @@ function selectedDate(formData: FormData): string {
   const value = text(formData, "entryDate");
   if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) redirect("/ernaehrung?error=date");
   return value;
+}
+
+async function upsertCuratedRecipe(userId: string, suggestion: CuratedRecipe) {
+  const normalizedName = normalizeRecipeName(suggestion.name);
+
+  return prisma.$transaction(async (transaction) => {
+    const existingRecipe = await transaction.recipe.findUnique({
+      where: { userId_normalizedName: { userId, normalizedName } },
+      select: { id: true },
+    });
+    const metadata = {
+      name: suggestion.name,
+      type: suggestion.type,
+      origin: "CURATED" as const,
+      description: suggestion.description,
+      prepMinutes: suggestion.prepMinutes,
+      servings: suggestion.servings,
+      instructions: suggestion.instructions.join("\n"),
+      carbohydrateGrams: suggestion.carbohydrateGrams,
+      proteinGrams: suggestion.proteinGrams,
+      fatGrams: suggestion.fatGrams,
+      dietaryPatterns: suggestion.dietaryPatterns,
+      sourceLabel: "LångKompass Katalog",
+      sourceUrl: null,
+      archivedAt: null,
+    };
+    const recipe = existingRecipe
+      ? await transaction.recipe.update({
+          where: { id: existingRecipe.id },
+          data: metadata,
+          select: { id: true, type: true },
+        })
+      : await transaction.recipe.create({
+          data: {
+            userId,
+            normalizedName,
+            ...metadata,
+          },
+          select: { id: true, type: true },
+        });
+
+    if (existingRecipe) {
+      await transaction.recipeItem.deleteMany({
+        where: { recipeId: recipe.id, userId },
+      });
+    }
+    await transaction.recipeItem.createMany({
+      data: suggestion.items.map((item, position) => ({
+        userId,
+        recipeId: recipe.id,
+        position,
+        name: item.name,
+        category: item.category,
+        portion: "MEDIUM" as const,
+        quantity: item.quantity,
+        unit: item.unit,
+        energyKcal: item.energyKcal,
+        traits: item.traits ?? [],
+      })),
+    });
+
+    return recipe;
+  });
 }
 
 export async function saveMeal(formData: FormData) {
@@ -256,7 +323,22 @@ export async function saveMealAsRecipe(formData: FormData) {
     const recipe = existingRecipe
       ? await transaction.recipe.update({
           where: { id: existingRecipe.id },
-          data: { name, type: sourceMeal.type, archivedAt: null },
+          data: {
+            name,
+            type: sourceMeal.type,
+            origin: "USER",
+            description: null,
+            prepMinutes: null,
+            servings: null,
+            instructions: null,
+            carbohydrateGrams: null,
+            proteinGrams: null,
+            fatGrams: null,
+            dietaryPatterns: [],
+            sourceLabel: null,
+            sourceUrl: null,
+            archivedAt: null,
+          },
           select: { id: true },
         })
       : await transaction.recipe.create({
@@ -371,4 +453,73 @@ export async function archiveRecipe(formData: FormData) {
 
   revalidatePath("/ernaehrung");
   redirect(`/ernaehrung?date=${date}&recipeArchived=1`);
+}
+
+export async function saveSuggestedRecipe(formData: FormData) {
+  const user = await requireUser();
+  const date = selectedDate(formData);
+  const suggestionKey = text(formData, "suggestionKey");
+  const suggestion = suggestionKey
+    ? curatedRecipesByKey.get(suggestionKey)
+    : undefined;
+
+  if (!suggestion) {
+    redirect(`/ernaehrung?date=${date}&error=suggestion`);
+  }
+
+  await upsertCuratedRecipe(user.id, suggestion);
+  revalidatePath("/ernaehrung");
+  revalidatePath("/ernaehrung/wochenplan");
+  redirect(`/ernaehrung?date=${date}&suggestionSaved=1&suggest=${suggestion.key}`);
+}
+
+export async function planSuggestedRecipe(formData: FormData) {
+  const user = await requireUser();
+  const date = selectedDate(formData);
+  const suggestionKey = text(formData, "suggestionKey");
+  const suggestion = suggestionKey
+    ? curatedRecipesByKey.get(suggestionKey)
+    : undefined;
+
+  if (!suggestion) {
+    redirect(`/ernaehrung?date=${date}&error=suggestion`);
+  }
+
+  const plannedDate = new Date(`${date}T00:00:00.000Z`);
+  const existingPlan = await prisma.mealPlanEntry.findUnique({
+    where: {
+      userId_plannedDate_type: {
+        userId: user.id,
+        plannedDate,
+        type: suggestion.type,
+      },
+    },
+    select: { completedAt: true },
+  });
+  if (existingPlan?.completedAt) {
+    redirect(`/ernaehrung?date=${date}&error=plan-completed`);
+  }
+
+  const recipe = await upsertCuratedRecipe(user.id, suggestion);
+  await prisma.mealPlanEntry.upsert({
+    where: {
+      userId_plannedDate_type: {
+        userId: user.id,
+        plannedDate,
+        type: suggestion.type,
+      },
+    },
+    update: { recipeId: recipe.id },
+    create: {
+      userId: user.id,
+      recipeId: recipe.id,
+      plannedDate,
+      type: suggestion.type,
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath("/ernaehrung");
+  revalidatePath("/ernaehrung/wochenplan");
+  redirect(`/ernaehrung?date=${date}&suggestionPlanned=1&suggest=${suggestion.key}`);
 }
