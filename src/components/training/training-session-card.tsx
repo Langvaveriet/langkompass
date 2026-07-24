@@ -126,6 +126,9 @@ export function TrainingSessionCard({
   const [repetitions, setRepetitions] = useState(10);
   const [weightKg, setWeightKg] = useState(0);
   const [effort, setEffort] = useState<number | null>(null);
+  const [selectedExerciseId, setSelectedExerciseId] = useState(
+    session?.sets.at(-1)?.exerciseId ?? exercises[0]?.id ?? "",
+  );
 
   if (!session) {
     return (
@@ -180,19 +183,41 @@ export function TrainingSessionCard({
         <form action={addTrainingSet} className="grid gap-5">
           <input type="hidden" name="trainingSessionId" value={session.id} />
 
-          <label className="grid gap-2 text-sm font-semibold text-text-primary">
-            Übung
-            <select
+          <fieldset className="grid gap-2">
+            <legend className="text-sm font-semibold text-text-primary">
+              Übung
+            </legend>
+            <input
+              type="hidden"
               name="exerciseId"
-              className="min-h-12 rounded-[var(--radius-md)] border border-border-strong bg-surface-primary px-4 text-base font-normal outline-none focus:border-forest-strong focus:ring-2 focus:ring-forest-soft"
-            >
-              {exercises.map((exercise) => (
-                <option key={exercise.id} value={exercise.id}>
-                  {exercise.name}
-                </option>
-              ))}
-            </select>
-          </label>
+              value={selectedExerciseId}
+            />
+            <div className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-2">
+              {exercises.map((exercise) => {
+                const selected = exercise.id === selectedExerciseId;
+
+                return (
+                  <button
+                    key={exercise.id}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => setSelectedExerciseId(exercise.id)}
+                    className={[
+                      "min-h-12 shrink-0 snap-start rounded-full border px-4 py-2 text-sm font-semibold transition",
+                      selected
+                        ? "border-forest-strong bg-forest-soft text-forest-strong"
+                        : "border-border-strong bg-surface-primary text-text-primary",
+                    ].join(" ")}
+                  >
+                    {exercise.name}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-xs text-text-muted">
+              Für weitere Übungen seitlich wischen.
+            </p>
+          </fieldset>
 
           <div className="grid grid-cols-2 gap-3">
             <Stepper

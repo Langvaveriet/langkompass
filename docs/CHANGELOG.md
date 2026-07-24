@@ -7,6 +7,7 @@
   Anstrengung.
 - Wiederholungen und Gewicht lassen sich mobil über Plus-/Minus-Picker
   einstellen.
+- Übungen werden über große, horizontal wischbare Touch-Chips ausgewählt.
 - Die letzten drei abgeschlossenen Einheiten zeigen Dauer und Satzanzahl.
 - Alle Trainingsdaten sind einem Benutzer zugeordnet und serverseitig
   validiert.
