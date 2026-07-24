@@ -18,7 +18,7 @@ export function MuscleAreaIcon({ area }: MuscleAreaIconProps) {
       aria-hidden="true"
       className="block h-20 w-12 bg-no-repeat"
       style={{
-        backgroundImage: 'url("/training/muscle-areas.webp")',
+        backgroundImage: 'url("/training/muscle-areas-v2.webp")',
         backgroundPosition: `${horizontalPosition[area]} center`,
         backgroundSize: "500% 100%",
       }}
