@@ -23,10 +23,14 @@ function QuickAddButton({
   name,
   equipment,
   exists,
+  spriteColumn,
+  spriteRow,
 }: {
   name: string;
   equipment: string;
   exists: boolean;
+  spriteColumn: number;
+  spriteRow: number;
 }) {
   const { pending } = useFormStatus();
 
@@ -34,9 +38,18 @@ function QuickAddButton({
     <button
       type="submit"
       disabled={exists || pending}
-      className="flex min-h-16 w-full items-center justify-between gap-3 rounded-[var(--radius-md)] border border-border-subtle bg-surface-primary px-4 py-3 text-left transition hover:border-forest-strong hover:bg-forest-soft disabled:cursor-default disabled:opacity-55"
+      className="flex min-h-28 w-full items-center gap-3 rounded-[var(--radius-md)] border border-border-subtle bg-surface-primary p-3 text-left transition hover:border-forest-strong hover:bg-forest-soft disabled:cursor-default disabled:opacity-55"
     >
-      <span>
+      <span
+        aria-hidden="true"
+        className="block h-24 w-24 shrink-0 rounded-[var(--radius-sm)] bg-no-repeat"
+        style={{
+          backgroundImage: 'url("/training/exercise-catalog.webp")',
+          backgroundPosition: `${spriteColumn * 25}% ${spriteRow * 25}%`,
+          backgroundSize: "500% 500%",
+        }}
+      />
+      <span className="min-w-0 flex-1">
         <span className="block text-sm font-semibold text-text-primary">
           {name}
         </span>
@@ -50,7 +63,7 @@ function QuickAddButton({
       </span>
       <span
         aria-hidden="true"
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-forest-soft text-xl font-semibold text-forest-strong"
+        className="flex h-8 w-8 shrink-0 items-center justify-center self-start rounded-full bg-forest-soft text-xl font-semibold text-forest-strong"
       >
         {exists ? "✓" : "+"}
       </span>
@@ -63,6 +76,9 @@ export function ExerciseQuickAdd({ existingNames }: ExerciseQuickAddProps) {
   const area =
     exerciseCatalog.find((option) => option.value === selectedArea) ??
     exerciseCatalog[0];
+  const areaIndex = exerciseCatalog.findIndex(
+    (option) => option.value === area.value,
+  );
   const existingNameSet = new Set(existingNames);
 
   return (
@@ -105,7 +121,7 @@ export function ExerciseQuickAdd({ existingNames }: ExerciseQuickAddProps) {
         </div>
 
         <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-          {area.exercises.map((exercise) => {
+          {area.exercises.map((exercise, exerciseIndex) => {
             const exists = existingNameSet.has(normalizedName(exercise.name));
 
             return (
@@ -119,6 +135,8 @@ export function ExerciseQuickAdd({ existingNames }: ExerciseQuickAddProps) {
                   name={exercise.name}
                   equipment={exerciseEquipmentLabels[exercise.equipment]}
                   exists={exists}
+                  spriteColumn={exerciseIndex}
+                  spriteRow={areaIndex}
                 />
               </form>
             );
