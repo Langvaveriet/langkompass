@@ -5,6 +5,7 @@ import {
   ExerciseForm,
   type ExerciseFormValues,
 } from "@/components/training/exercise-form";
+import { ExerciseQuickAdd } from "@/components/training/exercise-quick-add";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
@@ -91,13 +92,17 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
     }
   })();
 
-  const successMessage = queryValue(query, "saved")
-    ? "Übung gespeichert."
-    : queryValue(query, "archived")
-      ? "Übung archiviert."
-      : queryValue(query, "restored")
-        ? "Übung wiederhergestellt."
-        : null;
+  const successMessage = queryValue(query, "added")
+    ? "Übung zur Bibliothek hinzugefügt."
+    : queryValue(query, "exists")
+      ? "Diese Übung ist bereits in deiner Bibliothek."
+      : queryValue(query, "saved")
+        ? "Übung gespeichert."
+        : queryValue(query, "archived")
+          ? "Übung archiviert."
+          : queryValue(query, "restored")
+            ? "Übung wiederhergestellt."
+            : null;
 
   return (
     <AppLayout>
@@ -128,6 +133,26 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
           </p>
         ) : null}
 
+        {!showArchived && !editedExercise ? (
+          <Section aria-label="Übung schnell auswählen">
+            <Card>
+              <CardHeader>
+                <CardTitle>Übung auswählen</CardTitle>
+                <p className="mt-2 text-sm leading-6 text-text-muted">
+                  Körperbereich wählen, Übung antippen, fertig.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <ExerciseQuickAdd
+                  existingNames={exercises.map(
+                    (exercise) => exercise.normalizedName,
+                  )}
+                />
+              </CardContent>
+            </Card>
+          </Section>
+        ) : null}
+
         <Section
           aria-label="Übungsbibliothek verwalten"
           className="grid grid-cols-12 gap-5"
@@ -135,7 +160,7 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
           <Card className="col-span-12 xl:col-span-5">
             <CardHeader className="flex flex-row items-center justify-between gap-4">
               <CardTitle>
-                {editedExercise ? "Übung bearbeiten" : "Übung hinzufügen"}
+                {editedExercise ? "Übung bearbeiten" : "Eigene Übung"}
               </CardTitle>
               {editedExercise ? (
                 <Link
@@ -147,10 +172,18 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
               ) : null}
             </CardHeader>
             <CardContent>
-              <ExerciseForm
-                key={editedExercise?.id ?? "new-exercise"}
-                values={formValues}
-              />
+              {editedExercise ? (
+                <ExerciseForm key={editedExercise.id} values={formValues} />
+              ) : (
+                <details>
+                  <summary className="flex min-h-12 cursor-pointer items-center justify-between rounded-[var(--radius-md)] border border-border-strong px-4 py-3 text-sm font-semibold text-forest-strong">
+                    Manuell anlegen
+                  </summary>
+                  <div className="mt-6">
+                    <ExerciseForm key="new-exercise" values={formValues} />
+                  </div>
+                </details>
+              )}
             </CardContent>
           </Card>
 

@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
+import { exercisePresetByKey } from "@/lib/training/exercise-catalog";
 import {
   exerciseCategoryValues,
   exerciseEquipmentValues,
@@ -24,6 +25,10 @@ const exerciseSchema = z.object({
 const archiveSchema = z.object({
   exerciseId: z.string().trim().min(1),
   intent: z.enum(["archive", "restore"]),
+});
+
+const catalogExerciseSchema = z.object({
+  exerciseKey: z.string().trim().min(1),
 });
 
 function formText(formData: FormData, field: string): string {
@@ -101,6 +106,57 @@ export async function saveExercise(formData: FormData) {
 
   revalidatePath("/training");
   redirect("/training?saved=1");
+}
+
+export async function addCatalogExercise(formData: FormData) {
+  const user = await requireUser();
+  const parsed = catalogExerciseSchema.safeParse({
+    exerciseKey: formText(formData, "exerciseKey"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training?error=validation");
+  }
+
+  const preset = exercisePresetByKey.get(parsed.data.exerciseKey);
+
+  if (!preset) {
+    redirect("/training?error=validation");
+  }
+
+  const normalizedName = normalizedExerciseName(preset.name);
+  const existing = await prisma.exercise.findUnique({
+    where: {
+      userId_normalizedName: {
+        userId: user.id,
+        normalizedName,
+      },
+    },
+    select: { id: true, archivedAt: true },
+  });
+
+  if (existing && !existing.archivedAt) {
+    redirect("/training?exists=1");
+  }
+
+  const data = {
+    name: preset.name,
+    normalizedName,
+    category: preset.category,
+    equipment: preset.equipment,
+    muscleGroups: preset.muscleGroups,
+    notes: null,
+    archivedAt: null,
+  };
+
+  if (existing) {
+    await prisma.exercise.update({ where: { id: existing.id }, data });
+  } else {
+    await prisma.exercise.create({ data: { userId: user.id, ...data } });
+  }
+
+  revalidatePath("/training");
+  redirect(`/training?${existing ? "restored" : "added"}=1`);
 }
 
 export async function setExerciseArchived(formData: FormData) {
