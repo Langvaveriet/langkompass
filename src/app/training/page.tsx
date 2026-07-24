@@ -190,6 +190,24 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
         .map(({ exercise }) => exercise)
         .filter((exercise) => exercise.archivedAt === null)
     : exercises;
+  const previousTrainingSets = activeSession
+    ? await prisma.trainingSet.findMany({
+        where: {
+          userId: user.id,
+          exerciseId: { in: sessionExercises.map((exercise) => exercise.id) },
+          trainingSession: { completedAt: { not: null } },
+        },
+        orderBy: { createdAt: "desc" },
+        distinct: ["exerciseId"],
+        select: { exerciseId: true, weightKg: true },
+      })
+    : [];
+  const previousWeightByExercise = new Map(
+    previousTrainingSets.map((set) => [
+      set.exerciseId,
+      set.weightKg?.toString() ?? null,
+    ]),
+  );
 
   return (
     <AppLayout>
@@ -238,6 +256,7 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
                     visual: exerciseVisualByNormalizedName.get(
                       exercise.normalizedName,
                     ),
+                    previousWeightKg: previousWeightByExercise.get(exercise.id),
                   }))}
                   plans={trainingPlans.map((plan) => ({
                     id: plan.id,

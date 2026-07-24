@@ -4,6 +4,8 @@
 
 - Beim nächsten Satz wird das zuletzt gespeicherte Gewicht derselben Übung
   automatisch vorbelegt.
+- Beim ersten Satz einer neuen Einheit dient das zuletzt verwendete Gewicht aus
+  einem früheren abgeschlossenen Training als Vorbelegung.
 - Beim Wechsel der Übung wird deren eigener letzter Gewichtswert geladen,
   damit keine Werte zwischen Übungen vermischt werden.
 

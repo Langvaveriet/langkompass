@@ -18,6 +18,7 @@ type ExerciseOption = {
   id: string;
   name: string;
   visual?: ExerciseVisual;
+  previousWeightKg?: string | null;
 };
 
 type TrainingPlanOption = {
@@ -51,12 +52,16 @@ type TrainingSessionCardProps = {
 
 function previousWeightForExercise(
   sets: LoggedSet[],
-  exerciseId: string,
+  exercise: ExerciseOption | undefined,
 ): number {
   const previousSet = sets.findLast(
-    (set) => set.exerciseId === exerciseId,
+    (set) => set.exerciseId === exercise?.id,
   );
-  const parsedWeight = Number(previousSet?.weightKg ?? 0);
+  const parsedWeight = Number(
+    previousSet
+      ? previousSet.weightKg ?? 0
+      : exercise?.previousWeightKg ?? 0,
+  );
 
   return Number.isFinite(parsedWeight) ? parsedWeight : 0;
 }
@@ -152,7 +157,10 @@ export function TrainingSessionCard({
     session?.sets.at(-1)?.exerciseId ?? exercises[0]?.id ?? "";
   const [repetitions, setRepetitions] = useState(10);
   const [weightKg, setWeightKg] = useState(() =>
-    previousWeightForExercise(session?.sets ?? [], initialExerciseId),
+    previousWeightForExercise(
+      session?.sets ?? [],
+      exercises.find((exercise) => exercise.id === initialExerciseId),
+    ),
   );
   const [effort, setEffort] = useState<number | null>(null);
   const [selectedExerciseId, setSelectedExerciseId] =
@@ -161,7 +169,10 @@ export function TrainingSessionCard({
   function selectExercise(exerciseId: string) {
     setSelectedExerciseId(exerciseId);
     setWeightKg(
-      previousWeightForExercise(session?.sets ?? [], exerciseId),
+      previousWeightForExercise(
+        session?.sets ?? [],
+        exercises.find((exercise) => exercise.id === exerciseId),
+      ),
     );
   }
 
