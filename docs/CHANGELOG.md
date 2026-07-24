@@ -1,5 +1,12 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Fehlerkorrektur Morgenerfassung
+
+- Die gültigen Nullwerte der Schmerz- und Stress-Slider blockieren das
+  Speichern des Morgen-Checks nicht mehr.
+- Validierungsfehler nennen jetzt das tatsächlich betroffene Eingabefeld und
+  dessen gültigen Wertebereich.
+
 ## 2026-07-24 – Wiederverwendbare Trainingspläne
 
 - Mehrere benannte Trainingspläne lassen sich anlegen, bearbeiten und

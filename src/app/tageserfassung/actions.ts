@@ -83,8 +83,9 @@ function getDate(formData: FormData): {
 function validateScale(
   value: number | null,
   field: string,
+  minimum = 1,
 ): number | null {
-  if (value !== null && (value < 1 || value > 10)) {
+  if (value !== null && (value < minimum || value > 10)) {
     redirect(`/tageserfassung?error=${field}`);
   }
 
@@ -144,11 +145,13 @@ export async function saveDailyEntry(formData: FormData) {
   const painLevel = validateScale(
     getInteger(formData, "painLevel"),
     "painLevel",
+    0,
   );
 
   const stressLevel = validateScale(
     getInteger(formData, "stressLevel"),
     "stressLevel",
+    0,
   );
 
   const sleepHours = getDecimal(formData, "sleepHours");

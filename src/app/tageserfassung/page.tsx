@@ -53,6 +53,10 @@ function formatDecimal(value: unknown): string {
 }
 
 function errorMessage(error: string): string {
+  if (error === "date") {
+    return "Bitte wähle ein gültiges Datum aus.";
+  }
+
   if (error === "weightKg") {
     return "Das Gewicht muss zwischen 20 und 400 kg liegen.";
   }
@@ -61,10 +65,23 @@ function errorMessage(error: string): string {
     return "Bitte prüfe die Uhrzeit der Gewichtsmessung.";
   }
 
-  return (
-    "Bitte prüfe Datum und Eingabewerte. " +
-    "Skalenwerte müssen zwischen 1 und 10 liegen."
-  );
+  if (error === "sleepHours") {
+    return "Die Schlafdauer muss zwischen 0 und 24 Stunden liegen.";
+  }
+
+  if (error === "painLevel" || error === "stressLevel") {
+    return "Schmerzen und Stress müssen zwischen 0 und 10 liegen.";
+  }
+
+  if (
+    error === "wellbeing" ||
+    error === "energy" ||
+    error === "sleepQuality"
+  ) {
+    return "Der ausgewählte Skalenwert muss zwischen 1 und 10 liegen.";
+  }
+
+  return "Bitte prüfe Datum und Eingabewerte.";
 }
 
 export default async function TageserfassungPage({
