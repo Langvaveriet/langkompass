@@ -11,7 +11,11 @@ import {
 } from "@/lib/nutrition/post-meal-reactions";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
-import { defaultTimeZone, localDateTimeToUtc } from "@/lib/user-settings";
+import {
+  defaultTimeZone,
+  localDateTimeToUtc,
+  timeInTimeZone,
+} from "@/lib/user-settings";
 
 const mealTypes = new Set<MealType>(["BREAKFAST", "LUNCH", "DINNER", "SNACK", "DRINK"]);
 const portionSizes = new Set<PortionSize>(["SMALL", "MEDIUM", "LARGE"]);
@@ -158,4 +162,62 @@ export async function deleteMeal(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/ernaehrung");
   redirect(`/ernaehrung?date=${date}&deleted=1`);
+}
+
+export async function repeatMeal(formData: FormData) {
+  const user = await requireUser();
+  const date = selectedDate(formData);
+  const sourceMealId = text(formData, "sourceMealId");
+  if (!sourceMealId) redirect(`/ernaehrung?date=${date}&error=meal`);
+
+  const [settings, sourceMeal] = await Promise.all([
+    prisma.userSettings.findUnique({
+      where: { userId: user.id },
+      select: { timeZone: true },
+    }),
+    prisma.meal.findFirst({
+      where: { id: sourceMealId, dailyEntry: { userId: user.id } },
+      include: { items: true },
+    }),
+  ]);
+
+  if (!sourceMeal || sourceMeal.items.length === 0) {
+    redirect(`/ernaehrung?date=${date}&error=meal`);
+  }
+
+  const timeZone = settings?.timeZone ?? defaultTimeZone;
+  const entryDate = new Date(`${date}T00:00:00.000Z`);
+  const dailyEntry = await prisma.dailyEntry.upsert({
+    where: { userId_entryDate: { userId: user.id, entryDate } },
+    update: {},
+    create: { userId: user.id, entryDate },
+  });
+
+  await prisma.meal.create({
+    data: {
+      dailyEntryId: dailyEntry.id,
+      type: sourceMeal.type,
+      consumedAt: localDateTimeToUtc(
+        date,
+        timeInTimeZone(sourceMeal.consumedAt, timeZone),
+        timeZone,
+      ),
+      items: {
+        create: sourceMeal.items.map((item) => ({
+          foodKey: item.foodKey,
+          name: item.name,
+          category: item.category,
+          portion: item.portion,
+          quantity: item.quantity,
+          unit: item.unit,
+          energyKcal: item.energyKcal,
+          traits: item.traits,
+        })),
+      },
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath("/ernaehrung");
+  redirect(`/ernaehrung?date=${date}&repeated=1`);
 }

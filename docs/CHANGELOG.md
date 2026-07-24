@@ -1,5 +1,15 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Frühere Mahlzeiten schnell wiederholen
+
+- Bis zu fünf unterschiedliche frühere Mahlzeiten erscheinen als
+  touch-freundliche Schnellvorschläge.
+- Lebensmittel, Mengen, Kategorien, Merkmale und Kalorien-Snapshots lassen
+  sich mit einer Aktion auf den gewählten Tag übernehmen.
+- Beschwerden und persönliche Notizen werden bewusst nicht kopiert.
+- Identische Mahlzeiten werden zusammengefasst, damit die Auswahl übersichtlich
+  bleibt.
+
 ## 2026-07-24 – Übungsfortschritt im Trainingsverlauf
 
 - Übungen lassen sich im Trainingsverlauf über grafische Touch-Chips auswählen.

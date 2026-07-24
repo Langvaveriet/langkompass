@@ -5,6 +5,10 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
 import { MealForm } from "@/components/nutrition/meal-form";
+import {
+  RecentMealSuggestions,
+  type RecentMealSuggestion,
+} from "@/components/nutrition/recent-meal-suggestions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import type { MealType } from "@/generated/prisma/enums";
@@ -14,10 +18,12 @@ import {
   postMealSymptomLabels,
   reactionDelayLabels,
 } from "@/lib/nutrition/post-meal-reactions";
+import { uniqueRecentMeals } from "@/lib/nutrition/recent-meals";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
   dateInTimeZone,
+  defaultLocale,
   defaultTimeZone,
   timeInTimeZone,
 } from "@/lib/user-settings";
@@ -26,7 +32,7 @@ export const dynamic = "force-dynamic";
 const DAILY_ENERGY_REFERENCE_KCAL = 2000;
 const mealLabels: Record<MealType, string> = { BREAKFAST: "Frühstück", LUNCH: "Mittagessen", DINNER: "Abendessen", SNACK: "Snack", DRINK: "Getränk" };
 
-type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; deleted?: string; error?: string }> };
+type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; repeated?: string; deleted?: string; error?: string }> };
 
 function validDate(value: string | undefined, timeZone: string): string {
   return value && /^\d{4}-\d{2}-\d{2}$/.test(value)
@@ -51,11 +57,60 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
     },
   });
   const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
+  const locale = user?.settings?.locale ?? defaultLocale;
   const date = validDate(query.date, timeZone);
-  const entry = user ? await prisma.dailyEntry.findUnique({
-    where: { userId_entryDate: { userId: user.id, entryDate: new Date(`${date}T00:00:00.000Z`) } },
-    include: { meals: { include: { items: true }, orderBy: { consumedAt: "asc" } } },
-  }) : null;
+  const entryDate = new Date(`${date}T00:00:00.000Z`);
+  const [entry, recentMealCandidates] = user
+    ? await Promise.all([
+        prisma.dailyEntry.findUnique({
+          where: { userId_entryDate: { userId: user.id, entryDate } },
+          include: {
+            meals: {
+              include: { items: true },
+              orderBy: { consumedAt: "asc" },
+            },
+          },
+        }),
+        prisma.meal.findMany({
+          where: {
+            dailyEntry: {
+              userId: user.id,
+              entryDate: { lt: entryDate },
+            },
+          },
+          include: { items: true },
+          orderBy: { consumedAt: "desc" },
+          take: 20,
+        }),
+      ])
+    : [null, []];
+  const recentMealSuggestions: RecentMealSuggestion[] = uniqueRecentMeals(
+    recentMealCandidates,
+  ).map((meal) => ({
+    id: meal.id,
+    mealLabel: mealLabels[meal.type],
+    dateLabel: new Intl.DateTimeFormat(locale, {
+      day: "2-digit",
+      month: "2-digit",
+      timeZone,
+    }).format(meal.consumedAt),
+    timeLabel: timeInTimeZone(meal.consumedAt, timeZone),
+    energyKcal: meal.items.some(
+      (item) => estimatedFoodEnergy(item) !== null,
+    )
+      ? Math.round(
+          meal.items.reduce(
+            (sum, item) => sum + (estimatedFoodEnergy(item) ?? 0),
+            0,
+          ),
+        )
+      : null,
+    items: meal.items.map((item) =>
+      item.quantity
+        ? `${item.name} · ${item.quantity.toString()} ${item.unit === "MILLILITER" ? "ml" : "g"}`
+        : item.name,
+    ),
+  }));
   const editedMeal = query.edit ? entry?.meals.find((meal) => meal.id === query.edit) : undefined;
   const values = editedMeal ? {
     id: editedMeal.id,
@@ -143,7 +198,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           <PageSubtitle className="mt-4">Mahlzeiten schnell dokumentieren und langfristige Zusammenhänge erkennen.</PageSubtitle>
         </header>
 
-        {query.saved === "1" || query.deleted === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : "Mahlzeit wurde gespeichert."}</div> : null}
+        {query.saved === "1" || query.repeated === "1" || query.deleted === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" ? "Mahlzeit wurde übernommen." : "Mahlzeit wurde gespeichert."}</div> : null}
         {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel.</div> : null}
 
         <section className="mt-8 max-w-4xl overflow-hidden rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised shadow-sm" aria-label="Kalorienübersicht">
@@ -245,6 +300,11 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
             <button className="min-h-11 rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-sm font-semibold text-text-primary">Tag anzeigen</button>
           </form>
         </div>
+
+        <RecentMealSuggestions
+          entryDate={date}
+          suggestions={recentMealSuggestions}
+        />
 
         <Section aria-label="Ernährungserfassung" className="grid grid-cols-12 gap-5">
           <Card className="col-span-12 xl:col-span-8">
