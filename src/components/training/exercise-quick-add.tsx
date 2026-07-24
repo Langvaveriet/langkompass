@@ -35,6 +35,16 @@ function QuickAddButton({
   spriteRow: number;
 }) {
   const { pending } = useFormStatus();
+  const spriteCrop =
+    spriteCatalog === "extended"
+      ? spriteRow === 3
+        ? "inset(5% 5% 14%)"
+        : "inset(5%)"
+      : spriteRow === 0
+        ? "inset(0 6% 4%)"
+        : spriteRow === 4
+          ? "inset(12% 6% 2%)"
+          : "inset(20% 6% 4%)";
 
   return (
     <button
@@ -49,10 +59,7 @@ function QuickAddButton({
           backgroundImage: `url("/training/exercise-catalog-${spriteCatalog === "base" ? "v2" : "extended"}.webp")`,
           backgroundPosition: `${spriteColumn * 25}% ${spriteRow * 25}%`,
           backgroundSize: "500% 500%",
-          clipPath:
-            spriteCatalog === "base" && spriteRow > 0
-              ? "inset(14% 0 0)"
-              : undefined,
+          clipPath: spriteCrop,
         }}
       />
       <span className="min-w-0 flex-1">
