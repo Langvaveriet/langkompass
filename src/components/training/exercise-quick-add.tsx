@@ -23,12 +23,14 @@ function QuickAddButton({
   name,
   equipment,
   exists,
+  spriteCatalog,
   spriteColumn,
   spriteRow,
 }: {
   name: string;
   equipment: string;
   exists: boolean;
+  spriteCatalog: "base" | "extended";
   spriteColumn: number;
   spriteRow: number;
 }) {
@@ -44,10 +46,13 @@ function QuickAddButton({
         aria-hidden="true"
         className="block h-24 w-24 shrink-0 bg-no-repeat"
         style={{
-          backgroundImage: 'url("/training/exercise-catalog-v2.webp")',
+          backgroundImage: `url("/training/exercise-catalog-${spriteCatalog === "base" ? "v2" : "extended"}.webp")`,
           backgroundPosition: `${spriteColumn * 25}% ${spriteRow * 25}%`,
           backgroundSize: "500% 500%",
-          clipPath: spriteRow === 0 ? undefined : "inset(14% 0 0)",
+          clipPath:
+            spriteCatalog === "base" && spriteRow > 0
+              ? "inset(14% 0 0)"
+              : undefined,
         }}
       />
       <span className="min-w-0 flex-1">
@@ -136,7 +141,8 @@ export function ExerciseQuickAdd({ existingNames }: ExerciseQuickAddProps) {
                   name={exercise.name}
                   equipment={exerciseEquipmentLabels[exercise.equipment]}
                   exists={exists}
-                  spriteColumn={exerciseIndex}
+                  spriteCatalog={exerciseIndex < 5 ? "base" : "extended"}
+                  spriteColumn={exerciseIndex % 5}
                   spriteRow={areaIndex}
                 />
               </form>
