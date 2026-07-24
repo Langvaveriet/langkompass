@@ -9,6 +9,11 @@ import {
   RecentMealSuggestions,
   type RecentMealSuggestion,
 } from "@/components/nutrition/recent-meal-suggestions";
+import {
+  RecipeSuggestions,
+  SaveRecipeForm,
+  type RecipeSuggestion,
+} from "@/components/nutrition/recipe-suggestions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import type { MealType } from "@/generated/prisma/enums";
@@ -19,6 +24,7 @@ import {
   reactionDelayLabels,
 } from "@/lib/nutrition/post-meal-reactions";
 import { uniqueRecentMeals } from "@/lib/nutrition/recent-meals";
+import { suggestRecipeName } from "@/lib/nutrition/recipes";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
@@ -32,7 +38,7 @@ export const dynamic = "force-dynamic";
 const DAILY_ENERGY_REFERENCE_KCAL = 2000;
 const mealLabels: Record<MealType, string> = { BREAKFAST: "Frühstück", LUNCH: "Mittagessen", DINNER: "Abendessen", SNACK: "Snack", DRINK: "Getränk" };
 
-type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; repeated?: string; deleted?: string; error?: string }> };
+type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; repeated?: string; deleted?: string; recipeSaved?: string; recipeUsed?: string; recipeArchived?: string; error?: string }> };
 
 function validDate(value: string | undefined, timeZone: string): string {
   return value && /^\d{4}-\d{2}-\d{2}$/.test(value)
@@ -60,7 +66,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const locale = user?.settings?.locale ?? defaultLocale;
   const date = validDate(query.date, timeZone);
   const entryDate = new Date(`${date}T00:00:00.000Z`);
-  const [entry, recentMealCandidates] = user
+  const [entry, recentMealCandidates, recipes] = user
     ? await Promise.all([
         prisma.dailyEntry.findUnique({
           where: { userId_entryDate: { userId: user.id, entryDate } },
@@ -82,8 +88,13 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           orderBy: { consumedAt: "desc" },
           take: 20,
         }),
+        prisma.recipe.findMany({
+          where: { userId: user.id, archivedAt: null },
+          include: { items: { orderBy: { position: "asc" } } },
+          orderBy: { updatedAt: "desc" },
+        }),
       ])
-    : [null, []];
+    : [null, [], []];
   const recentMealSuggestions: RecentMealSuggestion[] = uniqueRecentMeals(
     recentMealCandidates,
   ).map((meal) => ({
@@ -106,6 +117,26 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
         )
       : null,
     items: meal.items.map((item) =>
+      item.quantity
+        ? `${item.name} · ${item.quantity.toString()} ${item.unit === "MILLILITER" ? "ml" : "g"}`
+        : item.name,
+    ),
+  }));
+  const recipeSuggestions: RecipeSuggestion[] = recipes.map((recipe) => ({
+    id: recipe.id,
+    name: recipe.name,
+    mealLabel: mealLabels[recipe.type],
+    energyKcal: recipe.items.some(
+      (item) => estimatedFoodEnergy(item) !== null,
+    )
+      ? Math.round(
+          recipe.items.reduce(
+            (sum, item) => sum + (estimatedFoodEnergy(item) ?? 0),
+            0,
+          ),
+        )
+      : null,
+    items: recipe.items.map((item) =>
       item.quantity
         ? `${item.name} · ${item.quantity.toString()} ${item.unit === "MILLILITER" ? "ml" : "g"}`
         : item.name,
@@ -198,8 +229,8 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           <PageSubtitle className="mt-4">Mahlzeiten schnell dokumentieren und langfristige Zusammenhänge erkennen.</PageSubtitle>
         </header>
 
-        {query.saved === "1" || query.repeated === "1" || query.deleted === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" ? "Mahlzeit wurde übernommen." : "Mahlzeit wurde gespeichert."}</div> : null}
-        {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel.</div> : null}
+        {query.saved === "1" || query.repeated === "1" || query.deleted === "1" || query.recipeSaved === "1" || query.recipeUsed === "1" || query.recipeArchived === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" || query.recipeUsed === "1" ? "Mahlzeit wurde übernommen." : query.recipeSaved === "1" ? "Vorlage wurde gespeichert. Ein vorhandener Name wird dabei aktualisiert." : query.recipeArchived === "1" ? "Vorlage wurde entfernt." : "Mahlzeit wurde gespeichert."}</div> : null}
+        {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{query.error === "recipe-name" ? "Bitte gib der Vorlage einen Namen mit 2 bis 60 Zeichen." : query.error === "recipe" ? "Die Mahlzeitenvorlage wurde nicht gefunden." : "Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel."}</div> : null}
 
         <section className="mt-8 max-w-4xl overflow-hidden rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised shadow-sm" aria-label="Kalorienübersicht">
           <div className="flex flex-wrap items-center justify-between gap-3 bg-forest-soft px-5 py-3">
@@ -301,6 +332,11 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           </form>
         </div>
 
+        <RecipeSuggestions
+          entryDate={date}
+          recipes={recipeSuggestions}
+        />
+
         <RecentMealSuggestions
           entryDate={date}
           suggestions={recentMealSuggestions}
@@ -354,6 +390,14 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
                             : ""}
                         </div>
                       ) : null}
+                      <SaveRecipeForm
+                        entryDate={date}
+                        mealId={meal.id}
+                        suggestedName={suggestRecipeName(
+                          meal.items.map((item) => item.name),
+                          mealLabels[meal.type],
+                        )}
+                      />
                       <form action={deleteMeal} className="mt-3">
                         <input type="hidden" name="entryDate" value={date} /><input type="hidden" name="mealId" value={meal.id} />
                         <button className="text-xs font-semibold text-danger">Löschen</button>

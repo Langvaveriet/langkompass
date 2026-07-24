@@ -121,3 +121,13 @@ export type Meal = Prisma.MealModel
  *
  */
 export type MealItem = Prisma.MealItemModel
+/**
+ * Model Recipe
+ *
+ */
+export type Recipe = Prisma.RecipeModel
+/**
+ * Model RecipeItem
+ *
+ */
+export type RecipeItem = Prisma.RecipeItemModel

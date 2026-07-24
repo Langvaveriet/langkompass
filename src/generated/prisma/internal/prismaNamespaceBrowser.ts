@@ -66,7 +66,9 @@ export const ModelName = {
   TrainingSession: 'TrainingSession',
   TrainingSet: 'TrainingSet',
   Meal: 'Meal',
-  MealItem: 'MealItem'
+  MealItem: 'MealItem',
+  Recipe: 'Recipe',
+  RecipeItem: 'RecipeItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -340,6 +342,40 @@ export const MealItemScalarFieldEnum = {
 } as const
 
 export type MealItemScalarFieldEnum = (typeof MealItemScalarFieldEnum)[keyof typeof MealItemScalarFieldEnum]
+
+
+export const RecipeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  normalizedName: 'normalizedName',
+  type: 'type',
+  archivedAt: 'archivedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RecipeScalarFieldEnum = (typeof RecipeScalarFieldEnum)[keyof typeof RecipeScalarFieldEnum]
+
+
+export const RecipeItemScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recipeId: 'recipeId',
+  position: 'position',
+  foodKey: 'foodKey',
+  name: 'name',
+  category: 'category',
+  portion: 'portion',
+  quantity: 'quantity',
+  unit: 'unit',
+  energyKcal: 'energyKcal',
+  traits: 'traits',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RecipeItemScalarFieldEnum = (typeof RecipeItemScalarFieldEnum)[keyof typeof RecipeItemScalarFieldEnum]
 
 
 export const SortOrder = {

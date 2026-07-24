@@ -9,6 +9,10 @@ import {
   allowedPostMealSymptoms,
   allowedReactionDelays,
 } from "@/lib/nutrition/post-meal-reactions";
+import {
+  normalizeRecipeName,
+  recipeNameSchema,
+} from "@/lib/nutrition/recipes";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
@@ -220,4 +224,151 @@ export async function repeatMeal(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/ernaehrung");
   redirect(`/ernaehrung?date=${date}&repeated=1`);
+}
+
+export async function saveMealAsRecipe(formData: FormData) {
+  const user = await requireUser();
+  const date = selectedDate(formData);
+  const mealId = text(formData, "mealId");
+  const parsedName = recipeNameSchema.safeParse(text(formData, "recipeName"));
+
+  if (!mealId || !parsedName.success) {
+    redirect(`/ernaehrung?date=${date}&error=recipe-name`);
+  }
+
+  const sourceMeal = await prisma.meal.findFirst({
+    where: { id: mealId, dailyEntry: { userId: user.id } },
+    include: { items: true },
+  });
+
+  if (!sourceMeal || sourceMeal.items.length === 0) {
+    redirect(`/ernaehrung?date=${date}&error=meal`);
+  }
+
+  const name = parsedName.data;
+  const normalizedName = normalizeRecipeName(name);
+
+  await prisma.$transaction(async (transaction) => {
+    const existingRecipe = await transaction.recipe.findUnique({
+      where: { userId_normalizedName: { userId: user.id, normalizedName } },
+      select: { id: true },
+    });
+    const recipe = existingRecipe
+      ? await transaction.recipe.update({
+          where: { id: existingRecipe.id },
+          data: { name, type: sourceMeal.type, archivedAt: null },
+          select: { id: true },
+        })
+      : await transaction.recipe.create({
+          data: {
+            userId: user.id,
+            name,
+            normalizedName,
+            type: sourceMeal.type,
+          },
+          select: { id: true },
+        });
+
+    if (existingRecipe) {
+      await transaction.recipeItem.deleteMany({
+        where: { recipeId: recipe.id, userId: user.id },
+      });
+    }
+
+    await transaction.recipeItem.createMany({
+      data: sourceMeal.items.map((item, position) => ({
+        userId: user.id,
+        recipeId: recipe.id,
+        position,
+        foodKey: item.foodKey,
+        name: item.name,
+        category: item.category,
+        portion: item.portion,
+        quantity: item.quantity,
+        unit: item.unit,
+        energyKcal: item.energyKcal,
+        traits: item.traits,
+      })),
+    });
+  });
+
+  revalidatePath("/ernaehrung");
+  redirect(`/ernaehrung?date=${date}&recipeSaved=1`);
+}
+
+export async function useRecipe(formData: FormData) {
+  const user = await requireUser();
+  const date = selectedDate(formData);
+  const recipeId = text(formData, "recipeId");
+  if (!recipeId) redirect(`/ernaehrung?date=${date}&error=recipe`);
+
+  const [settings, recipe] = await Promise.all([
+    prisma.userSettings.findUnique({
+      where: { userId: user.id },
+      select: { timeZone: true },
+    }),
+    prisma.recipe.findFirst({
+      where: { id: recipeId, userId: user.id, archivedAt: null },
+      include: { items: { orderBy: { position: "asc" } } },
+    }),
+  ]);
+
+  if (!recipe || recipe.items.length === 0) {
+    redirect(`/ernaehrung?date=${date}&error=recipe`);
+  }
+
+  const timeZone = settings?.timeZone ?? defaultTimeZone;
+  const entryDate = new Date(`${date}T00:00:00.000Z`);
+  const dailyEntry = await prisma.dailyEntry.upsert({
+    where: { userId_entryDate: { userId: user.id, entryDate } },
+    update: {},
+    create: { userId: user.id, entryDate },
+  });
+
+  await prisma.meal.create({
+    data: {
+      dailyEntryId: dailyEntry.id,
+      type: recipe.type,
+      consumedAt: localDateTimeToUtc(
+        date,
+        timeInTimeZone(new Date(), timeZone),
+        timeZone,
+      ),
+      items: {
+        create: recipe.items.map((item) => ({
+          foodKey: item.foodKey,
+          name: item.name,
+          category: item.category,
+          portion: item.portion,
+          quantity: item.quantity,
+          unit: item.unit,
+          energyKcal: item.energyKcal,
+          traits: item.traits,
+        })),
+      },
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath("/ernaehrung");
+  redirect(`/ernaehrung?date=${date}&recipeUsed=1`);
+}
+
+export async function archiveRecipe(formData: FormData) {
+  const user = await requireUser();
+  const date = selectedDate(formData);
+  const recipeId = text(formData, "recipeId");
+  if (!recipeId) redirect(`/ernaehrung?date=${date}&error=recipe`);
+
+  const result = await prisma.recipe.updateMany({
+    where: { id: recipeId, userId: user.id, archivedAt: null },
+    data: { archivedAt: new Date() },
+  });
+
+  if (result.count === 0) {
+    redirect(`/ernaehrung?date=${date}&error=recipe`);
+  }
+
+  revalidatePath("/ernaehrung");
+  redirect(`/ernaehrung?date=${date}&recipeArchived=1`);
 }

@@ -1,5 +1,18 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Strukturierte Mahlzeitenvorlagen
+
+- Bestehende Mahlzeiten lassen sich mit einem automatisch vorgeschlagenen
+  Namen als persönliche Vorlage speichern.
+- Vorlagen bewahren Lebensmittel, Mengen, Kategorien, Kalorien und
+  Gesundheitsmerkmale als strukturierte Snapshots.
+- Eine Vorlage erfasst die Mahlzeit am gewählten Tag mit einem Fingertipp;
+  Reaktionen und persönliche Notizen werden nicht übernommen.
+- Gleichnamige Vorlagen werden aktualisiert und entfernte Vorlagen bleiben
+  archiviert, statt Gesundheitsdaten sofort zu löschen.
+- Die horizontal wischbaren Karten besitzen mindestens 48 Pixel hohe
+  Aktionsflächen und verursachen auf Smartphone-Breite keinen Seitenüberlauf.
+
 ## 2026-07-24 – Frühere Mahlzeiten schnell wiederholen
 
 - Bis zu fünf unterschiedliche frühere Mahlzeiten erscheinen als

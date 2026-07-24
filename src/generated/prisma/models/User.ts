@@ -207,6 +207,8 @@ export type UserWhereInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseListRelationFilter
   trainingSessions?: Prisma.TrainingSessionListRelationFilter
   trainingSets?: Prisma.TrainingSetListRelationFilter
+  recipes?: Prisma.RecipeListRelationFilter
+  recipeItems?: Prisma.RecipeItemListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   passkeys?: Prisma.PasskeyListRelationFilter
@@ -229,6 +231,8 @@ export type UserOrderByWithRelationInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseOrderByRelationAggregateInput
   trainingSessions?: Prisma.TrainingSessionOrderByRelationAggregateInput
   trainingSets?: Prisma.TrainingSetOrderByRelationAggregateInput
+  recipes?: Prisma.RecipeOrderByRelationAggregateInput
+  recipeItems?: Prisma.RecipeItemOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   passkeys?: Prisma.PasskeyOrderByRelationAggregateInput
@@ -254,6 +258,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   trainingPlanExercises?: Prisma.TrainingPlanExerciseListRelationFilter
   trainingSessions?: Prisma.TrainingSessionListRelationFilter
   trainingSets?: Prisma.TrainingSetListRelationFilter
+  recipes?: Prisma.RecipeListRelationFilter
+  recipeItems?: Prisma.RecipeItemListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   passkeys?: Prisma.PasskeyListRelationFilter
@@ -302,6 +308,8 @@ export type UserCreateInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -324,6 +332,8 @@ export type UserUncheckedCreateInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -346,6 +356,8 @@ export type UserUpdateInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -368,6 +380,8 @@ export type UserUncheckedUpdateInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -622,6 +636,34 @@ export type UserUpdateOneRequiredWithoutTrainingSetsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTrainingSetsInput, Prisma.UserUpdateWithoutTrainingSetsInput>, Prisma.UserUncheckedUpdateWithoutTrainingSetsInput>
 }
 
+export type UserCreateNestedOneWithoutRecipesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecipesInput, Prisma.UserUncheckedCreateWithoutRecipesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecipesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRecipesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecipesInput, Prisma.UserUncheckedCreateWithoutRecipesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecipesInput
+  upsert?: Prisma.UserUpsertWithoutRecipesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRecipesInput, Prisma.UserUpdateWithoutRecipesInput>, Prisma.UserUncheckedUpdateWithoutRecipesInput>
+}
+
+export type UserCreateNestedOneWithoutRecipeItemsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecipeItemsInput, Prisma.UserUncheckedCreateWithoutRecipeItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecipeItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRecipeItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecipeItemsInput, Prisma.UserUncheckedCreateWithoutRecipeItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecipeItemsInput
+  upsert?: Prisma.UserUpsertWithoutRecipeItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRecipeItemsInput, Prisma.UserUpdateWithoutRecipeItemsInput>, Prisma.UserUncheckedUpdateWithoutRecipeItemsInput>
+}
+
 export type UserCreateWithoutSettingsInput = {
   id?: string
   email: string
@@ -638,6 +680,8 @@ export type UserCreateWithoutSettingsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -659,6 +703,8 @@ export type UserUncheckedCreateWithoutSettingsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -696,6 +742,8 @@ export type UserUpdateWithoutSettingsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -717,6 +765,8 @@ export type UserUncheckedUpdateWithoutSettingsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -739,6 +789,8 @@ export type UserCreateWithoutSessionsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
 }
@@ -760,6 +812,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
 }
@@ -797,6 +851,8 @@ export type UserUpdateWithoutSessionsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
 }
@@ -818,6 +874,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -839,6 +897,8 @@ export type UserCreateWithoutAccountsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
 }
@@ -860,6 +920,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
 }
@@ -897,6 +959,8 @@ export type UserUpdateWithoutAccountsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
 }
@@ -918,6 +982,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -939,6 +1005,8 @@ export type UserCreateWithoutPasskeysInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
 }
@@ -960,6 +1028,8 @@ export type UserUncheckedCreateWithoutPasskeysInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
 }
@@ -997,6 +1067,8 @@ export type UserUpdateWithoutPasskeysInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
 }
@@ -1018,6 +1090,8 @@ export type UserUncheckedUpdateWithoutPasskeysInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -1038,6 +1112,8 @@ export type UserCreateWithoutHealthProfileInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1059,6 +1135,8 @@ export type UserUncheckedCreateWithoutHealthProfileInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1096,6 +1174,8 @@ export type UserUpdateWithoutHealthProfileInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1117,6 +1197,8 @@ export type UserUncheckedUpdateWithoutHealthProfileInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1138,6 +1220,8 @@ export type UserCreateWithoutDailyEntriesInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1159,6 +1243,8 @@ export type UserUncheckedCreateWithoutDailyEntriesInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1196,6 +1282,8 @@ export type UserUpdateWithoutDailyEntriesInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1217,6 +1305,8 @@ export type UserUncheckedUpdateWithoutDailyEntriesInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1238,6 +1328,8 @@ export type UserCreateWithoutMeasurementsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1259,6 +1351,8 @@ export type UserUncheckedCreateWithoutMeasurementsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1296,6 +1390,8 @@ export type UserUpdateWithoutMeasurementsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1317,6 +1413,8 @@ export type UserUncheckedUpdateWithoutMeasurementsInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1338,6 +1436,8 @@ export type UserCreateWithoutExercisesInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1359,6 +1459,8 @@ export type UserUncheckedCreateWithoutExercisesInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1396,6 +1498,8 @@ export type UserUpdateWithoutExercisesInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1417,6 +1521,8 @@ export type UserUncheckedUpdateWithoutExercisesInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1438,6 +1544,8 @@ export type UserCreateWithoutTrainingPlansInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1459,6 +1567,8 @@ export type UserUncheckedCreateWithoutTrainingPlansInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1496,6 +1606,8 @@ export type UserUpdateWithoutTrainingPlansInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1517,6 +1629,8 @@ export type UserUncheckedUpdateWithoutTrainingPlansInput = {
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1538,6 +1652,8 @@ export type UserCreateWithoutTrainingPlanExercisesInput = {
   trainingPlans?: Prisma.TrainingPlanCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1559,6 +1675,8 @@ export type UserUncheckedCreateWithoutTrainingPlanExercisesInput = {
   trainingPlans?: Prisma.TrainingPlanUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1596,6 +1714,8 @@ export type UserUpdateWithoutTrainingPlanExercisesInput = {
   trainingPlans?: Prisma.TrainingPlanUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1617,6 +1737,8 @@ export type UserUncheckedUpdateWithoutTrainingPlanExercisesInput = {
   trainingPlans?: Prisma.TrainingPlanUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1638,6 +1760,8 @@ export type UserCreateWithoutTrainingSessionsInput = {
   trainingPlans?: Prisma.TrainingPlanCreateNestedManyWithoutUserInput
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1659,6 +1783,8 @@ export type UserUncheckedCreateWithoutTrainingSessionsInput = {
   trainingPlans?: Prisma.TrainingPlanUncheckedCreateNestedManyWithoutUserInput
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1696,6 +1822,8 @@ export type UserUpdateWithoutTrainingSessionsInput = {
   trainingPlans?: Prisma.TrainingPlanUpdateManyWithoutUserNestedInput
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1717,6 +1845,8 @@ export type UserUncheckedUpdateWithoutTrainingSessionsInput = {
   trainingPlans?: Prisma.TrainingPlanUncheckedUpdateManyWithoutUserNestedInput
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1738,6 +1868,8 @@ export type UserCreateWithoutTrainingSetsInput = {
   trainingPlans?: Prisma.TrainingPlanCreateNestedManyWithoutUserInput
   trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
@@ -1759,6 +1891,8 @@ export type UserUncheckedCreateWithoutTrainingSetsInput = {
   trainingPlans?: Prisma.TrainingPlanUncheckedCreateNestedManyWithoutUserInput
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
   trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
@@ -1796,6 +1930,8 @@ export type UserUpdateWithoutTrainingSetsInput = {
   trainingPlans?: Prisma.TrainingPlanUpdateManyWithoutUserNestedInput
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
@@ -1817,6 +1953,224 @@ export type UserUncheckedUpdateWithoutTrainingSetsInput = {
   trainingPlans?: Prisma.TrainingPlanUncheckedUpdateManyWithoutUserNestedInput
   trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
   trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRecipesInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  trainingPlans?: Prisma.TrainingPlanCreateNestedManyWithoutUserInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
+  trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
+  trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRecipesInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  trainingPlans?: Prisma.TrainingPlanUncheckedCreateNestedManyWithoutUserInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
+  trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
+  trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRecipesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecipesInput, Prisma.UserUncheckedCreateWithoutRecipesInput>
+}
+
+export type UserUpsertWithoutRecipesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRecipesInput, Prisma.UserUncheckedUpdateWithoutRecipesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecipesInput, Prisma.UserUncheckedCreateWithoutRecipesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRecipesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRecipesInput, Prisma.UserUncheckedUpdateWithoutRecipesInput>
+}
+
+export type UserUpdateWithoutRecipesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  trainingPlans?: Prisma.TrainingPlanUpdateManyWithoutUserNestedInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
+  trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
+  trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRecipesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  trainingPlans?: Prisma.TrainingPlanUncheckedUpdateManyWithoutUserNestedInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
+  trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
+  trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRecipeItemsInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  trainingPlans?: Prisma.TrainingPlanCreateNestedManyWithoutUserInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
+  trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
+  trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRecipeItemsInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  trainingPlans?: Prisma.TrainingPlanUncheckedCreateNestedManyWithoutUserInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
+  trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
+  trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRecipeItemsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecipeItemsInput, Prisma.UserUncheckedCreateWithoutRecipeItemsInput>
+}
+
+export type UserUpsertWithoutRecipeItemsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRecipeItemsInput, Prisma.UserUncheckedUpdateWithoutRecipeItemsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecipeItemsInput, Prisma.UserUncheckedCreateWithoutRecipeItemsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRecipeItemsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRecipeItemsInput, Prisma.UserUncheckedUpdateWithoutRecipeItemsInput>
+}
+
+export type UserUpdateWithoutRecipeItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  trainingPlans?: Prisma.TrainingPlanUpdateManyWithoutUserNestedInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
+  trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
+  trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRecipeItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  trainingPlans?: Prisma.TrainingPlanUncheckedUpdateManyWithoutUserNestedInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
+  trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
+  trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
@@ -1835,6 +2189,8 @@ export type UserCountOutputType = {
   trainingPlanExercises: number
   trainingSessions: number
   trainingSets: number
+  recipes: number
+  recipeItems: number
   sessions: number
   accounts: number
   passkeys: number
@@ -1848,6 +2204,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   trainingPlanExercises?: boolean | UserCountOutputTypeCountTrainingPlanExercisesArgs
   trainingSessions?: boolean | UserCountOutputTypeCountTrainingSessionsArgs
   trainingSets?: boolean | UserCountOutputTypeCountTrainingSetsArgs
+  recipes?: boolean | UserCountOutputTypeCountRecipesArgs
+  recipeItems?: boolean | UserCountOutputTypeCountRecipeItemsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   passkeys?: boolean | UserCountOutputTypeCountPasskeysArgs
@@ -1915,6 +2273,20 @@ export type UserCountOutputTypeCountTrainingSetsArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountRecipesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecipeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRecipeItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecipeItemWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SessionWhereInput
 }
@@ -1951,6 +2323,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   trainingPlanExercises?: boolean | Prisma.User$trainingPlanExercisesArgs<ExtArgs>
   trainingSessions?: boolean | Prisma.User$trainingSessionsArgs<ExtArgs>
   trainingSets?: boolean | Prisma.User$trainingSetsArgs<ExtArgs>
+  recipes?: boolean | Prisma.User$recipesArgs<ExtArgs>
+  recipeItems?: boolean | Prisma.User$recipeItemsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   passkeys?: boolean | Prisma.User$passkeysArgs<ExtArgs>
@@ -1998,6 +2372,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   trainingPlanExercises?: boolean | Prisma.User$trainingPlanExercisesArgs<ExtArgs>
   trainingSessions?: boolean | Prisma.User$trainingSessionsArgs<ExtArgs>
   trainingSets?: boolean | Prisma.User$trainingSetsArgs<ExtArgs>
+  recipes?: boolean | Prisma.User$recipesArgs<ExtArgs>
+  recipeItems?: boolean | Prisma.User$recipeItemsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   passkeys?: boolean | Prisma.User$passkeysArgs<ExtArgs>
@@ -2018,6 +2394,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     trainingPlanExercises: Prisma.$TrainingPlanExercisePayload<ExtArgs>[]
     trainingSessions: Prisma.$TrainingSessionPayload<ExtArgs>[]
     trainingSets: Prisma.$TrainingSetPayload<ExtArgs>[]
+    recipes: Prisma.$RecipePayload<ExtArgs>[]
+    recipeItems: Prisma.$RecipeItemPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     passkeys: Prisma.$PasskeyPayload<ExtArgs>[]
@@ -2433,6 +2811,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   trainingPlanExercises<T extends Prisma.User$trainingPlanExercisesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trainingPlanExercisesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainingPlanExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trainingSessions<T extends Prisma.User$trainingSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trainingSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainingSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trainingSets<T extends Prisma.User$trainingSetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trainingSetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainingSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recipes<T extends Prisma.User$recipesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recipesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recipeItems<T extends Prisma.User$recipeItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recipeItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecipeItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   passkeys<T extends Prisma.User$passkeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passkeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasskeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3068,6 +3448,54 @@ export type User$trainingSetsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TrainingSetScalarFieldEnum | Prisma.TrainingSetScalarFieldEnum[]
+}
+
+/**
+ * User.recipes
+ */
+export type User$recipesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Recipe
+   */
+  select?: Prisma.RecipeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Recipe
+   */
+  omit?: Prisma.RecipeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecipeInclude<ExtArgs> | null
+  where?: Prisma.RecipeWhereInput
+  orderBy?: Prisma.RecipeOrderByWithRelationInput | Prisma.RecipeOrderByWithRelationInput[]
+  cursor?: Prisma.RecipeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecipeScalarFieldEnum | Prisma.RecipeScalarFieldEnum[]
+}
+
+/**
+ * User.recipeItems
+ */
+export type User$recipeItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecipeItem
+   */
+  select?: Prisma.RecipeItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RecipeItem
+   */
+  omit?: Prisma.RecipeItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecipeItemInclude<ExtArgs> | null
+  where?: Prisma.RecipeItemWhereInput
+  orderBy?: Prisma.RecipeItemOrderByWithRelationInput | Prisma.RecipeItemOrderByWithRelationInput[]
+  cursor?: Prisma.RecipeItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecipeItemScalarFieldEnum | Prisma.RecipeItemScalarFieldEnum[]
 }
 
 /**
