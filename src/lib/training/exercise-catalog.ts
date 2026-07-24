@@ -14,6 +14,12 @@ export const exerciseAreaValues = [
 
 export type ExerciseArea = (typeof exerciseAreaValues)[number];
 
+export type ExerciseVisual = {
+  catalog: "base" | "extended";
+  column: number;
+  row: number;
+};
+
 export type ExercisePreset = {
   key: string;
   name: string;
@@ -420,5 +426,22 @@ export const exerciseCatalog: ExerciseAreaOption[] = [
 export const exercisePresetByKey = new Map(
   exerciseCatalog.flatMap((area) =>
     area.exercises.map((exercise) => [exercise.key, exercise] as const),
+  ),
+);
+
+export function normalizeExerciseName(name: string): string {
+  return name.toLocaleLowerCase("de-DE").trim().replace(/\s+/g, " ");
+}
+
+export const exerciseVisualByNormalizedName = new Map<string, ExerciseVisual>(
+  exerciseCatalog.flatMap((area, row) =>
+    area.exercises.map((exercise, exerciseIndex) => [
+      normalizeExerciseName(exercise.name),
+      {
+        catalog: exerciseIndex < 5 ? "base" : "extended",
+        column: exerciseIndex % 5,
+        row,
+      },
+    ]),
   ),
 );

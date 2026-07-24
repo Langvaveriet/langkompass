@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
 
@@ -9,11 +10,20 @@ import {
   deleteTrainingSet,
   startTrainingSession,
 } from "@/app/training/actions";
+import { ExerciseThumbnail } from "@/components/training/exercise-thumbnail";
 import { Button } from "@/components/ui/button";
+import type { ExerciseVisual } from "@/lib/training/exercise-catalog";
 
 type ExerciseOption = {
   id: string;
   name: string;
+  visual?: ExerciseVisual;
+};
+
+type TrainingPlanOption = {
+  id: string;
+  name: string;
+  exerciseCount: number;
 };
 
 type LoggedSet = {
@@ -28,12 +38,14 @@ type LoggedSet = {
 
 type ActiveTrainingSession = {
   id: string;
+  planName: string | null;
   startedAtLabel: string;
   sets: LoggedSet[];
 };
 
 type TrainingSessionCardProps = {
   exercises: ExerciseOption[];
+  plans: TrainingPlanOption[];
   session: ActiveTrainingSession | null;
 };
 
@@ -121,6 +133,7 @@ function Stepper({
 
 export function TrainingSessionCard({
   exercises,
+  plans,
   session,
 }: TrainingSessionCardProps) {
   const [repetitions, setRepetitions] = useState(10);
@@ -132,19 +145,62 @@ export function TrainingSessionCard({
 
   if (!session) {
     return (
-      <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center">
+      <div className="grid gap-5">
         <div>
           <p className="font-semibold text-text-primary">
             Bereit für deine nächste Einheit?
           </p>
           <p className="mt-1 text-sm leading-6 text-text-muted">
-            Starte das Training und protokolliere Sätze direkt während der
-            Einheit.
+            Wähle einen Trainingsplan. Danach erscheinen nur die dafür
+            vorgesehenen Übungen.
           </p>
         </div>
-        <form action={startTrainingSession}>
-          <SubmitButton>Training starten</SubmitButton>
-        </form>
+
+        {plans.length === 0 ? (
+          <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+            <p className="font-semibold text-text-primary">
+              Noch kein Trainingsplan vorhanden
+            </p>
+            <p className="mt-1 text-sm leading-6 text-text-muted">
+              Stelle zuerst eine wiederverwendbare Einheit aus deinen Übungen
+              zusammen.
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2">
+            {plans.map((plan) => (
+              <form key={plan.id} action={startTrainingSession}>
+                <input type="hidden" name="trainingPlanId" value={plan.id} />
+                <button
+                  type="submit"
+                  className="flex min-h-20 w-full items-center justify-between gap-4 rounded-[var(--radius-md)] border border-border-strong bg-surface-primary px-4 py-3 text-left transition hover:border-forest-strong hover:bg-forest-soft"
+                >
+                  <span>
+                    <span className="block font-semibold text-text-primary">
+                      {plan.name}
+                    </span>
+                    <span className="mt-1 block text-xs text-text-muted">
+                      {plan.exerciseCount}{" "}
+                      {plan.exerciseCount === 1 ? "Übung" : "Übungen"}
+                    </span>
+                  </span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-forest-soft text-xl font-semibold text-forest-strong">
+                    →
+                  </span>
+                </button>
+              </form>
+            ))}
+          </div>
+        )}
+
+        <Link
+          href="/training/plaene"
+          className="inline-flex min-h-11 items-center font-semibold text-forest-strong"
+        >
+          {plans.length === 0
+            ? "Ersten Trainingsplan anlegen →"
+            : "Trainingspläne verwalten →"}
+        </Link>
       </div>
     );
   }
@@ -154,7 +210,7 @@ export function TrainingSessionCard({
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-forest-strong">
-            Training läuft
+            {session.planName ?? "Training"} läuft
           </p>
           <p className="mt-1 font-semibold text-text-primary">
             Gestartet um {session.startedAtLabel} Uhr · {session.sets.length}{" "}
@@ -203,13 +259,17 @@ export function TrainingSessionCard({
                     aria-pressed={selected}
                     onClick={() => setSelectedExerciseId(exercise.id)}
                     className={[
-                      "min-h-12 shrink-0 snap-start rounded-full border px-4 py-2 text-sm font-semibold transition",
+                      "flex min-h-16 min-w-36 shrink-0 snap-start items-center gap-2 rounded-[var(--radius-md)] border py-2 pl-2 pr-4 text-left text-sm font-semibold transition",
                       selected
                         ? "border-forest-strong bg-forest-soft text-forest-strong"
                         : "border-border-strong bg-surface-primary text-text-primary",
                     ].join(" ")}
                   >
-                    {exercise.name}
+                    <ExerciseThumbnail
+                      name={exercise.name}
+                      visual={exercise.visual}
+                    />
+                    <span className="max-w-28 leading-5">{exercise.name}</span>
                   </button>
                 );
               })}

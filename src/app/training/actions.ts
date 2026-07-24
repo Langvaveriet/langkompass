@@ -6,7 +6,10 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
-import { exercisePresetByKey } from "@/lib/training/exercise-catalog";
+import {
+  exercisePresetByKey,
+  normalizeExerciseName,
+} from "@/lib/training/exercise-catalog";
 import {
   exerciseCategoryValues,
   exerciseEquipmentValues,
@@ -60,13 +63,19 @@ const trainingSetIdSchema = z.object({
   trainingSetId: z.string().trim().min(1),
 });
 
+const trainingPlanSchema = z.object({
+  trainingPlanId: z.string().trim().min(1).optional(),
+  name: z.string().trim().min(2).max(60),
+  exerciseIds: z.array(z.string().trim().min(1)).min(1).max(20),
+});
+
+const trainingPlanIdSchema = z.object({
+  trainingPlanId: z.string().trim().min(1),
+});
+
 function formText(formData: FormData, field: string): string {
   const value = formData.get(field);
   return typeof value === "string" ? value : "";
-}
-
-function normalizedExerciseName(name: string): string {
-  return name.toLocaleLowerCase("de-DE").replace(/\s+/g, " ");
 }
 
 export async function saveExercise(formData: FormData) {
@@ -88,7 +97,7 @@ export async function saveExercise(formData: FormData) {
 
   const { exerciseId, name, category, equipment, muscleGroups, notes } =
     parsed.data;
-  const normalizedName = normalizedExerciseName(name);
+  const normalizedName = normalizeExerciseName(name);
   const duplicate = await prisma.exercise.findFirst({
     where: {
       userId: user.id,
@@ -153,7 +162,7 @@ export async function addCatalogExercise(formData: FormData) {
     redirect("/training?error=validation");
   }
 
-  const normalizedName = normalizedExerciseName(preset.name);
+  const normalizedName = normalizeExerciseName(preset.name);
   const existing = await prisma.exercise.findUnique({
     where: {
       userId_normalizedName: {
@@ -218,8 +227,128 @@ export async function setExerciseArchived(formData: FormData) {
   redirect(`/training?${restoring ? "restored" : "archived"}=1`);
 }
 
-export async function startTrainingSession() {
+export async function saveTrainingPlan(formData: FormData) {
   const user = await requireUser();
+  const parsed = trainingPlanSchema.safeParse({
+    trainingPlanId: formText(formData, "trainingPlanId") || undefined,
+    name: formText(formData, "name"),
+    exerciseIds: formData
+      .getAll("exerciseIds")
+      .filter((value): value is string => typeof value === "string"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training/plaene?error=validation");
+  }
+
+  const { trainingPlanId, name } = parsed.data;
+  const exerciseIds = [...new Set(parsed.data.exerciseIds)];
+  const normalizedName = normalizeExerciseName(name);
+  const [exercises, duplicatePlan, existingPlan] = await Promise.all([
+    prisma.exercise.findMany({
+      where: { id: { in: exerciseIds }, userId: user.id, archivedAt: null },
+      select: { id: true },
+    }),
+    prisma.trainingPlan.findFirst({
+      where: {
+        userId: user.id,
+        normalizedName,
+        ...(trainingPlanId ? { id: { not: trainingPlanId } } : {}),
+      },
+      select: { id: true },
+    }),
+    trainingPlanId
+      ? prisma.trainingPlan.findFirst({
+          where: { id: trainingPlanId, userId: user.id, archivedAt: null },
+          select: { id: true },
+        })
+      : null,
+  ]);
+
+  if (exercises.length !== exerciseIds.length) {
+    redirect("/training/plaene?error=exercise-not-found");
+  }
+
+  if (duplicatePlan) {
+    redirect("/training/plaene?error=duplicate");
+  }
+
+  if (trainingPlanId && !existingPlan) {
+    redirect("/training/plaene?error=not-found");
+  }
+
+  await prisma.$transaction(async (transaction) => {
+    const plan = trainingPlanId
+      ? await transaction.trainingPlan.update({
+          where: { id: trainingPlanId },
+          data: { name, normalizedName },
+          select: { id: true },
+        })
+      : await transaction.trainingPlan.create({
+          data: { userId: user.id, name, normalizedName },
+          select: { id: true },
+        });
+
+    if (trainingPlanId) {
+      await transaction.trainingPlanExercise.deleteMany({
+        where: { trainingPlanId: plan.id, userId: user.id },
+      });
+    }
+
+    await transaction.trainingPlanExercise.createMany({
+      data: exerciseIds.map((exerciseId, position) => ({
+        userId: user.id,
+        trainingPlanId: plan.id,
+        exerciseId,
+        position,
+      })),
+    });
+  });
+
+  revalidatePath("/training");
+  revalidatePath("/training/plaene");
+  redirect("/training/plaene?saved=1");
+}
+
+export async function archiveTrainingPlan(formData: FormData) {
+  const user = await requireUser();
+  const parsed = trainingPlanIdSchema.safeParse({
+    trainingPlanId: formText(formData, "trainingPlanId"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training/plaene?error=validation");
+  }
+
+  const plan = await prisma.trainingPlan.findFirst({
+    where: { id: parsed.data.trainingPlanId, userId: user.id, archivedAt: null },
+    select: { id: true },
+  });
+
+  if (!plan) {
+    redirect("/training/plaene?error=not-found");
+  }
+
+  await prisma.trainingPlan.update({
+    where: { id: plan.id },
+    data: { archivedAt: new Date() },
+  });
+
+  revalidatePath("/training");
+  revalidatePath("/training/plaene");
+  redirect("/training/plaene?archived=1");
+}
+
+export async function startTrainingSession(formData: FormData) {
+  const user = await requireUser();
+  const parsed = trainingPlanIdSchema.safeParse({
+    trainingPlanId: formText(formData, "trainingPlanId"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training?error=training-plan-required");
+  }
+
   const activeSession = await prisma.trainingSession.findFirst({
     where: { userId: user.id, completedAt: null },
     orderBy: { startedAt: "desc" },
@@ -230,8 +359,26 @@ export async function startTrainingSession() {
     redirect(`/training?session=${activeSession.id}`);
   }
 
+  const plan = await prisma.trainingPlan.findFirst({
+    where: {
+      id: parsed.data.trainingPlanId,
+      userId: user.id,
+      archivedAt: null,
+      exercises: { some: {} },
+    },
+    select: { id: true, name: true },
+  });
+
+  if (!plan) {
+    redirect("/training?error=training-plan-required");
+  }
+
   const session = await prisma.trainingSession.create({
-    data: { userId: user.id },
+    data: {
+      userId: user.id,
+      trainingPlanId: plan.id,
+      planName: plan.name,
+    },
     select: { id: true },
   });
 
@@ -255,13 +402,29 @@ export async function addTrainingSet(formData: FormData) {
 
   const { trainingSessionId, exerciseId, repetitions, weightKg, effort } =
     parsed.data;
-  const [session, exercise, latestSet] = await Promise.all([
-    prisma.trainingSession.findFirst({
-      where: { id: trainingSessionId, userId: user.id, completedAt: null },
-      select: { id: true },
-    }),
+  const session = await prisma.trainingSession.findFirst({
+    where: { id: trainingSessionId, userId: user.id, completedAt: null },
+    select: { id: true, trainingPlanId: true },
+  });
+
+  if (!session) {
+    redirect("/training?error=training-not-found");
+  }
+
+  const [exercise, latestSet] = await Promise.all([
     prisma.exercise.findFirst({
-      where: { id: exerciseId, userId: user.id, archivedAt: null },
+      where: {
+        id: exerciseId,
+        userId: user.id,
+        archivedAt: null,
+        ...(session.trainingPlanId
+          ? {
+              planExercises: {
+                some: { trainingPlanId: session.trainingPlanId },
+              },
+            }
+          : {}),
+      },
       select: { id: true },
     }),
     prisma.trainingSet.aggregate({
@@ -270,7 +433,7 @@ export async function addTrainingSet(formData: FormData) {
     }),
   ]);
 
-  if (!session || !exercise) {
+  if (!exercise) {
     redirect("/training?error=training-not-found");
   }
 

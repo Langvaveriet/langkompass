@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { addCatalogExercise } from "@/app/training/actions";
+import { ExerciseThumbnail } from "@/components/training/exercise-thumbnail";
 import { MuscleAreaIcon } from "@/components/training/muscle-area-icon";
 import { exerciseEquipmentLabels } from "@/lib/training/exercise-options";
 import {
   exerciseCatalog,
   type ExerciseArea,
+  type ExerciseVisual,
 } from "@/lib/training/exercise-catalog";
 
 type ExerciseQuickAddProps = {
@@ -23,28 +25,14 @@ function QuickAddButton({
   name,
   equipment,
   exists,
-  spriteCatalog,
-  spriteColumn,
-  spriteRow,
+  visual,
 }: {
   name: string;
   equipment: string;
   exists: boolean;
-  spriteCatalog: "base" | "extended";
-  spriteColumn: number;
-  spriteRow: number;
+  visual: ExerciseVisual;
 }) {
   const { pending } = useFormStatus();
-  const spriteCrop =
-    spriteCatalog === "extended"
-      ? spriteRow === 3
-        ? "inset(5% 5% 14%)"
-        : "inset(5%)"
-      : spriteRow === 0
-        ? "inset(0 6% 4%)"
-        : spriteRow === 4
-          ? "inset(12% 6% 2%)"
-          : "inset(20% 6% 4%)";
 
   return (
     <button
@@ -52,16 +40,7 @@ function QuickAddButton({
       disabled={exists || pending}
       className="flex min-h-28 w-full items-center gap-3 rounded-[var(--radius-md)] border border-border-subtle bg-surface-primary p-3 text-left transition hover:border-forest-strong hover:bg-forest-soft disabled:cursor-default disabled:opacity-55"
     >
-      <span
-        aria-hidden="true"
-        className="block h-24 w-24 shrink-0 bg-no-repeat"
-        style={{
-          backgroundImage: `url("/training/exercise-catalog-${spriteCatalog === "base" ? "v2" : "extended"}.webp")`,
-          backgroundPosition: `${spriteColumn * 25}% ${spriteRow * 25}%`,
-          backgroundSize: "500% 500%",
-          clipPath: spriteCrop,
-        }}
-      />
+      <ExerciseThumbnail name={name} visual={visual} size="lg" />
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-semibold text-text-primary">
           {name}
@@ -148,9 +127,11 @@ export function ExerciseQuickAdd({ existingNames }: ExerciseQuickAddProps) {
                   name={exercise.name}
                   equipment={exerciseEquipmentLabels[exercise.equipment]}
                   exists={exists}
-                  spriteCatalog={exerciseIndex < 5 ? "base" : "extended"}
-                  spriteColumn={exerciseIndex % 5}
-                  spriteRow={areaIndex}
+                  visual={{
+                    catalog: exerciseIndex < 5 ? "base" : "extended",
+                    column: exerciseIndex % 5,
+                    row: areaIndex,
+                  }}
                 />
               </form>
             );

@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Wiederverwendbare Trainingspläne
+
+- Mehrere benannte Trainingspläne lassen sich anlegen, bearbeiten und
+  archivieren.
+- Übungen werden einem Plan über große, grafische Touch-Karten zugeordnet.
+- Eine Trainingseinheit startet gezielt mit einem Plan und bietet nur dessen
+  Übungen zur Satzerfassung an.
+- Auch die horizontal wischbaren Übungs-Chips während des Trainings zeigen die
+  vorhandenen Übungsgrafiken.
+- Bereits erfasste freie Trainingseinheiten bleiben vollständig erhalten.
+
 ## 2026-07-24 – Strukturierte Trainingserfassung
 
 - Trainingseinheiten können gestartet und abgeschlossen werden.

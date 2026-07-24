@@ -407,6 +407,8 @@ export const ModelName = {
   DailyEntry: 'DailyEntry',
   BodyMeasurement: 'BodyMeasurement',
   Exercise: 'Exercise',
+  TrainingPlan: 'TrainingPlan',
+  TrainingPlanExercise: 'TrainingPlanExercise',
   TrainingSession: 'TrainingSession',
   TrainingSet: 'TrainingSet',
   Meal: 'Meal',
@@ -426,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "exercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem"
+    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1170,6 +1172,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TrainingPlan: {
+      payload: Prisma.$TrainingPlanPayload<ExtArgs>
+      fields: Prisma.TrainingPlanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrainingPlanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrainingPlanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+        }
+        findFirst: {
+          args: Prisma.TrainingPlanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrainingPlanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+        }
+        findMany: {
+          args: Prisma.TrainingPlanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>[]
+        }
+        create: {
+          args: Prisma.TrainingPlanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+        }
+        createMany: {
+          args: Prisma.TrainingPlanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrainingPlanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>[]
+        }
+        delete: {
+          args: Prisma.TrainingPlanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+        }
+        update: {
+          args: Prisma.TrainingPlanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrainingPlanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrainingPlanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrainingPlanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrainingPlanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanPayload>
+        }
+        aggregate: {
+          args: Prisma.TrainingPlanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrainingPlan>
+        }
+        groupBy: {
+          args: Prisma.TrainingPlanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainingPlanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrainingPlanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainingPlanCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrainingPlanExercise: {
+      payload: Prisma.$TrainingPlanExercisePayload<ExtArgs>
+      fields: Prisma.TrainingPlanExerciseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrainingPlanExerciseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrainingPlanExerciseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>
+        }
+        findFirst: {
+          args: Prisma.TrainingPlanExerciseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrainingPlanExerciseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>
+        }
+        findMany: {
+          args: Prisma.TrainingPlanExerciseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>[]
+        }
+        create: {
+          args: Prisma.TrainingPlanExerciseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>
+        }
+        createMany: {
+          args: Prisma.TrainingPlanExerciseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrainingPlanExerciseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>[]
+        }
+        delete: {
+          args: Prisma.TrainingPlanExerciseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>
+        }
+        update: {
+          args: Prisma.TrainingPlanExerciseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>
+        }
+        deleteMany: {
+          args: Prisma.TrainingPlanExerciseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrainingPlanExerciseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrainingPlanExerciseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>[]
+        }
+        upsert: {
+          args: Prisma.TrainingPlanExerciseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingPlanExercisePayload>
+        }
+        aggregate: {
+          args: Prisma.TrainingPlanExerciseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrainingPlanExercise>
+        }
+        groupBy: {
+          args: Prisma.TrainingPlanExerciseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainingPlanExerciseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrainingPlanExerciseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainingPlanExerciseCountAggregateOutputType> | number
+        }
+      }
+    }
     TrainingSession: {
       payload: Prisma.$TrainingSessionPayload<ExtArgs>
       fields: Prisma.TrainingSessionFieldRefs
@@ -1669,9 +1819,38 @@ export const ExerciseScalarFieldEnum = {
 export type ExerciseScalarFieldEnum = (typeof ExerciseScalarFieldEnum)[keyof typeof ExerciseScalarFieldEnum]
 
 
+export const TrainingPlanScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  normalizedName: 'normalizedName',
+  notes: 'notes',
+  archivedAt: 'archivedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrainingPlanScalarFieldEnum = (typeof TrainingPlanScalarFieldEnum)[keyof typeof TrainingPlanScalarFieldEnum]
+
+
+export const TrainingPlanExerciseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  trainingPlanId: 'trainingPlanId',
+  exerciseId: 'exerciseId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrainingPlanExerciseScalarFieldEnum = (typeof TrainingPlanExerciseScalarFieldEnum)[keyof typeof TrainingPlanExerciseScalarFieldEnum]
+
+
 export const TrainingSessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  trainingPlanId: 'trainingPlanId',
+  planName: 'planName',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
   notes: 'notes',
@@ -2208,6 +2387,8 @@ export type GlobalOmitConfig = {
   dailyEntry?: Prisma.DailyEntryOmit
   bodyMeasurement?: Prisma.BodyMeasurementOmit
   exercise?: Prisma.ExerciseOmit
+  trainingPlan?: Prisma.TrainingPlanOmit
+  trainingPlanExercise?: Prisma.TrainingPlanExerciseOmit
   trainingSession?: Prisma.TrainingSessionOmit
   trainingSet?: Prisma.TrainingSetOmit
   meal?: Prisma.MealOmit

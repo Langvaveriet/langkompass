@@ -29,6 +29,7 @@ import {
   exerciseEquipmentLabels,
   muscleGroupLabels,
 } from "@/lib/training/exercise-options";
+import { exerciseVisualByNormalizedName } from "@/lib/training/exercise-catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -58,8 +59,14 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
   const editId = queryValue(query, "edit");
   const showArchived = queryValue(query, "view") === "archived";
 
-  const [exercises, editedExercise, activeSession, recentSessions, settings] =
-    await Promise.all([
+  const [
+    exercises,
+    editedExercise,
+    activeSession,
+    recentSessions,
+    settings,
+    trainingPlans,
+  ] = await Promise.all([
     prisma.exercise.findMany({
       where: {
         userId: user.id,
@@ -76,6 +83,14 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
       where: { userId: user.id, completedAt: null },
       orderBy: { startedAt: "desc" },
       include: {
+        trainingPlan: {
+          include: {
+            exercises: {
+              orderBy: { position: "asc" },
+              include: { exercise: true },
+            },
+          },
+        },
         sets: {
           orderBy: { createdAt: "asc" },
           include: { exercise: { select: { name: true } } },
@@ -91,6 +106,11 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
     prisma.userSettings.findUnique({
       where: { userId: user.id },
       select: { timeZone: true, locale: true },
+    }),
+    prisma.trainingPlan.findMany({
+      where: { userId: user.id, archivedAt: null },
+      orderBy: { name: "asc" },
+      include: { _count: { select: { exercises: true } } },
     }),
   ]);
 
@@ -121,6 +141,8 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
         return "Bitte prüfe Wiederholungen, Gewicht und Anstrengung des Satzes.";
       case "training-not-found":
         return "Die Trainingseinheit oder Übung wurde nicht gefunden.";
+      case "training-plan-required":
+        return "Bitte wähle einen Trainingsplan mit mindestens einer Übung aus.";
       default:
         return null;
     }
@@ -149,6 +171,7 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
   const sessionForCard = activeSession
     ? {
         id: activeSession.id,
+        planName: activeSession.planName,
         startedAtLabel: timeInTimeZone(activeSession.startedAt, timeZone),
         sets: activeSession.sets.map((set) => ({
           id: set.id,
@@ -161,6 +184,12 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
         })),
       }
     : null;
+
+  const sessionExercises = activeSession?.trainingPlan
+    ? activeSession.trainingPlan.exercises
+        .map(({ exercise }) => exercise)
+        .filter((exercise) => exercise.archivedAt === null)
+    : exercises;
 
   return (
     <AppLayout>
@@ -203,9 +232,17 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
               </CardHeader>
               <CardContent>
                 <TrainingSessionCard
-                  exercises={exercises.map((exercise) => ({
+                  exercises={sessionExercises.map((exercise) => ({
                     id: exercise.id,
                     name: exercise.name,
+                    visual: exerciseVisualByNormalizedName.get(
+                      exercise.normalizedName,
+                    ),
+                  }))}
+                  plans={trainingPlans.map((plan) => ({
+                    id: plan.id,
+                    name: plan.name,
+                    exerciseCount: plan._count.exercises,
                   }))}
                   session={sessionForCard}
                 />
@@ -236,14 +273,16 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
                         >
                           <div>
                             <p className="text-sm font-semibold text-text-primary">
+                              {session.planName ?? "Training"}
+                            </p>
+                            <p className="mt-1 text-xs text-text-muted">
                               {new Intl.DateTimeFormat(locale, {
                                 timeZone,
                                 day: "2-digit",
                                 month: "2-digit",
                                 year: "numeric",
                               }).format(session.startedAt)}
-                            </p>
-                            <p className="mt-1 text-xs text-text-muted">
+                              {" · "}
                               {session._count.sets}{" "}
                               {session._count.sets === 1 ? "Satz" : "Sätze"}
                             </p>
