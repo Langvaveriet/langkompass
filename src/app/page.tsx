@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TodayMealPlan } from "@/components/dashboard/today-meal-plan";
 import { WeightTrend } from "@/components/dashboard/weight-trend";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { summarizeCheckIns } from "@/lib/dashboard/check-in-summary";
+import { summarizeMealPlan } from "@/lib/dashboard/meal-plan-summary";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
@@ -83,6 +85,7 @@ export default async function HomePage() {
     activeTrainingSession,
     todayTrainingSessions,
     trainingPlanCount,
+    todayMealPlanEntries,
   ] = user
     ? await Promise.all([
         prisma.dailyEntry.findUnique({
@@ -153,11 +156,33 @@ export default async function HomePage() {
         prisma.trainingPlan.count({
           where: { userId: user.id, archivedAt: null },
         }),
+        prisma.mealPlanEntry.findMany({
+          where: {
+            userId: user.id,
+            plannedDate: todayEntryDate,
+          },
+          select: {
+            id: true,
+            type: true,
+            completedAt: true,
+            recipe: { select: { name: true } },
+          },
+          orderBy: { type: "asc" },
+        }),
       ])
-    : [null, [], [], null, [], 0];
+    : [null, [], [], null, [], 0, []];
   const weightMeasurements = weightMeasurementsDescending.toReversed();
   const latestWeight = weightMeasurements.at(-1);
   const checkInSummary = summarizeCheckIns(recentEntries);
+  const mealPlanSummary = summarizeMealPlan(todayMealPlanEntries);
+  const todayDate = todayEntryDate.toISOString().slice(0, 10);
+  const mealTypeLabels = {
+    BREAKFAST: "Frühstück",
+    LUNCH: "Mittagessen",
+    DINNER: "Abendessen",
+    SNACK: "Snack",
+    DRINK: "Getränk",
+  } as const;
 
   const todayMealCount = todayEntry?.meals.length ?? 0;
   const todayEnergyKcal = Math.round(
@@ -263,7 +288,9 @@ export default async function HomePage() {
         ? `${todayMealCount} ${todayMealCount === 1 ? "Eintrag" : "Einträge"} · ca. ${todayEnergyKcal} kcal`
         : "Heute noch nichts erfasst",
       description:
-        "Mahlzeiten, Getränke und mögliche Reaktionen strukturiert dokumentieren.",
+        mealPlanSummary.plannedCount > 0
+          ? `${mealPlanSummary.completedCount} von ${mealPlanSummary.plannedCount} geplanten Mahlzeiten sind bereits erfasst.`
+          : "Mahlzeiten, Getränke und mögliche Reaktionen strukturiert dokumentieren.",
       href: "/ernaehrung",
     },
     {
@@ -318,6 +345,21 @@ export default async function HomePage() {
             </Link>
           ))}
         </Section>
+
+        {mealPlanSummary.plannedCount > 0 ? (
+          <Section aria-label="Heutiger Mahlzeitenplan">
+            <TodayMealPlan
+              date={todayDate}
+              completedCount={mealPlanSummary.completedCount}
+              items={todayMealPlanEntries.map((entry) => ({
+                id: entry.id,
+                mealType: mealTypeLabels[entry.type],
+                recipeName: entry.recipe.name,
+                completed: entry.completedAt !== null,
+              }))}
+            />
+          </Section>
+        ) : null}
 
         <Section
           aria-label="Gesundheitsverlauf"
@@ -419,6 +461,16 @@ export default async function HomePage() {
                     </Link>
                   </li>
                 ) : null}
+                {mealPlanSummary.plannedCount === 0 ? (
+                  <li>
+                    <Link
+                      href={`/ernaehrung/wochenplan?date=${todayDate}`}
+                      className="font-semibold text-forest-strong"
+                    >
+                      Heutige Mahlzeiten planen →
+                    </Link>
+                  </li>
+                ) : null}
                 {weightMeasurements.length < 2 ? (
                   <li>
                     <Link
@@ -432,6 +484,7 @@ export default async function HomePage() {
                 {profileProgress === 100 &&
                 todayEntry &&
                 todayMealCount > 0 &&
+                mealPlanSummary.plannedCount > 0 &&
                 weightMeasurements.length >= 2 ? (
                   <li className="text-text-muted">
                     Alles Wichtige für heute ist erfasst.

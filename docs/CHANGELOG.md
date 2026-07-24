@@ -1,5 +1,14 @@
 # LångKompass – Changelog
 
+## 2026-07-24 – Mahlzeitenplan auf dem Dashboard
+
+- Das Dashboard zeigt den heutigen Wochenplan mit geplantem Rezept und
+  Erfassungsstatus je Mahlzeit.
+- Ein kompakter Fortschritt nennt, wie viele geplante Mahlzeiten bereits
+  erfasst sind.
+- Große Touch-Ziele öffnen direkt den Wochenplan oder die Ernährung des Tages.
+- Ohne Tagesplanung führt ein nächster Schritt direkt zur Wochenplanung.
+
 ## 2026-07-24 – Touch-freundlicher Mahlzeiten-Wochenplan
 
 - Eine neue Wochenansicht plant Frühstück, Mittagessen, Abendessen und Snacks
