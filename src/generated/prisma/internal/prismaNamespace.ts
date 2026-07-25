@@ -406,6 +406,8 @@ export const ModelName = {
   HealthProfile: 'HealthProfile',
   DailyEntry: 'DailyEntry',
   BodyMeasurement: 'BodyMeasurement',
+  LabReport: 'LabReport',
+  LabResult: 'LabResult',
   Exercise: 'Exercise',
   TrainingPlan: 'TrainingPlan',
   TrainingPlanExercise: 'TrainingPlanExercise',
@@ -433,7 +435,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem" | "recipe" | "recipeItem" | "catalogRecipe" | "catalogRecipeItem" | "mealPlanEntry"
+    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "labReport" | "labResult" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem" | "recipe" | "recipeItem" | "catalogRecipe" | "catalogRecipeItem" | "mealPlanEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1100,6 +1102,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.BodyMeasurementCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.BodyMeasurementCountAggregateOutputType> | number
+        }
+      }
+    }
+    LabReport: {
+      payload: Prisma.$LabReportPayload<ExtArgs>
+      fields: Prisma.LabReportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LabReportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LabReportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>
+        }
+        findFirst: {
+          args: Prisma.LabReportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LabReportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>
+        }
+        findMany: {
+          args: Prisma.LabReportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>[]
+        }
+        create: {
+          args: Prisma.LabReportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>
+        }
+        createMany: {
+          args: Prisma.LabReportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LabReportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>[]
+        }
+        delete: {
+          args: Prisma.LabReportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>
+        }
+        update: {
+          args: Prisma.LabReportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>
+        }
+        deleteMany: {
+          args: Prisma.LabReportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LabReportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LabReportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>[]
+        }
+        upsert: {
+          args: Prisma.LabReportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReportPayload>
+        }
+        aggregate: {
+          args: Prisma.LabReportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLabReport>
+        }
+        groupBy: {
+          args: Prisma.LabReportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LabReportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LabReportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LabReportCountAggregateOutputType> | number
+        }
+      }
+    }
+    LabResult: {
+      payload: Prisma.$LabResultPayload<ExtArgs>
+      fields: Prisma.LabResultFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LabResultFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LabResultFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>
+        }
+        findFirst: {
+          args: Prisma.LabResultFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LabResultFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>
+        }
+        findMany: {
+          args: Prisma.LabResultFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>[]
+        }
+        create: {
+          args: Prisma.LabResultCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>
+        }
+        createMany: {
+          args: Prisma.LabResultCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LabResultCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>[]
+        }
+        delete: {
+          args: Prisma.LabResultDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>
+        }
+        update: {
+          args: Prisma.LabResultUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>
+        }
+        deleteMany: {
+          args: Prisma.LabResultDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LabResultUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LabResultUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>[]
+        }
+        upsert: {
+          args: Prisma.LabResultUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabResultPayload>
+        }
+        aggregate: {
+          args: Prisma.LabResultAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLabResult>
+        }
+        groupBy: {
+          args: Prisma.LabResultGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LabResultGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LabResultCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LabResultCountAggregateOutputType> | number
         }
       }
     }
@@ -2181,6 +2331,42 @@ export const BodyMeasurementScalarFieldEnum = {
 export type BodyMeasurementScalarFieldEnum = (typeof BodyMeasurementScalarFieldEnum)[keyof typeof BodyMeasurementScalarFieldEnum]
 
 
+export const LabReportScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  collectedAt: 'collectedAt',
+  fastingStatus: 'fastingStatus',
+  laboratory: 'laboratory',
+  physicianComment: 'physicianComment',
+  controlDate: 'controlDate',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LabReportScalarFieldEnum = (typeof LabReportScalarFieldEnum)[keyof typeof LabReportScalarFieldEnum]
+
+
+export const LabResultScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  labReportId: 'labReportId',
+  analyteKey: 'analyteKey',
+  analyteName: 'analyteName',
+  value: 'value',
+  unit: 'unit',
+  referenceLow: 'referenceLow',
+  referenceHigh: 'referenceHigh',
+  measuredAt: 'measuredAt',
+  source: 'source',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LabResultScalarFieldEnum = (typeof LabResultScalarFieldEnum)[keyof typeof LabResultScalarFieldEnum]
+
+
 export const ExerciseScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2613,6 +2799,20 @@ export type ListEnumEntrySourceFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'FastingStatus'
+ */
+export type EnumFastingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FastingStatus'>
+
+
+
+/**
+ * Reference to a field of type 'FastingStatus[]'
+ */
+export type ListEnumFastingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FastingStatus[]'>
+
+
+
+/**
  * Reference to a field of type 'ExerciseCategory'
  */
 export type EnumExerciseCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExerciseCategory'>
@@ -2897,6 +3097,8 @@ export type GlobalOmitConfig = {
   healthProfile?: Prisma.HealthProfileOmit
   dailyEntry?: Prisma.DailyEntryOmit
   bodyMeasurement?: Prisma.BodyMeasurementOmit
+  labReport?: Prisma.LabReportOmit
+  labResult?: Prisma.LabResultOmit
   exercise?: Prisma.ExerciseOmit
   trainingPlan?: Prisma.TrainingPlanOmit
   trainingPlanExercise?: Prisma.TrainingPlanExerciseOmit

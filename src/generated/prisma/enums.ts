@@ -67,6 +67,15 @@ export const EntrySource = {
 export type EntrySource = (typeof EntrySource)[keyof typeof EntrySource]
 
 
+export const FastingStatus = {
+  UNKNOWN: 'UNKNOWN',
+  FASTING: 'FASTING',
+  NOT_FASTING: 'NOT_FASTING'
+} as const
+
+export type FastingStatus = (typeof FastingStatus)[keyof typeof FastingStatus]
+
+
 export const ExerciseCategory = {
   STRENGTH: 'STRENGTH',
   MOBILITY: 'MOBILITY',

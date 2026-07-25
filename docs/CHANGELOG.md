@@ -1,5 +1,17 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Strukturierte Laborerfassung
+
+- Untersuchungen speichern Messzeitpunkt, Nüchtern-Status und optionale
+  Begleitangaben benutzergebunden.
+- 22 häufige Laborparameter stehen gruppiert als große Touch-Auswahl mit
+  fester Einheit bereit.
+- Messwerte und die Referenzgrenzen des jeweiligen Laborberichts werden als
+  historische Datensätze gespeichert und sachlich gegenübergestellt.
+- Das Dashboard zeigt jetzt die tatsächliche Anzahl erfasster Laborwerte.
+- Die automatische Einkaufsliste aus dem Wochenplan ist in der Roadmap als
+  späteres Feature vorgemerkt.
+
 ## 2026-07-25 – Automatische Wochenplanung
 
 - Der Wochenplan füllt auf Wunsch sieben Tage mit drei Hauptmahlzeiten oder

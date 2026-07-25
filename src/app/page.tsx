@@ -86,6 +86,7 @@ export default async function HomePage() {
     todayTrainingSessions,
     trainingPlanCount,
     todayMealPlanEntries,
+    labMeasurementCount,
   ] = user
     ? await Promise.all([
         prisma.dailyEntry.findUnique({
@@ -169,8 +170,11 @@ export default async function HomePage() {
           },
           orderBy: { type: "asc" },
         }),
+        prisma.labResult.count({
+          where: { userId: user.id },
+        }),
       ])
-    : [null, [], [], null, [], 0, []];
+    : [null, [], [], null, [], 0, [], 0];
   const weightMeasurements = weightMeasurementsDescending.toReversed();
   const latestWeight = weightMeasurements.at(-1);
   const checkInSummary = summarizeCheckIns(recentEntries);
@@ -263,7 +267,9 @@ export default async function HomePage() {
     },
     {
       title: "Laborwerte",
-      value: "0 Messungen",
+      value: labMeasurementCount > 0
+        ? `${labMeasurementCount} ${labMeasurementCount === 1 ? "Messung" : "Messungen"}`
+        : "Noch keine Messungen",
       description:
         "Blutwerte und andere Laborergebnisse strukturiert erfassen und vergleichen.",
       href: "/laborwerte",

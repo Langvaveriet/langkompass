@@ -87,6 +87,16 @@ export type DailyEntry = Prisma.DailyEntryModel
  */
 export type BodyMeasurement = Prisma.BodyMeasurementModel
 /**
+ * Model LabReport
+ *
+ */
+export type LabReport = Prisma.LabReportModel
+/**
+ * Model LabResult
+ *
+ */
+export type LabResult = Prisma.LabResultModel
+/**
  * Model Exercise
  *
  */

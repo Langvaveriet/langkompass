@@ -60,6 +60,8 @@ export const ModelName = {
   HealthProfile: 'HealthProfile',
   DailyEntry: 'DailyEntry',
   BodyMeasurement: 'BodyMeasurement',
+  LabReport: 'LabReport',
+  LabResult: 'LabResult',
   Exercise: 'Exercise',
   TrainingPlan: 'TrainingPlan',
   TrainingPlanExercise: 'TrainingPlanExercise',
@@ -239,6 +241,42 @@ export const BodyMeasurementScalarFieldEnum = {
 } as const
 
 export type BodyMeasurementScalarFieldEnum = (typeof BodyMeasurementScalarFieldEnum)[keyof typeof BodyMeasurementScalarFieldEnum]
+
+
+export const LabReportScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  collectedAt: 'collectedAt',
+  fastingStatus: 'fastingStatus',
+  laboratory: 'laboratory',
+  physicianComment: 'physicianComment',
+  controlDate: 'controlDate',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LabReportScalarFieldEnum = (typeof LabReportScalarFieldEnum)[keyof typeof LabReportScalarFieldEnum]
+
+
+export const LabResultScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  labReportId: 'labReportId',
+  analyteKey: 'analyteKey',
+  analyteName: 'analyteName',
+  value: 'value',
+  unit: 'unit',
+  referenceLow: 'referenceLow',
+  referenceHigh: 'referenceHigh',
+  measuredAt: 'measuredAt',
+  source: 'source',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LabResultScalarFieldEnum = (typeof LabResultScalarFieldEnum)[keyof typeof LabResultScalarFieldEnum]
 
 
 export const ExerciseScalarFieldEnum = {

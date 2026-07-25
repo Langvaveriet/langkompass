@@ -25,6 +25,8 @@ model User {
   recipes               Recipe[]
   recipeItems           RecipeItem[]
   mealPlanEntries       MealPlanEntry[]
+  labReports            LabReport[]
+  labResults            LabResult[]
   sessions              Session[]
   accounts              Account[]
   passkeys              Passkey[]
@@ -122,9 +124,9 @@ model HealthProfile {
   manualDailyCalorieTarget Int?
   primaryGoal              String?
   activityGoal             String?
-  preferredDietaryPatterns DietaryPattern[] @default([])
-  excludedFoodCategories   FoodCategory[]    @default([])
-  avoidHistamine           Boolean           @default(false)
+  preferredDietaryPatterns DietaryPattern[]   @default([])
+  excludedFoodCategories   FoodCategory[]     @default([])
+  avoidHistamine           Boolean            @default(false)
   maxRecipePrepMinutes     Int?
   createdAt                DateTime           @default(now())
   updatedAt                DateTime           @updatedAt
@@ -167,6 +169,12 @@ enum MeasurementUnit {
 
 enum EntrySource {
   MANUAL
+}
+
+enum FastingStatus {
+  UNKNOWN
+  FASTING
+  NOT_FASTING
 }
 
 enum ExerciseCategory {
@@ -306,6 +314,48 @@ model BodyMeasurement {
 
   @@unique([dailyEntryId, type])
   @@index([userId, type, measuredAt])
+}
+
+model LabReport {
+  id               String        @id @default(uuid()) @db.Uuid
+  userId           String
+  collectedAt      DateTime
+  fastingStatus    FastingStatus @default(UNKNOWN)
+  laboratory       String?
+  physicianComment String?
+  controlDate      DateTime?     @db.Date
+  notes            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  results LabResult[]
+
+  @@index([userId, collectedAt])
+}
+
+model LabResult {
+  id            String      @id @default(uuid()) @db.Uuid
+  userId        String
+  labReportId   String      @db.Uuid
+  analyteKey    String
+  analyteName   String
+  value         Decimal     @db.Decimal(14, 4)
+  unit          String
+  referenceLow  Decimal?    @db.Decimal(14, 4)
+  referenceHigh Decimal?    @db.Decimal(14, 4)
+  measuredAt    DateTime
+  source        EntrySource @default(MANUAL)
+  note          String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  labReport LabReport @relation(fields: [labReportId], references: [id], onDelete: Cascade)
+
+  @@unique([labReportId, analyteKey])
+  @@index([userId, analyteKey, measuredAt])
+  @@index([labReportId])
 }
 
 model Exercise {
@@ -528,18 +578,18 @@ model CatalogRecipe {
 }
 
 model CatalogRecipeItem {
-  id               String        @id @default(cuid())
+  id               String       @id @default(cuid())
   catalogRecipeKey String
   position         Int
   foodKey          String?
   name             String
   category         FoodCategory
-  quantity         Decimal       @db.Decimal(7, 2)
+  quantity         Decimal      @db.Decimal(7, 2)
   unit             QuantityUnit
-  energyKcal       Decimal       @db.Decimal(7, 2)
-  traits           FoodTrait[]   @default([])
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  energyKcal       Decimal      @db.Decimal(7, 2)
+  traits           FoodTrait[]  @default([])
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 
   catalogRecipe CatalogRecipe @relation(fields: [catalogRecipeKey], references: [key], onDelete: Cascade)
 
