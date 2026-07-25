@@ -1,5 +1,15 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Supplemente und Wirkstoffe verwalten
+
+- Produktdaten, Standarddosis, Einnahmegrund und Notizen lassen sich ändern.
+- Kombipräparate unterstützen mehrere strukturierte Wirkstoffe mit optionalen
+  Gesamt- und elementaren Mengen.
+- Wirkstoffe können einzeln bearbeitet oder nach Bestätigung gelöscht werden;
+  mindestens ein Wirkstoff bleibt je Präparat erhalten.
+- Abgesetzte Präparate lassen sich archivieren und wiederherstellen, ohne ihre
+  Einnahmehistorie zu verlieren.
+
 ## 2026-07-25 – Strukturierte Supplementerfassung
 
 - Supplemente speichern Produkt, Darreichungsform, Standarddosis, Grund und

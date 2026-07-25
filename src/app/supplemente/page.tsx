@@ -1,7 +1,9 @@
-import { logSupplementNow } from "@/app/supplemente/actions";
+import { logSupplementNow, setSupplementArchived } from "@/app/supplemente/actions";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { SupplementForm } from "@/components/supplements/supplement-form";
+import { SupplementEditForm } from "@/components/supplements/supplement-edit-form";
+import { SupplementIngredients } from "@/components/supplements/supplement-ingredients";
 import { SupplementIntakeForm } from "@/components/supplements/supplement-intake-form";
 import { Button } from "@/components/ui/button";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
@@ -33,6 +35,48 @@ function queryValue(query: Record<string, string | string[] | undefined>, name: 
   return Array.isArray(value) ? value[0] : value;
 }
 
+function supplementErrorMessage(error: string | undefined): string | null {
+  switch (error) {
+    case "validation":
+      return "Bitte prüfe Produkt, Standarddosis, Grund und Hauptwirkstoff.";
+    case "duplicate":
+      return "Ein aktives Supplement mit diesem Namen ist bereits vorhanden.";
+    case "archived-exists":
+      return "Ein archiviertes Supplement mit diesem Namen ist bereits vorhanden. Du kannst es unten wiederherstellen.";
+    case "product-validation":
+      return "Bitte prüfe Produktname, Standarddosis, Form und Einnahmegrund.";
+    case "ingredient-validation":
+      return "Bitte prüfe Wirkstoff, Mengen und Einheit.";
+    case "ingredient-duplicate":
+      return "Dieser Wirkstoff ist im Präparat bereits vorhanden.";
+    case "ingredient-not-found":
+      return "Der Wirkstoff wurde nicht gefunden oder gehört nicht zu diesem Präparat.";
+    case "ingredient-delete-validation":
+      return "Bitte bestätige das Löschen des Wirkstoffs.";
+    case "last-ingredient":
+      return "Der letzte Wirkstoff kann nicht gelöscht werden. Ergänze zuerst einen weiteren Wirkstoff.";
+    case "archive-validation":
+      return "Bitte bestätige das Archivieren des Präparats.";
+    case "intake-validation":
+      return "Bitte prüfe Zeitpunkt und Einnahmemenge.";
+    case "not-found":
+      return "Das Supplement wurde nicht gefunden oder gehört nicht zu deinem Konto.";
+    default:
+      return null;
+  }
+}
+
+function supplementStatusMessage(query: Record<string, string | string[] | undefined>): string | null {
+  if (queryValue(query, "created")) return "Supplement gespeichert.";
+  if (queryValue(query, "taken")) return "Einnahme dokumentiert.";
+  if (queryValue(query, "updated")) return "Präparat aktualisiert.";
+  if (queryValue(query, "ingredientSaved")) return "Wirkstoff gespeichert.";
+  if (queryValue(query, "ingredientDeleted")) return "Wirkstoff gelöscht.";
+  if (queryValue(query, "archived")) return "Präparat archiviert. Die Einnahmehistorie bleibt erhalten.";
+  if (queryValue(query, "restored")) return "Präparat wiederhergestellt.";
+  return null;
+}
+
 export default async function SupplementePage({ searchParams }: SupplementePageProps) {
   const user = await requireUser();
   const query = await searchParams;
@@ -42,7 +86,7 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
   });
   const timeZone = settings?.timeZone ?? defaultTimeZone;
   const locale = settings?.locale ?? defaultLocale;
-  const [supplements, recentIntakes] = await Promise.all([
+  const [supplements, archivedSupplements, recentIntakes] = await Promise.all([
     prisma.supplement.findMany({
       where: { userId: user.id, archivedAt: null },
       orderBy: { name: "asc" },
@@ -53,6 +97,17 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
           take: 1,
           select: { takenAt: true },
         },
+      },
+    }),
+    prisma.supplement.findMany({
+      where: { userId: user.id, archivedAt: { not: null } },
+      orderBy: { archivedAt: "desc" },
+      select: {
+        id: true,
+        name: true,
+        brand: true,
+        archivedAt: true,
+        _count: { select: { intakes: true } },
       },
     }),
     prisma.supplementIntake.findMany({
@@ -73,21 +128,8 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
     minute: "2-digit",
     timeZone,
   });
-  const error = queryValue(query, "error");
-  const errorMessage = error === "validation"
-    ? "Bitte prüfe Produkt, Standarddosis, Grund und Hauptwirkstoff."
-    : error === "duplicate"
-      ? "Ein aktives Supplement mit diesem Namen ist bereits vorhanden."
-      : error === "intake-validation"
-        ? "Bitte prüfe Zeitpunkt und Einnahmemenge."
-        : error === "not-found"
-          ? "Das Supplement wurde nicht gefunden oder gehört nicht zu deinem Konto."
-          : null;
-  const statusMessage = queryValue(query, "created")
-    ? "Supplement gespeichert."
-    : queryValue(query, "taken")
-      ? "Einnahme dokumentiert."
-      : null;
+  const errorMessage = supplementErrorMessage(queryValue(query, "error"));
+  const statusMessage = supplementStatusMessage(query);
 
   return (
     <AppLayout>
@@ -115,9 +157,9 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
           <p className="mt-1 text-sm text-text-muted">{supplements.length} {supplements.length === 1 ? "aktives Präparat" : "aktive Präparate"}</p>
 
           {supplements.length > 0 ? (
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            <div className="mt-5 grid gap-4 lg:grid-cols-2">
               {supplements.map((supplement) => (
-                <article key={supplement.id} className="rounded-[var(--radius-xl)] border border-border-strong bg-surface-raised p-5">
+                <article id={`supplement-${supplement.id}`} key={supplement.id} className="rounded-[var(--radius-xl)] border border-border-strong bg-surface-raised p-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <h3 className="text-xl font-semibold text-text-primary">{supplement.name}</h3>
@@ -144,6 +186,7 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
                         : ""}
                     </p>
                   ))}
+                  <SupplementIngredients supplementId={supplement.id} ingredients={supplement.ingredients} />
                   {supplement.intakes[0] ? (
                     <p className="mt-3 text-xs font-semibold text-copper">Zuletzt: {dateTimeFormatter.format(supplement.intakes[0].takenAt)} Uhr</p>
                   ) : (
@@ -167,6 +210,7 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
                       defaultTime={defaultTime}
                     />
                   </details>
+                  <SupplementEditForm supplement={supplement} />
                 </article>
               ))}
             </div>
@@ -177,6 +221,34 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
             </div>
           )}
         </section>
+
+        {archivedSupplements.length > 0 ? (
+          <section className="mt-8 max-w-4xl" aria-labelledby="archived-supplements-heading">
+            <details className="rounded-[var(--radius-lg)] border border-border bg-surface-raised">
+              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-base font-semibold text-text-secondary marker:hidden">
+                <span id="archived-supplements-heading">Archivierte Präparate · {archivedSupplements.length}</span>
+                <span aria-hidden="true">›</span>
+              </summary>
+              <div className="grid gap-3 border-t border-border p-4">
+                {archivedSupplements.map((supplement) => (
+                  <article key={supplement.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-md)] border border-border bg-surface p-4">
+                    <div>
+                      <h3 className="font-semibold text-text-primary">{supplement.name}</h3>
+                      <p className="mt-1 text-xs text-text-muted">
+                        {supplement.brand ? `${supplement.brand} · ` : ""}{supplement._count.intakes} {supplement._count.intakes === 1 ? "Einnahme" : "Einnahmen"} gespeichert
+                      </p>
+                    </div>
+                    <form action={setSupplementArchived}>
+                      <input type="hidden" name="supplementId" value={supplement.id} />
+                      <input type="hidden" name="intent" value="restore" />
+                      <button type="submit" className="inline-flex min-h-11 items-center rounded-[var(--radius-md)] border border-border-strong px-4 py-2 text-sm font-semibold text-forest-strong">Wiederherstellen</button>
+                    </form>
+                  </article>
+                ))}
+              </div>
+            </details>
+          </section>
+        ) : null}
 
         {recentIntakes.length > 0 ? (
           <section className="mt-10 max-w-4xl" aria-labelledby="recent-intakes-heading">

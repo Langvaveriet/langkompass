@@ -6,9 +6,9 @@ umgesetzt.
 
 ## Aktueller Schwerpunkt
 
-- Supplemente mit Produkt, Wirkstoffen und Standarddosierung erfassen
-- Einnahme, beobachtete Wirkung und Verträglichkeit historisch dokumentieren
-- anschließend Supplementverwaltung und Einnahmeverlauf schrittweise ergänzen
+- Einnahmen korrigierbar und löschbar machen
+- Supplementverlauf nach Präparat und Zeitraum darstellen
+- anschließend Einnahmepläne und Erinnerungen ergänzen
 
 ## Zukünftige Features
 
