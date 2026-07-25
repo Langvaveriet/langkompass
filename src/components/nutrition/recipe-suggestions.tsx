@@ -4,6 +4,7 @@ import { useFormStatus } from "react-dom";
 
 import {
   archiveRecipe,
+  removeFavoriteRecipe,
   saveMealAsRecipe,
   useRecipe,
 } from "@/app/ernaehrung/actions";
@@ -12,6 +13,7 @@ import { Button } from "@/components/ui/button";
 export type RecipeSuggestion = {
   id: string;
   name: string;
+  origin: "USER" | "CURATED";
   mealLabel: string;
   energyKcal: number | null;
   items: string[];
@@ -91,6 +93,9 @@ export function RecipeSuggestions({
 }) {
   if (recipes.length === 0) return null;
 
+  const favorites = recipes.filter((recipe) => recipe.origin === "CURATED");
+  const ownTemplates = recipes.filter((recipe) => recipe.origin === "USER");
+
   return (
     <section
       className="mt-8 w-full min-w-0 max-w-4xl overflow-hidden"
@@ -102,10 +107,10 @@ export function RecipeSuggestions({
             id="recipes-heading"
             className="text-lg font-semibold text-text-primary"
           >
-            Meine Vorlagen
+            Meine Rezeptbibliothek
           </h2>
           <p className="mt-1 text-sm leading-6 text-text-muted">
-            Gespeicherte Mahlzeiten mit einem Fingertipp erfassen.
+            Favoriten und eigene Mahlzeiten mit einem Fingertipp erfassen.
           </p>
         </div>
         <span className="shrink-0 text-xs font-medium text-text-muted">
@@ -113,7 +118,43 @@ export function RecipeSuggestions({
         </span>
       </div>
 
-      <div className="mt-4 flex w-[calc(100vw-2rem)] max-w-full snap-x gap-3 overflow-x-auto pb-2">
+      {favorites.length > 0 ? (
+        <RecipeShelf
+          entryDate={entryDate}
+          heading="Favoriten"
+          recipes={favorites}
+        />
+      ) : null}
+
+      {ownTemplates.length > 0 ? (
+        <RecipeShelf
+          entryDate={entryDate}
+          heading="Eigene Vorlagen"
+          recipes={ownTemplates}
+        />
+      ) : null}
+    </section>
+  );
+}
+
+function RecipeShelf({
+  entryDate,
+  heading,
+  recipes,
+}: {
+  entryDate: string;
+  heading: string;
+  recipes: RecipeSuggestion[];
+}) {
+  return (
+    <div className="mt-5">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-sm font-semibold text-text-primary">{heading}</h3>
+        <span className="text-xs font-medium text-text-muted">
+          {recipes.length} {recipes.length === 1 ? "Rezept" : "Rezepte"}
+        </span>
+      </div>
+      <div className="mt-3 flex w-[calc(100vw-2rem)] max-w-full snap-x gap-3 overflow-x-auto pb-2">
         {recipes.map((recipe) => (
           <article
             key={recipe.id}
@@ -121,9 +162,9 @@ export function RecipeSuggestions({
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h3 className="font-semibold text-text-primary">
+                <h4 className="font-semibold text-text-primary">
                   {recipe.name}
-                </h3>
+                </h4>
                 <p className="mt-1 text-xs text-text-muted">
                   {recipe.mealLabel}
                 </p>
@@ -154,16 +195,19 @@ export function RecipeSuggestions({
               </SubmitButton>
             </form>
 
-            <form action={archiveRecipe} className="mt-1">
+            <form
+              action={recipe.origin === "CURATED" ? removeFavoriteRecipe : archiveRecipe}
+              className="mt-1"
+            >
               <input type="hidden" name="entryDate" value={entryDate} />
               <input type="hidden" name="recipeId" value={recipe.id} />
               <SubmitButton pendingLabel="Wird entfernt …" variant="ghost">
-                Vorlage entfernen
+                {recipe.origin === "CURATED" ? "Aus Favoriten entfernen" : "Vorlage entfernen"}
               </SubmitButton>
             </form>
           </article>
         ))}
       </div>
-    </section>
+    </div>
   );
 }

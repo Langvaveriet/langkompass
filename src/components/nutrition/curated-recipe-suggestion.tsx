@@ -42,6 +42,7 @@ export function CuratedRecipeSuggestion({
   selectedType,
   matchingCount,
   profileFiltered,
+  isFavorite,
 }: {
   date: string;
   nextSeed: string;
@@ -49,6 +50,7 @@ export function CuratedRecipeSuggestion({
   selectedType: CuratedRecipe["type"] | null;
   matchingCount: number;
   profileFiltered: boolean;
+  isFavorite: boolean;
 }) {
   const energyKcal = recipe.items.reduce(
     (sum, item) => sum + item.energyKcal,
@@ -197,17 +199,23 @@ export function CuratedRecipeSuggestion({
             und medizinische Vorgaben werden noch nicht automatisch geprüft.
           </p>
 
-          <form action={saveSuggestedRecipe}>
-            <input type="hidden" name="entryDate" value={date} />
-            <input type="hidden" name="suggestionKey" value={recipe.key} />
-            <WeeklyPlanSubmit
-              pendingLabel="Wird gespeichert …"
-              variant="secondary"
-              className="w-full"
-            >
-              Als Vorlage speichern
-            </WeeklyPlanSubmit>
-          </form>
+          {isFavorite ? (
+            <div className="flex min-h-12 items-center justify-center rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-center text-sm font-semibold text-forest-strong">
+              ♥ In deinen Favoriten
+            </div>
+          ) : (
+            <form action={saveSuggestedRecipe}>
+              <input type="hidden" name="entryDate" value={date} />
+              <input type="hidden" name="suggestionKey" value={recipe.key} />
+              <WeeklyPlanSubmit
+                pendingLabel="Wird gespeichert …"
+                variant="secondary"
+                className="w-full"
+              >
+                ♥ Als Favorit speichern
+              </WeeklyPlanSubmit>
+            </form>
+          )}
 
           <form action={planSuggestedRecipe}>
             <input type="hidden" name="entryDate" value={date} />

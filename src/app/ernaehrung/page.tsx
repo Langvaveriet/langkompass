@@ -35,7 +35,7 @@ import {
   reactionDelayLabels,
 } from "@/lib/nutrition/post-meal-reactions";
 import { uniqueRecentMeals } from "@/lib/nutrition/recent-meals";
-import { suggestRecipeName } from "@/lib/nutrition/recipes";
+import { normalizeRecipeName, suggestRecipeName } from "@/lib/nutrition/recipes";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
@@ -49,7 +49,7 @@ export const dynamic = "force-dynamic";
 const DAILY_ENERGY_REFERENCE_KCAL = 2000;
 const mealLabels: Record<MealType, string> = { BREAKFAST: "Frühstück", LUNCH: "Mittagessen", DINNER: "Abendessen", SNACK: "Snack", DRINK: "Getränk" };
 
-type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; repeated?: string; deleted?: string; recipeSaved?: string; recipeUsed?: string; recipeArchived?: string; suggestionSaved?: string; suggestionPlanned?: string; suggestionType?: string; suggest?: string; error?: string }> };
+type PageProps = { searchParams: Promise<{ date?: string; edit?: string; saved?: string; repeated?: string; deleted?: string; recipeSaved?: string; recipeUsed?: string; recipeArchived?: string; favoriteRemoved?: string; suggestionSaved?: string; suggestionPlanned?: string; suggestionType?: string; suggest?: string; error?: string }> };
 
 function validDate(value: string | undefined, timeZone: string): string {
   return value && /^\d{4}-\d{2}-\d{2}$/.test(value)
@@ -112,7 +112,14 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           take: 20,
         }),
         prisma.recipe.findMany({
-          where: { userId: user.id, archivedAt: null },
+          where: {
+            userId: user.id,
+            archivedAt: null,
+            OR: [
+              { origin: "USER" },
+              { origin: "CURATED", favoriteAt: { not: null } },
+            ],
+          },
           include: { items: { orderBy: { position: "asc" } } },
           orderBy: { updatedAt: "desc" },
         }),
@@ -173,6 +180,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
   const recipeSuggestions: RecipeSuggestion[] = recipes.map((recipe) => ({
     id: recipe.id,
     name: recipe.name,
+    origin: recipe.origin,
     mealLabel: mealLabels[recipe.type],
     energyKcal: recipe.items.some(
       (item) => estimatedFoodEnergy(item) !== null,
@@ -190,6 +198,14 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
         : item.name,
     ),
   }));
+  const suggestedRecipeIsFavorite = suggestedRecipe
+    ? recipes.some(
+        (recipe) =>
+          recipe.origin === "CURATED" &&
+          recipe.favoriteAt !== null &&
+          recipe.normalizedName === normalizeRecipeName(suggestedRecipe.name),
+      )
+    : false;
   const editedMeal = query.edit ? entry?.meals.find((meal) => meal.id === query.edit) : undefined;
   const values = editedMeal ? {
     id: editedMeal.id,
@@ -283,7 +299,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
           </Link>
         </header>
 
-        {query.saved === "1" || query.repeated === "1" || query.deleted === "1" || query.recipeSaved === "1" || query.recipeUsed === "1" || query.recipeArchived === "1" || query.suggestionSaved === "1" || query.suggestionPlanned === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.suggestionPlanned === "1" ? "Der Rezeptvorschlag wurde als Vorlage gespeichert und für diesen Tag eingeplant." : query.suggestionSaved === "1" ? "Der Rezeptvorschlag wurde in deinen Vorlagen gespeichert." : query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" || query.recipeUsed === "1" ? "Mahlzeit wurde übernommen." : query.recipeSaved === "1" ? "Vorlage wurde gespeichert. Ein vorhandener Name wird dabei aktualisiert." : query.recipeArchived === "1" ? "Vorlage wurde entfernt." : "Mahlzeit wurde gespeichert."}</div> : null}
+        {query.saved === "1" || query.repeated === "1" || query.deleted === "1" || query.recipeSaved === "1" || query.recipeUsed === "1" || query.recipeArchived === "1" || query.favoriteRemoved === "1" || query.suggestionSaved === "1" || query.suggestionPlanned === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.suggestionPlanned === "1" ? "Der Rezeptvorschlag wurde für diesen Tag eingeplant." : query.suggestionSaved === "1" ? "Das Rezept wurde als Favorit gespeichert." : query.favoriteRemoved === "1" ? "Das Rezept wurde aus deinen Favoriten entfernt." : query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" || query.recipeUsed === "1" ? "Mahlzeit wurde übernommen." : query.recipeSaved === "1" ? "Eigene Vorlage wurde gespeichert. Ein vorhandener Name wird dabei aktualisiert." : query.recipeArchived === "1" ? "Eigene Vorlage wurde entfernt." : "Mahlzeit wurde gespeichert."}</div> : null}
         {query.error ? <div role="alert" className="rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{query.error === "plan-completed" ? "Die Mahlzeit dieses Typs wurde im Wochenplan bereits erfasst und kann nicht ersetzt werden." : query.error === "suggestion" ? "Der Rezeptvorschlag ist nicht mehr verfügbar." : query.error === "recipe-name" ? "Bitte gib der Vorlage einen Namen mit 2 bis 60 Zeichen." : query.error === "recipe" ? "Die Mahlzeitenvorlage wurde nicht gefunden." : "Bitte wähle Mahlzeit, Uhrzeit und mindestens ein Lebensmittel."}</div> : null}
 
         <section className="mt-8 max-w-4xl overflow-hidden rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised shadow-sm" aria-label="Kalorienübersicht">
@@ -394,6 +410,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
             selectedType={selectedSuggestionType}
             matchingCount={matchingCatalogRecipes.length}
             profileFiltered={profileFiltered}
+            isFavorite={suggestedRecipeIsFavorite}
           />
         ) : (
           <section className="mt-8 max-w-4xl rounded-[var(--radius-lg)] border border-border-subtle bg-surface-raised p-5">

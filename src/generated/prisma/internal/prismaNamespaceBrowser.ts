@@ -368,6 +368,7 @@ export const RecipeScalarFieldEnum = {
   dietaryPatterns: 'dietaryPatterns',
   sourceLabel: 'sourceLabel',
   sourceUrl: 'sourceUrl',
+  favoriteAt: 'favoriteAt',
   archivedAt: 'archivedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

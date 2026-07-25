@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Persönliche Rezeptbibliothek
+
+- Katalogrezepte lassen sich eindeutig als Favoriten speichern und wieder
+  entfernen.
+- Die Rezeptbibliothek trennt Favoriten von selbst angelegten
+  Mahlzeitenvorlagen, ohne parallele oder doppelte Rezeptdaten zu erzeugen.
+- Ein nur für den Wochenplan benötigtes Katalogrezept wird künftig nicht
+  automatisch als Favorit dargestellt.
+- Bestehende gespeicherte Katalogrezepte bleiben bei der Umstellung erhalten.
+- Alle Aktionen bleiben benutzergebunden und verwenden große Touch-Ziele.
+
 ## 2026-07-25 – Persönliche Rezeptfilter
 
 - Das Gesundheitsprofil erfasst optionale Ernährungsrichtungen,

@@ -45,8 +45,13 @@ function selectedDate(formData: FormData): string {
   return value;
 }
 
-async function upsertCuratedRecipe(userId: string, suggestion: CuratedRecipe) {
+async function upsertCuratedRecipe(
+  userId: string,
+  suggestion: CuratedRecipe,
+  favorite = false,
+) {
   const normalizedName = normalizeRecipeName(suggestion.name);
+  const favoriteAt = favorite ? new Date() : null;
 
   return prisma.$transaction(async (transaction) => {
     const existingRecipe = await transaction.recipe.findUnique({
@@ -72,7 +77,10 @@ async function upsertCuratedRecipe(userId: string, suggestion: CuratedRecipe) {
     const recipe = existingRecipe
       ? await transaction.recipe.update({
           where: { id: existingRecipe.id },
-          data: metadata,
+          data: {
+            ...metadata,
+            ...(favorite ? { favoriteAt } : {}),
+          },
           select: { id: true, type: true },
         })
       : await transaction.recipe.create({
@@ -80,6 +88,7 @@ async function upsertCuratedRecipe(userId: string, suggestion: CuratedRecipe) {
             userId,
             normalizedName,
             ...metadata,
+            favoriteAt,
           },
           select: { id: true, type: true },
         });
@@ -478,7 +487,12 @@ export async function archiveRecipe(formData: FormData) {
   if (!recipeId) redirect(`/ernaehrung?date=${date}&error=recipe`);
 
   const result = await prisma.recipe.updateMany({
-    where: { id: recipeId, userId: user.id, archivedAt: null },
+    where: {
+      id: recipeId,
+      userId: user.id,
+      origin: "USER",
+      archivedAt: null,
+    },
     data: { archivedAt: new Date() },
   });
 
@@ -488,6 +502,30 @@ export async function archiveRecipe(formData: FormData) {
 
   revalidatePath("/ernaehrung");
   redirect(`/ernaehrung?date=${date}&recipeArchived=1`);
+}
+
+export async function removeFavoriteRecipe(formData: FormData) {
+  const user = await requireUser();
+  const date = selectedDate(formData);
+  const recipeId = text(formData, "recipeId");
+  if (!recipeId) redirect(`/ernaehrung?date=${date}&error=recipe`);
+
+  const result = await prisma.recipe.updateMany({
+    where: {
+      id: recipeId,
+      userId: user.id,
+      origin: "CURATED",
+      favoriteAt: { not: null },
+    },
+    data: { favoriteAt: null },
+  });
+
+  if (result.count === 0) {
+    redirect(`/ernaehrung?date=${date}&error=recipe`);
+  }
+
+  revalidatePath("/ernaehrung");
+  redirect(`/ernaehrung?date=${date}&favoriteRemoved=1`);
 }
 
 export async function saveSuggestedRecipe(formData: FormData) {
@@ -502,7 +540,7 @@ export async function saveSuggestedRecipe(formData: FormData) {
     redirect(`/ernaehrung?date=${date}&error=suggestion`);
   }
 
-  await upsertCuratedRecipe(user.id, suggestion);
+  await upsertCuratedRecipe(user.id, suggestion, true);
   revalidatePath("/ernaehrung");
   revalidatePath("/ernaehrung/wochenplan");
   redirect(`/ernaehrung?date=${date}&suggestionSaved=1&suggest=${suggestion.key}`);
