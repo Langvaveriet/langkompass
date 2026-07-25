@@ -4,8 +4,11 @@
 
 - Untersuchungen speichern Messzeitpunkt, Nüchtern-Status und optionale
   Begleitangaben benutzergebunden.
-- 22 häufige Laborparameter stehen gruppiert als große Touch-Auswahl mit
-  fester Einheit bereit.
+- 35 Laborparameter stehen gruppiert als große Touch-Auswahl mit fester
+  Einheit bereit; alle Parameter des vorliegenden schwedischen Bluttestberichts
+  sind über ihre Originalbezeichnungen strukturiert zugeordnet.
+- Die schwedischen Originalbezeichnungen erscheinen direkt unter den deutschen
+  Parameternamen in der Eingabemaske.
 - Messwerte und die Referenzgrenzen des jeweiligen Laborberichts werden als
   historische Datensätze gespeichert und sachlich gegenübergestellt.
 - Das Dashboard zeigt jetzt die tatsächliche Anzahl erfasster Laborwerte.

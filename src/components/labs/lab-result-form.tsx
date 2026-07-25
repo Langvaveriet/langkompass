@@ -38,11 +38,19 @@ export function LabResultForm({
                 <div className="grid gap-2 border-t border-border p-3 sm:grid-cols-2">
                   {labAnalytes.filter((analyte) => analyte.category === category).map((analyte) => {
                     const alreadyRecorded = recorded.has(analyte.key);
+                    const sourceLabel = "sourceLabels" in analyte
+                      ? analyte.sourceLabels.join(" · ")
+                      : null;
                     return (
                       <label key={analyte.key} className={alreadyRecorded ? "cursor-not-allowed opacity-45" : "cursor-pointer"}>
                         <input type="radio" name="analyteKey" value={analyte.key} disabled={alreadyRecorded} className="peer sr-only" />
                         <span className="flex min-h-14 items-center justify-between gap-3 rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 py-3 peer-checked:border-forest-strong peer-checked:bg-forest-soft peer-focus-visible:outline peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus">
-                          <span className="font-semibold text-text-primary">{analyte.shortName}</span>
+                          <span className="min-w-0">
+                            <span className="block font-semibold text-text-primary">{analyte.shortName}</span>
+                            {sourceLabel ? (
+                              <span className="mt-1 block text-xs font-medium text-copper">Schwedisch: {sourceLabel}</span>
+                            ) : null}
+                          </span>
                           <span className="text-xs text-text-muted">{alreadyRecorded ? "erfasst" : analyte.unit}</span>
                         </span>
                       </label>
