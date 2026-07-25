@@ -2131,6 +2131,10 @@ export const HealthProfileScalarFieldEnum = {
   manualDailyCalorieTarget: 'manualDailyCalorieTarget',
   primaryGoal: 'primaryGoal',
   activityGoal: 'activityGoal',
+  preferredDietaryPatterns: 'preferredDietaryPatterns',
+  excludedFoodCategories: 'excludedFoodCategories',
+  avoidHistamine: 'avoidHistamine',
+  maxRecipePrepMinutes: 'maxRecipePrepMinutes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2524,6 +2528,34 @@ export type ListEnumWeightGoalFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'DietaryPattern[]'
+ */
+export type ListEnumDietaryPatternFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DietaryPattern[]'>
+
+
+
+/**
+ * Reference to a field of type 'DietaryPattern'
+ */
+export type EnumDietaryPatternFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DietaryPattern'>
+
+
+
+/**
+ * Reference to a field of type 'FoodCategory[]'
+ */
+export type ListEnumFoodCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FoodCategory[]'>
+
+
+
+/**
+ * Reference to a field of type 'FoodCategory'
+ */
+export type EnumFoodCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FoodCategory'>
+
+
+
+/**
  * Reference to a field of type 'DailyEntryStatus'
  */
 export type EnumDailyEntryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DailyEntryStatus'>
@@ -2636,20 +2668,6 @@ export type ListEnumMealTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
- * Reference to a field of type 'FoodCategory'
- */
-export type EnumFoodCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FoodCategory'>
-
-
-
-/**
- * Reference to a field of type 'FoodCategory[]'
- */
-export type ListEnumFoodCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FoodCategory[]'>
-
-
-
-/**
  * Reference to a field of type 'PortionSize'
  */
 export type EnumPortionSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PortionSize'>
@@ -2702,20 +2720,6 @@ export type EnumRecipeOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'RecipeOrigin[]'
  */
 export type ListEnumRecipeOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecipeOrigin[]'>
-
-
-
-/**
- * Reference to a field of type 'DietaryPattern[]'
- */
-export type ListEnumDietaryPatternFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DietaryPattern[]'>
-
-
-
-/**
- * Reference to a field of type 'DietaryPattern'
- */
-export type EnumDietaryPatternFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DietaryPattern'>
 
 
 

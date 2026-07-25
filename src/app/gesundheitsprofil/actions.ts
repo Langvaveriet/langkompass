@@ -8,6 +8,8 @@ import { requireUser } from "@/lib/session";
 import type {
   ActivityLevel,
   CalorieFormulaSex,
+  DietaryPattern,
+  FoodCategory,
   WeightGoal,
 } from "@/generated/prisma/enums";
 
@@ -16,6 +18,13 @@ const activityLevelValues = new Set<ActivityLevel>([
   "SEDENTARY", "LIGHT", "MODERATE", "HIGH", "VERY_HIGH",
 ]);
 const weightGoalValues = new Set<WeightGoal>(["LOSE", "MAINTAIN", "GAIN"]);
+const dietaryPatternValues = new Set<DietaryPattern>([
+  "MEDITERRANEAN", "KETOGENIC", "VEGETARIAN",
+]);
+const excludableFoodCategories = new Set<FoodCategory>([
+  "FISH_SEAFOOD", "MEAT", "DAIRY", "EGG", "NUT_SEED",
+]);
+const recipePrepMinuteValues = new Set([15, 30, 45, 60]);
 
 function optionalText(formData: FormData, field: string): string | null {
   const value = formData.get(field);
@@ -79,6 +88,29 @@ export async function saveHealthProfile(formData: FormData) {
   const manualDailyCalorieTarget = optionalInteger(formData, "manualDailyCalorieTarget");
   const primaryGoal = optionalText(formData, "primaryGoal");
   const activityGoal = optionalText(formData, "activityGoal");
+  const preferredDietaryPatterns = formData
+    .getAll("preferredDietaryPatterns")
+    .filter((value): value is DietaryPattern =>
+      typeof value === "string" &&
+      dietaryPatternValues.has(value as DietaryPattern),
+    );
+  const excludedFoodCategories = formData
+    .getAll("excludedFoodCategories")
+    .filter((value): value is FoodCategory =>
+      typeof value === "string" &&
+      excludableFoodCategories.has(value as FoodCategory),
+    );
+  const avoidHistamine = formData
+    .getAll("nutritionFlags")
+    .includes("AVOID_HISTAMINE");
+  const maxRecipePrepMinutesValue = optionalInteger(
+    formData,
+    "maxRecipePrepMinutes",
+  );
+  const maxRecipePrepMinutes = maxRecipePrepMinutesValue !== null &&
+    recipePrepMinuteValues.has(maxRecipePrepMinutesValue)
+      ? maxRecipePrepMinutesValue
+      : null;
 
   if (heightCm !== null && (heightCm < 50 || heightCm > 250)) {
     redirect("/gesundheitsprofil?error=height");
@@ -132,6 +164,10 @@ export async function saveHealthProfile(formData: FormData) {
       manualDailyCalorieTarget,
       primaryGoal,
       activityGoal,
+      preferredDietaryPatterns,
+      excludedFoodCategories,
+      avoidHistamine,
+      maxRecipePrepMinutes,
     },
     create: {
       userId: user.id,
@@ -146,11 +182,17 @@ export async function saveHealthProfile(formData: FormData) {
       manualDailyCalorieTarget,
       primaryGoal,
       activityGoal,
+      preferredDietaryPatterns,
+      excludedFoodCategories,
+      avoidHistamine,
+      maxRecipePrepMinutes,
     },
   });
 
   revalidatePath("/");
   revalidatePath("/gesundheitsprofil");
+  revalidatePath("/ernaehrung");
+  revalidatePath("/ernaehrung/wochenplan");
 
   redirect("/gesundheitsprofil?saved=1");
 }

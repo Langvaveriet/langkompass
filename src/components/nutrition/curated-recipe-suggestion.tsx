@@ -40,11 +40,15 @@ export function CuratedRecipeSuggestion({
   nextSeed,
   recipe,
   selectedType,
+  matchingCount,
+  profileFiltered,
 }: {
   date: string;
   nextSeed: string;
   recipe: CuratedRecipe;
   selectedType: CuratedRecipe["type"] | null;
+  matchingCount: number;
+  profileFiltered: boolean;
 }) {
   const energyKcal = recipe.items.reduce(
     (sum, item) => sum + item.energyKcal,
@@ -68,6 +72,10 @@ export function CuratedRecipeSuggestion({
             >
               Gericht vorschlagen
             </h2>
+            <p className="mt-1 text-xs font-medium text-text-muted">
+              {matchingCount} passende {matchingCount === 1 ? "Idee" : "Ideen"}
+              {profileFiltered ? " nach deinen Profilangaben" : " im Katalog"}
+            </p>
           </div>
           <Link
             href={suggestionUrl(date, nextSeed, selectedType)}

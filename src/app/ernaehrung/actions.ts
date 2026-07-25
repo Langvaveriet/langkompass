@@ -8,6 +8,10 @@ import {
   catalogRecipeSnapshot,
   type CuratedRecipe,
 } from "@/lib/nutrition/curated-recipes";
+import {
+  recipeMatchesPreferences,
+  recipePreferencesFromProfile,
+} from "@/lib/nutrition/recipe-preferences";
 import { foodCatalogByKey } from "@/lib/nutrition/food-catalog";
 import {
   allowedPostMealSymptoms,
@@ -104,13 +108,35 @@ async function upsertCuratedRecipe(userId: string, suggestion: CuratedRecipe) {
   });
 }
 
-async function catalogSuggestion(key: string): Promise<CuratedRecipe | null> {
-  const recipe = await prisma.catalogRecipe.findFirst({
-    where: { key, active: true },
-    include: { items: { orderBy: { position: "asc" } } },
-  });
+async function catalogSuggestion(
+  key: string,
+  userId: string,
+): Promise<CuratedRecipe | null> {
+  const [recipe, profile] = await Promise.all([
+    prisma.catalogRecipe.findFirst({
+      where: { key, active: true },
+      include: { items: { orderBy: { position: "asc" } } },
+    }),
+    prisma.healthProfile.findUnique({
+      where: { userId },
+      select: {
+        preferredDietaryPatterns: true,
+        excludedFoodCategories: true,
+        avoidHistamine: true,
+        maxRecipePrepMinutes: true,
+      },
+    }),
+  ]);
 
-  return recipe ? catalogRecipeSnapshot(recipe) : null;
+  if (!recipe) return null;
+  const suggestion = catalogRecipeSnapshot(recipe);
+
+  return recipeMatchesPreferences(
+    suggestion,
+    recipePreferencesFromProfile(profile),
+  )
+    ? suggestion
+    : null;
 }
 
 export async function saveMeal(formData: FormData) {
@@ -469,7 +495,7 @@ export async function saveSuggestedRecipe(formData: FormData) {
   const date = selectedDate(formData);
   const suggestionKey = text(formData, "suggestionKey");
   const suggestion = suggestionKey
-    ? await catalogSuggestion(suggestionKey)
+    ? await catalogSuggestion(suggestionKey, user.id)
     : null;
 
   if (!suggestion) {
@@ -487,7 +513,7 @@ export async function planSuggestedRecipe(formData: FormData) {
   const date = selectedDate(formData);
   const suggestionKey = text(formData, "suggestionKey");
   const suggestion = suggestionKey
-    ? await catalogSuggestion(suggestionKey)
+    ? await catalogSuggestion(suggestionKey, user.id)
     : null;
 
   if (!suggestion) {

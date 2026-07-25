@@ -191,6 +191,10 @@ export const HealthProfileScalarFieldEnum = {
   manualDailyCalorieTarget: 'manualDailyCalorieTarget',
   primaryGoal: 'primaryGoal',
   activityGoal: 'activityGoal',
+  preferredDietaryPatterns: 'preferredDietaryPatterns',
+  excludedFoodCategories: 'excludedFoodCategories',
+  avoidHistamine: 'avoidHistamine',
+  maxRecipePrepMinutes: 'maxRecipePrepMinutes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -622,14 +622,6 @@ export type RecipeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type EnumDietaryPatternNullableListFilter<$PrismaModel = never> = {
-  equals?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel> | null
-  has?: $Enums.DietaryPattern | Prisma.EnumDietaryPatternFieldRefInput<$PrismaModel> | null
-  hasEvery?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel>
-  hasSome?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
-}
-
 export type RecipeUserIdNormalizedNameCompoundUniqueInput = {
   userId: string
   normalizedName: string

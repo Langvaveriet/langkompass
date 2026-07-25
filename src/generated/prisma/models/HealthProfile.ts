@@ -30,12 +30,14 @@ export type HealthProfileAvgAggregateOutputType = {
   heightCm: number | null
   weightKg: runtime.Decimal | null
   manualDailyCalorieTarget: number | null
+  maxRecipePrepMinutes: number | null
 }
 
 export type HealthProfileSumAggregateOutputType = {
   heightCm: number | null
   weightKg: runtime.Decimal | null
   manualDailyCalorieTarget: number | null
+  maxRecipePrepMinutes: number | null
 }
 
 export type HealthProfileMinAggregateOutputType = {
@@ -52,6 +54,8 @@ export type HealthProfileMinAggregateOutputType = {
   manualDailyCalorieTarget: number | null
   primaryGoal: string | null
   activityGoal: string | null
+  avoidHistamine: boolean | null
+  maxRecipePrepMinutes: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -70,6 +74,8 @@ export type HealthProfileMaxAggregateOutputType = {
   manualDailyCalorieTarget: number | null
   primaryGoal: string | null
   activityGoal: string | null
+  avoidHistamine: boolean | null
+  maxRecipePrepMinutes: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -88,6 +94,10 @@ export type HealthProfileCountAggregateOutputType = {
   manualDailyCalorieTarget: number
   primaryGoal: number
   activityGoal: number
+  preferredDietaryPatterns: number
+  excludedFoodCategories: number
+  avoidHistamine: number
+  maxRecipePrepMinutes: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -98,12 +108,14 @@ export type HealthProfileAvgAggregateInputType = {
   heightCm?: true
   weightKg?: true
   manualDailyCalorieTarget?: true
+  maxRecipePrepMinutes?: true
 }
 
 export type HealthProfileSumAggregateInputType = {
   heightCm?: true
   weightKg?: true
   manualDailyCalorieTarget?: true
+  maxRecipePrepMinutes?: true
 }
 
 export type HealthProfileMinAggregateInputType = {
@@ -120,6 +132,8 @@ export type HealthProfileMinAggregateInputType = {
   manualDailyCalorieTarget?: true
   primaryGoal?: true
   activityGoal?: true
+  avoidHistamine?: true
+  maxRecipePrepMinutes?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -138,6 +152,8 @@ export type HealthProfileMaxAggregateInputType = {
   manualDailyCalorieTarget?: true
   primaryGoal?: true
   activityGoal?: true
+  avoidHistamine?: true
+  maxRecipePrepMinutes?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -156,6 +172,10 @@ export type HealthProfileCountAggregateInputType = {
   manualDailyCalorieTarget?: true
   primaryGoal?: true
   activityGoal?: true
+  preferredDietaryPatterns?: true
+  excludedFoodCategories?: true
+  avoidHistamine?: true
+  maxRecipePrepMinutes?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -261,6 +281,10 @@ export type HealthProfileGroupByOutputType = {
   manualDailyCalorieTarget: number | null
   primaryGoal: string | null
   activityGoal: string | null
+  preferredDietaryPatterns: $Enums.DietaryPattern[]
+  excludedFoodCategories: $Enums.FoodCategory[]
+  avoidHistamine: boolean
+  maxRecipePrepMinutes: number | null
   createdAt: Date
   updatedAt: Date
   _count: HealthProfileCountAggregateOutputType | null
@@ -302,6 +326,10 @@ export type HealthProfileWhereInput = {
   manualDailyCalorieTarget?: Prisma.IntNullableFilter<"HealthProfile"> | number | null
   primaryGoal?: Prisma.StringNullableFilter<"HealthProfile"> | string | null
   activityGoal?: Prisma.StringNullableFilter<"HealthProfile"> | string | null
+  preferredDietaryPatterns?: Prisma.EnumDietaryPatternNullableListFilter<"HealthProfile">
+  excludedFoodCategories?: Prisma.EnumFoodCategoryNullableListFilter<"HealthProfile">
+  avoidHistamine?: Prisma.BoolFilter<"HealthProfile"> | boolean
+  maxRecipePrepMinutes?: Prisma.IntNullableFilter<"HealthProfile"> | number | null
   createdAt?: Prisma.DateTimeFilter<"HealthProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HealthProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -321,6 +349,10 @@ export type HealthProfileOrderByWithRelationInput = {
   manualDailyCalorieTarget?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   activityGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredDietaryPatterns?: Prisma.SortOrder
+  excludedFoodCategories?: Prisma.SortOrder
+  avoidHistamine?: Prisma.SortOrder
+  maxRecipePrepMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -343,6 +375,10 @@ export type HealthProfileWhereUniqueInput = Prisma.AtLeast<{
   manualDailyCalorieTarget?: Prisma.IntNullableFilter<"HealthProfile"> | number | null
   primaryGoal?: Prisma.StringNullableFilter<"HealthProfile"> | string | null
   activityGoal?: Prisma.StringNullableFilter<"HealthProfile"> | string | null
+  preferredDietaryPatterns?: Prisma.EnumDietaryPatternNullableListFilter<"HealthProfile">
+  excludedFoodCategories?: Prisma.EnumFoodCategoryNullableListFilter<"HealthProfile">
+  avoidHistamine?: Prisma.BoolFilter<"HealthProfile"> | boolean
+  maxRecipePrepMinutes?: Prisma.IntNullableFilter<"HealthProfile"> | number | null
   createdAt?: Prisma.DateTimeFilter<"HealthProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HealthProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -362,6 +398,10 @@ export type HealthProfileOrderByWithAggregationInput = {
   manualDailyCalorieTarget?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryGoal?: Prisma.SortOrderInput | Prisma.SortOrder
   activityGoal?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredDietaryPatterns?: Prisma.SortOrder
+  excludedFoodCategories?: Prisma.SortOrder
+  avoidHistamine?: Prisma.SortOrder
+  maxRecipePrepMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.HealthProfileCountOrderByAggregateInput
@@ -388,6 +428,10 @@ export type HealthProfileScalarWhereWithAggregatesInput = {
   manualDailyCalorieTarget?: Prisma.IntNullableWithAggregatesFilter<"HealthProfile"> | number | null
   primaryGoal?: Prisma.StringNullableWithAggregatesFilter<"HealthProfile"> | string | null
   activityGoal?: Prisma.StringNullableWithAggregatesFilter<"HealthProfile"> | string | null
+  preferredDietaryPatterns?: Prisma.EnumDietaryPatternNullableListFilter<"HealthProfile">
+  excludedFoodCategories?: Prisma.EnumFoodCategoryNullableListFilter<"HealthProfile">
+  avoidHistamine?: Prisma.BoolWithAggregatesFilter<"HealthProfile"> | boolean
+  maxRecipePrepMinutes?: Prisma.IntNullableWithAggregatesFilter<"HealthProfile"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"HealthProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"HealthProfile"> | Date | string
 }
@@ -405,6 +449,10 @@ export type HealthProfileCreateInput = {
   manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileCreatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileCreateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutHealthProfileInput
@@ -424,6 +472,10 @@ export type HealthProfileUncheckedCreateInput = {
   manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileCreatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileCreateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -441,6 +493,10 @@ export type HealthProfileUpdateInput = {
   manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileUpdatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileUpdateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxRecipePrepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutHealthProfileNestedInput
@@ -460,6 +516,10 @@ export type HealthProfileUncheckedUpdateInput = {
   manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileUpdatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileUpdateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxRecipePrepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -478,6 +538,10 @@ export type HealthProfileCreateManyInput = {
   manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileCreatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileCreateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -495,6 +559,10 @@ export type HealthProfileUpdateManyMutationInput = {
   manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileUpdatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileUpdateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxRecipePrepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -513,6 +581,10 @@ export type HealthProfileUncheckedUpdateManyInput = {
   manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileUpdatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileUpdateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxRecipePrepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -520,6 +592,22 @@ export type HealthProfileUncheckedUpdateManyInput = {
 export type HealthProfileNullableScalarRelationFilter = {
   is?: Prisma.HealthProfileWhereInput | null
   isNot?: Prisma.HealthProfileWhereInput | null
+}
+
+export type EnumDietaryPatternNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel> | null
+  has?: $Enums.DietaryPattern | Prisma.EnumDietaryPatternFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.DietaryPattern[] | Prisma.ListEnumDietaryPatternFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
+export type EnumFoodCategoryNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel> | null
+  has?: $Enums.FoodCategory | Prisma.EnumFoodCategoryFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.FoodCategory[] | Prisma.ListEnumFoodCategoryFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type HealthProfileCountOrderByAggregateInput = {
@@ -536,6 +624,10 @@ export type HealthProfileCountOrderByAggregateInput = {
   manualDailyCalorieTarget?: Prisma.SortOrder
   primaryGoal?: Prisma.SortOrder
   activityGoal?: Prisma.SortOrder
+  preferredDietaryPatterns?: Prisma.SortOrder
+  excludedFoodCategories?: Prisma.SortOrder
+  avoidHistamine?: Prisma.SortOrder
+  maxRecipePrepMinutes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -544,6 +636,7 @@ export type HealthProfileAvgOrderByAggregateInput = {
   heightCm?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   manualDailyCalorieTarget?: Prisma.SortOrder
+  maxRecipePrepMinutes?: Prisma.SortOrder
 }
 
 export type HealthProfileMaxOrderByAggregateInput = {
@@ -560,6 +653,8 @@ export type HealthProfileMaxOrderByAggregateInput = {
   manualDailyCalorieTarget?: Prisma.SortOrder
   primaryGoal?: Prisma.SortOrder
   activityGoal?: Prisma.SortOrder
+  avoidHistamine?: Prisma.SortOrder
+  maxRecipePrepMinutes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -578,6 +673,8 @@ export type HealthProfileMinOrderByAggregateInput = {
   manualDailyCalorieTarget?: Prisma.SortOrder
   primaryGoal?: Prisma.SortOrder
   activityGoal?: Prisma.SortOrder
+  avoidHistamine?: Prisma.SortOrder
+  maxRecipePrepMinutes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -586,6 +683,7 @@ export type HealthProfileSumOrderByAggregateInput = {
   heightCm?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   manualDailyCalorieTarget?: Prisma.SortOrder
+  maxRecipePrepMinutes?: Prisma.SortOrder
 }
 
 export type HealthProfileCreateNestedOneWithoutUserInput = {
@@ -620,6 +718,14 @@ export type HealthProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.HealthProfileUpdateToOneWithWhereWithoutUserInput, Prisma.HealthProfileUpdateWithoutUserInput>, Prisma.HealthProfileUncheckedUpdateWithoutUserInput>
 }
 
+export type HealthProfileCreatepreferredDietaryPatternsInput = {
+  set: $Enums.DietaryPattern[]
+}
+
+export type HealthProfileCreateexcludedFoodCategoriesInput = {
+  set: $Enums.FoodCategory[]
+}
+
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -648,6 +754,16 @@ export type NullableEnumWeightGoalFieldUpdateOperationsInput = {
   set?: $Enums.WeightGoal | null
 }
 
+export type HealthProfileUpdatepreferredDietaryPatternsInput = {
+  set?: $Enums.DietaryPattern[]
+  push?: $Enums.DietaryPattern | $Enums.DietaryPattern[]
+}
+
+export type HealthProfileUpdateexcludedFoodCategoriesInput = {
+  set?: $Enums.FoodCategory[]
+  push?: $Enums.FoodCategory | $Enums.FoodCategory[]
+}
+
 export type HealthProfileCreateWithoutUserInput = {
   id?: string
   firstName?: string | null
@@ -661,6 +777,10 @@ export type HealthProfileCreateWithoutUserInput = {
   manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileCreatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileCreateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -678,6 +798,10 @@ export type HealthProfileUncheckedCreateWithoutUserInput = {
   manualDailyCalorieTarget?: number | null
   primaryGoal?: string | null
   activityGoal?: string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileCreatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileCreateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -711,6 +835,10 @@ export type HealthProfileUpdateWithoutUserInput = {
   manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileUpdatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileUpdateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxRecipePrepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -728,6 +856,10 @@ export type HealthProfileUncheckedUpdateWithoutUserInput = {
   manualDailyCalorieTarget?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   primaryGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activityGoal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDietaryPatterns?: Prisma.HealthProfileUpdatepreferredDietaryPatternsInput | $Enums.DietaryPattern[]
+  excludedFoodCategories?: Prisma.HealthProfileUpdateexcludedFoodCategoriesInput | $Enums.FoodCategory[]
+  avoidHistamine?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maxRecipePrepMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -748,6 +880,10 @@ export type HealthProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   manualDailyCalorieTarget?: boolean
   primaryGoal?: boolean
   activityGoal?: boolean
+  preferredDietaryPatterns?: boolean
+  excludedFoodCategories?: boolean
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -767,6 +903,10 @@ export type HealthProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   manualDailyCalorieTarget?: boolean
   primaryGoal?: boolean
   activityGoal?: boolean
+  preferredDietaryPatterns?: boolean
+  excludedFoodCategories?: boolean
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -786,6 +926,10 @@ export type HealthProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   manualDailyCalorieTarget?: boolean
   primaryGoal?: boolean
   activityGoal?: boolean
+  preferredDietaryPatterns?: boolean
+  excludedFoodCategories?: boolean
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -805,11 +949,15 @@ export type HealthProfileSelectScalar = {
   manualDailyCalorieTarget?: boolean
   primaryGoal?: boolean
   activityGoal?: boolean
+  preferredDietaryPatterns?: boolean
+  excludedFoodCategories?: boolean
+  avoidHistamine?: boolean
+  maxRecipePrepMinutes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type HealthProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "dateOfBirth" | "heightCm" | "weightKg" | "calorieFormulaSex" | "activityLevel" | "weightGoal" | "manualDailyCalorieTarget" | "primaryGoal" | "activityGoal" | "createdAt" | "updatedAt", ExtArgs["result"]["healthProfile"]>
+export type HealthProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "dateOfBirth" | "heightCm" | "weightKg" | "calorieFormulaSex" | "activityLevel" | "weightGoal" | "manualDailyCalorieTarget" | "primaryGoal" | "activityGoal" | "preferredDietaryPatterns" | "excludedFoodCategories" | "avoidHistamine" | "maxRecipePrepMinutes" | "createdAt" | "updatedAt", ExtArgs["result"]["healthProfile"]>
 export type HealthProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -839,6 +987,10 @@ export type $HealthProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
     manualDailyCalorieTarget: number | null
     primaryGoal: string | null
     activityGoal: string | null
+    preferredDietaryPatterns: $Enums.DietaryPattern[]
+    excludedFoodCategories: $Enums.FoodCategory[]
+    avoidHistamine: boolean
+    maxRecipePrepMinutes: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["healthProfile"]>
@@ -1278,6 +1430,10 @@ export interface HealthProfileFieldRefs {
   readonly manualDailyCalorieTarget: Prisma.FieldRef<"HealthProfile", 'Int'>
   readonly primaryGoal: Prisma.FieldRef<"HealthProfile", 'String'>
   readonly activityGoal: Prisma.FieldRef<"HealthProfile", 'String'>
+  readonly preferredDietaryPatterns: Prisma.FieldRef<"HealthProfile", 'DietaryPattern[]'>
+  readonly excludedFoodCategories: Prisma.FieldRef<"HealthProfile", 'FoodCategory[]'>
+  readonly avoidHistamine: Prisma.FieldRef<"HealthProfile", 'Boolean'>
+  readonly maxRecipePrepMinutes: Prisma.FieldRef<"HealthProfile", 'Int'>
   readonly createdAt: Prisma.FieldRef<"HealthProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"HealthProfile", 'DateTime'>
 }

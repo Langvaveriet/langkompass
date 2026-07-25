@@ -50,6 +50,10 @@ export default async function GesundheitsprofilPage({
     manualDailyCalorieTarget: profile?.manualDailyCalorieTarget?.toString() ?? "",
     primaryGoal: profile?.primaryGoal ?? "",
     activityGoal: profile?.activityGoal ?? "",
+    preferredDietaryPatterns: profile?.preferredDietaryPatterns ?? [],
+    excludedFoodCategories: profile?.excludedFoodCategories ?? [],
+    avoidHistamine: profile?.avoidHistamine ?? false,
+    maxRecipePrepMinutes: profile?.maxRecipePrepMinutes?.toString() ?? "",
   };
 
   const hasProfile = Boolean(profile);

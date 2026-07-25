@@ -1,4 +1,5 @@
 import { saveHealthProfile } from "@/app/gesundheitsprofil/actions";
+import { ChipSelector } from "@/components/health-input/chip-selector";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -14,6 +15,10 @@ export type HealthProfileFormValues = {
   manualDailyCalorieTarget: string;
   primaryGoal: string;
   activityGoal: string;
+  preferredDietaryPatterns: string[];
+  excludedFoodCategories: string[];
+  avoidHistamine: boolean;
+  maxRecipePrepMinutes: string;
 };
 
 type HealthProfileFormProps = {
@@ -172,6 +177,82 @@ export function HealthProfileForm({
             placeholder="Zum Beispiel: dreimal pro Woche"
           />
         </div>
+      </fieldset>
+
+      <fieldset className="grid gap-6 rounded-[var(--radius-lg)] bg-surface-muted p-4 sm:p-5">
+        <div>
+          <legend className="text-base font-semibold text-text-primary">
+            Ernährung und Verträglichkeit
+          </legend>
+          <p className="mt-2 text-sm leading-6 text-text-muted">
+            Diese Angaben filtern Rezeptvorschläge. Sie ersetzen keine
+            medizinische Diagnose und keine individuelle Allergenprüfung.
+          </p>
+        </div>
+
+        <ChipSelector
+          name="preferredDietaryPatterns"
+          label="Bevorzugte Ernährungsrichtung"
+          defaultValues={values.preferredDietaryPatterns}
+          emptyOption={{ label: "Keine Einschränkung" }}
+          options={[
+            { value: "MEDITERRANEAN", label: "Mediterran", emoji: "🫒" },
+            { value: "KETOGENIC", label: "Ketogen", emoji: "🥑" },
+            { value: "VEGETARIAN", label: "Vegetarisch", emoji: "🥬" },
+          ]}
+        />
+
+        <ChipSelector
+          name="excludedFoodCategories"
+          label="Nicht vorschlagen"
+          defaultValues={values.excludedFoodCategories}
+          emptyOption={{ label: "Keine Ausschlüsse" }}
+          options={[
+            { value: "FISH_SEAFOOD", label: "Fisch & Meeresfrüchte", emoji: "🐟" },
+            { value: "MEAT", label: "Fleisch", emoji: "🥩" },
+            { value: "DAIRY", label: "Milchprodukte", emoji: "🥛" },
+            { value: "EGG", label: "Ei", emoji: "🥚" },
+            { value: "NUT_SEED", label: "Nüsse & Saaten", emoji: "🥜" },
+          ]}
+        />
+
+        <ChipSelector
+          name="nutritionFlags"
+          label="Weitere Rücksichtnahme"
+          defaultValues={values.avoidHistamine ? ["AVOID_HISTAMINE"] : []}
+          emptyOption={{ label: "Keine weitere Einschränkung" }}
+          options={[
+            { value: "AVOID_HISTAMINE", label: "Histaminbewusst", emoji: "🌿" },
+          ]}
+        />
+
+        <fieldset className="grid gap-3">
+          <legend className="text-sm font-semibold text-text-primary">
+            Maximale Zubereitungszeit
+          </legend>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { value: "", label: "Egal" },
+              { value: "15", label: "Bis 15 Min." },
+              { value: "30", label: "Bis 30 Min." },
+              { value: "45", label: "Bis 45 Min." },
+              { value: "60", label: "Bis 60 Min." },
+            ].map((option) => (
+              <label key={option.value || "unlimited"} className="cursor-pointer">
+                <input
+                  type="radio"
+                  name="maxRecipePrepMinutes"
+                  value={option.value}
+                  defaultChecked={values.maxRecipePrepMinutes === option.value}
+                  className="peer sr-only"
+                />
+                <span className="inline-flex min-h-11 items-center rounded-full border border-border-strong bg-surface-primary px-4 py-2 text-sm font-semibold text-text-primary peer-checked:border-forest-strong peer-checked:bg-forest-soft peer-checked:text-forest-strong peer-focus-visible:ring-2 peer-focus-visible:ring-forest-strong">
+                  {option.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
       </fieldset>
 
       <div className="flex flex-wrap items-center gap-4 border-t border-border-subtle pt-6">

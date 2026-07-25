@@ -1,5 +1,22 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Persönliche Rezeptfilter
+
+- Das Gesundheitsprofil erfasst optionale Ernährungsrichtungen,
+  ausgeschlossene Lebensmittelgruppen, Histaminrücksicht und maximale
+  Zubereitungszeit über große Touch-Chips.
+- Rezeptvorschläge werden serverseitig nach allen gespeicherten Profilangaben
+  gefiltert und zeigen die Anzahl passender Katalogideen.
+- Auch die Server-Actions zum Speichern und Einplanen prüfen den persönlichen
+  Filter erneut, sodass ausgeschlossene Vorschläge nicht über manipulierte
+  Formulardaten übernommen werden können.
+- Fehlen passende Rezepte, erklärt die Oberfläche den Grund und führt direkt
+  zur Anpassung der Profilfilter.
+- Die Angaben dienen der Vorschlagssteuerung und werden nicht als medizinische
+  Diagnose oder vollständige Allergenprüfung dargestellt.
+- Die Smartphone-Ansicht wurde bei 390 Pixeln ohne Seitenüberlauf und mit
+  mindestens 44 Pixel hohen Auswahlflächen geprüft.
+
 ## 2026-07-24 – Erweiterbarer globaler Rezeptkatalog
 
 - Rezeptvorschläge werden aus einem globalen PostgreSQL-Katalog statt direkt

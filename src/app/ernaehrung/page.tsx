@@ -26,6 +26,11 @@ import {
 } from "@/lib/nutrition/curated-recipes";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import {
+  hasRecipePreferences,
+  recipeMatchesPreferences,
+  recipePreferencesFromProfile,
+} from "@/lib/nutrition/recipe-preferences";
+import {
   postMealSymptomLabels,
   reactionDelayLabels,
 } from "@/lib/nutrition/post-meal-reactions";
@@ -122,14 +127,19 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
       ])
     : [null, [], [], []];
   const catalogRecipes = catalogRecipeRecords.map(catalogRecipeSnapshot);
+  const recipePreferences = recipePreferencesFromProfile(user?.healthProfile);
+  const matchingCatalogRecipes = catalogRecipes.filter((recipe) =>
+    recipeMatchesPreferences(recipe, recipePreferences),
+  );
+  const profileFiltered = hasRecipePreferences(recipePreferences);
   const exactSuggestion = query.suggest
-    ? catalogRecipes.find((recipe) => recipe.key === query.suggest)
+    ? matchingCatalogRecipes.find((recipe) => recipe.key === query.suggest)
     : undefined;
   const suggestedRecipe = exactSuggestion &&
     (!selectedSuggestionType || exactSuggestion.type === selectedSuggestionType)
       ? exactSuggestion
       : suggestedRecipeFromCatalog(
-          catalogRecipes,
+          matchingCatalogRecipes,
           query.suggest ?? date,
           selectedSuggestionType ?? undefined,
         );
@@ -382,14 +392,37 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
             nextSeed={nextSuggestionSeed}
             recipe={suggestedRecipe}
             selectedType={selectedSuggestionType}
+            matchingCount={matchingCatalogRecipes.length}
+            profileFiltered={profileFiltered}
           />
         ) : (
           <section className="mt-8 max-w-4xl rounded-[var(--radius-lg)] border border-border-subtle bg-surface-raised p-5">
             <h2 className="font-semibold text-text-primary">Rezeptvorschläge</h2>
             <p className="mt-2 text-sm leading-6 text-text-muted">
-              Der Rezeptkatalog wird gerade vorbereitet. Bitte versuche es nach
-              dem nächsten Deployment erneut.
+              {catalogRecipes.length === 0
+                ? "Der Rezeptkatalog wird gerade vorbereitet. Bitte versuche es nach dem nächsten Deployment erneut."
+                : selectedSuggestionType && matchingCatalogRecipes.length > 0
+                  ? "Für diesen Mahlzeitentyp gibt es mit deinen Profilfiltern derzeit keinen passenden Vorschlag."
+                  : "Zu allen gewählten Profilfiltern gibt es derzeit keinen passenden Vorschlag."}
             </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {selectedSuggestionType && matchingCatalogRecipes.length > 0 ? (
+                <Link
+                  href={`/ernaehrung?date=${date}`}
+                  className="inline-flex min-h-12 items-center rounded-[var(--radius-md)] border border-border-strong px-4 text-sm font-semibold text-forest-strong"
+                >
+                  Alle Mahlzeiten ansehen
+                </Link>
+              ) : null}
+              {catalogRecipes.length > 0 ? (
+                <Link
+                  href="/gesundheitsprofil"
+                  className="inline-flex min-h-12 items-center rounded-[var(--radius-md)] bg-forest-strong px-4 text-sm font-semibold text-surface"
+                >
+                  Profilfilter anpassen
+                </Link>
+              ) : null}
+            </div>
           </section>
         )}
 
