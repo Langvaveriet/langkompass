@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type { Prisma } from "@/generated/prisma/client";
 import { fastingStatusLabels } from "@/lib/labs/lab-catalog";
 import { labReferenceStatus } from "@/lib/labs/reference-status";
@@ -90,6 +92,12 @@ export function LabReportDetails({
                 </div>
                 {range ? <p className="mt-3 text-sm text-text-muted">Laborreferenz: {range}</p> : null}
                 {result.note ? <p className="mt-2 text-sm leading-6 text-text-secondary">{result.note}</p> : null}
+                <Link
+                  href={`/laborwerte?report=${encodeURIComponent(report.id)}&analyte=${encodeURIComponent(result.analyteKey)}#laborverlauf`}
+                  className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-forest-strong"
+                >
+                  Verlauf ansehen →
+                </Link>
               </article>
             );
           })}

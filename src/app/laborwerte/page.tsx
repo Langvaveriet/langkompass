@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LabReportDetails } from "@/components/labs/lab-report-details";
 import { LabReportForm } from "@/components/labs/lab-report-form";
 import { LabResultForm } from "@/components/labs/lab-result-form";
+import { LabTrend } from "@/components/labs/lab-trend";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
@@ -35,7 +36,7 @@ export default async function LaborwertePage({
 }: LaborwertePageProps) {
   const user = await requireUser();
   const query = await searchParams;
-  const [settings, reports] = await Promise.all([
+  const [settings, reports, trendOptions] = await Promise.all([
     prisma.userSettings.findUnique({
       where: { userId: user.id },
       select: { timeZone: true, locale: true },
@@ -46,6 +47,12 @@ export default async function LaborwertePage({
       take: 20,
       include: { results: { orderBy: { analyteName: "asc" } } },
     }),
+    prisma.labResult.findMany({
+      where: { userId: user.id },
+      distinct: ["analyteKey"],
+      orderBy: { analyteName: "asc" },
+      select: { analyteKey: true, analyteName: true, unit: true },
+    }),
   ]);
   const timeZone = settings?.timeZone ?? defaultTimeZone;
   const locale = settings?.locale ?? defaultLocale;
@@ -53,6 +60,33 @@ export default async function LaborwertePage({
   const selectedReport = reports.find(({ id }) => id === requestedReportId)
     ?? reports[0]
     ?? null;
+  const requestedAnalyteKey = queryValue(query, "analyte");
+  const defaultAnalyteKey = selectedReport?.results.at(0)?.analyteKey
+    ?? trendOptions.at(0)?.analyteKey;
+  const selectedTrendOption = trendOptions.find(
+    ({ analyteKey }) => analyteKey === requestedAnalyteKey,
+  ) ?? trendOptions.find(({ analyteKey }) => analyteKey === defaultAnalyteKey)
+    ?? null;
+  const trendResultsDescending = selectedTrendOption
+    ? await prisma.labResult.findMany({
+        where: {
+          userId: user.id,
+          analyteKey: selectedTrendOption.analyteKey,
+        },
+        orderBy: { measuredAt: "desc" },
+        take: 24,
+        select: {
+          id: true,
+          analyteKey: true,
+          analyteName: true,
+          unit: true,
+          value: true,
+          referenceLow: true,
+          referenceHigh: true,
+          measuredAt: true,
+        },
+      })
+    : [];
   const dateFormatter = new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "long",
@@ -141,6 +175,17 @@ export default async function LaborwertePage({
               recordedAnalyteKeys={selectedReport.results.map(({ analyteKey }) => analyteKey)}
             />
           </section>
+        ) : null}
+
+        {selectedTrendOption ? (
+          <LabTrend
+            options={trendOptions}
+            selected={selectedTrendOption}
+            results={trendResultsDescending.toReversed()}
+            reportId={selectedReport?.id ?? null}
+            locale={locale}
+            timeZone={timeZone}
+          />
         ) : null}
 
         <p className="mt-8 max-w-4xl text-sm leading-6 text-text-muted">

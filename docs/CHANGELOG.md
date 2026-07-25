@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Laborwerte im Verlauf
+
+- Erfasste Laborparameter lassen sich über große Touch-Chips für einen
+  historischen Verlauf auswählen.
+- Bis zu 24 Messungen erscheinen chronologisch als zugängliches Diagramm und
+  zusätzlich als datierte Werteliste.
+- Deutsche und schwedische Parameterbezeichnungen sowie die gespeicherte
+  Einheit bleiben sichtbar.
+- Änderungen werden rein beschreibend dargestellt; der jeweilige
+  Laborreferenzbereich wird pro Messpunkt getrennt berücksichtigt.
+
 ## 2026-07-25 – Strukturierte Laborerfassung
 
 - Untersuchungen speichern Messzeitpunkt, Nüchtern-Status und optionale
