@@ -198,14 +198,14 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
         : item.name,
     ),
   }));
-  const suggestedRecipeIsFavorite = suggestedRecipe
-    ? recipes.some(
+  const suggestedFavoriteRecipe = suggestedRecipe
+    ? recipes.find(
         (recipe) =>
           recipe.origin === "CURATED" &&
           recipe.favoriteAt !== null &&
           recipe.normalizedName === normalizeRecipeName(suggestedRecipe.name),
       )
-    : false;
+    : undefined;
   const editedMeal = query.edit ? entry?.meals.find((meal) => meal.id === query.edit) : undefined;
   const values = editedMeal ? {
     id: editedMeal.id,
@@ -410,7 +410,7 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
             selectedType={selectedSuggestionType}
             matchingCount={matchingCatalogRecipes.length}
             profileFiltered={profileFiltered}
-            isFavorite={suggestedRecipeIsFavorite}
+            favoriteRecipeId={suggestedFavoriteRecipe?.id ?? null}
           />
         ) : (
           <section className="mt-8 max-w-4xl rounded-[var(--radius-lg)] border border-border-subtle bg-surface-raised p-5">

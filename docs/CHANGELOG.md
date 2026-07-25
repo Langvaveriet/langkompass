@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Rezept-Detailansicht
+
+- Favoriten und eigene Mahlzeitenvorlagen öffnen eine benutzergebundene
+  Detailseite mit Zutaten, Mengen und geschätzten Nährwerten.
+- Katalogrezepte zeigen zusätzlich Zubereitungszeit, Portionen,
+  Ernährungsrichtungen und einzelne Zubereitungsschritte.
+- Ein großer Datumswähler ermöglicht die direkte Übernahme in den bestehenden
+  Wochenplan; alternativ lässt sich das Rezept sofort erfassen.
+- Nicht vorhandene oder fremde Rezept-IDs liefern keine Rezeptdaten aus.
+- Alle zentralen Aktionen besitzen mindestens 48 Pixel hohe Touch-Ziele.
+
 ## 2026-07-25 – Persönliche Rezeptbibliothek
 
 - Katalogrezepte lassen sich eindeutig als Favoriten speichern und wieder

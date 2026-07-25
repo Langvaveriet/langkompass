@@ -42,7 +42,7 @@ export function CuratedRecipeSuggestion({
   selectedType,
   matchingCount,
   profileFiltered,
-  isFavorite,
+  favoriteRecipeId,
 }: {
   date: string;
   nextSeed: string;
@@ -50,7 +50,7 @@ export function CuratedRecipeSuggestion({
   selectedType: CuratedRecipe["type"] | null;
   matchingCount: number;
   profileFiltered: boolean;
-  isFavorite: boolean;
+  favoriteRecipeId: string | null;
 }) {
   const energyKcal = recipe.items.reduce(
     (sum, item) => sum + item.energyKcal,
@@ -199,10 +199,13 @@ export function CuratedRecipeSuggestion({
             und medizinische Vorgaben werden noch nicht automatisch geprüft.
           </p>
 
-          {isFavorite ? (
-            <div className="flex min-h-12 items-center justify-center rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-center text-sm font-semibold text-forest-strong">
-              ♥ In deinen Favoriten
-            </div>
+          {favoriteRecipeId ? (
+            <Link
+              href={`/ernaehrung/rezepte/${favoriteRecipeId}?date=${date}`}
+              className="flex min-h-12 items-center justify-center rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-center text-sm font-semibold text-forest-strong"
+            >
+              ♥ Favorit öffnen
+            </Link>
           ) : (
             <form action={saveSuggestedRecipe}>
               <input type="hidden" name="entryDate" value={date} />

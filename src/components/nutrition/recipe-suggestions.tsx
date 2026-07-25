@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useFormStatus } from "react-dom";
 
 import {
@@ -186,6 +187,13 @@ function RecipeShelf({
                 </li>
               ) : null}
             </ul>
+
+            <Link
+              href={`/ernaehrung/rezepte/${recipe.id}?date=${entryDate}`}
+              className="mb-2 inline-flex min-h-12 items-center justify-center rounded-[var(--radius-md)] border border-border-strong px-4 text-center text-sm font-semibold text-forest-strong"
+            >
+              Details &amp; planen
+            </Link>
 
             <form action={useRecipe} className="mt-auto">
               <input type="hidden" name="entryDate" value={entryDate} />
