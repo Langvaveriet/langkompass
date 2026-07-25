@@ -28,6 +28,7 @@ model User {
   labReports                LabReport[]
   labResults                LabResult[]
   labResultRevisions        LabResultRevision[]
+  labReferenceRanges        LabReferenceRange[]
   supplements               Supplement[]
   supplementIngredients     SupplementIngredient[]
   supplementIntakes         SupplementIntake[]
@@ -450,6 +451,22 @@ model LabResultRevision {
 
   @@index([userId, correctedAt])
   @@index([labResultId, correctedAt])
+}
+
+model LabReferenceRange {
+  id            String   @id @default(cuid())
+  userId        String
+  analyteKey    String
+  unit          String
+  referenceLow  Decimal? @db.Decimal(14, 4)
+  referenceHigh Decimal? @db.Decimal(14, 4)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, analyteKey])
+  @@index([userId, analyteKey])
 }
 
 model Supplement {

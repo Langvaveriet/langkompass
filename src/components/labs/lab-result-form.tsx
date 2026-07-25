@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import { addLabResult } from "@/app/laborwerte/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,17 +10,30 @@ import {
   labCategories,
   labCategoryLabels,
 } from "@/lib/labs/lab-catalog";
+import type { LabReferenceDefault } from "@/lib/labs/reference-defaults";
 
 type LabResultFormProps = {
   reportId: string;
   recordedAnalyteKeys: string[];
+  referenceDefaults: Record<string, LabReferenceDefault>;
 };
 
 export function LabResultForm({
   reportId,
   recordedAnalyteKeys,
+  referenceDefaults,
 }: LabResultFormProps) {
   const recorded = new Set(recordedAnalyteKeys);
+  const [selectedAnalyteKey, setSelectedAnalyteKey] = useState("");
+  const [referenceLow, setReferenceLow] = useState("");
+  const [referenceHigh, setReferenceHigh] = useState("");
+
+  function selectAnalyte(analyteKey: string) {
+    const savedRange = referenceDefaults[analyteKey];
+    setSelectedAnalyteKey(analyteKey);
+    setReferenceLow(savedRange?.referenceLow ?? "");
+    setReferenceHigh(savedRange?.referenceHigh ?? "");
+  }
 
   return (
     <details className="mt-6 rounded-[var(--radius-xl)] border border-border-strong bg-surface-raised">
@@ -43,7 +60,15 @@ export function LabResultForm({
                       : null;
                     return (
                       <label key={analyte.key} className={alreadyRecorded ? "cursor-not-allowed opacity-45" : "cursor-pointer"}>
-                        <input type="radio" name="analyteKey" value={analyte.key} disabled={alreadyRecorded} className="peer sr-only" />
+                        <input
+                          type="radio"
+                          name="analyteKey"
+                          value={analyte.key}
+                          checked={selectedAnalyteKey === analyte.key}
+                          onChange={() => selectAnalyte(analyte.key)}
+                          disabled={alreadyRecorded}
+                          className="peer sr-only"
+                        />
                         <span className="flex min-h-14 items-center justify-between gap-3 rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 py-3 peer-checked:border-forest-strong peer-checked:bg-forest-soft peer-focus-visible:outline peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus">
                           <span className="min-w-0">
                             <span className="block font-semibold text-text-primary">{analyte.shortName}</span>
@@ -64,11 +89,16 @@ export function LabResultForm({
 
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
           <Input id="value" name="value" inputMode="decimal" label="Messwert" placeholder="z. B. 4,8" required />
-          <Input id="referenceLow" name="referenceLow" inputMode="decimal" label="Referenz von" placeholder="optional" />
-          <Input id="referenceHigh" name="referenceHigh" inputMode="decimal" label="Referenz bis" placeholder="optional" />
+          <Input id="referenceLow" name="referenceLow" inputMode="decimal" label="Referenz von" placeholder="optional" value={referenceLow} onChange={(event) => setReferenceLow(event.target.value)} />
+          <Input id="referenceHigh" name="referenceHigh" inputMode="decimal" label="Referenz bis" placeholder="optional" value={referenceHigh} onChange={(event) => setReferenceHigh(event.target.value)} />
         </div>
+        {selectedAnalyteKey && referenceDefaults[selectedAnalyteKey] ? (
+          <p role="status" className="mt-2 text-sm font-medium text-forest-strong">
+            Gespeicherter Referenzbereich übernommen. Du kannst ihn für diese Untersuchung ändern.
+          </p>
+        ) : null}
         <p className="mt-2 text-sm leading-6 text-text-muted">
-          Einheit und Parametername werden aus der Auswahl übernommen. Referenzgrenzen bitte genau aus demselben Laborbericht eintragen.
+          Einheit und Parametername werden aus der Auswahl übernommen. Beim Speichern wird der aktuelle Referenzbereich als Vorgabe für die nächste Untersuchung hinterlegt.
         </p>
         <label className="mt-4 grid gap-2 text-sm font-semibold text-text-primary">
           Notiz (optional)

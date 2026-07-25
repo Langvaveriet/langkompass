@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Laborreferenzwerte wiederverwenden
+
+- Referenzbereiche werden pro Benutzer und Laborparameter dauerhaft als
+  Eingabevorgabe gespeichert.
+- Bei späteren Untersuchungen werden die zuletzt gespeicherten Grenzen nach
+  Auswahl des Parameters automatisch eingesetzt und bleiben veränderbar.
+- Bereits vorhandene Laborergebnisse liefern einmalig die bisherigen
+  Referenzwerte, solange noch keine eigene Vorgabe gespeichert wurde.
+- Eine Korrektur des Referenzbereichs aktualisiert zugleich die Vorgabe für
+  zukünftige Untersuchungen.
+
 ## 2026-07-25 – Supplementverlauf abschließen
 
 - Einnahmen lassen sich inklusive Zeitpunkt, Menge, Einheit, Wirkung,

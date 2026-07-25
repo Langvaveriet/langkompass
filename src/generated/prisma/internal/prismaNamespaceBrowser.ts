@@ -63,6 +63,7 @@ export const ModelName = {
   LabReport: 'LabReport',
   LabResult: 'LabResult',
   LabResultRevision: 'LabResultRevision',
+  LabReferenceRange: 'LabReferenceRange',
   Supplement: 'Supplement',
   SupplementIngredient: 'SupplementIngredient',
   SupplementIntake: 'SupplementIntake',
@@ -297,6 +298,20 @@ export const LabResultRevisionScalarFieldEnum = {
 } as const
 
 export type LabResultRevisionScalarFieldEnum = (typeof LabResultRevisionScalarFieldEnum)[keyof typeof LabResultRevisionScalarFieldEnum]
+
+
+export const LabReferenceRangeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  analyteKey: 'analyteKey',
+  unit: 'unit',
+  referenceLow: 'referenceLow',
+  referenceHigh: 'referenceHigh',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LabReferenceRangeScalarFieldEnum = (typeof LabReferenceRangeScalarFieldEnum)[keyof typeof LabReferenceRangeScalarFieldEnum]
 
 
 export const SupplementScalarFieldEnum = {

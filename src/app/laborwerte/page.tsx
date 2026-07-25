@@ -9,6 +9,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { fastingStatusLabels } from "@/lib/labs/lab-catalog";
+import { buildLabReferenceDefaults } from "@/lib/labs/reference-defaults";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
@@ -37,7 +38,7 @@ export default async function LaborwertePage({
 }: LaborwertePageProps) {
   const user = await requireUser();
   const query = await searchParams;
-  const [settings, reports, trendOptions] = await Promise.all([
+  const [settings, reports, trendOptions, savedReferenceRanges, previousReferenceResults] = await Promise.all([
     prisma.userSettings.findUnique({
       where: { userId: user.id },
       select: { timeZone: true, locale: true },
@@ -59,7 +60,34 @@ export default async function LaborwertePage({
       orderBy: { analyteName: "asc" },
       select: { analyteKey: true, analyteName: true, unit: true },
     }),
+    prisma.labReferenceRange.findMany({
+      where: { userId: user.id },
+      select: {
+        analyteKey: true,
+        referenceLow: true,
+        referenceHigh: true,
+      },
+    }),
+    prisma.labResult.findMany({
+      where: {
+        userId: user.id,
+        OR: [
+          { referenceLow: { not: null } },
+          { referenceHigh: { not: null } },
+        ],
+      },
+      orderBy: { measuredAt: "desc" },
+      select: {
+        analyteKey: true,
+        referenceLow: true,
+        referenceHigh: true,
+      },
+    }),
   ]);
+  const referenceDefaults = buildLabReferenceDefaults(
+    savedReferenceRanges,
+    previousReferenceResults,
+  );
   const timeZone = settings?.timeZone ?? defaultTimeZone;
   const locale = settings?.locale ?? defaultLocale;
   const requestedReportId = queryValue(query, "report");
@@ -190,6 +218,7 @@ export default async function LaborwertePage({
             <LabResultForm
               reportId={selectedReport.id}
               recordedAnalyteKeys={selectedReport.results.map(({ analyteKey }) => analyteKey)}
+              referenceDefaults={referenceDefaults}
             />
             <LabReportDeletion reportId={selectedReport.id} resultCount={selectedReport.results.length} />
           </section>

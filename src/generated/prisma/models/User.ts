@@ -213,6 +213,7 @@ export type UserWhereInput = {
   labReports?: Prisma.LabReportListRelationFilter
   labResults?: Prisma.LabResultListRelationFilter
   labResultRevisions?: Prisma.LabResultRevisionListRelationFilter
+  labReferenceRanges?: Prisma.LabReferenceRangeListRelationFilter
   supplements?: Prisma.SupplementListRelationFilter
   supplementIngredients?: Prisma.SupplementIngredientListRelationFilter
   supplementIntakes?: Prisma.SupplementIntakeListRelationFilter
@@ -245,6 +246,7 @@ export type UserOrderByWithRelationInput = {
   labReports?: Prisma.LabReportOrderByRelationAggregateInput
   labResults?: Prisma.LabResultOrderByRelationAggregateInput
   labResultRevisions?: Prisma.LabResultRevisionOrderByRelationAggregateInput
+  labReferenceRanges?: Prisma.LabReferenceRangeOrderByRelationAggregateInput
   supplements?: Prisma.SupplementOrderByRelationAggregateInput
   supplementIngredients?: Prisma.SupplementIngredientOrderByRelationAggregateInput
   supplementIntakes?: Prisma.SupplementIntakeOrderByRelationAggregateInput
@@ -280,6 +282,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   labReports?: Prisma.LabReportListRelationFilter
   labResults?: Prisma.LabResultListRelationFilter
   labResultRevisions?: Prisma.LabResultRevisionListRelationFilter
+  labReferenceRanges?: Prisma.LabReferenceRangeListRelationFilter
   supplements?: Prisma.SupplementListRelationFilter
   supplementIngredients?: Prisma.SupplementIngredientListRelationFilter
   supplementIntakes?: Prisma.SupplementIntakeListRelationFilter
@@ -338,6 +341,7 @@ export type UserCreateInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -370,6 +374,7 @@ export type UserUncheckedCreateInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -402,6 +407,7 @@ export type UserUpdateInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -434,6 +440,7 @@ export type UserUncheckedUpdateInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -664,6 +671,20 @@ export type UserUpdateOneRequiredWithoutLabResultRevisionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLabResultRevisionsInput, Prisma.UserUpdateWithoutLabResultRevisionsInput>, Prisma.UserUncheckedUpdateWithoutLabResultRevisionsInput>
 }
 
+export type UserCreateNestedOneWithoutLabReferenceRangesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLabReferenceRangesInput, Prisma.UserUncheckedCreateWithoutLabReferenceRangesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLabReferenceRangesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLabReferenceRangesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLabReferenceRangesInput, Prisma.UserUncheckedCreateWithoutLabReferenceRangesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLabReferenceRangesInput
+  upsert?: Prisma.UserUpsertWithoutLabReferenceRangesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLabReferenceRangesInput, Prisma.UserUpdateWithoutLabReferenceRangesInput>, Prisma.UserUncheckedUpdateWithoutLabReferenceRangesInput>
+}
+
 export type UserCreateNestedOneWithoutSupplementsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSupplementsInput, Prisma.UserUncheckedCreateWithoutSupplementsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupplementsInput
@@ -854,6 +875,7 @@ export type UserCreateWithoutSettingsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -885,6 +907,7 @@ export type UserUncheckedCreateWithoutSettingsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -932,6 +955,7 @@ export type UserUpdateWithoutSettingsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -963,6 +987,7 @@ export type UserUncheckedUpdateWithoutSettingsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -995,6 +1020,7 @@ export type UserCreateWithoutSessionsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -1026,6 +1052,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -1073,6 +1100,7 @@ export type UserUpdateWithoutSessionsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -1104,6 +1132,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -1135,6 +1164,7 @@ export type UserCreateWithoutAccountsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -1166,6 +1196,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -1213,6 +1244,7 @@ export type UserUpdateWithoutAccountsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -1244,6 +1276,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -1275,6 +1308,7 @@ export type UserCreateWithoutPasskeysInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -1306,6 +1340,7 @@ export type UserUncheckedCreateWithoutPasskeysInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -1353,6 +1388,7 @@ export type UserUpdateWithoutPasskeysInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -1384,6 +1420,7 @@ export type UserUncheckedUpdateWithoutPasskeysInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -1414,6 +1451,7 @@ export type UserCreateWithoutHealthProfileInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -1445,6 +1483,7 @@ export type UserUncheckedCreateWithoutHealthProfileInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -1492,6 +1531,7 @@ export type UserUpdateWithoutHealthProfileInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -1523,6 +1563,7 @@ export type UserUncheckedUpdateWithoutHealthProfileInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -1554,6 +1595,7 @@ export type UserCreateWithoutDailyEntriesInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -1585,6 +1627,7 @@ export type UserUncheckedCreateWithoutDailyEntriesInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -1632,6 +1675,7 @@ export type UserUpdateWithoutDailyEntriesInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -1663,6 +1707,7 @@ export type UserUncheckedUpdateWithoutDailyEntriesInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -1694,6 +1739,7 @@ export type UserCreateWithoutMeasurementsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -1725,6 +1771,7 @@ export type UserUncheckedCreateWithoutMeasurementsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -1772,6 +1819,7 @@ export type UserUpdateWithoutMeasurementsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -1803,6 +1851,7 @@ export type UserUncheckedUpdateWithoutMeasurementsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -1834,6 +1883,7 @@ export type UserCreateWithoutLabReportsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -1865,6 +1915,7 @@ export type UserUncheckedCreateWithoutLabReportsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -1912,6 +1963,7 @@ export type UserUpdateWithoutLabReportsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -1943,6 +1995,7 @@ export type UserUncheckedUpdateWithoutLabReportsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -1974,6 +2027,7 @@ export type UserCreateWithoutLabResultsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -2005,6 +2059,7 @@ export type UserUncheckedCreateWithoutLabResultsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -2052,6 +2107,7 @@ export type UserUpdateWithoutLabResultsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -2083,6 +2139,7 @@ export type UserUncheckedUpdateWithoutLabResultsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -2114,6 +2171,7 @@ export type UserCreateWithoutLabResultRevisionsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -2145,6 +2203,7 @@ export type UserUncheckedCreateWithoutLabResultRevisionsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -2192,6 +2251,7 @@ export type UserUpdateWithoutLabResultRevisionsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -2223,6 +2283,151 @@ export type UserUncheckedUpdateWithoutLabResultRevisionsInput = {
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
+  supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
+  supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
+  supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
+  supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutLabReferenceRangesInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  trainingPlans?: Prisma.TrainingPlanCreateNestedManyWithoutUserInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
+  trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
+  trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
+  mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
+  labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
+  labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
+  supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
+  supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
+  supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLabReferenceRangesInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  trainingPlans?: Prisma.TrainingPlanUncheckedCreateNestedManyWithoutUserInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
+  trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
+  trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
+  mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
+  labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
+  labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
+  supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
+  supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
+  supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLabReferenceRangesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLabReferenceRangesInput, Prisma.UserUncheckedCreateWithoutLabReferenceRangesInput>
+}
+
+export type UserUpsertWithoutLabReferenceRangesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLabReferenceRangesInput, Prisma.UserUncheckedUpdateWithoutLabReferenceRangesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLabReferenceRangesInput, Prisma.UserUncheckedCreateWithoutLabReferenceRangesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLabReferenceRangesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLabReferenceRangesInput, Prisma.UserUncheckedUpdateWithoutLabReferenceRangesInput>
+}
+
+export type UserUpdateWithoutLabReferenceRangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  trainingPlans?: Prisma.TrainingPlanUpdateManyWithoutUserNestedInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
+  trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
+  trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
+  mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
+  labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
+  labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
+  supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
+  supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
+  supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLabReferenceRangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  trainingPlans?: Prisma.TrainingPlanUncheckedUpdateManyWithoutUserNestedInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
+  trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
+  trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
+  mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
+  labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
+  labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -2255,6 +2460,7 @@ export type UserCreateWithoutSupplementsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionCreateNestedManyWithoutUserInput
@@ -2286,6 +2492,7 @@ export type UserUncheckedCreateWithoutSupplementsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -2333,6 +2540,7 @@ export type UserUpdateWithoutSupplementsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUpdateManyWithoutUserNestedInput
@@ -2364,6 +2572,7 @@ export type UserUncheckedUpdateWithoutSupplementsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -2395,6 +2604,7 @@ export type UserCreateWithoutSupplementIngredientsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionCreateNestedManyWithoutUserInput
@@ -2426,6 +2636,7 @@ export type UserUncheckedCreateWithoutSupplementIngredientsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -2473,6 +2684,7 @@ export type UserUpdateWithoutSupplementIngredientsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUpdateManyWithoutUserNestedInput
@@ -2504,6 +2716,7 @@ export type UserUncheckedUpdateWithoutSupplementIngredientsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -2535,6 +2748,7 @@ export type UserCreateWithoutSupplementIntakesInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionCreateNestedManyWithoutUserInput
@@ -2566,6 +2780,7 @@ export type UserUncheckedCreateWithoutSupplementIntakesInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -2613,6 +2828,7 @@ export type UserUpdateWithoutSupplementIntakesInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUpdateManyWithoutUserNestedInput
@@ -2644,6 +2860,7 @@ export type UserUncheckedUpdateWithoutSupplementIntakesInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -2675,6 +2892,7 @@ export type UserCreateWithoutSupplementIntakeRevisionsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -2706,6 +2924,7 @@ export type UserUncheckedCreateWithoutSupplementIntakeRevisionsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -2753,6 +2972,7 @@ export type UserUpdateWithoutSupplementIntakeRevisionsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -2784,6 +3004,7 @@ export type UserUncheckedUpdateWithoutSupplementIntakeRevisionsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -2814,6 +3035,7 @@ export type UserCreateWithoutExercisesInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -2845,6 +3067,7 @@ export type UserUncheckedCreateWithoutExercisesInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -2892,6 +3115,7 @@ export type UserUpdateWithoutExercisesInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -2923,6 +3147,7 @@ export type UserUncheckedUpdateWithoutExercisesInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -2954,6 +3179,7 @@ export type UserCreateWithoutTrainingPlansInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -2985,6 +3211,7 @@ export type UserUncheckedCreateWithoutTrainingPlansInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -3032,6 +3259,7 @@ export type UserUpdateWithoutTrainingPlansInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -3063,6 +3291,7 @@ export type UserUncheckedUpdateWithoutTrainingPlansInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -3094,6 +3323,7 @@ export type UserCreateWithoutTrainingPlanExercisesInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -3125,6 +3355,7 @@ export type UserUncheckedCreateWithoutTrainingPlanExercisesInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -3172,6 +3403,7 @@ export type UserUpdateWithoutTrainingPlanExercisesInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -3203,6 +3435,7 @@ export type UserUncheckedUpdateWithoutTrainingPlanExercisesInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -3234,6 +3467,7 @@ export type UserCreateWithoutTrainingSessionsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -3265,6 +3499,7 @@ export type UserUncheckedCreateWithoutTrainingSessionsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -3312,6 +3547,7 @@ export type UserUpdateWithoutTrainingSessionsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -3343,6 +3579,7 @@ export type UserUncheckedUpdateWithoutTrainingSessionsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -3374,6 +3611,7 @@ export type UserCreateWithoutTrainingSetsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -3405,6 +3643,7 @@ export type UserUncheckedCreateWithoutTrainingSetsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -3452,6 +3691,7 @@ export type UserUpdateWithoutTrainingSetsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -3483,6 +3723,7 @@ export type UserUncheckedUpdateWithoutTrainingSetsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -3514,6 +3755,7 @@ export type UserCreateWithoutRecipesInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -3545,6 +3787,7 @@ export type UserUncheckedCreateWithoutRecipesInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -3592,6 +3835,7 @@ export type UserUpdateWithoutRecipesInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -3623,6 +3867,7 @@ export type UserUncheckedUpdateWithoutRecipesInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -3654,6 +3899,7 @@ export type UserCreateWithoutRecipeItemsInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -3685,6 +3931,7 @@ export type UserUncheckedCreateWithoutRecipeItemsInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -3732,6 +3979,7 @@ export type UserUpdateWithoutRecipeItemsInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -3763,6 +4011,7 @@ export type UserUncheckedUpdateWithoutRecipeItemsInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -3794,6 +4043,7 @@ export type UserCreateWithoutMealPlanEntriesInput = {
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
@@ -3825,6 +4075,7 @@ export type UserUncheckedCreateWithoutMealPlanEntriesInput = {
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
   supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
@@ -3872,6 +4123,7 @@ export type UserUpdateWithoutMealPlanEntriesInput = {
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
@@ -3903,6 +4155,7 @@ export type UserUncheckedUpdateWithoutMealPlanEntriesInput = {
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
   supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
   supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
   supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
@@ -3931,6 +4184,7 @@ export type UserCountOutputType = {
   labReports: number
   labResults: number
   labResultRevisions: number
+  labReferenceRanges: number
   supplements: number
   supplementIngredients: number
   supplementIntakes: number
@@ -3954,6 +4208,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   labReports?: boolean | UserCountOutputTypeCountLabReportsArgs
   labResults?: boolean | UserCountOutputTypeCountLabResultsArgs
   labResultRevisions?: boolean | UserCountOutputTypeCountLabResultRevisionsArgs
+  labReferenceRanges?: boolean | UserCountOutputTypeCountLabReferenceRangesArgs
   supplements?: boolean | UserCountOutputTypeCountSupplementsArgs
   supplementIngredients?: boolean | UserCountOutputTypeCountSupplementIngredientsArgs
   supplementIntakes?: boolean | UserCountOutputTypeCountSupplementIntakesArgs
@@ -4067,6 +4322,13 @@ export type UserCountOutputTypeCountLabResultRevisionsArgs<ExtArgs extends runti
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountLabReferenceRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LabReferenceRangeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountSupplementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SupplementWhereInput
 }
@@ -4137,6 +4399,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   labReports?: boolean | Prisma.User$labReportsArgs<ExtArgs>
   labResults?: boolean | Prisma.User$labResultsArgs<ExtArgs>
   labResultRevisions?: boolean | Prisma.User$labResultRevisionsArgs<ExtArgs>
+  labReferenceRanges?: boolean | Prisma.User$labReferenceRangesArgs<ExtArgs>
   supplements?: boolean | Prisma.User$supplementsArgs<ExtArgs>
   supplementIngredients?: boolean | Prisma.User$supplementIngredientsArgs<ExtArgs>
   supplementIntakes?: boolean | Prisma.User$supplementIntakesArgs<ExtArgs>
@@ -4194,6 +4457,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   labReports?: boolean | Prisma.User$labReportsArgs<ExtArgs>
   labResults?: boolean | Prisma.User$labResultsArgs<ExtArgs>
   labResultRevisions?: boolean | Prisma.User$labResultRevisionsArgs<ExtArgs>
+  labReferenceRanges?: boolean | Prisma.User$labReferenceRangesArgs<ExtArgs>
   supplements?: boolean | Prisma.User$supplementsArgs<ExtArgs>
   supplementIngredients?: boolean | Prisma.User$supplementIngredientsArgs<ExtArgs>
   supplementIntakes?: boolean | Prisma.User$supplementIntakesArgs<ExtArgs>
@@ -4224,6 +4488,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     labReports: Prisma.$LabReportPayload<ExtArgs>[]
     labResults: Prisma.$LabResultPayload<ExtArgs>[]
     labResultRevisions: Prisma.$LabResultRevisionPayload<ExtArgs>[]
+    labReferenceRanges: Prisma.$LabReferenceRangePayload<ExtArgs>[]
     supplements: Prisma.$SupplementPayload<ExtArgs>[]
     supplementIngredients: Prisma.$SupplementIngredientPayload<ExtArgs>[]
     supplementIntakes: Prisma.$SupplementIntakePayload<ExtArgs>[]
@@ -4649,6 +4914,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   labReports<T extends Prisma.User$labReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$labReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LabReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   labResults<T extends Prisma.User$labResultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$labResultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LabResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   labResultRevisions<T extends Prisma.User$labResultRevisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$labResultRevisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LabResultRevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  labReferenceRanges<T extends Prisma.User$labReferenceRangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$labReferenceRangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LabReferenceRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   supplements<T extends Prisma.User$supplementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supplementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   supplementIngredients<T extends Prisma.User$supplementIngredientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supplementIngredientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplementIngredientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   supplementIntakes<T extends Prisma.User$supplementIntakesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supplementIntakesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplementIntakePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5432,6 +5698,30 @@ export type User$labResultRevisionsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.LabResultRevisionScalarFieldEnum | Prisma.LabResultRevisionScalarFieldEnum[]
+}
+
+/**
+ * User.labReferenceRanges
+ */
+export type User$labReferenceRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LabReferenceRange
+   */
+  select?: Prisma.LabReferenceRangeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LabReferenceRange
+   */
+  omit?: Prisma.LabReferenceRangeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LabReferenceRangeInclude<ExtArgs> | null
+  where?: Prisma.LabReferenceRangeWhereInput
+  orderBy?: Prisma.LabReferenceRangeOrderByWithRelationInput | Prisma.LabReferenceRangeOrderByWithRelationInput[]
+  cursor?: Prisma.LabReferenceRangeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LabReferenceRangeScalarFieldEnum | Prisma.LabReferenceRangeScalarFieldEnum[]
 }
 
 /**

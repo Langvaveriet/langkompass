@@ -409,6 +409,7 @@ export const ModelName = {
   LabReport: 'LabReport',
   LabResult: 'LabResult',
   LabResultRevision: 'LabResultRevision',
+  LabReferenceRange: 'LabReferenceRange',
   Supplement: 'Supplement',
   SupplementIngredient: 'SupplementIngredient',
   SupplementIntake: 'SupplementIntake',
@@ -440,7 +441,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "labReport" | "labResult" | "labResultRevision" | "supplement" | "supplementIngredient" | "supplementIntake" | "supplementIntakeRevision" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem" | "recipe" | "recipeItem" | "catalogRecipe" | "catalogRecipeItem" | "mealPlanEntry"
+    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "labReport" | "labResult" | "labResultRevision" | "labReferenceRange" | "supplement" | "supplementIngredient" | "supplementIntake" | "supplementIntakeRevision" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem" | "recipe" | "recipeItem" | "catalogRecipe" | "catalogRecipeItem" | "mealPlanEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1329,6 +1330,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.LabResultRevisionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.LabResultRevisionCountAggregateOutputType> | number
+        }
+      }
+    }
+    LabReferenceRange: {
+      payload: Prisma.$LabReferenceRangePayload<ExtArgs>
+      fields: Prisma.LabReferenceRangeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LabReferenceRangeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LabReferenceRangeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>
+        }
+        findFirst: {
+          args: Prisma.LabReferenceRangeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LabReferenceRangeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>
+        }
+        findMany: {
+          args: Prisma.LabReferenceRangeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>[]
+        }
+        create: {
+          args: Prisma.LabReferenceRangeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>
+        }
+        createMany: {
+          args: Prisma.LabReferenceRangeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LabReferenceRangeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>[]
+        }
+        delete: {
+          args: Prisma.LabReferenceRangeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>
+        }
+        update: {
+          args: Prisma.LabReferenceRangeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>
+        }
+        deleteMany: {
+          args: Prisma.LabReferenceRangeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LabReferenceRangeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LabReferenceRangeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>[]
+        }
+        upsert: {
+          args: Prisma.LabReferenceRangeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LabReferenceRangePayload>
+        }
+        aggregate: {
+          args: Prisma.LabReferenceRangeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLabReferenceRange>
+        }
+        groupBy: {
+          args: Prisma.LabReferenceRangeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LabReferenceRangeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LabReferenceRangeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LabReferenceRangeCountAggregateOutputType> | number
         }
       }
     }
@@ -2757,6 +2832,20 @@ export const LabResultRevisionScalarFieldEnum = {
 export type LabResultRevisionScalarFieldEnum = (typeof LabResultRevisionScalarFieldEnum)[keyof typeof LabResultRevisionScalarFieldEnum]
 
 
+export const LabReferenceRangeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  analyteKey: 'analyteKey',
+  unit: 'unit',
+  referenceLow: 'referenceLow',
+  referenceHigh: 'referenceHigh',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LabReferenceRangeScalarFieldEnum = (typeof LabReferenceRangeScalarFieldEnum)[keyof typeof LabReferenceRangeScalarFieldEnum]
+
+
 export const SupplementScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -3669,6 +3758,7 @@ export type GlobalOmitConfig = {
   labReport?: Prisma.LabReportOmit
   labResult?: Prisma.LabResultOmit
   labResultRevision?: Prisma.LabResultRevisionOmit
+  labReferenceRange?: Prisma.LabReferenceRangeOmit
   supplement?: Prisma.SupplementOmit
   supplementIngredient?: Prisma.SupplementIngredientOmit
   supplementIntake?: Prisma.SupplementIntakeOmit

@@ -178,20 +178,42 @@ export async function addLabResult(formData: FormData) {
   });
   if (duplicate) redirect(`/laborwerte?report=${report.id}&error=duplicate`);
 
-  await prisma.labResult.create({
-    data: {
-      userId: user.id,
-      labReportId: report.id,
-      analyteKey: analyte.key,
-      analyteName: analyte.name,
-      value: parsed.data.value,
-      unit: analyte.unit,
-      referenceLow: parsed.data.referenceLow,
-      referenceHigh: parsed.data.referenceHigh,
-      measuredAt: report.collectedAt,
-      note: parsed.data.note,
-    },
-  });
+  await prisma.$transaction([
+    prisma.labResult.create({
+      data: {
+        userId: user.id,
+        labReportId: report.id,
+        analyteKey: analyte.key,
+        analyteName: analyte.name,
+        value: parsed.data.value,
+        unit: analyte.unit,
+        referenceLow: parsed.data.referenceLow,
+        referenceHigh: parsed.data.referenceHigh,
+        measuredAt: report.collectedAt,
+        note: parsed.data.note,
+      },
+    }),
+    prisma.labReferenceRange.upsert({
+      where: {
+        userId_analyteKey: {
+          userId: user.id,
+          analyteKey: analyte.key,
+        },
+      },
+      create: {
+        userId: user.id,
+        analyteKey: analyte.key,
+        unit: analyte.unit,
+        referenceLow: parsed.data.referenceLow,
+        referenceHigh: parsed.data.referenceHigh,
+      },
+      update: {
+        unit: analyte.unit,
+        referenceLow: parsed.data.referenceLow,
+        referenceHigh: parsed.data.referenceHigh,
+      },
+    }),
+  ]);
 
   revalidatePath("/laborwerte");
   redirect(`/laborwerte?report=${report.id}&saved=1`);
@@ -234,6 +256,7 @@ export async function correctLabResult(formData: FormData) {
       value: true,
       referenceLow: true,
       referenceHigh: true,
+      unit: true,
       note: true,
     },
   });
@@ -260,6 +283,26 @@ export async function correctLabResult(formData: FormData) {
         referenceLow: parsed.data.referenceLow,
         referenceHigh: parsed.data.referenceHigh,
         note: parsed.data.note,
+      },
+    }),
+    prisma.labReferenceRange.upsert({
+      where: {
+        userId_analyteKey: {
+          userId: user.id,
+          analyteKey: result.analyteKey,
+        },
+      },
+      create: {
+        userId: user.id,
+        analyteKey: result.analyteKey,
+        unit: result.unit,
+        referenceLow: parsed.data.referenceLow,
+        referenceHigh: parsed.data.referenceHigh,
+      },
+      update: {
+        unit: result.unit,
+        referenceLow: parsed.data.referenceLow,
+        referenceHigh: parsed.data.referenceHigh,
       },
     }),
   ]);

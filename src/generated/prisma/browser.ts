@@ -78,6 +78,11 @@ export type LabResult = Prisma.LabResultModel
  */
 export type LabResultRevision = Prisma.LabResultRevisionModel
 /**
+ * Model LabReferenceRange
+ *
+ */
+export type LabReferenceRange = Prisma.LabReferenceRangeModel
+/**
  * Model Supplement
  *
  */
