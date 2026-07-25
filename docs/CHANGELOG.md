@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Anbieterunabhängiger Compass-Adapter
+
+- Ein versionierter Anfrage- und Antwortvertrag trennt den Health Context von
+  konkreten KI-Anbietern und der Benutzeroberfläche.
+- Eine lokale Referenzimplementierung formuliert ausschließlich belegte Fakten
+  samt Datenpfaden und kennzeichnet fehlende Datengrundlagen.
+- Remote-Adapter werden technisch blockiert, solange eine externe Übertragung
+  nicht ausdrücklich für den konkreten Aufruf freigegeben wurde.
+- Die Compass-Seite zeigt Provider, Übertragungsstatus, Datengrundlage und
+  Sicherheitsgrenzen transparent an.
+
 ## 2026-07-25 – Lokaler Health Context Generator
 
 - Compass AI erzeugt einen versionierten, zweckgebundenen Gesundheitskontext
