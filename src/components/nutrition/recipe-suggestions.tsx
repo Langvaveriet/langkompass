@@ -88,9 +88,11 @@ export function SaveRecipeForm({
 export function RecipeSuggestions({
   entryDate,
   recipes,
+  showHeader = true,
 }: {
   entryDate: string;
   recipes: RecipeSuggestion[];
+  showHeader?: boolean;
 }) {
   if (recipes.length === 0) return null;
 
@@ -99,10 +101,11 @@ export function RecipeSuggestions({
 
   return (
     <section
-      className="mt-8 w-full min-w-0 max-w-4xl overflow-hidden"
-      aria-labelledby="recipes-heading"
+      className={`${showHeader ? "mt-8" : "mt-2"} w-full min-w-0 max-w-4xl overflow-hidden`}
+      aria-labelledby={showHeader ? "recipes-heading" : undefined}
+      aria-label={showHeader ? undefined : "Gefilterte Rezepte"}
     >
-      <div className="flex items-end justify-between gap-4">
+      {showHeader ? <div className="flex items-end justify-between gap-4">
         <div>
           <h2
             id="recipes-heading"
@@ -114,10 +117,13 @@ export function RecipeSuggestions({
             Favoriten und eigene Mahlzeiten mit einem Fingertipp erfassen.
           </p>
         </div>
-        <span className="shrink-0 text-xs font-medium text-text-muted">
-          Wischen →
-        </span>
-      </div>
+        <Link
+          href={`/ernaehrung/rezepte?date=${entryDate}`}
+          className="inline-flex min-h-11 shrink-0 items-center text-sm font-semibold text-forest-strong"
+        >
+          Alle anzeigen →
+        </Link>
+      </div> : null}
 
       {favorites.length > 0 ? (
         <RecipeShelf

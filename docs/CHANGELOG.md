@@ -1,5 +1,18 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Rezeptsuche und Bibliotheksfilter
+
+- Eine eigene Rezeptbibliotheksseite durchsucht persönliche Rezepte nach Name
+  und strukturierten Zutaten.
+- Große, horizontal wischbare Chips filtern nach Favoriten oder eigenen
+  Vorlagen, Mahlzeitentyp und maximaler Zubereitungszeit.
+- Suchbegriff und Filter bleiben in der URL erhalten und können geteilt,
+  neu geladen oder schrittweise angepasst werden.
+- Ergebnisanzahl, Zurücksetzen und ein erklärender Leerzustand halten die
+  Suche auch auf kleinen Bildschirmen übersichtlich.
+- Die eingebettete Bibliothek auf der Ernährungsseite führt direkt zur
+  vollständigen Suche.
+
 ## 2026-07-25 – Rezept-Detailansicht
 
 - Favoriten und eigene Mahlzeitenvorlagen öffnen eine benutzergebundene
