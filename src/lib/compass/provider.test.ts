@@ -14,6 +14,8 @@ function emptyContext() {
     generatedAt: new Date("2026-07-25T12:00:00.000Z"),
     periodStart: new Date("2026-06-26T00:00:00.000Z"),
     periodEnd: new Date("2026-07-26T00:00:00.000Z"),
+    periodDays: 30,
+    trendSplitAt: new Date("2026-07-11T00:00:00.000Z"),
     timeZone: "Europe/Stockholm",
     profile: null,
     dailyEntries: [],

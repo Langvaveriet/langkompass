@@ -23,6 +23,8 @@ export type HealthContextInput = {
   generatedAt: Date;
   periodStart: Date;
   periodEnd: Date;
+  periodDays: number;
+  trendSplitAt: Date;
   timeZone: string;
   profile: {
     heightCm: number | null;
@@ -66,6 +68,25 @@ function average(values: Array<number | null>): number | null {
   const available = values.filter((value): value is number => value !== null);
   if (available.length === 0) return null;
   return rounded(available.reduce((sum, value) => sum + value, 0) / available.length);
+}
+
+function comparison(
+  entries: DailyEntryInput[],
+  splitAt: Date,
+  select: (entry: DailyEntryInput) => number | null,
+) {
+  const earlierAverage = average(
+    entries.filter(({ entryDate }) => entryDate < splitAt).map(select),
+  );
+  const recentAverage = average(
+    entries.filter(({ entryDate }) => entryDate >= splitAt).map(select),
+  );
+  if (earlierAverage === null || recentAverage === null) return null;
+  return {
+    earlierAverage,
+    recentAverage,
+    difference: rounded(recentAverage - earlierAverage),
+  };
 }
 
 function frequencies(values: string[], limit = 8): Frequency[] {
@@ -114,6 +135,7 @@ export function buildHealthContext(input: HealthContextInput) {
     period: {
       from: input.periodStart.toISOString(),
       toExclusive: input.periodEnd.toISOString(),
+      days: input.periodDays,
       timeZone: input.timeZone,
     },
     privacy: {
@@ -147,6 +169,11 @@ export function buildHealthContext(input: HealthContextInput) {
         averageStressLevel: average(entries.map(({ stressLevel }) => stressLevel)),
         frequentSymptomTags: frequencies(entries.flatMap(({ symptomTags }) => symptomTags)),
         frequentActivityTags: frequencies(entries.flatMap(({ activityTags }) => activityTags)),
+        trends: {
+          sleepHours: comparison(entries, input.trendSplitAt, ({ sleepHours }) => sleepHours),
+          energy: comparison(entries, input.trendSplitAt, ({ energy }) => energy),
+          wellbeing: comparison(entries, input.trendSplitAt, ({ wellbeing }) => wellbeing),
+        },
       },
       body: {
         latestWeightKg: latestWeight === null ? null : rounded(latestWeight, 2),

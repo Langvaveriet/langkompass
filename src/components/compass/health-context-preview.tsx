@@ -53,7 +53,7 @@ export function HealthContextPreview({ context }: HealthContextPreviewProps) {
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Datenabdeckung">
         {[
-          ["Tageserfassungen", `${coverage.dailyEntryCount} von 30 Tagen`],
+          ["Tageserfassungen", `${coverage.dailyEntryCount} von ${context.period.days} Tagen`],
           ["Mahlzeiteneinträge", coverage.recordedMealItemCount.toLocaleString("de-DE")],
           ["Trainings", coverage.completedTrainingSessionCount.toLocaleString("de-DE")],
           ["Laborparameter", coverage.latestLabAnalyteCount.toLocaleString("de-DE")],
@@ -84,6 +84,11 @@ export function HealthContextPreview({ context }: HealthContextPreviewProps) {
                   ))}
                 </div>
               </div>
+            ) : null}
+            {observations.dailyCheckIns.trends.energy ? (
+              <p className="mt-5 rounded-[var(--radius-md)] border border-border-subtle p-4 text-sm leading-6 text-text-secondary">
+                Ø Energie, erste Hälfte: {metric(observations.dailyCheckIns.trends.energy.earlierAverage, " / 10")} · zweite Hälfte: {metric(observations.dailyCheckIns.trends.energy.recentAverage, " / 10")}
+              </p>
             ) : null}
           </CardContent>
         </Card>

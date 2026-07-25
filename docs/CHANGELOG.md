@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Lokale Wochen- und Monatsberichte
+
+- Compass bietet große Touch-Chips für einen lokalen 7- oder 30-Tage-Bericht.
+- Datenabdeckung und sämtliche Kennzahlen richten sich nach dem gewählten
+  Zeitraum statt nach einem fest eingebauten Monatsfenster.
+- Schlaf, Energie und Wohlbefinden werden zwischen erster und zweiter
+  Kalenderhälfte rein beschreibend verglichen, sofern beide Hälften Daten
+  enthalten.
+- Die lokale Zusammenfassung nennt belegte Veränderungen ohne medizinische
+  Bewertung, Modellaufruf oder Tokenkosten.
+
 ## 2026-07-25 – Anbieterunabhängiger Compass-Adapter
 
 - Ein versionierter Anfrage- und Antwortvertrag trennt den Health Context von

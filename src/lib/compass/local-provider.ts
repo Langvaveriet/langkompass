@@ -25,7 +25,7 @@ export const localStructuredProvider: CompassProvider = {
     if (coverage.dailyEntryCount > 0) {
       statements.push({
         category: "DAILY_LIFE",
-        text: `${number(coverage.dailyEntryCount)} von 30 Tagen enthalten eine Tageserfassung; ${number(coverage.completedDailyEntryCount)} davon sind abgeschlossen.`,
+        text: `${number(coverage.dailyEntryCount)} von ${number(context.period.days)} Tagen enthalten eine Tageserfassung; ${number(coverage.completedDailyEntryCount)} davon sind abgeschlossen.`,
         evidencePaths: ["coverage.dailyEntryCount", "coverage.completedDailyEntryCount"],
       });
     }
@@ -34,6 +34,19 @@ export const localStructuredProvider: CompassProvider = {
         category: "DAILY_LIFE",
         text: `An den dokumentierten Tagen wurden durchschnittlich ${decimal(observations.dailyCheckIns.averageSleepHours)} Stunden Schlaf erfasst.`,
         evidencePaths: ["observations.dailyCheckIns.averageSleepHours"],
+      });
+    }
+    const energyTrend = observations.dailyCheckIns.trends.energy;
+    if (energyTrend) {
+      const direction = energyTrend.difference === 0
+        ? "unverändert"
+        : energyTrend.difference > 0
+          ? `${decimal(energyTrend.difference)} Punkte höher`
+          : `${decimal(Math.abs(energyTrend.difference))} Punkte niedriger`;
+      statements.push({
+        category: "DAILY_LIFE",
+        text: `Die durchschnittlich dokumentierte Energie lag in der zweiten Hälfte des Zeitraums bei ${decimal(energyTrend.recentAverage)} von 10 und damit ${direction} als in der ersten Hälfte.`,
+        evidencePaths: ["observations.dailyCheckIns.trends.energy"],
       });
     }
     if (observations.body.latestWeightKg !== null) {

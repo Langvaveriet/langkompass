@@ -6,12 +6,18 @@ umgesetzt.
 
 ## Aktueller Schwerpunkt
 
-- Health Context Generator für Compass AI vorbereiten
-- zweckgebundene, reproduzierbare Datenzusammenfassungen ohne direkten
-  Datenbankzugriff eines Sprachmodells erzeugen
-- anschließend eine anbieterunabhängige KI-Adapter-Schnittstelle ergänzen
+- lokale Wochen- und Monatsberichte aus dem Health Context erzeugen
+- beschreibende Trends und Zusammenhänge ausschließlich regelbasiert ableiten
+- keine kostenpflichtige oder externe KI-Anbindung voraussetzen
 
 ## Optionale Features
+
+### Generative KI-Anbindung
+
+Eine kostenpflichtige Remote-KI wird nicht vorausgesetzt. Der vorhandene
+Providervertrag bleibt als technische Erweiterungsgrenze erhalten; eine
+Aktivierung erfolgt nur nach bewusster Entscheidung. Ein lokales Modell kann
+später über eine gesicherte private Verbindung ergänzt werden.
 
 ### Einnahmepläne und Erinnerungen
 

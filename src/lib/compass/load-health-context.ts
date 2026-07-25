@@ -1,4 +1,5 @@
 import { buildHealthContext } from "@/lib/compass/health-context";
+import type { CompassReportPeriod } from "@/lib/compass/report-periods";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import { prisma } from "@/lib/prisma";
 import {
@@ -13,15 +14,20 @@ function addUtcDays(date: Date, days: number): Date {
   return result;
 }
 
-export async function loadHealthContext(userId: string, now = new Date()) {
+export async function loadHealthContext(
+  userId: string,
+  now = new Date(),
+  periodDays: CompassReportPeriod = 30,
+) {
   const settings = await prisma.userSettings.findUnique({
     where: { userId },
     select: { timeZone: true },
   });
   const timeZone = settings?.timeZone ?? defaultTimeZone;
   const today = new Date(`${dateInTimeZone(now, timeZone)}T00:00:00.000Z`);
-  const periodStartDate = addUtcDays(today, -29);
+  const periodStartDate = addUtcDays(today, -(periodDays - 1));
   const periodEndDate = addUtcDays(today, 1);
+  const trendSplitAt = addUtcDays(periodStartDate, Math.floor(periodDays / 2));
   const periodStart = localDateTimeToUtc(
     periodStartDate.toISOString().slice(0, 10),
     "00:00",
@@ -136,6 +142,8 @@ export async function loadHealthContext(userId: string, now = new Date()) {
     generatedAt: now,
     periodStart,
     periodEnd,
+    periodDays,
+    trendSplitAt,
     timeZone,
     profile: profile
       ? {

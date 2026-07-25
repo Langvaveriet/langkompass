@@ -8,6 +8,8 @@ test("builds a deterministic context without direct identifiers or free text", (
     generatedAt: new Date("2026-07-25T12:00:00.000Z"),
     periodStart: new Date("2026-06-26T00:00:00.000Z"),
     periodEnd: new Date("2026-07-26T00:00:00.000Z"),
+    periodDays: 30,
+    trendSplitAt: new Date("2026-07-11T00:00:00.000Z"),
     timeZone: "Europe/Stockholm",
     profile: null,
     dailyEntries: [
@@ -67,6 +69,7 @@ test("builds a deterministic context without direct identifiers or free text", (
   assert.equal(context.observations.nutrition.estimatedEnergyKcal, 450);
   assert.equal(context.observations.laboratory.latestResults[0]?.value, 90);
   assert.equal(context.observations.supplements.positiveEffectCount, 1);
+  assert.deepEqual(context.observations.dailyCheckIns.trends.energy, null);
 });
 
 test("reports missing data without inventing observations", () => {
@@ -74,6 +77,8 @@ test("reports missing data without inventing observations", () => {
     generatedAt: new Date("2026-07-25T12:00:00.000Z"),
     periodStart: new Date("2026-06-26T00:00:00.000Z"),
     periodEnd: new Date("2026-07-26T00:00:00.000Z"),
+    periodDays: 30,
+    trendSplitAt: new Date("2026-07-11T00:00:00.000Z"),
     timeZone: "Europe/Stockholm",
     profile: null,
     dailyEntries: [],
@@ -88,4 +93,49 @@ test("reports missing data without inventing observations", () => {
   assert.equal(context.observations.body.latestWeightKg, null);
   assert.equal(context.observations.nutrition.estimatedEnergyKcal, null);
   assert.equal(context.dataGaps.length, 6);
+});
+
+test("compares the first and second calendar half of a report", () => {
+  const baseEntry = {
+    status: "COMPLETED" as const,
+    sleepQuality: null,
+    wellbeing: null,
+    painLevel: null,
+    stressLevel: null,
+    symptomTags: [],
+    activityTags: [],
+    meals: [],
+  };
+  const context = buildHealthContext({
+    generatedAt: new Date("2026-07-25T12:00:00.000Z"),
+    periodStart: new Date("2026-07-19T00:00:00.000Z"),
+    periodEnd: new Date("2026-07-26T00:00:00.000Z"),
+    periodDays: 7,
+    trendSplitAt: new Date("2026-07-22T00:00:00.000Z"),
+    timeZone: "Europe/Stockholm",
+    profile: null,
+    dailyEntries: [
+      { ...baseEntry, entryDate: new Date("2026-07-20T00:00:00.000Z"), sleepHours: 6, energy: 5 },
+      { ...baseEntry, entryDate: new Date("2026-07-21T00:00:00.000Z"), sleepHours: 8, energy: 7 },
+      { ...baseEntry, entryDate: new Date("2026-07-24T00:00:00.000Z"), sleepHours: 8, energy: 8 },
+      { ...baseEntry, entryDate: new Date("2026-07-25T00:00:00.000Z"), sleepHours: 9, energy: 8 },
+    ],
+    weights: [],
+    trainingSessions: [],
+    labResults: [],
+    supplements: [],
+    supplementIntakes: [],
+  });
+
+  assert.equal(context.period.days, 7);
+  assert.deepEqual(context.observations.dailyCheckIns.trends.sleepHours, {
+    earlierAverage: 7,
+    recentAverage: 8.5,
+    difference: 1.5,
+  });
+  assert.deepEqual(context.observations.dailyCheckIns.trends.energy, {
+    earlierAverage: 6,
+    recentAverage: 8,
+    difference: 2,
+  });
 });
