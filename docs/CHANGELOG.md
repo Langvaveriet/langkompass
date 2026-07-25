@@ -1,5 +1,20 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Tageserfassung vervollständigt
+
+- Der Morgen-Check kann optional den Bauchumfang als eigene Messreihe mit
+  Zentimeterwert und Messzeitpunkt erfassen.
+- Der Abend-Check enthält zusätzlich Stimmung, Hunger, Trinkmenge, Schritte,
+  zurückgelegte Kilometer und aktive Minuten.
+- Häufige Werte lassen sich über große Touch-Chips auswählen; freie Zahlen sind
+  weiterhin als Fallback möglich.
+- Alle neuen Angaben werden serverseitig begrenzt und validiert.
+- Schritte, aktive Zeit und Trinkmenge erscheinen in der 7-Tage-Übersicht.
+- Die strukturierten Werte und der Bauchumfang fließen in den lokalen Health
+  Context ein, ohne Freitext zu übertragen.
+- Apple Health wurde bewusst auf eine späte Ausbaustufe nach Finalisierung der
+  Web-App verschoben.
+
 ## 2026-07-25 – Architekturentscheidung für Apple Health
 
 - Die technische Machbarkeit wurde gegen den aktuellen Next.js-, Better-Auth-

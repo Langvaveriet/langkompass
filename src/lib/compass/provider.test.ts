@@ -20,6 +20,7 @@ function emptyContext() {
     profile: null,
     dailyEntries: [],
     weights: [],
+    waistMeasurements: [],
     trainingSessions: [],
     labResults: [],
     supplements: [],

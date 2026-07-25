@@ -65,20 +65,49 @@ function errorMessage(error: string): string {
     return "Bitte prüfe die Uhrzeit der Gewichtsmessung.";
   }
 
+  if (error === "waistCm") {
+    return "Der Bauchumfang muss zwischen 30 und 300 cm liegen.";
+  }
+
+  if (error === "waistMeasuredTime") {
+    return "Bitte prüfe die Uhrzeit der Bauchumfangsmessung.";
+  }
+
   if (error === "sleepHours") {
     return "Die Schlafdauer muss zwischen 0 und 24 Stunden liegen.";
   }
 
-  if (error === "painLevel" || error === "stressLevel") {
-    return "Schmerzen und Stress müssen zwischen 0 und 10 liegen.";
+  if (
+    error === "painLevel" ||
+    error === "stressLevel" ||
+    error === "hungerLevel"
+  ) {
+    return "Hunger, Schmerzen und Stress müssen zwischen 0 und 10 liegen.";
   }
 
   if (
     error === "wellbeing" ||
+    error === "mood" ||
     error === "energy" ||
     error === "sleepQuality"
   ) {
     return "Der ausgewählte Skalenwert muss zwischen 1 und 10 liegen.";
+  }
+
+  if (error === "waterLiters") {
+    return "Die Trinkmenge muss zwischen 0 und 20 Litern liegen.";
+  }
+
+  if (error === "steps") {
+    return "Die Schrittzahl muss zwischen 0 und 250.000 liegen.";
+  }
+
+  if (error === "distanceKm") {
+    return "Die Distanz muss zwischen 0 und 1.000 km liegen.";
+  }
+
+  if (error === "activeMinutes") {
+    return "Die aktive Zeit muss zwischen 0 und 1.440 Minuten liegen.";
   }
 
   return "Bitte prüfe Datum und Eingabewerte.";
@@ -113,13 +142,13 @@ export default async function TageserfassungPage({
         },
         include: {
           measurements: {
-            where: { type: "WEIGHT" },
+            where: { type: { in: ["WEIGHT", "WAIST_CIRCUMFERENCE"] } },
           },
         },
       })
     : null;
 
-  const [recentEntries, latestWeight] = user
+  const [recentEntries, latestWeight, latestWaist] = user
     ? await Promise.all([
         prisma.dailyEntry.findMany({
           where: {
@@ -139,10 +168,19 @@ export default async function TageserfassungPage({
           where: { userId: user.id, type: "WEIGHT" },
           orderBy: { measuredAt: "desc" },
         }),
+        prisma.bodyMeasurement.findFirst({
+          where: { userId: user.id, type: "WAIST_CIRCUMFERENCE" },
+          orderBy: { measuredAt: "desc" },
+        }),
       ])
-    : [[], null];
+    : [[], null, null];
 
-  const weightMeasurement = entry?.measurements[0];
+  const weightMeasurement = entry?.measurements.find(
+    ({ type }) => type === "WEIGHT",
+  );
+  const waistMeasurement = entry?.measurements.find(
+    ({ type }) => type === "WAIST_CIRCUMFERENCE",
+  );
 
   const values: DailyEntryFormValues = {
     status: entry?.status ?? "OPEN",
@@ -154,12 +192,23 @@ export default async function TageserfassungPage({
     weightMeasuredTime: weightMeasurement
       ? timeInTimeZone(weightMeasurement.measuredAt, timeZone)
       : timeInTimeZone(new Date(), timeZone),
+    waistCm: formatDecimal(waistMeasurement?.value),
+    suggestedWaistCm: formatDecimal(latestWaist?.value),
+    waistMeasuredTime: waistMeasurement
+      ? timeInTimeZone(waistMeasurement.measuredAt, timeZone)
+      : timeInTimeZone(new Date(), timeZone),
     wellbeing: entry?.wellbeing ?? null,
+    mood: entry?.mood ?? null,
     energy: entry?.energy ?? null,
     sleepHours: formatDecimal(entry?.sleepHours),
     sleepQuality: entry?.sleepQuality ?? null,
+    hungerLevel: entry?.hungerLevel ?? null,
     painLevel: entry?.painLevel ?? 0,
     stressLevel: entry?.stressLevel ?? 0,
+    waterLiters: formatDecimal(entry?.waterLiters),
+    steps: entry?.steps?.toString() ?? "",
+    distanceKm: formatDecimal(entry?.distanceKm),
+    activeMinutes: entry?.activeMinutes?.toString() ?? "",
     symptomTags: entry?.symptomTags ?? [],
     activityTags: entry?.activityTags ?? [],
     notes: entry?.notes ?? "",
@@ -172,7 +221,7 @@ export default async function TageserfassungPage({
           <PageTitle>Tageserfassung</PageTitle>
 
           <PageSubtitle className="mt-4">
-            Wohlbefinden, Schlaf, Schmerzen und persönliche Beobachtungen
+            Schlaf, Körperwerte, Bewegung, Trinken und persönliches Befinden
             strukturiert dokumentieren.
           </PageSubtitle>
         </header>

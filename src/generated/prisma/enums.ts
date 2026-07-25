@@ -47,14 +47,16 @@ export type DailyEntryStatus = (typeof DailyEntryStatus)[keyof typeof DailyEntry
 
 
 export const MeasurementType = {
-  WEIGHT: 'WEIGHT'
+  WEIGHT: 'WEIGHT',
+  WAIST_CIRCUMFERENCE: 'WAIST_CIRCUMFERENCE'
 } as const
 
 export type MeasurementType = (typeof MeasurementType)[keyof typeof MeasurementType]
 
 
 export const MeasurementUnit = {
-  KILOGRAM: 'KILOGRAM'
+  KILOGRAM: 'KILOGRAM',
+  CENTIMETER: 'CENTIMETER'
 } as const
 
 export type MeasurementUnit = (typeof MeasurementUnit)[keyof typeof MeasurementUnit]

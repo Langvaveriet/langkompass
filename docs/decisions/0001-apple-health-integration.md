@@ -2,6 +2,7 @@
 
 - Status: angenommen
 - Datum: 2026-07-25
+- Priorisierung: spätere Erweiterung nach Finalisierung der Web-App
 - Betrifft: Architektur, Authentifizierung, Gesundheitsdaten, Mobile Client
 
 ## Ausgangslage
@@ -207,8 +208,8 @@ Der Spike enthält keine produktiven Gesundheitsdatenmigrationen und entscheidet
   implementiert werden, damit Web und Mobile sie verwenden können.
 - Neue externe Schnittstellen werden ausschließlich als versionierte Route
   Handler ergänzt.
-- Apple Health wird vor allgemeinen Offline- und weiteren externen
-  Integrationen umgesetzt, sobald der Geräte-Spike erfolgreich ist.
+- Apple Health gehört zu den letzten geplanten größeren Erweiterungen. Der
+  Geräte-Spike beginnt erst nach der funktionalen Finalisierung der Web-App.
 
 ## Verbindliche Quellen
 

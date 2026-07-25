@@ -1,8 +1,10 @@
 import { saveDailyEntry } from "@/app/tageserfassung/actions";
 import { ChipSelector } from "@/components/health-input/chip-selector";
+import { QuickMetricInput } from "@/components/health-input/quick-metric-input";
 import { RatingSelector } from "@/components/health-input/rating-selector";
 import { ScaleSlider } from "@/components/health-input/scale-slider";
 import { SleepDurationPicker } from "@/components/health-input/sleep-duration-picker";
+import { WaistPicker } from "@/components/health-input/waist-picker";
 import { WeightPicker } from "@/components/health-input/weight-picker";
 import { Button } from "@/components/ui/button";
 
@@ -17,12 +19,21 @@ export type DailyEntryFormValues = {
   weightKg: string;
   suggestedWeightKg: string;
   weightMeasuredTime: string;
+  waistCm: string;
+  suggestedWaistCm: string;
+  waistMeasuredTime: string;
   wellbeing: number | null;
+  mood: number | null;
   energy: number | null;
   sleepHours: string;
   sleepQuality: number | null;
+  hungerLevel: number | null;
   painLevel: number | null;
   stressLevel: number | null;
+  waterLiters: string;
+  steps: string;
+  distanceKm: string;
+  activeMinutes: string;
   symptomTags: string[];
   activityTags: string[];
   notes: string;
@@ -37,6 +48,14 @@ const wellbeingOptions = [
   { value: 2, emoji: "😞", label: "Sehr schlecht" },
   { value: 4, emoji: "🙁", label: "Schlecht" },
   { value: 6, emoji: "😐", label: "Mittel" },
+  { value: 8, emoji: "🙂", label: "Gut" },
+  { value: 10, emoji: "😄", label: "Sehr gut" },
+];
+
+const moodOptions = [
+  { value: 2, emoji: "😞", label: "Gedrückt" },
+  { value: 4, emoji: "🙁", label: "Eher schlecht" },
+  { value: 6, emoji: "😐", label: "Ausgeglichen" },
   { value: 8, emoji: "🙂", label: "Gut" },
   { value: 10, emoji: "😄", label: "Sehr gut" },
 ];
@@ -174,6 +193,12 @@ export function DailyEntryForm({
           defaultTime={values.weightMeasuredTime}
         />
 
+        <WaistPicker
+          defaultValue={values.waistCm}
+          suggestedValue={values.suggestedWaistCm}
+          defaultTime={values.waistMeasuredTime}
+        />
+
         <RatingSelector
           name="energy"
           label="Energie am Morgen"
@@ -226,6 +251,22 @@ export function DailyEntryForm({
             options={wellbeingOptions}
           />
 
+          <RatingSelector
+            name="mood"
+            label="Stimmung am Abend"
+            defaultValue={values.mood}
+            options={moodOptions}
+          />
+
+          <ScaleSlider
+            name="hungerLevel"
+            label="Hunger über den Tag"
+            defaultValue={values.hungerLevel}
+            minimumLabel="Kein Hunger"
+            maximumLabel="Sehr stark"
+            allowEmpty
+          />
+
           <ScaleSlider
             name="painLevel"
             label="Schmerzen"
@@ -241,6 +282,88 @@ export function DailyEntryForm({
             minimumLabel="Entspannt"
             maximumLabel="Sehr hoch"
           />
+
+          <section className="grid gap-5 rounded-[var(--radius-lg)] bg-surface-muted p-4">
+            <div>
+              <h3 className="font-semibold text-text-primary">
+                Bewegung und Trinken
+              </h3>
+              <p className="mt-1 text-xs leading-5 text-text-muted">
+                Schnell auswählen oder einen abweichenden Wert eintragen.
+                Alles bleibt optional.
+              </p>
+            </div>
+
+            <QuickMetricInput
+              name="waterLiters"
+              label="Getrunken"
+              unit="Liter"
+              defaultValue={values.waterLiters}
+              min={0}
+              max={20}
+              step={0.25}
+              options={[
+                { value: "1", label: "1 l" },
+                { value: "1.5", label: "1,5 l" },
+                { value: "2", label: "2 l" },
+                { value: "2.5", label: "2,5 l" },
+                { value: "3", label: "3 l" },
+              ]}
+            />
+
+            <QuickMetricInput
+              name="steps"
+              label="Schritte"
+              unit="Schritte"
+              defaultValue={values.steps}
+              min={0}
+              max={250000}
+              step={100}
+              inputMode="numeric"
+              options={[
+                { value: "3000", label: "3.000" },
+                { value: "5000", label: "5.000" },
+                { value: "7500", label: "7.500" },
+                { value: "10000", label: "10.000" },
+                { value: "15000", label: "15.000" },
+              ]}
+            />
+
+            <QuickMetricInput
+              name="distanceKm"
+              label="Zurückgelegte Distanz"
+              unit="km"
+              defaultValue={values.distanceKm}
+              min={0}
+              max={1000}
+              step={0.1}
+              options={[
+                { value: "2", label: "2 km" },
+                { value: "5", label: "5 km" },
+                { value: "7.5", label: "7,5 km" },
+                { value: "10", label: "10 km" },
+                { value: "15", label: "15 km" },
+              ]}
+            />
+
+            <QuickMetricInput
+              name="activeMinutes"
+              label="Aktive Zeit"
+              unit="Minuten"
+              defaultValue={values.activeMinutes}
+              min={0}
+              max={1440}
+              step={5}
+              inputMode="numeric"
+              options={[
+                { value: "15", label: "15 Min." },
+                { value: "30", label: "30 Min." },
+                { value: "45", label: "45 Min." },
+                { value: "60", label: "60 Min." },
+                { value: "90", label: "90 Min." },
+              ]}
+            />
+          </section>
 
           <ChipSelector
             name="activityTags"

@@ -58,6 +58,58 @@ function getDecimal(formData: FormData, field: string): string | null {
   return Number.isFinite(parsedValue) ? normalizedValue : null;
 }
 
+function getBoundedInteger(
+  formData: FormData,
+  field: string,
+  minimum: number,
+  maximum: number,
+): number | null {
+  const value = getText(formData, field);
+
+  if (value === null) {
+    return null;
+  }
+
+  if (!/^\d+$/.test(value)) {
+    redirect(`/tageserfassung?error=${field}`);
+  }
+
+  const parsedValue = Number(value);
+
+  if (parsedValue < minimum || parsedValue > maximum) {
+    redirect(`/tageserfassung?error=${field}`);
+  }
+
+  return parsedValue;
+}
+
+function getBoundedDecimal(
+  formData: FormData,
+  field: string,
+  minimum: number,
+  maximum: number,
+): string | null {
+  const value = getText(formData, field);
+
+  if (value === null) {
+    return null;
+  }
+
+  const normalizedValue = value.replace(",", ".");
+
+  if (!/^\d+(?:\.\d{1,2})?$/.test(normalizedValue)) {
+    redirect(`/tageserfassung?error=${field}`);
+  }
+
+  const parsedValue = Number(normalizedValue);
+
+  if (parsedValue < minimum || parsedValue > maximum) {
+    redirect(`/tageserfassung?error=${field}`);
+  }
+
+  return normalizedValue;
+}
+
 function getDate(formData: FormData): {
   inputValue: string;
   databaseValue: Date;
@@ -114,6 +166,28 @@ function getWeight(formData: FormData): string | null {
   return normalizedValue;
 }
 
+function getWaist(formData: FormData): string | null {
+  const value = getText(formData, "waistCm");
+
+  if (value === null) {
+    return null;
+  }
+
+  const normalizedValue = value.replace(",", ".");
+
+  if (!/^\d{2,3}(?:\.\d{1,2})?$/.test(normalizedValue)) {
+    redirect("/tageserfassung?error=waistCm");
+  }
+
+  const parsedValue = Number(normalizedValue);
+
+  if (parsedValue < 30 || parsedValue > 300) {
+    redirect("/tageserfassung?error=waistCm");
+  }
+
+  return normalizedValue;
+}
+
 export async function saveDailyEntry(formData: FormData) {
   const user = await requireUser();
   const settings = await prisma.userSettings.findUnique({
@@ -132,6 +206,11 @@ export async function saveDailyEntry(formData: FormData) {
     "wellbeing",
   );
 
+  const mood = validateScale(
+    getInteger(formData, "mood"),
+    "mood",
+  );
+
   const energy = validateScale(
     getInteger(formData, "energy"),
     "energy",
@@ -140,6 +219,12 @@ export async function saveDailyEntry(formData: FormData) {
   const sleepQuality = validateScale(
     getInteger(formData, "sleepQuality"),
     "sleepQuality",
+  );
+
+  const hungerLevel = validateScale(
+    getInteger(formData, "hungerLevel"),
+    "hungerLevel",
+    0,
   );
 
   const painLevel = validateScale(
@@ -157,6 +242,17 @@ export async function saveDailyEntry(formData: FormData) {
   const sleepHours = getDecimal(formData, "sleepHours");
   const weightKg = getWeight(formData);
   const weightMeasuredTime = getText(formData, "weightMeasuredTime");
+  const waistCm = getWaist(formData);
+  const waistMeasuredTime = getText(formData, "waistMeasuredTime");
+  const waterLiters = getBoundedDecimal(formData, "waterLiters", 0, 20);
+  const steps = getBoundedInteger(formData, "steps", 0, 250000);
+  const distanceKm = getBoundedDecimal(formData, "distanceKm", 0, 1000);
+  const activeMinutes = getBoundedInteger(
+    formData,
+    "activeMinutes",
+    0,
+    1440,
+  );
 
   if (
     sleepHours !== null &&
@@ -171,6 +267,14 @@ export async function saveDailyEntry(formData: FormData) {
       !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(weightMeasuredTime))
   ) {
     redirect("/tageserfassung?error=weightMeasuredTime");
+  }
+
+  if (
+    waistCm !== null &&
+    (waistMeasuredTime === null ||
+      !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(waistMeasuredTime))
+  ) {
+    redirect("/tageserfassung?error=waistMeasuredTime");
   }
 
   const symptomTags = getStringList(formData, "symptomTags");
@@ -202,11 +306,17 @@ export async function saveDailyEntry(formData: FormData) {
       update: {
         status: nextStatus,
         wellbeing,
+        mood,
         energy,
         sleepHours,
         sleepQuality,
+        hungerLevel,
         painLevel,
         stressLevel,
+        waterLiters,
+        steps,
+        distanceKm,
+        activeMinutes,
         symptoms: null,
         symptomTags,
         activityTags,
@@ -217,11 +327,17 @@ export async function saveDailyEntry(formData: FormData) {
         entryDate: entryDate.databaseValue,
         status: nextStatus,
         wellbeing,
+        mood,
         energy,
         sleepHours,
         sleepQuality,
+        hungerLevel,
         painLevel,
         stressLevel,
+        waterLiters,
+        steps,
+        distanceKm,
+        activeMinutes,
         symptoms: null,
         symptomTags,
         activityTags,
@@ -265,6 +381,46 @@ export async function saveDailyEntry(formData: FormData) {
           userId: user.id,
           dailyEntryId: dailyEntry.id,
           type: "WEIGHT",
+        },
+      });
+    }
+
+    if (waistCm !== null && waistMeasuredTime !== null) {
+      const measuredAt = localDateTimeToUtc(
+        entryDate.inputValue,
+        waistMeasuredTime,
+        timeZone,
+      );
+
+      await transaction.bodyMeasurement.upsert({
+        where: {
+          dailyEntryId_type: {
+            dailyEntryId: dailyEntry.id,
+            type: "WAIST_CIRCUMFERENCE",
+          },
+        },
+        update: {
+          value: waistCm,
+          measuredAt,
+          unit: "CENTIMETER",
+          source: "MANUAL",
+        },
+        create: {
+          userId: user.id,
+          dailyEntryId: dailyEntry.id,
+          type: "WAIST_CIRCUMFERENCE",
+          value: waistCm,
+          unit: "CENTIMETER",
+          measuredAt,
+          source: "MANUAL",
+        },
+      });
+    } else {
+      await transaction.bodyMeasurement.deleteMany({
+        where: {
+          userId: user.id,
+          dailyEntryId: dailyEntry.id,
+          type: "WAIST_CIRCUMFERENCE",
         },
       });
     }

@@ -72,8 +72,11 @@ export function HealthContextPreview({ context }: HealthContextPreviewProps) {
             <dl className="grid grid-cols-2 gap-3">
               <div className="rounded-[var(--radius-md)] bg-surface-muted p-4"><dt className="text-xs text-text-muted">Ø Schlaf</dt><dd className="mt-1 font-semibold text-text-primary">{metric(observations.dailyCheckIns.averageSleepHours, " Std.")}</dd></div>
               <div className="rounded-[var(--radius-md)] bg-surface-muted p-4"><dt className="text-xs text-text-muted">Ø Energie</dt><dd className="mt-1 font-semibold text-text-primary">{metric(observations.dailyCheckIns.averageEnergy, " / 10")}</dd></div>
+              <div className="rounded-[var(--radius-md)] bg-surface-muted p-4"><dt className="text-xs text-text-muted">Ø Schritte</dt><dd className="mt-1 font-semibold text-text-primary">{metric(observations.dailyCheckIns.averageSteps)}</dd></div>
+              <div className="rounded-[var(--radius-md)] bg-surface-muted p-4"><dt className="text-xs text-text-muted">Ø aktive Zeit</dt><dd className="mt-1 font-semibold text-text-primary">{metric(observations.dailyCheckIns.averageActiveMinutes, " Min.")}</dd></div>
+              <div className="rounded-[var(--radius-md)] bg-surface-muted p-4"><dt className="text-xs text-text-muted">Ø Trinkmenge</dt><dd className="mt-1 font-semibold text-text-primary">{metric(observations.dailyCheckIns.averageWaterLiters, " l")}</dd></div>
               <div className="rounded-[var(--radius-md)] bg-surface-muted p-4"><dt className="text-xs text-text-muted">Letztes Gewicht</dt><dd className="mt-1 font-semibold text-text-primary">{metric(observations.body.latestWeightKg, " kg")}</dd></div>
-              <div className="rounded-[var(--radius-md)] bg-surface-muted p-4"><dt className="text-xs text-text-muted">Veränderung</dt><dd className="mt-1 font-semibold text-text-primary">{metric(observations.body.weightChangeKg, " kg")}</dd></div>
+              <div className="rounded-[var(--radius-md)] bg-surface-muted p-4"><dt className="text-xs text-text-muted">Letzter Bauchumfang</dt><dd className="mt-1 font-semibold text-text-primary">{metric(observations.body.latestWaistCm, " cm")}</dd></div>
             </dl>
             {observations.dailyCheckIns.frequentSymptomTags.length > 0 ? (
               <div className="mt-5">

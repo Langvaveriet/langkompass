@@ -134,6 +134,9 @@ export default async function HomePage() {
             sleepHours: true,
             energy: true,
             wellbeing: true,
+            waterLiters: true,
+            steps: true,
+            activeMinutes: true,
           },
           orderBy: { entryDate: "desc" },
         }),
@@ -433,6 +436,20 @@ export default async function HomePage() {
                     {formatAverage(checkInSummary.averageEnergy, " / 10")}
                   </dd>
                 </div>
+                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                  <dt className="text-xs text-text-muted">Ø Schritte</dt>
+                  <dd className="mt-1 text-lg font-semibold text-text-primary">
+                    {checkInSummary.averageSteps === null
+                      ? "–"
+                      : Math.round(checkInSummary.averageSteps).toLocaleString("de-DE")}
+                  </dd>
+                </div>
+                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                  <dt className="text-xs text-text-muted">Ø aktive Zeit</dt>
+                  <dd className="mt-1 text-lg font-semibold text-text-primary">
+                    {formatAverage(checkInSummary.averageActiveMinutes, " Min.")}
+                  </dd>
+                </div>
               </dl>
 
               {checkInSummary.averageWellbeing !== null ? (
@@ -441,6 +458,14 @@ export default async function HomePage() {
                   {formatAverage(
                     checkInSummary.averageWellbeing,
                     " / 10",
+                  )}
+                </p>
+              ) : null}
+              {checkInSummary.averageWaterLiters !== null ? (
+                <p className="text-xs leading-5 text-text-muted">
+                  Durchschnittliche Trinkmenge: {formatAverage(
+                    checkInSummary.averageWaterLiters,
+                    " l",
                   )}
                 </p>
               ) : null}

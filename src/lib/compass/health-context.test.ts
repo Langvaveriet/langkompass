@@ -20,8 +20,14 @@ test("builds a deterministic context without direct identifiers or free text", (
         sleepQuality: 8,
         energy: 6,
         wellbeing: 7,
+        mood: 8,
+        hungerLevel: 3,
         painLevel: 2,
         stressLevel: 4,
+        waterLiters: 2.5,
+        steps: 8000,
+        distanceKm: 6.2,
+        activeMinutes: 45,
         symptomTags: ["Kopfschmerz"],
         activityTags: ["Spaziergang"],
         meals: [{ energyKcal: 450, category: "FISH_SEAFOOD", traits: [] }],
@@ -33,8 +39,14 @@ test("builds a deterministic context without direct identifiers or free text", (
         sleepQuality: 6,
         energy: 8,
         wellbeing: null,
+        mood: 6,
+        hungerLevel: 5,
         painLevel: 4,
         stressLevel: 2,
+        waterLiters: 2,
+        steps: 10000,
+        distanceKm: 7.5,
+        activeMinutes: 60,
         symptomTags: ["Kopfschmerz"],
         activityTags: [],
         meals: [{ energyKcal: null, category: "VEGETABLE", traits: ["FERMENTED"] }],
@@ -43,6 +55,10 @@ test("builds a deterministic context without direct identifiers or free text", (
     weights: [
       { measuredAt: new Date("2026-07-01T08:00:00.000Z"), valueKg: 90 },
       { measuredAt: new Date("2026-07-25T08:00:00.000Z"), valueKg: 88.5 },
+    ],
+    waistMeasurements: [
+      { measuredAt: new Date("2026-07-01T08:00:00.000Z"), valueCm: 100 },
+      { measuredAt: new Date("2026-07-25T08:00:00.000Z"), valueCm: 97.5 },
     ],
     trainingSessions: [{ completedAt: new Date("2026-07-24T18:00:00.000Z"), setCount: 12 }],
     labResults: [
@@ -65,7 +81,9 @@ test("builds a deterministic context without direct identifiers or free text", (
     ],
   });
   assert.equal(context.observations.dailyCheckIns.averageSleepHours, 7.5);
+  assert.equal(context.observations.dailyCheckIns.averageSteps, 9000);
   assert.equal(context.observations.body.weightChangeKg, -1.5);
+  assert.equal(context.observations.body.waistChangeCm, -2.5);
   assert.equal(context.observations.nutrition.estimatedEnergyKcal, 450);
   assert.equal(context.observations.laboratory.latestResults[0]?.value, 90);
   assert.equal(context.observations.supplements.positiveEffectCount, 1);
@@ -83,6 +101,7 @@ test("reports missing data without inventing observations", () => {
     profile: null,
     dailyEntries: [],
     weights: [],
+    waistMeasurements: [],
     trainingSessions: [],
     labResults: [],
     supplements: [],
@@ -100,8 +119,14 @@ test("compares the first and second calendar half of a report", () => {
     status: "COMPLETED" as const,
     sleepQuality: null,
     wellbeing: null,
+    mood: null,
+    hungerLevel: null,
     painLevel: null,
     stressLevel: null,
+    waterLiters: null,
+    steps: null,
+    distanceKm: null,
+    activeMinutes: null,
     symptomTags: [],
     activityTags: [],
     meals: [],
@@ -121,6 +146,7 @@ test("compares the first and second calendar half of a report", () => {
       { ...baseEntry, entryDate: new Date("2026-07-25T00:00:00.000Z"), sleepHours: 9, energy: 8 },
     ],
     weights: [],
+    waistMeasurements: [],
     trainingSessions: [],
     labResults: [],
     supplements: [],

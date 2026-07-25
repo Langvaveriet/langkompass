@@ -6,15 +6,22 @@ umgesetzt.
 
 ## Aktueller Schwerpunkt
 
-- Apple-Health-Geräte-Spike auf einem echten iPhone
-- HealthKit-Berechtigungen und Passkeys mit Associated Domain verifizieren
-- erst nach erfolgreichem Spike die serverseitige Integrationsgrenze umsetzen
+- Web-App funktional vervollständigen und bestehende Kernabläufe prüfen
+- Tageserfassung um die noch fehlenden strukturierten Alltagswerte ergänzen
+- mobile Bedienung, Datenkonsistenz und verständliche Übersichten absichern
+
+Die Tageserfassung enthält nun zusätzlich Bauchumfang, Stimmung, Hunger,
+Trinkmenge, Schritte, Distanz und aktive Minuten. Diese Werte fließen auch in
+Dashboard und lokale Compass-Berichte ein.
+
+## Später: Apple Health
 
 Die technische Entscheidung und die überprüfbaren Ausbaustufen sind in
 [`decisions/0001-apple-health-integration.md`](decisions/0001-apple-health-integration.md)
 dokumentiert. Next.js bleibt Web-Client und Server; die produktive iOS-App
 erhält einen lokal gebündelten Mobile-Client und eine kleine native
-HealthKit-Brücke.
+HealthKit-Brücke. Die Umsetzung erfolgt bewusst erst nach der Finalisierung der
+Web-App und gehört zu den letzten geplanten größeren Erweiterungen.
 
 ## Danach
 

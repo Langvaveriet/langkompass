@@ -8,8 +8,14 @@ type DailyEntryInput = {
   sleepQuality: number | null;
   energy: number | null;
   wellbeing: number | null;
+  mood: number | null;
+  hungerLevel: number | null;
   painLevel: number | null;
   stressLevel: number | null;
+  waterLiters: number | null;
+  steps: number | null;
+  distanceKm: number | null;
+  activeMinutes: number | null;
   symptomTags: string[];
   activityTags: string[];
   meals: Array<{
@@ -36,6 +42,7 @@ export type HealthContextInput = {
   } | null;
   dailyEntries: DailyEntryInput[];
   weights: Array<{ measuredAt: Date; valueKg: number }>;
+  waistMeasurements: Array<{ measuredAt: Date; valueCm: number }>;
   trainingSessions: Array<{ completedAt: Date; setCount: number }>;
   labResults: Array<{
     analyteKey: string;
@@ -109,6 +116,11 @@ export function buildHealthContext(input: HealthContextInput) {
   );
   const latestWeight = weights.at(-1)?.valueKg ?? null;
   const firstWeight = weights.at(0)?.valueKg ?? null;
+  const waistMeasurements = [...input.waistMeasurements].sort(
+    (left, right) => left.measuredAt.getTime() - right.measuredAt.getTime(),
+  );
+  const latestWaist = waistMeasurements.at(-1)?.valueCm ?? null;
+  const firstWaist = waistMeasurements.at(0)?.valueCm ?? null;
   const mealItems = entries.flatMap(({ meals }) => meals);
   const knownMealEnergy = mealItems
     .map(({ energyKcal }) => energyKcal)
@@ -165,14 +177,22 @@ export function buildHealthContext(input: HealthContextInput) {
         averageSleepQuality: average(entries.map(({ sleepQuality }) => sleepQuality)),
         averageEnergy: average(entries.map(({ energy }) => energy)),
         averageWellbeing: average(entries.map(({ wellbeing }) => wellbeing)),
+        averageMood: average(entries.map(({ mood }) => mood)),
+        averageHungerLevel: average(entries.map(({ hungerLevel }) => hungerLevel)),
         averagePainLevel: average(entries.map(({ painLevel }) => painLevel)),
         averageStressLevel: average(entries.map(({ stressLevel }) => stressLevel)),
+        averageWaterLiters: average(entries.map(({ waterLiters }) => waterLiters)),
+        averageSteps: average(entries.map(({ steps }) => steps)),
+        averageDistanceKm: average(entries.map(({ distanceKm }) => distanceKm)),
+        averageActiveMinutes: average(entries.map(({ activeMinutes }) => activeMinutes)),
         frequentSymptomTags: frequencies(entries.flatMap(({ symptomTags }) => symptomTags)),
         frequentActivityTags: frequencies(entries.flatMap(({ activityTags }) => activityTags)),
         trends: {
           sleepHours: comparison(entries, input.trendSplitAt, ({ sleepHours }) => sleepHours),
           energy: comparison(entries, input.trendSplitAt, ({ energy }) => energy),
           wellbeing: comparison(entries, input.trendSplitAt, ({ wellbeing }) => wellbeing),
+          mood: comparison(entries, input.trendSplitAt, ({ mood }) => mood),
+          steps: comparison(entries, input.trendSplitAt, ({ steps }) => steps),
         },
       },
       body: {
@@ -180,6 +200,10 @@ export function buildHealthContext(input: HealthContextInput) {
         weightChangeKg: latestWeight === null || firstWeight === null
           ? null
           : rounded(latestWeight - firstWeight, 2),
+        latestWaistCm: latestWaist === null ? null : rounded(latestWaist, 2),
+        waistChangeCm: latestWaist === null || firstWaist === null
+          ? null
+          : rounded(latestWaist - firstWaist, 2),
       },
       nutrition: {
         recordedMealItemCount: mealItems.length,

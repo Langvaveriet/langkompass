@@ -39,7 +39,7 @@ export async function loadHealthContext(
     timeZone,
   );
 
-  const [profile, entries, weights, trainingSessions, labResults, supplements, supplementIntakes] = await Promise.all([
+  const [profile, entries, weights, waistMeasurements, trainingSessions, labResults, supplements, supplementIntakes] = await Promise.all([
     prisma.healthProfile.findUnique({
       where: { userId },
       select: {
@@ -64,8 +64,14 @@ export async function loadHealthContext(
         sleepQuality: true,
         energy: true,
         wellbeing: true,
+        mood: true,
+        hungerLevel: true,
         painLevel: true,
         stressLevel: true,
+        waterLiters: true,
+        steps: true,
+        distanceKm: true,
+        activeMinutes: true,
         symptomTags: true,
         activityTags: true,
         meals: {
@@ -87,6 +93,15 @@ export async function loadHealthContext(
       where: {
         userId,
         type: "WEIGHT",
+        measuredAt: { gte: periodStart, lt: periodEnd },
+      },
+      orderBy: { measuredAt: "asc" },
+      select: { measuredAt: true, value: true },
+    }),
+    prisma.bodyMeasurement.findMany({
+      where: {
+        userId,
+        type: "WAIST_CIRCUMFERENCE",
         measuredAt: { gte: periodStart, lt: periodEnd },
       },
       orderBy: { measuredAt: "asc" },
@@ -162,8 +177,14 @@ export async function loadHealthContext(
       sleepQuality: entry.sleepQuality,
       energy: entry.energy,
       wellbeing: entry.wellbeing,
+      mood: entry.mood,
+      hungerLevel: entry.hungerLevel,
       painLevel: entry.painLevel,
       stressLevel: entry.stressLevel,
+      waterLiters: entry.waterLiters === null ? null : Number(entry.waterLiters),
+      steps: entry.steps,
+      distanceKm: entry.distanceKm === null ? null : Number(entry.distanceKm),
+      activeMinutes: entry.activeMinutes,
       symptomTags: entry.symptomTags,
       activityTags: entry.activityTags,
       meals: entry.meals.flatMap(({ items }) => items.map((item) => ({
@@ -175,6 +196,10 @@ export async function loadHealthContext(
     weights: weights.map(({ measuredAt, value }) => ({
       measuredAt,
       valueKg: Number(value),
+    })),
+    waistMeasurements: waistMeasurements.map(({ measuredAt, value }) => ({
+      measuredAt,
+      valueCm: Number(value),
     })),
     trainingSessions: trainingSessions.flatMap((session) =>
       session.completedAt

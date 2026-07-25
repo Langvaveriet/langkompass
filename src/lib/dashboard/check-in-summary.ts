@@ -3,6 +3,9 @@ type CheckInForSummary = {
   sleepHours: unknown;
   energy: number | null;
   wellbeing: number | null;
+  waterLiters: unknown;
+  steps: number | null;
+  activeMinutes: number | null;
 };
 
 export type CheckInSummary = {
@@ -11,6 +14,9 @@ export type CheckInSummary = {
   averageSleepHours: number | null;
   averageEnergy: number | null;
   averageWellbeing: number | null;
+  averageWaterLiters: number | null;
+  averageSteps: number | null;
+  averageActiveMinutes: number | null;
 };
 
 function average(values: number[]): number | null {
@@ -38,6 +44,20 @@ export function summarizeCheckIns(
   const wellbeing = entries.flatMap((entry) =>
     entry.wellbeing === null ? [] : [entry.wellbeing],
   );
+  const waterLiters = entries.flatMap((entry) => {
+    if (entry.waterLiters === null || entry.waterLiters === undefined) {
+      return [];
+    }
+
+    const value = Number(entry.waterLiters);
+    return Number.isFinite(value) ? [value] : [];
+  });
+  const steps = entries.flatMap((entry) =>
+    entry.steps === null ? [] : [entry.steps],
+  );
+  const activeMinutes = entries.flatMap((entry) =>
+    entry.activeMinutes === null ? [] : [entry.activeMinutes],
+  );
 
   return {
     recordedDays: entries.length,
@@ -46,5 +66,8 @@ export function summarizeCheckIns(
     averageSleepHours: average(sleepHours),
     averageEnergy: average(energy),
     averageWellbeing: average(wellbeing),
+    averageWaterLiters: average(waterLiters),
+    averageSteps: average(steps),
+    averageActiveMinutes: average(activeMinutes),
   };
 }

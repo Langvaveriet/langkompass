@@ -28,20 +28,32 @@ export type AggregateDailyEntry = {
 
 export type DailyEntryAvgAggregateOutputType = {
   wellbeing: number | null
+  mood: number | null
   energy: number | null
   sleepHours: runtime.Decimal | null
   sleepQuality: number | null
+  hungerLevel: number | null
   painLevel: number | null
   stressLevel: number | null
+  waterLiters: runtime.Decimal | null
+  steps: number | null
+  distanceKm: runtime.Decimal | null
+  activeMinutes: number | null
 }
 
 export type DailyEntrySumAggregateOutputType = {
   wellbeing: number | null
+  mood: number | null
   energy: number | null
   sleepHours: runtime.Decimal | null
   sleepQuality: number | null
+  hungerLevel: number | null
   painLevel: number | null
   stressLevel: number | null
+  waterLiters: runtime.Decimal | null
+  steps: number | null
+  distanceKm: runtime.Decimal | null
+  activeMinutes: number | null
 }
 
 export type DailyEntryMinAggregateOutputType = {
@@ -50,11 +62,17 @@ export type DailyEntryMinAggregateOutputType = {
   entryDate: Date | null
   status: $Enums.DailyEntryStatus | null
   wellbeing: number | null
+  mood: number | null
   energy: number | null
   sleepHours: runtime.Decimal | null
   sleepQuality: number | null
+  hungerLevel: number | null
   painLevel: number | null
   stressLevel: number | null
+  waterLiters: runtime.Decimal | null
+  steps: number | null
+  distanceKm: runtime.Decimal | null
+  activeMinutes: number | null
   symptoms: string | null
   notes: string | null
   createdAt: Date | null
@@ -67,11 +85,17 @@ export type DailyEntryMaxAggregateOutputType = {
   entryDate: Date | null
   status: $Enums.DailyEntryStatus | null
   wellbeing: number | null
+  mood: number | null
   energy: number | null
   sleepHours: runtime.Decimal | null
   sleepQuality: number | null
+  hungerLevel: number | null
   painLevel: number | null
   stressLevel: number | null
+  waterLiters: runtime.Decimal | null
+  steps: number | null
+  distanceKm: runtime.Decimal | null
+  activeMinutes: number | null
   symptoms: string | null
   notes: string | null
   createdAt: Date | null
@@ -84,11 +108,17 @@ export type DailyEntryCountAggregateOutputType = {
   entryDate: number
   status: number
   wellbeing: number
+  mood: number
   energy: number
   sleepHours: number
   sleepQuality: number
+  hungerLevel: number
   painLevel: number
   stressLevel: number
+  waterLiters: number
+  steps: number
+  distanceKm: number
+  activeMinutes: number
   symptoms: number
   symptomTags: number
   activityTags: number
@@ -101,20 +131,32 @@ export type DailyEntryCountAggregateOutputType = {
 
 export type DailyEntryAvgAggregateInputType = {
   wellbeing?: true
+  mood?: true
   energy?: true
   sleepHours?: true
   sleepQuality?: true
+  hungerLevel?: true
   painLevel?: true
   stressLevel?: true
+  waterLiters?: true
+  steps?: true
+  distanceKm?: true
+  activeMinutes?: true
 }
 
 export type DailyEntrySumAggregateInputType = {
   wellbeing?: true
+  mood?: true
   energy?: true
   sleepHours?: true
   sleepQuality?: true
+  hungerLevel?: true
   painLevel?: true
   stressLevel?: true
+  waterLiters?: true
+  steps?: true
+  distanceKm?: true
+  activeMinutes?: true
 }
 
 export type DailyEntryMinAggregateInputType = {
@@ -123,11 +165,17 @@ export type DailyEntryMinAggregateInputType = {
   entryDate?: true
   status?: true
   wellbeing?: true
+  mood?: true
   energy?: true
   sleepHours?: true
   sleepQuality?: true
+  hungerLevel?: true
   painLevel?: true
   stressLevel?: true
+  waterLiters?: true
+  steps?: true
+  distanceKm?: true
+  activeMinutes?: true
   symptoms?: true
   notes?: true
   createdAt?: true
@@ -140,11 +188,17 @@ export type DailyEntryMaxAggregateInputType = {
   entryDate?: true
   status?: true
   wellbeing?: true
+  mood?: true
   energy?: true
   sleepHours?: true
   sleepQuality?: true
+  hungerLevel?: true
   painLevel?: true
   stressLevel?: true
+  waterLiters?: true
+  steps?: true
+  distanceKm?: true
+  activeMinutes?: true
   symptoms?: true
   notes?: true
   createdAt?: true
@@ -157,11 +211,17 @@ export type DailyEntryCountAggregateInputType = {
   entryDate?: true
   status?: true
   wellbeing?: true
+  mood?: true
   energy?: true
   sleepHours?: true
   sleepQuality?: true
+  hungerLevel?: true
   painLevel?: true
   stressLevel?: true
+  waterLiters?: true
+  steps?: true
+  distanceKm?: true
+  activeMinutes?: true
   symptoms?: true
   symptomTags?: true
   activityTags?: true
@@ -263,11 +323,17 @@ export type DailyEntryGroupByOutputType = {
   entryDate: Date
   status: $Enums.DailyEntryStatus
   wellbeing: number | null
+  mood: number | null
   energy: number | null
   sleepHours: runtime.Decimal | null
   sleepQuality: number | null
+  hungerLevel: number | null
   painLevel: number | null
   stressLevel: number | null
+  waterLiters: runtime.Decimal | null
+  steps: number | null
+  distanceKm: runtime.Decimal | null
+  activeMinutes: number | null
   symptoms: string | null
   symptomTags: string[]
   activityTags: string[]
@@ -305,11 +371,17 @@ export type DailyEntryWhereInput = {
   entryDate?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
   status?: Prisma.EnumDailyEntryStatusFilter<"DailyEntry"> | $Enums.DailyEntryStatus
   wellbeing?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  mood?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   energy?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   sleepHours?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  hungerLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   painLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   stressLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  waterLiters?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  distanceKm?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   symptoms?: Prisma.StringNullableFilter<"DailyEntry"> | string | null
   symptomTags?: Prisma.StringNullableListFilter<"DailyEntry">
   activityTags?: Prisma.StringNullableListFilter<"DailyEntry">
@@ -327,11 +399,17 @@ export type DailyEntryOrderByWithRelationInput = {
   entryDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrderInput | Prisma.SortOrder
+  mood?: Prisma.SortOrderInput | Prisma.SortOrder
   energy?: Prisma.SortOrderInput | Prisma.SortOrder
   sleepHours?: Prisma.SortOrderInput | Prisma.SortOrder
   sleepQuality?: Prisma.SortOrderInput | Prisma.SortOrder
+  hungerLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   painLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   stressLevel?: Prisma.SortOrderInput | Prisma.SortOrder
+  waterLiters?: Prisma.SortOrderInput | Prisma.SortOrder
+  steps?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceKm?: Prisma.SortOrderInput | Prisma.SortOrder
+  activeMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   symptoms?: Prisma.SortOrderInput | Prisma.SortOrder
   symptomTags?: Prisma.SortOrder
   activityTags?: Prisma.SortOrder
@@ -353,11 +431,17 @@ export type DailyEntryWhereUniqueInput = Prisma.AtLeast<{
   entryDate?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
   status?: Prisma.EnumDailyEntryStatusFilter<"DailyEntry"> | $Enums.DailyEntryStatus
   wellbeing?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  mood?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   energy?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   sleepHours?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  hungerLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   painLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   stressLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  waterLiters?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  distanceKm?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   symptoms?: Prisma.StringNullableFilter<"DailyEntry"> | string | null
   symptomTags?: Prisma.StringNullableListFilter<"DailyEntry">
   activityTags?: Prisma.StringNullableListFilter<"DailyEntry">
@@ -375,11 +459,17 @@ export type DailyEntryOrderByWithAggregationInput = {
   entryDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrderInput | Prisma.SortOrder
+  mood?: Prisma.SortOrderInput | Prisma.SortOrder
   energy?: Prisma.SortOrderInput | Prisma.SortOrder
   sleepHours?: Prisma.SortOrderInput | Prisma.SortOrder
   sleepQuality?: Prisma.SortOrderInput | Prisma.SortOrder
+  hungerLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   painLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   stressLevel?: Prisma.SortOrderInput | Prisma.SortOrder
+  waterLiters?: Prisma.SortOrderInput | Prisma.SortOrder
+  steps?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceKm?: Prisma.SortOrderInput | Prisma.SortOrder
+  activeMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   symptoms?: Prisma.SortOrderInput | Prisma.SortOrder
   symptomTags?: Prisma.SortOrder
   activityTags?: Prisma.SortOrder
@@ -402,11 +492,17 @@ export type DailyEntryScalarWhereWithAggregatesInput = {
   entryDate?: Prisma.DateTimeWithAggregatesFilter<"DailyEntry"> | Date | string
   status?: Prisma.EnumDailyEntryStatusWithAggregatesFilter<"DailyEntry"> | $Enums.DailyEntryStatus
   wellbeing?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
+  mood?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
   energy?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
   sleepHours?: Prisma.DecimalNullableWithAggregatesFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
+  hungerLevel?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
   painLevel?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
   stressLevel?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
+  waterLiters?: Prisma.DecimalNullableWithAggregatesFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
+  distanceKm?: Prisma.DecimalNullableWithAggregatesFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.IntNullableWithAggregatesFilter<"DailyEntry"> | number | null
   symptoms?: Prisma.StringNullableWithAggregatesFilter<"DailyEntry"> | string | null
   symptomTags?: Prisma.StringNullableListFilter<"DailyEntry">
   activityTags?: Prisma.StringNullableListFilter<"DailyEntry">
@@ -420,11 +516,17 @@ export type DailyEntryCreateInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -442,11 +544,17 @@ export type DailyEntryUncheckedCreateInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -462,11 +570,17 @@ export type DailyEntryUpdateInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -484,11 +598,17 @@ export type DailyEntryUncheckedUpdateInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -505,11 +625,17 @@ export type DailyEntryCreateManyInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -523,11 +649,17 @@ export type DailyEntryUpdateManyMutationInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -542,11 +674,17 @@ export type DailyEntryUncheckedUpdateManyInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -584,11 +722,17 @@ export type DailyEntryCountOrderByAggregateInput = {
   entryDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrder
+  mood?: Prisma.SortOrder
   energy?: Prisma.SortOrder
   sleepHours?: Prisma.SortOrder
   sleepQuality?: Prisma.SortOrder
+  hungerLevel?: Prisma.SortOrder
   painLevel?: Prisma.SortOrder
   stressLevel?: Prisma.SortOrder
+  waterLiters?: Prisma.SortOrder
+  steps?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  activeMinutes?: Prisma.SortOrder
   symptoms?: Prisma.SortOrder
   symptomTags?: Prisma.SortOrder
   activityTags?: Prisma.SortOrder
@@ -599,11 +743,17 @@ export type DailyEntryCountOrderByAggregateInput = {
 
 export type DailyEntryAvgOrderByAggregateInput = {
   wellbeing?: Prisma.SortOrder
+  mood?: Prisma.SortOrder
   energy?: Prisma.SortOrder
   sleepHours?: Prisma.SortOrder
   sleepQuality?: Prisma.SortOrder
+  hungerLevel?: Prisma.SortOrder
   painLevel?: Prisma.SortOrder
   stressLevel?: Prisma.SortOrder
+  waterLiters?: Prisma.SortOrder
+  steps?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  activeMinutes?: Prisma.SortOrder
 }
 
 export type DailyEntryMaxOrderByAggregateInput = {
@@ -612,11 +762,17 @@ export type DailyEntryMaxOrderByAggregateInput = {
   entryDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrder
+  mood?: Prisma.SortOrder
   energy?: Prisma.SortOrder
   sleepHours?: Prisma.SortOrder
   sleepQuality?: Prisma.SortOrder
+  hungerLevel?: Prisma.SortOrder
   painLevel?: Prisma.SortOrder
   stressLevel?: Prisma.SortOrder
+  waterLiters?: Prisma.SortOrder
+  steps?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  activeMinutes?: Prisma.SortOrder
   symptoms?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -629,11 +785,17 @@ export type DailyEntryMinOrderByAggregateInput = {
   entryDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   wellbeing?: Prisma.SortOrder
+  mood?: Prisma.SortOrder
   energy?: Prisma.SortOrder
   sleepHours?: Prisma.SortOrder
   sleepQuality?: Prisma.SortOrder
+  hungerLevel?: Prisma.SortOrder
   painLevel?: Prisma.SortOrder
   stressLevel?: Prisma.SortOrder
+  waterLiters?: Prisma.SortOrder
+  steps?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  activeMinutes?: Prisma.SortOrder
   symptoms?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -642,11 +804,17 @@ export type DailyEntryMinOrderByAggregateInput = {
 
 export type DailyEntrySumOrderByAggregateInput = {
   wellbeing?: Prisma.SortOrder
+  mood?: Prisma.SortOrder
   energy?: Prisma.SortOrder
   sleepHours?: Prisma.SortOrder
   sleepQuality?: Prisma.SortOrder
+  hungerLevel?: Prisma.SortOrder
   painLevel?: Prisma.SortOrder
   stressLevel?: Prisma.SortOrder
+  waterLiters?: Prisma.SortOrder
+  steps?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  activeMinutes?: Prisma.SortOrder
 }
 
 export type DailyEntryScalarRelationFilter = {
@@ -751,11 +919,17 @@ export type DailyEntryCreateWithoutUserInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -771,11 +945,17 @@ export type DailyEntryUncheckedCreateWithoutUserInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -821,11 +1001,17 @@ export type DailyEntryScalarWhereInput = {
   entryDate?: Prisma.DateTimeFilter<"DailyEntry"> | Date | string
   status?: Prisma.EnumDailyEntryStatusFilter<"DailyEntry"> | $Enums.DailyEntryStatus
   wellbeing?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  mood?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   energy?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   sleepHours?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  hungerLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   painLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   stressLevel?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  waterLiters?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
+  distanceKm?: Prisma.DecimalNullableFilter<"DailyEntry"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.IntNullableFilter<"DailyEntry"> | number | null
   symptoms?: Prisma.StringNullableFilter<"DailyEntry"> | string | null
   symptomTags?: Prisma.StringNullableListFilter<"DailyEntry">
   activityTags?: Prisma.StringNullableListFilter<"DailyEntry">
@@ -839,11 +1025,17 @@ export type DailyEntryCreateWithoutMeasurementsInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -860,11 +1052,17 @@ export type DailyEntryUncheckedCreateWithoutMeasurementsInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -895,11 +1093,17 @@ export type DailyEntryUpdateWithoutMeasurementsInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -916,11 +1120,17 @@ export type DailyEntryUncheckedUpdateWithoutMeasurementsInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -935,11 +1145,17 @@ export type DailyEntryCreateWithoutMealsInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -956,11 +1172,17 @@ export type DailyEntryUncheckedCreateWithoutMealsInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -991,11 +1213,17 @@ export type DailyEntryUpdateWithoutMealsInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -1012,11 +1240,17 @@ export type DailyEntryUncheckedUpdateWithoutMealsInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -1031,11 +1265,17 @@ export type DailyEntryCreateManyUserInput = {
   entryDate: Date | string
   status?: $Enums.DailyEntryStatus
   wellbeing?: number | null
+  mood?: number | null
   energy?: number | null
   sleepHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: number | null
+  hungerLevel?: number | null
   painLevel?: number | null
   stressLevel?: number | null
+  waterLiters?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: number | null
+  distanceKm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: number | null
   symptoms?: string | null
   symptomTags?: Prisma.DailyEntryCreatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryCreateactivityTagsInput | string[]
@@ -1049,11 +1289,17 @@ export type DailyEntryUpdateWithoutUserInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -1069,11 +1315,17 @@ export type DailyEntryUncheckedUpdateWithoutUserInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -1089,11 +1341,17 @@ export type DailyEntryUncheckedUpdateManyWithoutUserInput = {
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDailyEntryStatusFieldUpdateOperationsInput | $Enums.DailyEntryStatus
   wellbeing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mood?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   energy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sleepHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sleepQuality?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hungerLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   painLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   stressLevel?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  waterLiters?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  steps?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  activeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   symptoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   symptomTags?: Prisma.DailyEntryUpdatesymptomTagsInput | string[]
   activityTags?: Prisma.DailyEntryUpdateactivityTagsInput | string[]
@@ -1148,11 +1406,17 @@ export type DailyEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   entryDate?: boolean
   status?: boolean
   wellbeing?: boolean
+  mood?: boolean
   energy?: boolean
   sleepHours?: boolean
   sleepQuality?: boolean
+  hungerLevel?: boolean
   painLevel?: boolean
   stressLevel?: boolean
+  waterLiters?: boolean
+  steps?: boolean
+  distanceKm?: boolean
+  activeMinutes?: boolean
   symptoms?: boolean
   symptomTags?: boolean
   activityTags?: boolean
@@ -1171,11 +1435,17 @@ export type DailyEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   entryDate?: boolean
   status?: boolean
   wellbeing?: boolean
+  mood?: boolean
   energy?: boolean
   sleepHours?: boolean
   sleepQuality?: boolean
+  hungerLevel?: boolean
   painLevel?: boolean
   stressLevel?: boolean
+  waterLiters?: boolean
+  steps?: boolean
+  distanceKm?: boolean
+  activeMinutes?: boolean
   symptoms?: boolean
   symptomTags?: boolean
   activityTags?: boolean
@@ -1191,11 +1461,17 @@ export type DailyEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   entryDate?: boolean
   status?: boolean
   wellbeing?: boolean
+  mood?: boolean
   energy?: boolean
   sleepHours?: boolean
   sleepQuality?: boolean
+  hungerLevel?: boolean
   painLevel?: boolean
   stressLevel?: boolean
+  waterLiters?: boolean
+  steps?: boolean
+  distanceKm?: boolean
+  activeMinutes?: boolean
   symptoms?: boolean
   symptomTags?: boolean
   activityTags?: boolean
@@ -1211,11 +1487,17 @@ export type DailyEntrySelectScalar = {
   entryDate?: boolean
   status?: boolean
   wellbeing?: boolean
+  mood?: boolean
   energy?: boolean
   sleepHours?: boolean
   sleepQuality?: boolean
+  hungerLevel?: boolean
   painLevel?: boolean
   stressLevel?: boolean
+  waterLiters?: boolean
+  steps?: boolean
+  distanceKm?: boolean
+  activeMinutes?: boolean
   symptoms?: boolean
   symptomTags?: boolean
   activityTags?: boolean
@@ -1224,7 +1506,7 @@ export type DailyEntrySelectScalar = {
   updatedAt?: boolean
 }
 
-export type DailyEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "entryDate" | "status" | "wellbeing" | "energy" | "sleepHours" | "sleepQuality" | "painLevel" | "stressLevel" | "symptoms" | "symptomTags" | "activityTags" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["dailyEntry"]>
+export type DailyEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "entryDate" | "status" | "wellbeing" | "mood" | "energy" | "sleepHours" | "sleepQuality" | "hungerLevel" | "painLevel" | "stressLevel" | "waterLiters" | "steps" | "distanceKm" | "activeMinutes" | "symptoms" | "symptomTags" | "activityTags" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["dailyEntry"]>
 export type DailyEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   meals?: boolean | Prisma.DailyEntry$mealsArgs<ExtArgs>
@@ -1251,11 +1533,17 @@ export type $DailyEntryPayload<ExtArgs extends runtime.Types.Extensions.Internal
     entryDate: Date
     status: $Enums.DailyEntryStatus
     wellbeing: number | null
+    mood: number | null
     energy: number | null
     sleepHours: runtime.Decimal | null
     sleepQuality: number | null
+    hungerLevel: number | null
     painLevel: number | null
     stressLevel: number | null
+    waterLiters: runtime.Decimal | null
+    steps: number | null
+    distanceKm: runtime.Decimal | null
+    activeMinutes: number | null
     symptoms: string | null
     symptomTags: string[]
     activityTags: string[]
@@ -1693,11 +1981,17 @@ export interface DailyEntryFieldRefs {
   readonly entryDate: Prisma.FieldRef<"DailyEntry", 'DateTime'>
   readonly status: Prisma.FieldRef<"DailyEntry", 'DailyEntryStatus'>
   readonly wellbeing: Prisma.FieldRef<"DailyEntry", 'Int'>
+  readonly mood: Prisma.FieldRef<"DailyEntry", 'Int'>
   readonly energy: Prisma.FieldRef<"DailyEntry", 'Int'>
   readonly sleepHours: Prisma.FieldRef<"DailyEntry", 'Decimal'>
   readonly sleepQuality: Prisma.FieldRef<"DailyEntry", 'Int'>
+  readonly hungerLevel: Prisma.FieldRef<"DailyEntry", 'Int'>
   readonly painLevel: Prisma.FieldRef<"DailyEntry", 'Int'>
   readonly stressLevel: Prisma.FieldRef<"DailyEntry", 'Int'>
+  readonly waterLiters: Prisma.FieldRef<"DailyEntry", 'Decimal'>
+  readonly steps: Prisma.FieldRef<"DailyEntry", 'Int'>
+  readonly distanceKm: Prisma.FieldRef<"DailyEntry", 'Decimal'>
+  readonly activeMinutes: Prisma.FieldRef<"DailyEntry", 'Int'>
   readonly symptoms: Prisma.FieldRef<"DailyEntry", 'String'>
   readonly symptomTags: Prisma.FieldRef<"DailyEntry", 'String[]'>
   readonly activityTags: Prisma.FieldRef<"DailyEntry", 'String[]'>
