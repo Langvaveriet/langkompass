@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import {
+  generateAutomaticWeekPlan,
   logPlannedMeal,
   planRecipe,
   removePlannedMeal,
@@ -148,23 +149,30 @@ export default async function WeeklyPlanPage({
       ).length,
     ]),
   );
+  const generatedCount = queryValue(query, "generated");
   const statusMessage = queryValue(query, "saved")
     ? "Mahlzeit wurde eingeplant."
-    : queryValue(query, "removed")
-      ? "Planung wurde entfernt."
-      : queryValue(query, "logged")
-        ? "Geplante Mahlzeit wurde erfasst."
-        : null;
+    : generatedCount === "0"
+      ? "Für diese Auswahl sind bereits alle verfügbaren Plätze geplant."
+      : generatedCount
+        ? `${generatedCount} freie Plätze wurden automatisch geplant.`
+        : queryValue(query, "removed")
+          ? "Planung wurde entfernt."
+          : queryValue(query, "logged")
+            ? "Geplante Mahlzeit wurde erfasst."
+            : null;
   const error = queryValue(query, "error");
   const errorMessage = error === "future"
     ? "Eine zukünftige Mahlzeit kann noch nicht als gegessen erfasst werden."
-    : error === "completed"
-      ? "Diese Planung wurde bereits erfasst und kann nicht überschrieben werden."
-      : error === "recipe"
-        ? "Die ausgewählte Vorlage ist nicht mehr verfügbar."
-        : error
-          ? "Bitte prüfe Datum und ausgewählte Vorlage."
-          : null;
+    : error === "automatic-empty"
+      ? "Mit deinen Profilfiltern gibt es derzeit keine passenden Katalogrezepte für diese Woche."
+      : error === "completed"
+        ? "Diese Planung wurde bereits erfasst und kann nicht überschrieben werden."
+        : error === "recipe"
+          ? "Die ausgewählte Vorlage ist nicht mehr verfügbar."
+          : error
+            ? "Bitte prüfe Datum und ausgewählte Vorlage."
+            : null;
 
   return (
     <AppLayout>
@@ -192,6 +200,35 @@ export default async function WeeklyPlanPage({
             {errorMessage}
           </p>
         ) : null}
+
+        <section className="mt-8 max-w-4xl rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised p-5" aria-labelledby="automatic-plan-heading">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="max-w-xl">
+              <h2 id="automatic-plan-heading" className="text-lg font-semibold text-text-primary">Woche automatisch füllen</h2>
+              <p className="mt-2 text-sm leading-6 text-text-muted">
+                Profilfilter und Favoriten werden berücksichtigt. Vorhandene oder bereits erfasste Planungen bleiben unverändert.
+              </p>
+            </div>
+            <Link href="/gesundheitsprofil" className="inline-flex min-h-11 items-center text-sm font-semibold text-forest-strong">
+              Filter prüfen →
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <form action={generateAutomaticWeekPlan}>
+              <input type="hidden" name="plannedDate" value={selectedDate} />
+              <WeeklyPlanSubmit pendingLabel="Woche wird geplant …" variant="primary" className="w-full">
+                3 Hauptmahlzeiten planen
+              </WeeklyPlanSubmit>
+            </form>
+            <form action={generateAutomaticWeekPlan}>
+              <input type="hidden" name="plannedDate" value={selectedDate} />
+              <input type="hidden" name="includeSnacks" value="1" />
+              <WeeklyPlanSubmit pendingLabel="Woche wird geplant …" variant="secondary" className="w-full">
+                Hauptmahlzeiten + Snacks
+              </WeeklyPlanSubmit>
+            </form>
+          </div>
+        </section>
 
         <section className="mt-8 w-full min-w-0 max-w-4xl overflow-hidden" aria-label="Wochenauswahl">
           <div className="flex items-center justify-between gap-3">

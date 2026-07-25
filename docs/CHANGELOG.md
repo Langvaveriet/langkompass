@@ -1,5 +1,17 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Automatische Wochenplanung
+
+- Der Wochenplan füllt auf Wunsch sieben Tage mit drei Hauptmahlzeiten oder
+  zusätzlich mit Snacks.
+- Persönliche Ernährungsrichtungen, Ausschlüsse, Histaminrücksicht und maximale
+  Zubereitungszeit werden vor der Auswahl serverseitig geprüft.
+- Favorisierte Katalogrezepte werden zuerst berücksichtigt; weitere passende
+  Gerichte werden stabil und abwechslungsreich über die Woche verteilt.
+- Bereits geplante oder erfasste Mahlzeiten werden niemals überschrieben.
+- Zwei große Aktionen ersetzen zusätzliche Formulareingaben und machen die
+  automatische Planung touchfreundlich.
+
 ## 2026-07-25 – Rezeptsuche und Bibliotheksfilter
 
 - Eine eigene Rezeptbibliotheksseite durchsucht persönliche Rezepte nach Name

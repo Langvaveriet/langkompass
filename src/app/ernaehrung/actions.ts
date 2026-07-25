@@ -21,6 +21,7 @@ import {
   normalizeRecipeName,
   recipeNameSchema,
 } from "@/lib/nutrition/recipes";
+import { upsertUserCatalogRecipe } from "@/lib/nutrition/user-recipes";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
@@ -43,78 +44,6 @@ function selectedDate(formData: FormData): string {
   const value = text(formData, "entryDate");
   if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) redirect("/ernaehrung?error=date");
   return value;
-}
-
-async function upsertCuratedRecipe(
-  userId: string,
-  suggestion: CuratedRecipe,
-  favorite = false,
-) {
-  const normalizedName = normalizeRecipeName(suggestion.name);
-  const favoriteAt = favorite ? new Date() : null;
-
-  return prisma.$transaction(async (transaction) => {
-    const existingRecipe = await transaction.recipe.findUnique({
-      where: { userId_normalizedName: { userId, normalizedName } },
-      select: { id: true },
-    });
-    const metadata = {
-      name: suggestion.name,
-      type: suggestion.type,
-      origin: "CURATED" as const,
-      description: suggestion.description,
-      prepMinutes: suggestion.prepMinutes,
-      servings: suggestion.servings,
-      instructions: suggestion.instructions.join("\n"),
-      carbohydrateGrams: suggestion.carbohydrateGrams,
-      proteinGrams: suggestion.proteinGrams,
-      fatGrams: suggestion.fatGrams,
-      dietaryPatterns: suggestion.dietaryPatterns,
-      sourceLabel: "LångKompass Katalog",
-      sourceUrl: null,
-      archivedAt: null,
-    };
-    const recipe = existingRecipe
-      ? await transaction.recipe.update({
-          where: { id: existingRecipe.id },
-          data: {
-            ...metadata,
-            ...(favorite ? { favoriteAt } : {}),
-          },
-          select: { id: true, type: true },
-        })
-      : await transaction.recipe.create({
-          data: {
-            userId,
-            normalizedName,
-            ...metadata,
-            favoriteAt,
-          },
-          select: { id: true, type: true },
-        });
-
-    if (existingRecipe) {
-      await transaction.recipeItem.deleteMany({
-        where: { recipeId: recipe.id, userId },
-      });
-    }
-    await transaction.recipeItem.createMany({
-      data: suggestion.items.map((item, position) => ({
-        userId,
-        recipeId: recipe.id,
-        position,
-        name: item.name,
-        category: item.category,
-        portion: "MEDIUM" as const,
-        quantity: item.quantity,
-        unit: item.unit,
-        energyKcal: item.energyKcal,
-        traits: item.traits ?? [],
-      })),
-    });
-
-    return recipe;
-  });
 }
 
 async function catalogSuggestion(
@@ -540,7 +469,7 @@ export async function saveSuggestedRecipe(formData: FormData) {
     redirect(`/ernaehrung?date=${date}&error=suggestion`);
   }
 
-  await upsertCuratedRecipe(user.id, suggestion, true);
+  await upsertUserCatalogRecipe(user.id, suggestion, true);
   revalidatePath("/ernaehrung");
   revalidatePath("/ernaehrung/wochenplan");
   redirect(`/ernaehrung?date=${date}&suggestionSaved=1&suggest=${suggestion.key}`);
@@ -573,7 +502,7 @@ export async function planSuggestedRecipe(formData: FormData) {
     redirect(`/ernaehrung?date=${date}&error=plan-completed`);
   }
 
-  const recipe = await upsertCuratedRecipe(user.id, suggestion);
+  const recipe = await upsertUserCatalogRecipe(user.id, suggestion);
   await prisma.mealPlanEntry.upsert({
     where: {
       userId_plannedDate_type: {

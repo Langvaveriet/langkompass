@@ -4,15 +4,26 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { MealType } from "@/generated/prisma/enums";
+import { buildAutomaticWeekPlan } from "@/lib/nutrition/automatic-week-plan";
+import {
+  catalogRecipeSnapshot,
+  type CuratedRecipe,
+} from "@/lib/nutrition/curated-recipes";
+import {
+  recipeMatchesPreferences,
+  recipePreferencesFromProfile,
+} from "@/lib/nutrition/recipe-preferences";
+import { normalizeRecipeName } from "@/lib/nutrition/recipes";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
+import { upsertUserCatalogRecipe } from "@/lib/nutrition/user-recipes";
 import {
   dateInTimeZone,
   defaultTimeZone,
   localDateTimeToUtc,
   timeInTimeZone,
 } from "@/lib/user-settings";
-import { isIsoDate } from "@/lib/nutrition/weekly-plan";
+import { isIsoDate, isoWeekDates } from "@/lib/nutrition/weekly-plan";
 
 const plannableMealTypes = new Set<MealType>([
   "BREAKFAST",
@@ -40,6 +51,115 @@ function refreshNutrition() {
   revalidatePath("/");
   revalidatePath("/ernaehrung");
   revalidatePath("/ernaehrung/wochenplan");
+}
+
+export async function generateAutomaticWeekPlan(formData: FormData) {
+  const user = await requireUser();
+  const date = planDate(formData);
+  const weekDates = isoWeekDates(date);
+  const includeSnacks = formText(formData, "includeSnacks") === "1";
+  const requestedTypes: Array<Exclude<MealType, "DRINK">> = [
+    "BREAKFAST",
+    "LUNCH",
+    "DINNER",
+    ...(includeSnacks ? ["SNACK" as const] : []),
+  ];
+  const weekStart = new Date(`${weekDates[0]}T00:00:00.000Z`);
+  const weekEnd = new Date(`${weekDates[6]}T00:00:00.000Z`);
+
+  const [profile, catalogRecords, favorites, existingEntries] = await Promise.all([
+    prisma.healthProfile.findUnique({
+      where: { userId: user.id },
+      select: {
+        preferredDietaryPatterns: true,
+        excludedFoodCategories: true,
+        avoidHistamine: true,
+        maxRecipePrepMinutes: true,
+      },
+    }),
+    prisma.catalogRecipe.findMany({
+      where: { active: true, type: { in: requestedTypes } },
+      include: { items: { orderBy: { position: "asc" } } },
+      orderBy: { key: "asc" },
+    }),
+    prisma.recipe.findMany({
+      where: {
+        userId: user.id,
+        origin: "CURATED",
+        favoriteAt: { not: null },
+        archivedAt: null,
+      },
+      select: { normalizedName: true },
+    }),
+    prisma.mealPlanEntry.findMany({
+      where: {
+        userId: user.id,
+        plannedDate: { gte: weekStart, lte: weekEnd },
+        type: { in: requestedTypes },
+      },
+      select: { plannedDate: true, type: true },
+    }),
+  ]);
+
+  const preferences = recipePreferencesFromProfile(profile);
+  const favoriteNames = new Set(favorites.map(({ normalizedName }) => normalizedName));
+  const catalog = catalogRecords
+    .map(catalogRecipeSnapshot)
+    .filter((recipe) => recipeMatchesPreferences(recipe, preferences));
+  if (catalog.length === 0) {
+    redirect(`/ernaehrung/wochenplan?date=${date}&error=automatic-empty`);
+  }
+
+  const assignments = buildAutomaticWeekPlan(
+    weekDates,
+    requestedTypes,
+    catalog.map((recipe) => ({
+      key: recipe.key,
+      type: recipe.type,
+      favorite: favoriteNames.has(normalizeRecipeName(recipe.name)),
+    })),
+  );
+  const occupiedSlots = new Set(
+    existingEntries.map(
+      (entry) => `${entry.plannedDate.toISOString().slice(0, 10)}-${entry.type}`,
+    ),
+  );
+  const openAssignments = assignments.filter(
+    (assignment) => !occupiedSlots.has(`${assignment.date}-${assignment.type}`),
+  );
+  if (openAssignments.length === 0) {
+    redirect(`/ernaehrung/wochenplan?date=${date}&generated=0`);
+  }
+
+  const catalogByKey = new Map<string, CuratedRecipe>(
+    catalog.map((recipe) => [recipe.key, recipe]),
+  );
+  const selectedKeys = [...new Set(openAssignments.map(({ recipeKey }) => recipeKey))];
+  const recipeIds = new Map<string, string>();
+  for (const key of selectedKeys) {
+    const recipe = catalogByKey.get(key);
+    if (!recipe) continue;
+    const saved = await upsertUserCatalogRecipe(user.id, recipe);
+    recipeIds.set(key, saved.id);
+  }
+
+  const result = await prisma.mealPlanEntry.createMany({
+    data: openAssignments.flatMap((assignment) => {
+      const recipeId = recipeIds.get(assignment.recipeKey);
+      return recipeId
+        ? [{
+            userId: user.id,
+            recipeId,
+            plannedDate: new Date(`${assignment.date}T00:00:00.000Z`),
+            type: assignment.type,
+          }]
+        : [];
+    }),
+    skipDuplicates: true,
+  });
+
+  refreshNutrition();
+  redirect(`/ernaehrung/wochenplan?date=${date}&generated=${result.count}`);
 }
 
 export async function planRecipe(formData: FormData) {
