@@ -85,7 +85,7 @@ export function QuickMetricInput({
           value={value}
           onChange={(event) => setValue(event.target.value)}
           placeholder="Andere Angabe"
-          className="min-h-12 w-full rounded-[var(--radius-md)] border border-border-strong bg-surface-primary px-4 pr-20 text-base text-text-primary outline-none transition placeholder:text-text-muted focus:border-forest-strong focus:ring-2 focus:ring-forest-soft"
+          className="min-h-12 w-full appearance-none rounded-[var(--radius-md)] border border-border-strong bg-surface-primary px-4 pr-24 text-base text-text-primary outline-none transition placeholder:text-text-muted focus:border-forest-strong focus:ring-2 focus:ring-forest-soft [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         />
         <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-sm text-text-muted">
           {unit}

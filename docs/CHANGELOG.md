@@ -1,5 +1,14 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Freie Bewegungswerte korrigiert
+
+- Individuelle Schrittzahlen und aktive Minuten werden nun in Einerschritten
+  akzeptiert.
+- Trinkmenge und Distanz erlauben zwei Dezimalstellen entsprechend der
+  serverseitigen Validierung.
+- Die nativen Zahlen-Spinner wurden ausgeblendet, damit sie auf mobilen
+  Browsern nicht mit der eingeblendeten Einheit kollidieren.
+
 ## 2026-07-25 – Tageserfassung vervollständigt
 
 - Der Morgen-Check kann optional den Bauchumfang als eigene Messreihe mit

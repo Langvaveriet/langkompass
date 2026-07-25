@@ -301,7 +301,7 @@ export function DailyEntryForm({
               defaultValue={values.waterLiters}
               min={0}
               max={20}
-              step={0.25}
+              step={0.01}
               options={[
                 { value: "1", label: "1 l" },
                 { value: "1.5", label: "1,5 l" },
@@ -318,7 +318,7 @@ export function DailyEntryForm({
               defaultValue={values.steps}
               min={0}
               max={250000}
-              step={100}
+              step={1}
               inputMode="numeric"
               options={[
                 { value: "3000", label: "3.000" },
@@ -336,7 +336,7 @@ export function DailyEntryForm({
               defaultValue={values.distanceKm}
               min={0}
               max={1000}
-              step={0.1}
+              step={0.01}
               options={[
                 { value: "2", label: "2 km" },
                 { value: "5", label: "5 km" },
@@ -353,7 +353,7 @@ export function DailyEntryForm({
               defaultValue={values.activeMinutes}
               min={0}
               max={1440}
-              step={5}
+              step={1}
               inputMode="numeric"
               options={[
                 { value: "15", label: "15 Min." },
