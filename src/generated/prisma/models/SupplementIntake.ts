@@ -266,6 +266,7 @@ export type SupplementIntakeWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"SupplementIntake"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   supplement?: Prisma.XOR<Prisma.SupplementScalarRelationFilter, Prisma.SupplementWhereInput>
+  revisions?: Prisma.SupplementIntakeRevisionListRelationFilter
 }
 
 export type SupplementIntakeOrderByWithRelationInput = {
@@ -282,6 +283,7 @@ export type SupplementIntakeOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   supplement?: Prisma.SupplementOrderByWithRelationInput
+  revisions?: Prisma.SupplementIntakeRevisionOrderByRelationAggregateInput
 }
 
 export type SupplementIntakeWhereUniqueInput = Prisma.AtLeast<{
@@ -301,6 +303,7 @@ export type SupplementIntakeWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"SupplementIntake"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   supplement?: Prisma.XOR<Prisma.SupplementScalarRelationFilter, Prisma.SupplementWhereInput>
+  revisions?: Prisma.SupplementIntakeRevisionListRelationFilter
 }, "id">
 
 export type SupplementIntakeOrderByWithAggregationInput = {
@@ -351,6 +354,7 @@ export type SupplementIntakeCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSupplementIntakesInput
   supplement: Prisma.SupplementCreateNestedOneWithoutIntakesInput
+  revisions?: Prisma.SupplementIntakeRevisionCreateNestedManyWithoutIntakeInput
 }
 
 export type SupplementIntakeUncheckedCreateInput = {
@@ -365,6 +369,7 @@ export type SupplementIntakeUncheckedCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  revisions?: Prisma.SupplementIntakeRevisionUncheckedCreateNestedManyWithoutIntakeInput
 }
 
 export type SupplementIntakeUpdateInput = {
@@ -379,6 +384,7 @@ export type SupplementIntakeUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSupplementIntakesNestedInput
   supplement?: Prisma.SupplementUpdateOneRequiredWithoutIntakesNestedInput
+  revisions?: Prisma.SupplementIntakeRevisionUpdateManyWithoutIntakeNestedInput
 }
 
 export type SupplementIntakeUncheckedUpdateInput = {
@@ -393,6 +399,7 @@ export type SupplementIntakeUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.SupplementIntakeRevisionUncheckedUpdateManyWithoutIntakeNestedInput
 }
 
 export type SupplementIntakeCreateManyInput = {
@@ -495,6 +502,11 @@ export type SupplementIntakeSumOrderByAggregateInput = {
   dose?: Prisma.SortOrder
 }
 
+export type SupplementIntakeScalarRelationFilter = {
+  is?: Prisma.SupplementIntakeWhereInput
+  isNot?: Prisma.SupplementIntakeWhereInput
+}
+
 export type SupplementIntakeCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.SupplementIntakeCreateWithoutUserInput, Prisma.SupplementIntakeUncheckedCreateWithoutUserInput> | Prisma.SupplementIntakeCreateWithoutUserInput[] | Prisma.SupplementIntakeUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.SupplementIntakeCreateOrConnectWithoutUserInput | Prisma.SupplementIntakeCreateOrConnectWithoutUserInput[]
@@ -587,6 +599,20 @@ export type EnumSupplementEffectFieldUpdateOperationsInput = {
   set?: $Enums.SupplementEffect
 }
 
+export type SupplementIntakeCreateNestedOneWithoutRevisionsInput = {
+  create?: Prisma.XOR<Prisma.SupplementIntakeCreateWithoutRevisionsInput, Prisma.SupplementIntakeUncheckedCreateWithoutRevisionsInput>
+  connectOrCreate?: Prisma.SupplementIntakeCreateOrConnectWithoutRevisionsInput
+  connect?: Prisma.SupplementIntakeWhereUniqueInput
+}
+
+export type SupplementIntakeUpdateOneRequiredWithoutRevisionsNestedInput = {
+  create?: Prisma.XOR<Prisma.SupplementIntakeCreateWithoutRevisionsInput, Prisma.SupplementIntakeUncheckedCreateWithoutRevisionsInput>
+  connectOrCreate?: Prisma.SupplementIntakeCreateOrConnectWithoutRevisionsInput
+  upsert?: Prisma.SupplementIntakeUpsertWithoutRevisionsInput
+  connect?: Prisma.SupplementIntakeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SupplementIntakeUpdateToOneWithWhereWithoutRevisionsInput, Prisma.SupplementIntakeUpdateWithoutRevisionsInput>, Prisma.SupplementIntakeUncheckedUpdateWithoutRevisionsInput>
+}
+
 export type SupplementIntakeCreateWithoutUserInput = {
   id?: string
   takenAt: Date | string
@@ -598,6 +624,7 @@ export type SupplementIntakeCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplement: Prisma.SupplementCreateNestedOneWithoutIntakesInput
+  revisions?: Prisma.SupplementIntakeRevisionCreateNestedManyWithoutIntakeInput
 }
 
 export type SupplementIntakeUncheckedCreateWithoutUserInput = {
@@ -611,6 +638,7 @@ export type SupplementIntakeUncheckedCreateWithoutUserInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  revisions?: Prisma.SupplementIntakeRevisionUncheckedCreateNestedManyWithoutIntakeInput
 }
 
 export type SupplementIntakeCreateOrConnectWithoutUserInput = {
@@ -667,6 +695,7 @@ export type SupplementIntakeCreateWithoutSupplementInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSupplementIntakesInput
+  revisions?: Prisma.SupplementIntakeRevisionCreateNestedManyWithoutIntakeInput
 }
 
 export type SupplementIntakeUncheckedCreateWithoutSupplementInput = {
@@ -680,6 +709,7 @@ export type SupplementIntakeUncheckedCreateWithoutSupplementInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  revisions?: Prisma.SupplementIntakeRevisionUncheckedCreateNestedManyWithoutIntakeInput
 }
 
 export type SupplementIntakeCreateOrConnectWithoutSupplementInput = {
@@ -708,6 +738,78 @@ export type SupplementIntakeUpdateManyWithWhereWithoutSupplementInput = {
   data: Prisma.XOR<Prisma.SupplementIntakeUpdateManyMutationInput, Prisma.SupplementIntakeUncheckedUpdateManyWithoutSupplementInput>
 }
 
+export type SupplementIntakeCreateWithoutRevisionsInput = {
+  id?: string
+  takenAt: Date | string
+  dose: runtime.Decimal | runtime.DecimalJsLike | number | string
+  doseUnit: $Enums.SupplementDoseUnit
+  tolerance?: $Enums.SupplementTolerance
+  effect?: $Enums.SupplementEffect
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSupplementIntakesInput
+  supplement: Prisma.SupplementCreateNestedOneWithoutIntakesInput
+}
+
+export type SupplementIntakeUncheckedCreateWithoutRevisionsInput = {
+  id?: string
+  userId: string
+  supplementId: string
+  takenAt: Date | string
+  dose: runtime.Decimal | runtime.DecimalJsLike | number | string
+  doseUnit: $Enums.SupplementDoseUnit
+  tolerance?: $Enums.SupplementTolerance
+  effect?: $Enums.SupplementEffect
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupplementIntakeCreateOrConnectWithoutRevisionsInput = {
+  where: Prisma.SupplementIntakeWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupplementIntakeCreateWithoutRevisionsInput, Prisma.SupplementIntakeUncheckedCreateWithoutRevisionsInput>
+}
+
+export type SupplementIntakeUpsertWithoutRevisionsInput = {
+  update: Prisma.XOR<Prisma.SupplementIntakeUpdateWithoutRevisionsInput, Prisma.SupplementIntakeUncheckedUpdateWithoutRevisionsInput>
+  create: Prisma.XOR<Prisma.SupplementIntakeCreateWithoutRevisionsInput, Prisma.SupplementIntakeUncheckedCreateWithoutRevisionsInput>
+  where?: Prisma.SupplementIntakeWhereInput
+}
+
+export type SupplementIntakeUpdateToOneWithWhereWithoutRevisionsInput = {
+  where?: Prisma.SupplementIntakeWhereInput
+  data: Prisma.XOR<Prisma.SupplementIntakeUpdateWithoutRevisionsInput, Prisma.SupplementIntakeUncheckedUpdateWithoutRevisionsInput>
+}
+
+export type SupplementIntakeUpdateWithoutRevisionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  takenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dose?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  doseUnit?: Prisma.EnumSupplementDoseUnitFieldUpdateOperationsInput | $Enums.SupplementDoseUnit
+  tolerance?: Prisma.EnumSupplementToleranceFieldUpdateOperationsInput | $Enums.SupplementTolerance
+  effect?: Prisma.EnumSupplementEffectFieldUpdateOperationsInput | $Enums.SupplementEffect
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSupplementIntakesNestedInput
+  supplement?: Prisma.SupplementUpdateOneRequiredWithoutIntakesNestedInput
+}
+
+export type SupplementIntakeUncheckedUpdateWithoutRevisionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  supplementId?: Prisma.StringFieldUpdateOperationsInput | string
+  takenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dose?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  doseUnit?: Prisma.EnumSupplementDoseUnitFieldUpdateOperationsInput | $Enums.SupplementDoseUnit
+  tolerance?: Prisma.EnumSupplementToleranceFieldUpdateOperationsInput | $Enums.SupplementTolerance
+  effect?: Prisma.EnumSupplementEffectFieldUpdateOperationsInput | $Enums.SupplementEffect
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type SupplementIntakeCreateManyUserInput = {
   id?: string
   supplementId: string
@@ -732,6 +834,7 @@ export type SupplementIntakeUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplement?: Prisma.SupplementUpdateOneRequiredWithoutIntakesNestedInput
+  revisions?: Prisma.SupplementIntakeRevisionUpdateManyWithoutIntakeNestedInput
 }
 
 export type SupplementIntakeUncheckedUpdateWithoutUserInput = {
@@ -745,6 +848,7 @@ export type SupplementIntakeUncheckedUpdateWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.SupplementIntakeRevisionUncheckedUpdateManyWithoutIntakeNestedInput
 }
 
 export type SupplementIntakeUncheckedUpdateManyWithoutUserInput = {
@@ -784,6 +888,7 @@ export type SupplementIntakeUpdateWithoutSupplementInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSupplementIntakesNestedInput
+  revisions?: Prisma.SupplementIntakeRevisionUpdateManyWithoutIntakeNestedInput
 }
 
 export type SupplementIntakeUncheckedUpdateWithoutSupplementInput = {
@@ -797,6 +902,7 @@ export type SupplementIntakeUncheckedUpdateWithoutSupplementInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.SupplementIntakeRevisionUncheckedUpdateManyWithoutIntakeNestedInput
 }
 
 export type SupplementIntakeUncheckedUpdateManyWithoutSupplementInput = {
@@ -813,6 +919,35 @@ export type SupplementIntakeUncheckedUpdateManyWithoutSupplementInput = {
 }
 
 
+/**
+ * Count Type SupplementIntakeCountOutputType
+ */
+
+export type SupplementIntakeCountOutputType = {
+  revisions: number
+}
+
+export type SupplementIntakeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  revisions?: boolean | SupplementIntakeCountOutputTypeCountRevisionsArgs
+}
+
+/**
+ * SupplementIntakeCountOutputType without action
+ */
+export type SupplementIntakeCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplementIntakeCountOutputType
+   */
+  select?: Prisma.SupplementIntakeCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SupplementIntakeCountOutputType without action
+ */
+export type SupplementIntakeCountOutputTypeCountRevisionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SupplementIntakeRevisionWhereInput
+}
+
 
 export type SupplementIntakeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -828,6 +963,8 @@ export type SupplementIntakeSelect<ExtArgs extends runtime.Types.Extensions.Inte
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   supplement?: boolean | Prisma.SupplementDefaultArgs<ExtArgs>
+  revisions?: boolean | Prisma.SupplementIntake$revisionsArgs<ExtArgs>
+  _count?: boolean | Prisma.SupplementIntakeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["supplementIntake"]>
 
 export type SupplementIntakeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -880,6 +1017,8 @@ export type SupplementIntakeOmit<ExtArgs extends runtime.Types.Extensions.Intern
 export type SupplementIntakeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   supplement?: boolean | Prisma.SupplementDefaultArgs<ExtArgs>
+  revisions?: boolean | Prisma.SupplementIntake$revisionsArgs<ExtArgs>
+  _count?: boolean | Prisma.SupplementIntakeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SupplementIntakeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -895,6 +1034,7 @@ export type $SupplementIntakePayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     supplement: Prisma.$SupplementPayload<ExtArgs>
+    revisions: Prisma.$SupplementIntakeRevisionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1304,6 +1444,7 @@ export interface Prisma__SupplementIntakeClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   supplement<T extends Prisma.SupplementDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SupplementDefaultArgs<ExtArgs>>): Prisma.Prisma__SupplementClient<runtime.Types.Result.GetResult<Prisma.$SupplementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  revisions<T extends Prisma.SupplementIntake$revisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SupplementIntake$revisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplementIntakeRevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1742,6 +1883,30 @@ export type SupplementIntakeDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many SupplementIntakes to delete.
    */
   limit?: number
+}
+
+/**
+ * SupplementIntake.revisions
+ */
+export type SupplementIntake$revisionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplementIntakeRevision
+   */
+  select?: Prisma.SupplementIntakeRevisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SupplementIntakeRevision
+   */
+  omit?: Prisma.SupplementIntakeRevisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplementIntakeRevisionInclude<ExtArgs> | null
+  where?: Prisma.SupplementIntakeRevisionWhereInput
+  orderBy?: Prisma.SupplementIntakeRevisionOrderByWithRelationInput | Prisma.SupplementIntakeRevisionOrderByWithRelationInput[]
+  cursor?: Prisma.SupplementIntakeRevisionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SupplementIntakeRevisionScalarFieldEnum | Prisma.SupplementIntakeRevisionScalarFieldEnum[]
 }
 
 /**

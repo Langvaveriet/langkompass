@@ -1,5 +1,15 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Supplementverlauf abschließen
+
+- Einnahmen lassen sich inklusive Zeitpunkt, Menge, Einheit, Wirkung,
+  Verträglichkeit und Notiz korrigieren.
+- Frühere Stände bleiben mit Korrekturgrund und Zeitpunkt als Historie erhalten.
+- Versehentliche Einnahmen können nach ausdrücklicher Bestätigung gelöscht
+  werden.
+- Eine eigene Verlaufseite filtert nach Zeitraum und Präparat, fasst erfasste
+  Beobachtungen zusammen und visualisiert dokumentierte Einnahmen pro Tag.
+
 ## 2026-07-25 – Supplemente und Wirkstoffe verwalten
 
 - Produktdaten, Standarddosis, Einnahmegrund und Notizen lassen sich ändern.

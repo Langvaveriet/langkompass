@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { logSupplementNow, setSupplementArchived } from "@/app/supplemente/actions";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
@@ -153,7 +155,10 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
         </section>
 
         <section className="mt-10 max-w-4xl" aria-labelledby="active-supplements-heading">
-          <h2 id="active-supplements-heading" className="text-2xl font-semibold text-text-primary">Aktuelle Supplemente</h2>
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <h2 id="active-supplements-heading" className="text-2xl font-semibold text-text-primary">Aktuelle Supplemente</h2>
+            <Link href="/supplemente/verlauf" className="inline-flex min-h-11 items-center text-sm font-semibold text-forest-strong">Einnahmeverlauf öffnen →</Link>
+          </div>
           <p className="mt-1 text-sm text-text-muted">{supplements.length} {supplements.length === 1 ? "aktives Präparat" : "aktive Präparate"}</p>
 
           {supplements.length > 0 ? (

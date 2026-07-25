@@ -6,9 +6,9 @@ umgesetzt.
 
 ## Aktueller Schwerpunkt
 
-- Einnahmen korrigierbar und löschbar machen
-- Supplementverlauf nach Präparat und Zeitraum darstellen
-- anschließend Einnahmepläne und Erinnerungen ergänzen
+- Einnahmepläne und ruhige Erinnerungen ergänzen
+- Zusammenhänge zwischen Supplementen und Laborwerten beschreibend darstellen
+- anschließend geschützte Dokumentenablage vorbereiten
 
 ## Zukünftige Features
 

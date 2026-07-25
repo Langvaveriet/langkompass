@@ -6,6 +6,8 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
+import { supplementIntakeCorrectionReasons } from "@/lib/supplements/intake-corrections";
+import { supplementHistoryPeriods } from "@/lib/supplements/intake-history";
 import {
   supplementDoseUnits,
   supplementEffects,
@@ -85,6 +87,23 @@ const intakeSchema = supplementIdSchema.extend({
   note: z.string().trim().max(500).transform((value) => value || null),
 });
 
+const intakeCorrectionSchema = z.object({
+  intakeId: z.string().trim().min(1),
+  takenDate: z.string().refine(isIsoDate),
+  takenTime: z.string().refine(isTime),
+  dose: decimalInput,
+  doseUnit: z.enum(supplementDoseUnits),
+  tolerance: z.enum(supplementTolerances),
+  effect: z.enum(supplementEffects),
+  note: z.string().trim().max(500).transform((value) => value || null),
+  reason: z.enum(supplementIntakeCorrectionReasons),
+});
+
+const intakeDeleteSchema = z.object({
+  intakeId: z.string().trim().min(1),
+  confirmDeletion: z.literal("DELETE"),
+});
+
 function formText(formData: FormData, field: string): string {
   const value = formData.get(field);
   return typeof value === "string" ? value : "";
@@ -99,6 +118,24 @@ function isIsoDate(value: string): boolean {
 function isTime(value: string): boolean {
   const match = /^(\d{2}):(\d{2})$/.exec(value);
   return Boolean(match && Number(match[1]) <= 23 && Number(match[2]) <= 59);
+}
+
+function intakeHistoryUrl(
+  formData: FormData,
+  state: { error?: string; status?: string; editId?: string } = {},
+): string {
+  const params = new URLSearchParams();
+  const period = formText(formData, "returnPeriod");
+  const supplementId = formText(formData, "returnSupplementId");
+  if (supplementHistoryPeriods.includes(period as (typeof supplementHistoryPeriods)[number])) {
+    params.set("period", period);
+  }
+  if (supplementId) params.set("supplement", supplementId);
+  if (state.error) params.set("error", state.error);
+  if (state.status) params.set(state.status, "1");
+  if (state.editId) params.set("edit", state.editId);
+  const query = params.toString();
+  return `/supplemente/verlauf${query ? `?${query}` : ""}`;
 }
 
 export async function createSupplement(formData: FormData) {
@@ -408,4 +445,113 @@ export async function logSupplementIntake(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/supplemente");
   redirect(`/supplemente?taken=1&supplement=${encodeURIComponent(supplement.id)}`);
+}
+
+export async function correctSupplementIntake(formData: FormData) {
+  const user = await requireUser();
+  const submittedIntakeId = formText(formData, "intakeId");
+  const parsed = intakeCorrectionSchema.safeParse({
+    intakeId: submittedIntakeId,
+    takenDate: formText(formData, "takenDate"),
+    takenTime: formText(formData, "takenTime"),
+    dose: formText(formData, "dose"),
+    doseUnit: formText(formData, "doseUnit"),
+    tolerance: formText(formData, "tolerance"),
+    effect: formText(formData, "effect"),
+    note: formText(formData, "note"),
+    reason: formText(formData, "reason"),
+  });
+  if (!parsed.success) {
+    redirect(intakeHistoryUrl(formData, {
+      error: "correction-validation",
+      editId: submittedIntakeId || undefined,
+    }));
+  }
+
+  const [intake, settings] = await Promise.all([
+    prisma.supplementIntake.findFirst({
+      where: {
+        id: parsed.data.intakeId,
+        userId: user.id,
+        supplement: { userId: user.id },
+      },
+      select: {
+        id: true,
+        takenAt: true,
+        dose: true,
+        doseUnit: true,
+        tolerance: true,
+        effect: true,
+        note: true,
+      },
+    }),
+    prisma.userSettings.findUnique({
+      where: { userId: user.id },
+      select: { timeZone: true },
+    }),
+  ]);
+  if (!intake) redirect(intakeHistoryUrl(formData, { error: "intake-not-found" }));
+
+  await prisma.$transaction([
+    prisma.supplementIntakeRevision.create({
+      data: {
+        userId: user.id,
+        supplementIntakeId: intake.id,
+        previousTakenAt: intake.takenAt,
+        previousDose: intake.dose,
+        previousDoseUnit: intake.doseUnit,
+        previousTolerance: intake.tolerance,
+        previousEffect: intake.effect,
+        previousNote: intake.note,
+        reason: parsed.data.reason,
+      },
+    }),
+    prisma.supplementIntake.update({
+      where: { id: intake.id },
+      data: {
+        takenAt: localDateTimeToUtc(
+          parsed.data.takenDate,
+          parsed.data.takenTime,
+          settings?.timeZone ?? defaultTimeZone,
+        ),
+        dose: parsed.data.dose,
+        doseUnit: parsed.data.doseUnit,
+        tolerance: parsed.data.tolerance,
+        effect: parsed.data.effect,
+        note: parsed.data.note,
+      },
+    }),
+  ]);
+
+  revalidatePath("/");
+  revalidatePath("/supplemente");
+  revalidatePath("/supplemente/verlauf");
+  redirect(intakeHistoryUrl(formData, { status: "corrected" }));
+}
+
+export async function deleteSupplementIntake(formData: FormData) {
+  const user = await requireUser();
+  const parsed = intakeDeleteSchema.safeParse({
+    intakeId: formText(formData, "intakeId"),
+    confirmDeletion: formText(formData, "confirmDeletion"),
+  });
+  if (!parsed.success) {
+    redirect(intakeHistoryUrl(formData, { error: "delete-validation" }));
+  }
+
+  const deleted = await prisma.supplementIntake.deleteMany({
+    where: {
+      id: parsed.data.intakeId,
+      userId: user.id,
+      supplement: { userId: user.id },
+    },
+  });
+  if (deleted.count === 0) {
+    redirect(intakeHistoryUrl(formData, { error: "intake-not-found" }));
+  }
+
+  revalidatePath("/");
+  revalidatePath("/supplemente");
+  revalidatePath("/supplemente/verlauf");
+  redirect(intakeHistoryUrl(formData, { status: "deleted" }));
 }

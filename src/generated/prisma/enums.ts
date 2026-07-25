@@ -159,6 +159,17 @@ export const SupplementEffect = {
 export type SupplementEffect = (typeof SupplementEffect)[keyof typeof SupplementEffect]
 
 
+export const SupplementIntakeCorrectionReason = {
+  ENTRY_ERROR: 'ENTRY_ERROR',
+  TIME_CORRECTION: 'TIME_CORRECTION',
+  DOSE_CORRECTION: 'DOSE_CORRECTION',
+  OBSERVATION_UPDATE: 'OBSERVATION_UPDATE',
+  OTHER: 'OTHER'
+} as const
+
+export type SupplementIntakeCorrectionReason = (typeof SupplementIntakeCorrectionReason)[keyof typeof SupplementIntakeCorrectionReason]
+
+
 export const ExerciseCategory = {
   STRENGTH: 'STRENGTH',
   MOBILITY: 'MOBILITY',

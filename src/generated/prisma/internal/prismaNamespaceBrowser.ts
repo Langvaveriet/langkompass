@@ -66,6 +66,7 @@ export const ModelName = {
   Supplement: 'Supplement',
   SupplementIngredient: 'SupplementIngredient',
   SupplementIntake: 'SupplementIntake',
+  SupplementIntakeRevision: 'SupplementIntakeRevision',
   Exercise: 'Exercise',
   TrainingPlan: 'TrainingPlan',
   TrainingPlanExercise: 'TrainingPlanExercise',
@@ -346,6 +347,23 @@ export const SupplementIntakeScalarFieldEnum = {
 } as const
 
 export type SupplementIntakeScalarFieldEnum = (typeof SupplementIntakeScalarFieldEnum)[keyof typeof SupplementIntakeScalarFieldEnum]
+
+
+export const SupplementIntakeRevisionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  supplementIntakeId: 'supplementIntakeId',
+  previousTakenAt: 'previousTakenAt',
+  previousDose: 'previousDose',
+  previousDoseUnit: 'previousDoseUnit',
+  previousTolerance: 'previousTolerance',
+  previousEffect: 'previousEffect',
+  previousNote: 'previousNote',
+  reason: 'reason',
+  correctedAt: 'correctedAt'
+} as const
+
+export type SupplementIntakeRevisionScalarFieldEnum = (typeof SupplementIntakeRevisionScalarFieldEnum)[keyof typeof SupplementIntakeRevisionScalarFieldEnum]
 
 
 export const ExerciseScalarFieldEnum = {

@@ -8,34 +8,35 @@ datasource db {
 }
 
 model User {
-  id                    String                 @id @default(cuid())
-  email                 String                 @unique
-  name                  String                 @default("LångKompass Benutzer")
-  emailVerified         Boolean                @default(false)
-  image                 String?
-  healthProfile         HealthProfile?
-  settings              UserSettings?
-  dailyEntries          DailyEntry[]
-  measurements          BodyMeasurement[]
-  exercises             Exercise[]
-  trainingPlans         TrainingPlan[]
-  trainingPlanExercises TrainingPlanExercise[]
-  trainingSessions      TrainingSession[]
-  trainingSets          TrainingSet[]
-  recipes               Recipe[]
-  recipeItems           RecipeItem[]
-  mealPlanEntries       MealPlanEntry[]
-  labReports            LabReport[]
-  labResults            LabResult[]
-  labResultRevisions    LabResultRevision[]
-  supplements           Supplement[]
-  supplementIngredients SupplementIngredient[]
-  supplementIntakes     SupplementIntake[]
-  sessions              Session[]
-  accounts              Account[]
-  passkeys              Passkey[]
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
+  id                        String                     @id @default(cuid())
+  email                     String                     @unique
+  name                      String                     @default("LångKompass Benutzer")
+  emailVerified             Boolean                    @default(false)
+  image                     String?
+  healthProfile             HealthProfile?
+  settings                  UserSettings?
+  dailyEntries              DailyEntry[]
+  measurements              BodyMeasurement[]
+  exercises                 Exercise[]
+  trainingPlans             TrainingPlan[]
+  trainingPlanExercises     TrainingPlanExercise[]
+  trainingSessions          TrainingSession[]
+  trainingSets              TrainingSet[]
+  recipes                   Recipe[]
+  recipeItems               RecipeItem[]
+  mealPlanEntries           MealPlanEntry[]
+  labReports                LabReport[]
+  labResults                LabResult[]
+  labResultRevisions        LabResultRevision[]
+  supplements               Supplement[]
+  supplementIngredients     SupplementIngredient[]
+  supplementIntakes         SupplementIntake[]
+  supplementIntakeRevisions SupplementIntakeRevision[]
+  sessions                  Session[]
+  accounts                  Account[]
+  passkeys                  Passkey[]
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
 }
 
 model UserSettings {
@@ -241,6 +242,14 @@ enum SupplementEffect {
   NEUTRAL
   NEGATIVE
   UNCLEAR
+}
+
+enum SupplementIntakeCorrectionReason {
+  ENTRY_ERROR
+  TIME_CORRECTION
+  DOSE_CORRECTION
+  OBSERVATION_UPDATE
+  OTHER
 }
 
 enum ExerciseCategory {
@@ -496,11 +505,32 @@ model SupplementIntake {
   createdAt    DateTime            @default(now())
   updatedAt    DateTime            @updatedAt
 
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  supplement Supplement @relation(fields: [supplementId], references: [id], onDelete: Cascade)
+  user       User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  supplement Supplement                 @relation(fields: [supplementId], references: [id], onDelete: Cascade)
+  revisions  SupplementIntakeRevision[]
 
   @@index([userId, takenAt])
   @@index([supplementId, takenAt])
+}
+
+model SupplementIntakeRevision {
+  id                 String                           @id @default(cuid())
+  userId             String
+  supplementIntakeId String
+  previousTakenAt    DateTime
+  previousDose       Decimal                          @db.Decimal(8, 2)
+  previousDoseUnit   SupplementDoseUnit
+  previousTolerance  SupplementTolerance
+  previousEffect     SupplementEffect
+  previousNote       String?
+  reason             SupplementIntakeCorrectionReason
+  correctedAt        DateTime                         @default(now())
+
+  user   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  intake SupplementIntake @relation(fields: [supplementIntakeId], references: [id], onDelete: Cascade)
+
+  @@index([userId, correctedAt])
+  @@index([supplementIntakeId, correctedAt])
 }
 
 model Exercise {

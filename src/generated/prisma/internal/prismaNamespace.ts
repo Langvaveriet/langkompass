@@ -412,6 +412,7 @@ export const ModelName = {
   Supplement: 'Supplement',
   SupplementIngredient: 'SupplementIngredient',
   SupplementIntake: 'SupplementIntake',
+  SupplementIntakeRevision: 'SupplementIntakeRevision',
   Exercise: 'Exercise',
   TrainingPlan: 'TrainingPlan',
   TrainingPlanExercise: 'TrainingPlanExercise',
@@ -439,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "labReport" | "labResult" | "labResultRevision" | "supplement" | "supplementIngredient" | "supplementIntake" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem" | "recipe" | "recipeItem" | "catalogRecipe" | "catalogRecipeItem" | "mealPlanEntry"
+    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "labReport" | "labResult" | "labResultRevision" | "supplement" | "supplementIngredient" | "supplementIntake" | "supplementIntakeRevision" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem" | "recipe" | "recipeItem" | "catalogRecipe" | "catalogRecipeItem" | "mealPlanEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1550,6 +1551,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SupplementIntakeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SupplementIntakeCountAggregateOutputType> | number
+        }
+      }
+    }
+    SupplementIntakeRevision: {
+      payload: Prisma.$SupplementIntakeRevisionPayload<ExtArgs>
+      fields: Prisma.SupplementIntakeRevisionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SupplementIntakeRevisionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SupplementIntakeRevisionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>
+        }
+        findFirst: {
+          args: Prisma.SupplementIntakeRevisionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SupplementIntakeRevisionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>
+        }
+        findMany: {
+          args: Prisma.SupplementIntakeRevisionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>[]
+        }
+        create: {
+          args: Prisma.SupplementIntakeRevisionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>
+        }
+        createMany: {
+          args: Prisma.SupplementIntakeRevisionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SupplementIntakeRevisionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>[]
+        }
+        delete: {
+          args: Prisma.SupplementIntakeRevisionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>
+        }
+        update: {
+          args: Prisma.SupplementIntakeRevisionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>
+        }
+        deleteMany: {
+          args: Prisma.SupplementIntakeRevisionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SupplementIntakeRevisionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SupplementIntakeRevisionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>[]
+        }
+        upsert: {
+          args: Prisma.SupplementIntakeRevisionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplementIntakeRevisionPayload>
+        }
+        aggregate: {
+          args: Prisma.SupplementIntakeRevisionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSupplementIntakeRevision>
+        }
+        groupBy: {
+          args: Prisma.SupplementIntakeRevisionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplementIntakeRevisionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SupplementIntakeRevisionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplementIntakeRevisionCountAggregateOutputType> | number
         }
       }
     }
@@ -2732,6 +2807,23 @@ export const SupplementIntakeScalarFieldEnum = {
 export type SupplementIntakeScalarFieldEnum = (typeof SupplementIntakeScalarFieldEnum)[keyof typeof SupplementIntakeScalarFieldEnum]
 
 
+export const SupplementIntakeRevisionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  supplementIntakeId: 'supplementIntakeId',
+  previousTakenAt: 'previousTakenAt',
+  previousDose: 'previousDose',
+  previousDoseUnit: 'previousDoseUnit',
+  previousTolerance: 'previousTolerance',
+  previousEffect: 'previousEffect',
+  previousNote: 'previousNote',
+  reason: 'reason',
+  correctedAt: 'correctedAt'
+} as const
+
+export type SupplementIntakeRevisionScalarFieldEnum = (typeof SupplementIntakeRevisionScalarFieldEnum)[keyof typeof SupplementIntakeRevisionScalarFieldEnum]
+
+
 export const ExerciseScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -3276,6 +3368,20 @@ export type ListEnumSupplementEffectFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
+ * Reference to a field of type 'SupplementIntakeCorrectionReason'
+ */
+export type EnumSupplementIntakeCorrectionReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplementIntakeCorrectionReason'>
+
+
+
+/**
+ * Reference to a field of type 'SupplementIntakeCorrectionReason[]'
+ */
+export type ListEnumSupplementIntakeCorrectionReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplementIntakeCorrectionReason[]'>
+
+
+
+/**
  * Reference to a field of type 'ExerciseCategory'
  */
 export type EnumExerciseCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExerciseCategory'>
@@ -3566,6 +3672,7 @@ export type GlobalOmitConfig = {
   supplement?: Prisma.SupplementOmit
   supplementIngredient?: Prisma.SupplementIngredientOmit
   supplementIntake?: Prisma.SupplementIntakeOmit
+  supplementIntakeRevision?: Prisma.SupplementIntakeRevisionOmit
   exercise?: Prisma.ExerciseOmit
   trainingPlan?: Prisma.TrainingPlanOmit
   trainingPlanExercise?: Prisma.TrainingPlanExerciseOmit

@@ -93,6 +93,11 @@ export type SupplementIngredient = Prisma.SupplementIngredientModel
  */
 export type SupplementIntake = Prisma.SupplementIntakeModel
 /**
+ * Model SupplementIntakeRevision
+ *
+ */
+export type SupplementIntakeRevision = Prisma.SupplementIntakeRevisionModel
+/**
  * Model Exercise
  *
  */
