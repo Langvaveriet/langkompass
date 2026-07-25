@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Lokaler Health Context Generator
+
+- Compass AI erzeugt einen versionierten, zweckgebundenen Gesundheitskontext
+  aus strukturierten Daten der letzten 30 Tage und den neuesten Laborwerten.
+- Direkte Identifikatoren, Notizen, Symptom-Freitext, Arztkommentare sowie
+  Labor- und Praxisnamen werden bewusst ausgeschlossen.
+- Die neue Compass-Seite zeigt Datenabdeckung, strukturierte Beobachtungen,
+  fehlende Datengrundlagen und den vollständigen technischen Kontext.
+- Der Kontext bleibt lokal; in diesem Schritt findet keine Übertragung an einen
+  externen KI-Anbieter statt.
+
 ## 2026-07-25 – Laborreferenzwerte wiederverwenden
 
 - Referenzbereiche werden pro Benutzer und Laborparameter dauerhaft als
