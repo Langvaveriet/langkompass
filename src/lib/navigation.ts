@@ -29,6 +29,10 @@ export const navigationItems: NavigationItem[] = [
     href: "/laborwerte",
   },
   {
+    label: "Supplemente",
+    href: "/supplemente",
+  },
+  {
     label: "Compass AI",
     href: "/compass-ai",
   },

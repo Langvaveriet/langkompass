@@ -6,9 +6,9 @@ umgesetzt.
 
 ## Aktueller Schwerpunkt
 
-- Laborwerte strukturiert erfassen und historisch darstellen
-- Referenzbereiche, Trends und Kontrolltermine schrittweise ergänzen
-- anschließend Supplemente mit Einnahme, Dosierung und Verträglichkeit
+- Supplemente mit Produkt, Wirkstoffen und Standarddosierung erfassen
+- Einnahme, beobachtete Wirkung und Verträglichkeit historisch dokumentieren
+- anschließend Supplementverwaltung und Einnahmeverlauf schrittweise ergänzen
 
 ## Zukünftige Features
 

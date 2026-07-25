@@ -1,5 +1,15 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Strukturierte Supplementerfassung
+
+- Supplemente speichern Produkt, Darreichungsform, Standarddosis, Grund und
+  einen Hauptwirkstoff inklusive optionaler elementarer Menge.
+- Die übliche Einnahme lässt sich mit einem Fingertipp zum aktuellen Zeitpunkt
+  dokumentieren.
+- Eine genauere Erfassung ergänzt abweichende Menge, Zeitpunkt, beobachtete
+  Wirkung, Verträglichkeit und eine optionale Notiz.
+- Dashboard und Hauptnavigation führen direkt in den neuen Bereich.
+
 ## 2026-07-25 – Laborwerte korrigieren und Untersuchungen löschen
 
 - Laborwerte lassen sich nachträglich inklusive Referenzbereich und Notiz

@@ -63,6 +63,9 @@ export const ModelName = {
   LabReport: 'LabReport',
   LabResult: 'LabResult',
   LabResultRevision: 'LabResultRevision',
+  Supplement: 'Supplement',
+  SupplementIngredient: 'SupplementIngredient',
+  SupplementIntake: 'SupplementIntake',
   Exercise: 'Exercise',
   TrainingPlan: 'TrainingPlan',
   TrainingPlanExercise: 'TrainingPlanExercise',
@@ -293,6 +296,56 @@ export const LabResultRevisionScalarFieldEnum = {
 } as const
 
 export type LabResultRevisionScalarFieldEnum = (typeof LabResultRevisionScalarFieldEnum)[keyof typeof LabResultRevisionScalarFieldEnum]
+
+
+export const SupplementScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  brand: 'brand',
+  form: 'form',
+  defaultDose: 'defaultDose',
+  doseUnit: 'doseUnit',
+  reason: 'reason',
+  notes: 'notes',
+  archivedAt: 'archivedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplementScalarFieldEnum = (typeof SupplementScalarFieldEnum)[keyof typeof SupplementScalarFieldEnum]
+
+
+export const SupplementIngredientScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  supplementId: 'supplementId',
+  name: 'name',
+  amount: 'amount',
+  elementalAmount: 'elementalAmount',
+  unit: 'unit',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplementIngredientScalarFieldEnum = (typeof SupplementIngredientScalarFieldEnum)[keyof typeof SupplementIngredientScalarFieldEnum]
+
+
+export const SupplementIntakeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  supplementId: 'supplementId',
+  takenAt: 'takenAt',
+  dose: 'dose',
+  doseUnit: 'doseUnit',
+  tolerance: 'tolerance',
+  effect: 'effect',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplementIntakeScalarFieldEnum = (typeof SupplementIntakeScalarFieldEnum)[keyof typeof SupplementIntakeScalarFieldEnum]
 
 
 export const ExerciseScalarFieldEnum = {

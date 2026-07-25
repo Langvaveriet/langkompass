@@ -86,6 +86,79 @@ export const LabCorrectionReason = {
 export type LabCorrectionReason = (typeof LabCorrectionReason)[keyof typeof LabCorrectionReason]
 
 
+export const SupplementForm = {
+  CAPSULE: 'CAPSULE',
+  TABLET: 'TABLET',
+  POWDER: 'POWDER',
+  LIQUID: 'LIQUID',
+  DROPS: 'DROPS',
+  SPRAY: 'SPRAY',
+  OTHER: 'OTHER'
+} as const
+
+export type SupplementForm = (typeof SupplementForm)[keyof typeof SupplementForm]
+
+
+export const SupplementDoseUnit = {
+  CAPSULE: 'CAPSULE',
+  TABLET: 'TABLET',
+  GRAM: 'GRAM',
+  MILLIGRAM: 'MILLIGRAM',
+  MILLILITER: 'MILLILITER',
+  DROP: 'DROP',
+  SCOOP: 'SCOOP',
+  SPRAY: 'SPRAY'
+} as const
+
+export type SupplementDoseUnit = (typeof SupplementDoseUnit)[keyof typeof SupplementDoseUnit]
+
+
+export const SupplementIngredientUnit = {
+  GRAM: 'GRAM',
+  MILLIGRAM: 'MILLIGRAM',
+  MICROGRAM: 'MICROGRAM',
+  INTERNATIONAL_UNIT: 'INTERNATIONAL_UNIT'
+} as const
+
+export type SupplementIngredientUnit = (typeof SupplementIngredientUnit)[keyof typeof SupplementIngredientUnit]
+
+
+export const SupplementReason = {
+  GENERAL_WELLBEING: 'GENERAL_WELLBEING',
+  DEFICIENCY: 'DEFICIENCY',
+  LAB_SUPPORT: 'LAB_SUPPORT',
+  IMMUNE_SUPPORT: 'IMMUNE_SUPPORT',
+  DIGESTION: 'DIGESTION',
+  SLEEP: 'SLEEP',
+  ENERGY: 'ENERGY',
+  TRAINING: 'TRAINING',
+  OTHER: 'OTHER'
+} as const
+
+export type SupplementReason = (typeof SupplementReason)[keyof typeof SupplementReason]
+
+
+export const SupplementTolerance = {
+  NOT_RATED: 'NOT_RATED',
+  WELL_TOLERATED: 'WELL_TOLERATED',
+  NEUTRAL: 'NEUTRAL',
+  POSSIBLE_REACTION: 'POSSIBLE_REACTION'
+} as const
+
+export type SupplementTolerance = (typeof SupplementTolerance)[keyof typeof SupplementTolerance]
+
+
+export const SupplementEffect = {
+  NOT_RATED: 'NOT_RATED',
+  POSITIVE: 'POSITIVE',
+  NEUTRAL: 'NEUTRAL',
+  NEGATIVE: 'NEGATIVE',
+  UNCLEAR: 'UNCLEAR'
+} as const
+
+export type SupplementEffect = (typeof SupplementEffect)[keyof typeof SupplementEffect]
+
+
 export const ExerciseCategory = {
   STRENGTH: 'STRENGTH',
   MOBILITY: 'MOBILITY',

@@ -78,6 +78,21 @@ export type LabResult = Prisma.LabResultModel
  */
 export type LabResultRevision = Prisma.LabResultRevisionModel
 /**
+ * Model Supplement
+ *
+ */
+export type Supplement = Prisma.SupplementModel
+/**
+ * Model SupplementIngredient
+ *
+ */
+export type SupplementIngredient = Prisma.SupplementIngredientModel
+/**
+ * Model SupplementIntake
+ *
+ */
+export type SupplementIntake = Prisma.SupplementIntakeModel
+/**
  * Model Exercise
  *
  */

@@ -87,6 +87,8 @@ export default async function HomePage() {
     trainingPlanCount,
     todayMealPlanEntries,
     labMeasurementCount,
+    activeSupplementCount,
+    todaySupplementIntakeCount,
   ] = user
     ? await Promise.all([
         prisma.dailyEntry.findUnique({
@@ -173,8 +175,17 @@ export default async function HomePage() {
         prisma.labResult.count({
           where: { userId: user.id },
         }),
+        prisma.supplement.count({
+          where: { userId: user.id, archivedAt: null },
+        }),
+        prisma.supplementIntake.count({
+          where: {
+            userId: user.id,
+            takenAt: { gte: todayPeriodStart, lt: weightPeriodEnd },
+          },
+        }),
       ])
-    : [null, [], [], null, [], 0, [], 0];
+    : [null, [], [], null, [], 0, [], 0, 0, 0];
   const weightMeasurements = weightMeasurementsDescending.toReversed();
   const latestWeight = weightMeasurements.at(-1);
   const checkInSummary = summarizeCheckIns(recentEntries);
@@ -273,6 +284,15 @@ export default async function HomePage() {
       description:
         "Blutwerte und andere Laborergebnisse strukturiert erfassen und vergleichen.",
       href: "/laborwerte",
+    },
+    {
+      title: "Supplemente",
+      value: activeSupplementCount > 0
+        ? `${activeSupplementCount} aktiv · ${todaySupplementIntakeCount} heute`
+        : "Noch keine Präparate",
+      description:
+        "Präparate, Wirkstoffe, Einnahmen und mögliche Reaktionen strukturiert dokumentieren.",
+      href: "/supplemente",
     },
     {
       title: "Compass AI",
@@ -487,10 +507,18 @@ export default async function HomePage() {
                     </Link>
                   </li>
                 ) : null}
+                {activeSupplementCount === 0 ? (
+                  <li>
+                    <Link href="/supplemente" className="font-semibold text-forest-strong">
+                      Erstes Supplement anlegen →
+                    </Link>
+                  </li>
+                ) : null}
                 {profileProgress === 100 &&
                 todayEntry &&
                 todayMealCount > 0 &&
                 mealPlanSummary.plannedCount > 0 &&
+                activeSupplementCount > 0 &&
                 weightMeasurements.length >= 2 ? (
                   <li className="text-text-muted">
                     Alles Wichtige für heute ist erfasst.

@@ -28,6 +28,9 @@ model User {
   labReports            LabReport[]
   labResults            LabResult[]
   labResultRevisions    LabResultRevision[]
+  supplements           Supplement[]
+  supplementIngredients SupplementIngredient[]
+  supplementIntakes     SupplementIntake[]
   sessions              Session[]
   accounts              Account[]
   passkeys              Passkey[]
@@ -183,6 +186,61 @@ enum LabCorrectionReason {
   REPORT_CORRECTION
   REFERENCE_UPDATE
   OTHER
+}
+
+enum SupplementForm {
+  CAPSULE
+  TABLET
+  POWDER
+  LIQUID
+  DROPS
+  SPRAY
+  OTHER
+}
+
+enum SupplementDoseUnit {
+  CAPSULE
+  TABLET
+  GRAM
+  MILLIGRAM
+  MILLILITER
+  DROP
+  SCOOP
+  SPRAY
+}
+
+enum SupplementIngredientUnit {
+  GRAM
+  MILLIGRAM
+  MICROGRAM
+  INTERNATIONAL_UNIT
+}
+
+enum SupplementReason {
+  GENERAL_WELLBEING
+  DEFICIENCY
+  LAB_SUPPORT
+  IMMUNE_SUPPORT
+  DIGESTION
+  SLEEP
+  ENERGY
+  TRAINING
+  OTHER
+}
+
+enum SupplementTolerance {
+  NOT_RATED
+  WELL_TOLERATED
+  NEUTRAL
+  POSSIBLE_REACTION
+}
+
+enum SupplementEffect {
+  NOT_RATED
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
+  UNCLEAR
 }
 
 enum ExerciseCategory {
@@ -383,6 +441,66 @@ model LabResultRevision {
 
   @@index([userId, correctedAt])
   @@index([labResultId, correctedAt])
+}
+
+model Supplement {
+  id          String             @id @default(cuid())
+  userId      String
+  name        String
+  brand       String?
+  form        SupplementForm
+  defaultDose Decimal            @db.Decimal(8, 2)
+  doseUnit    SupplementDoseUnit
+  reason      SupplementReason
+  notes       String?
+  archivedAt  DateTime?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  user        User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredients SupplementIngredient[]
+  intakes     SupplementIntake[]
+
+  @@unique([userId, name])
+  @@index([userId, archivedAt, name])
+}
+
+model SupplementIngredient {
+  id              String                    @id @default(cuid())
+  userId          String
+  supplementId    String
+  name            String
+  amount          Decimal?                  @db.Decimal(10, 3)
+  elementalAmount Decimal?                  @db.Decimal(10, 3)
+  unit            SupplementIngredientUnit?
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  supplement Supplement @relation(fields: [supplementId], references: [id], onDelete: Cascade)
+
+  @@unique([supplementId, name])
+  @@index([userId, name])
+}
+
+model SupplementIntake {
+  id           String              @id @default(cuid())
+  userId       String
+  supplementId String
+  takenAt      DateTime
+  dose         Decimal             @db.Decimal(8, 2)
+  doseUnit     SupplementDoseUnit
+  tolerance    SupplementTolerance @default(NOT_RATED)
+  effect       SupplementEffect    @default(NOT_RATED)
+  note         String?
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  supplement Supplement @relation(fields: [supplementId], references: [id], onDelete: Cascade)
+
+  @@index([userId, takenAt])
+  @@index([supplementId, takenAt])
 }
 
 model Exercise {
