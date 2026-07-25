@@ -6,6 +6,7 @@
 - `Projektbriefing.docx` – Projektziele, Funktionsumfang und Arbeitskontext
 - `CHANGELOG.md` – kurze Übersicht abgeschlossener Entwicklungsschritte
 - `ROADMAP.md` – aktueller Schwerpunkt und bewusst vorgemerkte Funktionen
+- `OPERATIONS.md` – Deployment, Backup-Umfang und Wiederherstellung
 
 ## Passkey-Authentifizierung
 

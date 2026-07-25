@@ -14,6 +14,12 @@ Die Tageserfassung enthält nun zusätzlich Bauchumfang, Stimmung, Hunger,
 Trinkmenge, Schritte, Distanz und aktive Minuten. Diese Werte fließen auch in
 Dashboard und lokale Compass-Berichte ein.
 
+Der erste Finalisierungsblock ergänzt zentrale Lade-, Fehler- und
+Nicht-gefunden-Zustände sowie einen reproduzierbaren Benutzer-Bootstrap und ein
+Betriebs-Runbook. Als nächster Stabilitätsschritt folgen automatisierte Tests
+der geschützten Kernabläufe und die Vorbereitung von Datenexport und
+vollständiger Kontolöschung.
+
 ## Später: Apple Health
 
 Die technische Entscheidung und die überprüfbaren Ausbaustufen sind in

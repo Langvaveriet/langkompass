@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LångKompass
 
-## Getting Started
+LångKompass ist eine private, selbst gehostete Gesundheits- und
+Lebensstilplattform. Sie verbindet Tageserfassung, Ernährung, Training,
+Laborwerte und Supplemente in einer ruhigen, mobilen Oberfläche. Die Anwendung
+ist weder Diagnosesystem noch klassischer Kalorienzähler.
 
-First, run the development server:
+## Aktueller Funktionsumfang
+
+- passwortlose Anmeldung mit Passkeys und ohne öffentliche Registrierung
+- Dashboard mit Tagesstatus und echten Verlaufsdaten
+- Morgen- und Abend-Check mit strukturierten Gesundheitswerten
+- Ernährungserfassung, Rezeptbibliothek und Wochenplan
+- Trainingspläne, Übungsbibliothek, Trainingseinheiten und Fortschritt
+- Laboruntersuchungen, Referenzwerte, Korrekturverlauf und Trends
+- Supplementverwaltung, Einnahmen, Wirkung und Verträglichkeit
+- lokale Compass-Auswertungen ohne externe Übertragung von Gesundheitsdaten
+
+Die aktuelle Priorisierung steht in [docs/ROADMAP.md](docs/ROADMAP.md). Die
+verbindlichen technischen Leitplanken stehen in der Architektur-Charta unter
+[docs/LangKompass_Architektur-Charta.docx](docs/LangKompass_Architektur-Charta.docx).
+
+## Technischer Kern
+
+- Next.js 16 mit App Router und React 19
+- TypeScript im Strict Mode und Tailwind CSS 4
+- PostgreSQL mit Prisma 7
+- Better Auth mit WebAuthn/FIDO2-Passkeys
+- Server Actions für formularnahe Schreibvorgänge
+- selbst gehosteter Betrieb unter Plesk und Node.js
+
+## Lokale Installation
+
+Benötigt werden Node.js 20 oder neuer, Corepack und eine erreichbare
+PostgreSQL-Datenbank.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+cd /Users/ken/Projekte/langkompass
+cp .env.example .env
+corepack enable
+pnpm install --frozen-lockfile
+pnpm exec prisma generate
+pnpm exec prisma migrate deploy
+pnpm run user:bootstrap
+pnpm run catalog:sync
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Vor `pnpm run user:bootstrap` müssen mindestens `DATABASE_URL` und
+`LANGKOMPASS_USER_EMAIL` in `.env` gesetzt sein. Für die erste
+Passkey-Einrichtung werden außerdem `BETTER_AUTH_URL`, `BETTER_AUTH_SECRET` und
+ein temporärer `PASSKEY_SETUP_TOKEN` benötigt. Die Einrichtung erfolgt unter
+`/anmeldung/einrichten`. Danach wird der Einrichtungsschlüssel aus der
+Produktionsumgebung entfernt.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Die Anwendung ist anschließend unter
+[http://localhost:3000](http://localhost:3000) erreichbar.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Qualitätsprüfungen
 
-## Learn More
+```bash
+cd /Users/ken/Projekte/langkompass
+pnpm run typecheck
+pnpm run lint
+pnpm test
+pnpm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+`pnpm run build` synchronisiert vor dem Build den mitgelieferten Rezeptkatalog.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Datenbankänderungen
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Das Prisma-Schema liegt in `prisma/schema.prisma`. Änderungen werden lokal als
+versionierte Migration erzeugt und niemals direkt auf dem Produktivsystem
+improvisiert.
 
-## Deploy on Vercel
+```bash
+cd /Users/ken/Projekte/langkompass
+pnpm exec prisma migrate dev --name BESCHREIBENDER_NAME
+pnpm exec prisma generate
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+In Produktion werden ausschließlich bereits eingecheckte Migrationen mit
+`prisma migrate deploy` angewendet.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment unter Plesk
+
+Plesk verfolgt den Branch `main`. Nach einem Push werden die Dateien
+bereitgestellt und im tatsächlichen Anwendungsverzeichnis folgende Schritte
+ausgeführt:
+
+```bash
+export PATH=/opt/plesk/node/20/bin:$PATH
+cd /var/www/vhosts/langvaveriet.se/kompass.langvaveriet.se
+corepack pnpm install --frozen-lockfile
+corepack pnpm exec prisma generate
+corepack pnpm exec prisma migrate deploy
+corepack pnpm run build
+mkdir -p tmp
+touch tmp/restart.txt
+```
+
+Vor produktiven Migrationen muss ein aktuelles PostgreSQL-Backup vorhanden
+sein. Der vollständige Betriebsablauf ist in
+[docs/OPERATIONS.md](docs/OPERATIONS.md) dokumentiert.
+
+## Datenschutz
+
+- keine öffentlichen Registrierungen
+- keine Analytics- oder Werbeskripte
+- keine externe KI-Übertragung im aktuellen Betrieb
+- Geheimnisse ausschließlich in nicht eingecheckten Umgebungsvariablen
+- persönliche Dokumente ausschließlich unter dem ignorierten Verzeichnis
+  `private-docs/`
+
+Weitere Projektdokumente sind in [docs/README.md](docs/README.md) beschrieben.

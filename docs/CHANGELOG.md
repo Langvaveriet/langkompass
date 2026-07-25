@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Finalisierung und reproduzierbarer Betrieb begonnen
+
+- Zentrale Lade-, Fehler- und Nicht-gefunden-Zustände ergänzen verständliche
+  Wiederholungs- und Rückkehrmöglichkeiten ohne interne Fehlerdetails.
+- Ein idempotenter Bootstrap-Befehl bereitet das einzige Benutzerkonto auf
+  einer frischen Datenbank für die Passkey-Einrichtung vor.
+- Die bisherige Next.js-Standard-README wurde durch eine projektspezifische
+  Installations-, Prüf- und Deployment-Anleitung ersetzt.
+- Der Plesk-Betrieb, Backup-Umfang und eine sichere Wiederherstellungsprobe sind
+  als Runbook dokumentiert.
+
 ## 2026-07-25 – Freie Bewegungswerte korrigiert
 
 - Individuelle Schrittzahlen und aktive Minuten werden nun in Einerschritten

@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "db:check": "tsx scripts/check-database.ts",
     "db:check:daily": "tsx scripts/check-daily-entries.ts",
+    "user:bootstrap": "tsx scripts/bootstrap-user.ts",
     "catalog:sync": "tsx scripts/sync-recipe-catalog.ts",
     "catalog:import": "tsx scripts/sync-recipe-catalog.ts"
   },
