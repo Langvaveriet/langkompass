@@ -1,17 +1,19 @@
 import Link from "next/link";
 
 import type { Prisma } from "@/generated/prisma/client";
+import { LabResultCorrectionForm } from "@/components/labs/lab-result-correction-form";
 import { fastingStatusLabels } from "@/lib/labs/lab-catalog";
 import { labReferenceStatus } from "@/lib/labs/reference-status";
 
 type ReportWithResults = Prisma.LabReportGetPayload<{
-  include: { results: true };
+  include: { results: { include: { _count: { select: { revisions: true } } } } };
 }>;
 
 type LabReportDetailsProps = {
   report: ReportWithResults;
   locale: string;
   timeZone: string;
+  editResultId?: string;
 };
 
 const referenceLabels = {
@@ -36,6 +38,7 @@ export function LabReportDetails({
   report,
   locale,
   timeZone,
+  editResultId,
 }: LabReportDetailsProps) {
   const dateFormatter = new Intl.DateTimeFormat(locale, {
     day: "2-digit",
@@ -78,7 +81,7 @@ export function LabReportDetails({
             const status = labReferenceStatus(value, low, high);
             const range = referenceRange(result.referenceLow, result.referenceHigh, result.unit);
             return (
-              <article key={result.id} className="rounded-[var(--radius-lg)] border border-border bg-surface p-4">
+              <article key={result.id} className={`rounded-[var(--radius-lg)] border bg-surface p-4 ${editResultId === result.id ? "border-copper" : "border-border"}`}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-semibold text-text-primary">{result.analyteName}</h3>
@@ -92,12 +95,32 @@ export function LabReportDetails({
                 </div>
                 {range ? <p className="mt-3 text-sm text-text-muted">Laborreferenz: {range}</p> : null}
                 {result.note ? <p className="mt-2 text-sm leading-6 text-text-secondary">{result.note}</p> : null}
-                <Link
-                  href={`/laborwerte?report=${encodeURIComponent(report.id)}&analyte=${encodeURIComponent(result.analyteKey)}#laborverlauf`}
-                  className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-forest-strong"
-                >
-                  Verlauf ansehen →
-                </Link>
+                {result._count.revisions > 0 ? (
+                  <p className="mt-2 text-xs font-semibold text-copper">
+                    {result._count.revisions} {result._count.revisions === 1 ? "frühere Version" : "frühere Versionen"} gespeichert
+                  </p>
+                ) : null}
+                <div className="mt-3 flex flex-wrap gap-x-4">
+                  <Link
+                    href={`/laborwerte?report=${encodeURIComponent(report.id)}&analyte=${encodeURIComponent(result.analyteKey)}#laborverlauf`}
+                    className="inline-flex min-h-11 items-center text-sm font-semibold text-forest-strong"
+                  >
+                    Verlauf ansehen →
+                  </Link>
+                  <Link
+                    href={`/laborwerte?report=${encodeURIComponent(report.id)}&analyte=${encodeURIComponent(result.analyteKey)}&editResult=${encodeURIComponent(result.id)}`}
+                    className="inline-flex min-h-11 items-center text-sm font-semibold text-copper"
+                  >
+                    Wert korrigieren
+                  </Link>
+                </div>
+                {editResultId === result.id ? (
+                  <LabResultCorrectionForm
+                    result={result}
+                    reportId={report.id}
+                    analyteKey={result.analyteKey}
+                  />
+                ) : null}
               </article>
             );
           })}

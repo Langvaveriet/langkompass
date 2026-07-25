@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { labAnalyteByKey } from "@/lib/labs/lab-catalog";
+import { labCorrectionReasons } from "@/lib/labs/correction-reasons";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
@@ -59,6 +60,27 @@ const resultSchema = z.object({
     referenceLow <= referenceHigh,
   { path: ["referenceHigh"] },
 );
+
+const correctionSchema = z.object({
+  labResultId: z.string().uuid(),
+  labReportId: z.string().uuid(),
+  value: decimalInput,
+  referenceLow: optionalDecimalInput,
+  referenceHigh: optionalDecimalInput,
+  note: optionalText(500),
+  reason: z.enum(labCorrectionReasons),
+}).refine(
+  ({ referenceLow, referenceHigh }) =>
+    referenceLow === null ||
+    referenceHigh === null ||
+    referenceLow <= referenceHigh,
+  { path: ["referenceHigh"] },
+);
+
+const deleteReportSchema = z.object({
+  labReportId: z.string().uuid(),
+  confirmDeletion: z.literal("DELETE"),
+});
 
 function formText(formData: FormData, field: string): string {
   const value = formData.get(field);
@@ -173,4 +195,101 @@ export async function addLabResult(formData: FormData) {
 
   revalidatePath("/laborwerte");
   redirect(`/laborwerte?report=${report.id}&saved=1`);
+}
+
+export async function correctLabResult(formData: FormData) {
+  const user = await requireUser();
+  const submittedReportId = formText(formData, "labReportId");
+  const submittedResultId = formText(formData, "labResultId");
+  const parsed = correctionSchema.safeParse({
+    labResultId: submittedResultId,
+    labReportId: submittedReportId,
+    value: formText(formData, "value"),
+    referenceLow: formText(formData, "referenceLow"),
+    referenceHigh: formText(formData, "referenceHigh"),
+    note: formText(formData, "note"),
+    reason: formText(formData, "reason"),
+  });
+
+  if (!parsed.success) {
+    const reportQuery = z.string().uuid().safeParse(submittedReportId).success
+      ? `report=${submittedReportId}&`
+      : "";
+    const resultQuery = z.string().uuid().safeParse(submittedResultId).success
+      ? `editResult=${submittedResultId}&`
+      : "";
+    redirect(`/laborwerte?${reportQuery}${resultQuery}error=correction-validation`);
+  }
+
+  const result = await prisma.labResult.findFirst({
+    where: {
+      id: parsed.data.labResultId,
+      userId: user.id,
+      labReportId: parsed.data.labReportId,
+      labReport: { userId: user.id },
+    },
+    select: {
+      id: true,
+      analyteKey: true,
+      value: true,
+      referenceLow: true,
+      referenceHigh: true,
+      note: true,
+    },
+  });
+  if (!result) {
+    redirect(`/laborwerte?report=${parsed.data.labReportId}&error=result-not-found`);
+  }
+
+  await prisma.$transaction([
+    prisma.labResultRevision.create({
+      data: {
+        userId: user.id,
+        labResultId: result.id,
+        previousValue: result.value,
+        previousReferenceLow: result.referenceLow,
+        previousReferenceHigh: result.referenceHigh,
+        previousNote: result.note,
+        reason: parsed.data.reason,
+      },
+    }),
+    prisma.labResult.update({
+      where: { id: result.id },
+      data: {
+        value: parsed.data.value,
+        referenceLow: parsed.data.referenceLow,
+        referenceHigh: parsed.data.referenceHigh,
+        note: parsed.data.note,
+      },
+    }),
+  ]);
+
+  revalidatePath("/");
+  revalidatePath("/laborwerte");
+  redirect(`/laborwerte?report=${parsed.data.labReportId}&analyte=${encodeURIComponent(result.analyteKey)}&corrected=1`);
+}
+
+export async function deleteLabReport(formData: FormData) {
+  const user = await requireUser();
+  const submittedReportId = formText(formData, "labReportId");
+  const parsed = deleteReportSchema.safeParse({
+    labReportId: submittedReportId,
+    confirmDeletion: formText(formData, "confirmDeletion"),
+  });
+
+  if (!parsed.success) {
+    const reportQuery = z.string().uuid().safeParse(submittedReportId).success
+      ? `report=${submittedReportId}&`
+      : "";
+    redirect(`/laborwerte?${reportQuery}error=delete-validation`);
+  }
+
+  const deleted = await prisma.labReport.deleteMany({
+    where: { id: parsed.data.labReportId, userId: user.id },
+  });
+  if (deleted.count === 0) redirect("/laborwerte?error=report-not-found");
+
+  revalidatePath("/");
+  revalidatePath("/laborwerte");
+  redirect("/laborwerte?deleted=1");
 }

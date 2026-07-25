@@ -419,6 +419,23 @@ export type EnumFastingStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumFastingStatusFilter<$PrismaModel>
 }
 
+export type EnumLabCorrectionReasonFilter<$PrismaModel = never> = {
+  equals?: $Enums.LabCorrectionReason | Prisma.EnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  in?: $Enums.LabCorrectionReason[] | Prisma.ListEnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LabCorrectionReason[] | Prisma.ListEnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLabCorrectionReasonFilter<$PrismaModel> | $Enums.LabCorrectionReason
+}
+
+export type EnumLabCorrectionReasonWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LabCorrectionReason | Prisma.EnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  in?: $Enums.LabCorrectionReason[] | Prisma.ListEnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LabCorrectionReason[] | Prisma.ListEnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLabCorrectionReasonWithAggregatesFilter<$PrismaModel> | $Enums.LabCorrectionReason
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLabCorrectionReasonFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLabCorrectionReasonFilter<$PrismaModel>
+}
+
 export type EnumExerciseCategoryFilter<$PrismaModel = never> = {
   equals?: $Enums.ExerciseCategory | Prisma.EnumExerciseCategoryFieldRefInput<$PrismaModel>
   in?: $Enums.ExerciseCategory[] | Prisma.ListEnumExerciseCategoryFieldRefInput<$PrismaModel>
@@ -969,6 +986,23 @@ export type NestedEnumFastingStatusWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumFastingStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumFastingStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumLabCorrectionReasonFilter<$PrismaModel = never> = {
+  equals?: $Enums.LabCorrectionReason | Prisma.EnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  in?: $Enums.LabCorrectionReason[] | Prisma.ListEnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LabCorrectionReason[] | Prisma.ListEnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLabCorrectionReasonFilter<$PrismaModel> | $Enums.LabCorrectionReason
+}
+
+export type NestedEnumLabCorrectionReasonWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LabCorrectionReason | Prisma.EnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  in?: $Enums.LabCorrectionReason[] | Prisma.ListEnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LabCorrectionReason[] | Prisma.ListEnumLabCorrectionReasonFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLabCorrectionReasonWithAggregatesFilter<$PrismaModel> | $Enums.LabCorrectionReason
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLabCorrectionReasonFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLabCorrectionReasonFilter<$PrismaModel>
 }
 
 export type NestedEnumExerciseCategoryFilter<$PrismaModel = never> = {

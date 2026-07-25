@@ -76,6 +76,16 @@ export const FastingStatus = {
 export type FastingStatus = (typeof FastingStatus)[keyof typeof FastingStatus]
 
 
+export const LabCorrectionReason = {
+  ENTRY_ERROR: 'ENTRY_ERROR',
+  REPORT_CORRECTION: 'REPORT_CORRECTION',
+  REFERENCE_UPDATE: 'REFERENCE_UPDATE',
+  OTHER: 'OTHER'
+} as const
+
+export type LabCorrectionReason = (typeof LabCorrectionReason)[keyof typeof LabCorrectionReason]
+
+
 export const ExerciseCategory = {
   STRENGTH: 'STRENGTH',
   MOBILITY: 'MOBILITY',

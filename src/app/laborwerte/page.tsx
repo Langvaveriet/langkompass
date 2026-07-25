@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { LabReportDetails } from "@/components/labs/lab-report-details";
+import { LabReportDeletion } from "@/components/labs/lab-report-deletion";
 import { LabReportForm } from "@/components/labs/lab-report-form";
 import { LabResultForm } from "@/components/labs/lab-result-form";
 import { LabTrend } from "@/components/labs/lab-trend";
@@ -45,7 +46,12 @@ export default async function LaborwertePage({
       where: { userId: user.id },
       orderBy: { collectedAt: "desc" },
       take: 20,
-      include: { results: { orderBy: { analyteName: "asc" } } },
+      include: {
+        results: {
+          orderBy: { analyteName: "asc" },
+          include: { _count: { select: { revisions: true } } },
+        },
+      },
     }),
     prisma.labResult.findMany({
       where: { userId: user.id },
@@ -61,6 +67,7 @@ export default async function LaborwertePage({
     ?? reports[0]
     ?? null;
   const requestedAnalyteKey = queryValue(query, "analyte");
+  const editResultId = queryValue(query, "editResult");
   const defaultAnalyteKey = selectedReport?.results.at(0)?.analyteKey
     ?? trendOptions.at(0)?.analyteKey;
   const selectedTrendOption = trendOptions.find(
@@ -107,14 +114,24 @@ export default async function LaborwertePage({
         ? "Dieser Laborwert ist in der ausgewählten Untersuchung bereits erfasst."
         : error === "report-not-found"
           ? "Die Untersuchung wurde nicht gefunden oder gehört nicht zu deinem Konto."
-          : error === "analyte"
-            ? "Der ausgewählte Laborwert ist nicht verfügbar."
-            : null;
+          : error === "result-not-found"
+            ? "Der Laborwert wurde nicht gefunden oder gehört nicht zu deinem Konto."
+            : error === "correction-validation"
+              ? "Bitte prüfe Messwert, Referenzbereich und Korrekturgrund."
+              : error === "delete-validation"
+                ? "Bestätige das endgültige Löschen der Untersuchung."
+                : error === "analyte"
+                  ? "Der ausgewählte Laborwert ist nicht verfügbar."
+                  : null;
   const statusMessage = queryValue(query, "created")
     ? "Untersuchung angelegt. Jetzt kannst du die einzelnen Laborwerte ergänzen."
     : queryValue(query, "saved")
       ? "Laborwert gespeichert."
-      : null;
+      : queryValue(query, "corrected")
+        ? "Laborwert korrigiert. Der vorherige Stand wurde gespeichert."
+        : queryValue(query, "deleted")
+          ? "Untersuchung und zugehörige Laborwerte wurden gelöscht."
+          : null;
   const now = new Date();
 
   return (
@@ -169,11 +186,12 @@ export default async function LaborwertePage({
 
         {selectedReport ? (
           <section className="mt-10 max-w-4xl" aria-label="Ausgewählte Laboruntersuchung">
-            <LabReportDetails report={selectedReport} locale={locale} timeZone={timeZone} />
+            <LabReportDetails report={selectedReport} locale={locale} timeZone={timeZone} editResultId={editResultId} />
             <LabResultForm
               reportId={selectedReport.id}
               recordedAnalyteKeys={selectedReport.results.map(({ analyteKey }) => analyteKey)}
             />
+            <LabReportDeletion reportId={selectedReport.id} resultCount={selectedReport.results.length} />
           </section>
         ) : null}
 

@@ -1,5 +1,14 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Laborwerte korrigieren und Untersuchungen löschen
+
+- Laborwerte lassen sich nachträglich inklusive Referenzbereich und Notiz
+  korrigieren.
+- Vorherige Werte bleiben mit Korrekturgrund und Zeitpunkt als
+  Änderungshistorie erhalten.
+- Ganze Untersuchungen können nach ausdrücklicher Bestätigung mitsamt ihren
+  Laborwerten gelöscht werden.
+
 ## 2026-07-25 – Laborwerte im Verlauf
 
 - Erfasste Laborparameter lassen sich über große Touch-Chips für einen

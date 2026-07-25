@@ -97,6 +97,11 @@ export type LabReport = Prisma.LabReportModel
  */
 export type LabResult = Prisma.LabResultModel
 /**
+ * Model LabResultRevision
+ *
+ */
+export type LabResultRevision = Prisma.LabResultRevisionModel
+/**
  * Model Exercise
  *
  */

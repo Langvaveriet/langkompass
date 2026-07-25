@@ -298,6 +298,7 @@ export type LabResultWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"LabResult"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   labReport?: Prisma.XOR<Prisma.LabReportScalarRelationFilter, Prisma.LabReportWhereInput>
+  revisions?: Prisma.LabResultRevisionListRelationFilter
 }
 
 export type LabResultOrderByWithRelationInput = {
@@ -317,6 +318,7 @@ export type LabResultOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   labReport?: Prisma.LabReportOrderByWithRelationInput
+  revisions?: Prisma.LabResultRevisionOrderByRelationAggregateInput
 }
 
 export type LabResultWhereUniqueInput = Prisma.AtLeast<{
@@ -340,6 +342,7 @@ export type LabResultWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"LabResult"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   labReport?: Prisma.XOR<Prisma.LabReportScalarRelationFilter, Prisma.LabReportWhereInput>
+  revisions?: Prisma.LabResultRevisionListRelationFilter
 }, "id" | "labReportId_analyteKey">
 
 export type LabResultOrderByWithAggregationInput = {
@@ -399,6 +402,7 @@ export type LabResultCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutLabResultsInput
   labReport: Prisma.LabReportCreateNestedOneWithoutResultsInput
+  revisions?: Prisma.LabResultRevisionCreateNestedManyWithoutLabResultInput
 }
 
 export type LabResultUncheckedCreateInput = {
@@ -416,6 +420,7 @@ export type LabResultUncheckedCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  revisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutLabResultInput
 }
 
 export type LabResultUpdateInput = {
@@ -433,6 +438,7 @@ export type LabResultUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutLabResultsNestedInput
   labReport?: Prisma.LabReportUpdateOneRequiredWithoutResultsNestedInput
+  revisions?: Prisma.LabResultRevisionUpdateManyWithoutLabResultNestedInput
 }
 
 export type LabResultUncheckedUpdateInput = {
@@ -450,6 +456,7 @@ export type LabResultUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutLabResultNestedInput
 }
 
 export type LabResultCreateManyInput = {
@@ -579,6 +586,11 @@ export type LabResultSumOrderByAggregateInput = {
   referenceHigh?: Prisma.SortOrder
 }
 
+export type LabResultScalarRelationFilter = {
+  is?: Prisma.LabResultWhereInput
+  isNot?: Prisma.LabResultWhereInput
+}
+
 export type LabResultCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.LabResultCreateWithoutUserInput, Prisma.LabResultUncheckedCreateWithoutUserInput> | Prisma.LabResultCreateWithoutUserInput[] | Prisma.LabResultUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.LabResultCreateOrConnectWithoutUserInput | Prisma.LabResultCreateOrConnectWithoutUserInput[]
@@ -663,6 +675,20 @@ export type LabResultUncheckedUpdateManyWithoutLabReportNestedInput = {
   deleteMany?: Prisma.LabResultScalarWhereInput | Prisma.LabResultScalarWhereInput[]
 }
 
+export type LabResultCreateNestedOneWithoutRevisionsInput = {
+  create?: Prisma.XOR<Prisma.LabResultCreateWithoutRevisionsInput, Prisma.LabResultUncheckedCreateWithoutRevisionsInput>
+  connectOrCreate?: Prisma.LabResultCreateOrConnectWithoutRevisionsInput
+  connect?: Prisma.LabResultWhereUniqueInput
+}
+
+export type LabResultUpdateOneRequiredWithoutRevisionsNestedInput = {
+  create?: Prisma.XOR<Prisma.LabResultCreateWithoutRevisionsInput, Prisma.LabResultUncheckedCreateWithoutRevisionsInput>
+  connectOrCreate?: Prisma.LabResultCreateOrConnectWithoutRevisionsInput
+  upsert?: Prisma.LabResultUpsertWithoutRevisionsInput
+  connect?: Prisma.LabResultWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LabResultUpdateToOneWithWhereWithoutRevisionsInput, Prisma.LabResultUpdateWithoutRevisionsInput>, Prisma.LabResultUncheckedUpdateWithoutRevisionsInput>
+}
+
 export type LabResultCreateWithoutUserInput = {
   id?: string
   analyteKey: string
@@ -677,6 +703,7 @@ export type LabResultCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   labReport: Prisma.LabReportCreateNestedOneWithoutResultsInput
+  revisions?: Prisma.LabResultRevisionCreateNestedManyWithoutLabResultInput
 }
 
 export type LabResultUncheckedCreateWithoutUserInput = {
@@ -693,6 +720,7 @@ export type LabResultUncheckedCreateWithoutUserInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  revisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutLabResultInput
 }
 
 export type LabResultCreateOrConnectWithoutUserInput = {
@@ -755,6 +783,7 @@ export type LabResultCreateWithoutLabReportInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutLabResultsInput
+  revisions?: Prisma.LabResultRevisionCreateNestedManyWithoutLabResultInput
 }
 
 export type LabResultUncheckedCreateWithoutLabReportInput = {
@@ -771,6 +800,7 @@ export type LabResultUncheckedCreateWithoutLabReportInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  revisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutLabResultInput
 }
 
 export type LabResultCreateOrConnectWithoutLabReportInput = {
@@ -797,6 +827,90 @@ export type LabResultUpdateWithWhereUniqueWithoutLabReportInput = {
 export type LabResultUpdateManyWithWhereWithoutLabReportInput = {
   where: Prisma.LabResultScalarWhereInput
   data: Prisma.XOR<Prisma.LabResultUpdateManyMutationInput, Prisma.LabResultUncheckedUpdateManyWithoutLabReportInput>
+}
+
+export type LabResultCreateWithoutRevisionsInput = {
+  id?: string
+  analyteKey: string
+  analyteName: string
+  value: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit: string
+  referenceLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referenceHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  measuredAt: Date | string
+  source?: $Enums.EntrySource
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutLabResultsInput
+  labReport: Prisma.LabReportCreateNestedOneWithoutResultsInput
+}
+
+export type LabResultUncheckedCreateWithoutRevisionsInput = {
+  id?: string
+  userId: string
+  labReportId: string
+  analyteKey: string
+  analyteName: string
+  value: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit: string
+  referenceLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referenceHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  measuredAt: Date | string
+  source?: $Enums.EntrySource
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type LabResultCreateOrConnectWithoutRevisionsInput = {
+  where: Prisma.LabResultWhereUniqueInput
+  create: Prisma.XOR<Prisma.LabResultCreateWithoutRevisionsInput, Prisma.LabResultUncheckedCreateWithoutRevisionsInput>
+}
+
+export type LabResultUpsertWithoutRevisionsInput = {
+  update: Prisma.XOR<Prisma.LabResultUpdateWithoutRevisionsInput, Prisma.LabResultUncheckedUpdateWithoutRevisionsInput>
+  create: Prisma.XOR<Prisma.LabResultCreateWithoutRevisionsInput, Prisma.LabResultUncheckedCreateWithoutRevisionsInput>
+  where?: Prisma.LabResultWhereInput
+}
+
+export type LabResultUpdateToOneWithWhereWithoutRevisionsInput = {
+  where?: Prisma.LabResultWhereInput
+  data: Prisma.XOR<Prisma.LabResultUpdateWithoutRevisionsInput, Prisma.LabResultUncheckedUpdateWithoutRevisionsInput>
+}
+
+export type LabResultUpdateWithoutRevisionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  analyteKey?: Prisma.StringFieldUpdateOperationsInput | string
+  analyteName?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumEntrySourceFieldUpdateOperationsInput | $Enums.EntrySource
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutLabResultsNestedInput
+  labReport?: Prisma.LabReportUpdateOneRequiredWithoutResultsNestedInput
+}
+
+export type LabResultUncheckedUpdateWithoutRevisionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  labReportId?: Prisma.StringFieldUpdateOperationsInput | string
+  analyteKey?: Prisma.StringFieldUpdateOperationsInput | string
+  analyteName?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.EnumEntrySourceFieldUpdateOperationsInput | $Enums.EntrySource
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LabResultCreateManyUserInput = {
@@ -829,6 +943,7 @@ export type LabResultUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   labReport?: Prisma.LabReportUpdateOneRequiredWithoutResultsNestedInput
+  revisions?: Prisma.LabResultRevisionUpdateManyWithoutLabResultNestedInput
 }
 
 export type LabResultUncheckedUpdateWithoutUserInput = {
@@ -845,6 +960,7 @@ export type LabResultUncheckedUpdateWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutLabResultNestedInput
 }
 
 export type LabResultUncheckedUpdateManyWithoutUserInput = {
@@ -893,6 +1009,7 @@ export type LabResultUpdateWithoutLabReportInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutLabResultsNestedInput
+  revisions?: Prisma.LabResultRevisionUpdateManyWithoutLabResultNestedInput
 }
 
 export type LabResultUncheckedUpdateWithoutLabReportInput = {
@@ -909,6 +1026,7 @@ export type LabResultUncheckedUpdateWithoutLabReportInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutLabResultNestedInput
 }
 
 export type LabResultUncheckedUpdateManyWithoutLabReportInput = {
@@ -928,6 +1046,35 @@ export type LabResultUncheckedUpdateManyWithoutLabReportInput = {
 }
 
 
+/**
+ * Count Type LabResultCountOutputType
+ */
+
+export type LabResultCountOutputType = {
+  revisions: number
+}
+
+export type LabResultCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  revisions?: boolean | LabResultCountOutputTypeCountRevisionsArgs
+}
+
+/**
+ * LabResultCountOutputType without action
+ */
+export type LabResultCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LabResultCountOutputType
+   */
+  select?: Prisma.LabResultCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * LabResultCountOutputType without action
+ */
+export type LabResultCountOutputTypeCountRevisionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LabResultRevisionWhereInput
+}
+
 
 export type LabResultSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -946,6 +1093,8 @@ export type LabResultSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   labReport?: boolean | Prisma.LabReportDefaultArgs<ExtArgs>
+  revisions?: boolean | Prisma.LabResult$revisionsArgs<ExtArgs>
+  _count?: boolean | Prisma.LabResultCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["labResult"]>
 
 export type LabResultSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1007,6 +1156,8 @@ export type LabResultOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type LabResultInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   labReport?: boolean | Prisma.LabReportDefaultArgs<ExtArgs>
+  revisions?: boolean | Prisma.LabResult$revisionsArgs<ExtArgs>
+  _count?: boolean | Prisma.LabResultCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LabResultIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1022,6 +1173,7 @@ export type $LabResultPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     labReport: Prisma.$LabReportPayload<ExtArgs>
+    revisions: Prisma.$LabResultRevisionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1434,6 +1586,7 @@ export interface Prisma__LabResultClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   labReport<T extends Prisma.LabReportDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LabReportDefaultArgs<ExtArgs>>): Prisma.Prisma__LabReportClient<runtime.Types.Result.GetResult<Prisma.$LabReportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  revisions<T extends Prisma.LabResult$revisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LabResult$revisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LabResultRevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1875,6 +2028,30 @@ export type LabResultDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many LabResults to delete.
    */
   limit?: number
+}
+
+/**
+ * LabResult.revisions
+ */
+export type LabResult$revisionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LabResultRevision
+   */
+  select?: Prisma.LabResultRevisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LabResultRevision
+   */
+  omit?: Prisma.LabResultRevisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LabResultRevisionInclude<ExtArgs> | null
+  where?: Prisma.LabResultRevisionWhereInput
+  orderBy?: Prisma.LabResultRevisionOrderByWithRelationInput | Prisma.LabResultRevisionOrderByWithRelationInput[]
+  cursor?: Prisma.LabResultRevisionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LabResultRevisionScalarFieldEnum | Prisma.LabResultRevisionScalarFieldEnum[]
 }
 
 /**

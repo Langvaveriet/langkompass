@@ -27,6 +27,7 @@ model User {
   mealPlanEntries       MealPlanEntry[]
   labReports            LabReport[]
   labResults            LabResult[]
+  labResultRevisions    LabResultRevision[]
   sessions              Session[]
   accounts              Account[]
   passkeys              Passkey[]
@@ -175,6 +176,13 @@ enum FastingStatus {
   UNKNOWN
   FASTING
   NOT_FASTING
+}
+
+enum LabCorrectionReason {
+  ENTRY_ERROR
+  REPORT_CORRECTION
+  REFERENCE_UPDATE
+  OTHER
 }
 
 enum ExerciseCategory {
@@ -350,12 +358,31 @@ model LabResult {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  labReport LabReport @relation(fields: [labReportId], references: [id], onDelete: Cascade)
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  labReport LabReport           @relation(fields: [labReportId], references: [id], onDelete: Cascade)
+  revisions LabResultRevision[]
 
   @@unique([labReportId, analyteKey])
   @@index([userId, analyteKey, measuredAt])
   @@index([labReportId])
+}
+
+model LabResultRevision {
+  id                    String              @id @default(uuid()) @db.Uuid
+  userId                String
+  labResultId           String              @db.Uuid
+  previousValue         Decimal             @db.Decimal(14, 4)
+  previousReferenceLow  Decimal?            @db.Decimal(14, 4)
+  previousReferenceHigh Decimal?            @db.Decimal(14, 4)
+  previousNote          String?
+  reason                LabCorrectionReason
+  correctedAt           DateTime            @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  labResult LabResult @relation(fields: [labResultId], references: [id], onDelete: Cascade)
+
+  @@index([userId, correctedAt])
+  @@index([labResultId, correctedAt])
 }
 
 model Exercise {
