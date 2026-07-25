@@ -6,9 +6,23 @@ umgesetzt.
 
 ## Aktueller Schwerpunkt
 
-- lokale Wochen- und Monatsberichte aus dem Health Context erzeugen
-- beschreibende Trends und Zusammenhänge ausschließlich regelbasiert ableiten
-- keine kostenpflichtige oder externe KI-Anbindung voraussetzen
+- Apple-Health-Geräte-Spike auf einem echten iPhone
+- HealthKit-Berechtigungen und Passkeys mit Associated Domain verifizieren
+- erst nach erfolgreichem Spike die serverseitige Integrationsgrenze umsetzen
+
+Die technische Entscheidung und die überprüfbaren Ausbaustufen sind in
+[`decisions/0001-apple-health-integration.md`](decisions/0001-apple-health-integration.md)
+dokumentiert. Next.js bleibt Web-Client und Server; die produktive iOS-App
+erhält einen lokal gebündelten Mobile-Client und eine kleine native
+HealthKit-Brücke.
+
+## Danach
+
+### Einkaufsliste aus dem Wochenplan
+
+Aus den geplanten Rezepten einer Woche soll eine zusammengefasste Einkaufsliste
+entstehen. Gleiche Zutaten werden nach kompatiblen Einheiten gebündelt,
+Portionszahlen berücksichtigt und Positionen als erledigt markierbar.
 
 ## Optionale Features
 
@@ -34,13 +48,6 @@ nur nach bewusster Benutzeraktion.
 
 ## Zukünftige Features
 
-### Einkaufsliste aus dem Wochenplan
-
-Aus den geplanten Rezepten einer Woche soll eine zusammengefasste Einkaufsliste
-entstehen. Gleiche Zutaten werden nach kompatiblen Einheiten gebündelt,
-Portionszahlen berücksichtigt und Positionen als erledigt markierbar. Die
-Funktion wird erst nach Stabilisierung der Labor- und Supplementgrundfunktionen
-umgesetzt.
-
-Weitere spätere Module gemäß Architektur-Charta sind Wochenanalysen, Berichte
-und Exporte sowie Offline-Erfassung und externe Integrationen.
+Weitere spätere Module gemäß Architektur-Charta sind Exporte, eine allgemeine
+Offline-Erfassung und weitere externe Integrationen. Lokale Wochen- und
+Monatsberichte sind bereits umgesetzt.

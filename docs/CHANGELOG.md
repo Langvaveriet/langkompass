@@ -1,5 +1,18 @@
 # LångKompass – Changelog
 
+## 2026-07-25 – Architekturentscheidung für Apple Health
+
+- Die technische Machbarkeit wurde gegen den aktuellen Next.js-, Better-Auth-
+  und Prisma-Stand geprüft.
+- Eine reine PWA und ein produktiver Remote-Website-Wrapper wurden als nicht
+  tragfähige HealthKit-Architektur ausgeschlossen.
+- Next.js bleibt Web-Client und Server; eine lokal gebündelte iOS-Oberfläche
+  erhält eine eigene Swift-HealthKit-Brücke und verwendet versionierte Route
+  Handler.
+- Passkey-basierte Gerätekopplung, getrennte importierte Gesundheitsdaten,
+  idempotente Synchronisation und ein schrittweiser Geräte-Spike wurden in ADR
+  0001 verbindlich dokumentiert.
+
 ## 2026-07-25 – Lokale Wochen- und Monatsberichte
 
 - Compass bietet große Touch-Chips für einen lokalen 7- oder 30-Tage-Bericht.
