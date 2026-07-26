@@ -1,5 +1,17 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Mobiler und betrieblicher Abschlusscheck
+
+- Der öffentliche Betriebsstatus prüft Anwendung und PostgreSQL mit einer
+  minimalen Datenbankabfrage, ohne interne oder persönliche Daten offenzulegen.
+- Der reproduzierbare Smoke-Test kontrolliert zusätzlich den Betriebsstatus und
+  erkennt damit auch eine nicht erreichbare Produktionsdatenbank.
+- Navigation und Abmeldung besitzen auf kleinen Displays mindestens 44 Pixel
+  hohe Touch-Ziele; die Kopfleiste nutzt die verfügbare mobile Breite besser.
+- Die Anmeldeseite wurde bei 390 Pixel Breite ohne horizontales Überlaufen
+  kontrolliert. Angemeldete Safari-Abnahme und isolierte Backup-Rückspielprobe
+  bleiben als bewusste manuelle Betriebsprüfungen dokumentiert.
+
 ## 2026-07-26 – Vollständige Kontolöschung
 
 - Die Einstellungen enthalten einen klar getrennten Gefahrenbereich für die

@@ -70,7 +70,8 @@ pnpm run build
 `pnpm run build` synchronisiert vor dem Build den mitgelieferten Rezeptkatalog.
 
 Während die Anwendung lokal läuft, prüft ein separater Smoke-Test ohne Sitzung
-den Schutz aller Kernbereiche:
+den technischen Betriebsstatus einschließlich Datenbankverbindung sowie den
+Schutz aller Kernbereiche:
 
 ```bash
 cd /Users/ken/Projekte/langkompass
@@ -78,6 +79,9 @@ pnpm run test:smoke
 ```
 
 Ein abweichendes Ziel kann über `SMOKE_BASE_URL` gesetzt werden.
+Der minimale Statusendpunkt ist zusätzlich direkt unter `/api/health`
+erreichbar und liefert im gesunden Zustand HTTP 200 mit
+`{ "status": "ok" }`.
 
 ## Datenbankänderungen
 

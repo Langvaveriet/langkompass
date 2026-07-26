@@ -27,7 +27,7 @@ export function MobileNavigation() {
                   href={item.href}
                   aria-current={isActive ? "page" : undefined}
                   className={[
-                    "flex min-h-10 items-center whitespace-nowrap rounded-full px-4 py-2 text-sm transition",
+                    "flex min-h-11 items-center whitespace-nowrap rounded-full px-4 py-2 text-sm transition",
                     isActive
                       ? "bg-forest-strong font-semibold text-white"
                       : "text-text-muted hover:bg-surface-muted hover:text-text-primary",

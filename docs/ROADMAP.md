@@ -14,14 +14,22 @@ Die Tageserfassung enthält nun zusätzlich Bauchumfang, Stimmung, Hunger,
 Trinkmenge, Schritte, Distanz und aktive Minuten. Diese Werte fließen auch in
 Dashboard und lokale Compass-Berichte ein.
 
-Der erste Finalisierungsblock ergänzt zentrale Lade-, Fehler- und
+Die Finalisierung ergänzt zentrale Lade-, Fehler- und
 Nicht-gefunden-Zustände sowie einen reproduzierbaren Benutzer-Bootstrap und ein
 Betriebs-Runbook. Ein automatisierter Smoke-Test prüft inzwischen sämtliche
-geschützten Kernrouten; die wichtigsten Eingabeverträge sind durch Grenzfälle
-abgesichert. Der vollständige Datenexport steht als versioniertes JSON-Archiv
-und zusätzlich als fünf auswertbare CSV-Dateien bereit. Auch die vollständige,
-erneut per Passkey bestätigte Kontolöschung ist umgesetzt. Als nächster Schritt
-folgt der abschließende mobile und betriebliche Qualitätstest der Web-App.
+geschützten Kernrouten, den Anwendungsstatus und die Datenbankverbindung; die
+wichtigsten Eingabeverträge sind durch Grenzfälle abgesichert. Der vollständige
+Datenexport steht als versioniertes JSON-Archiv und zusätzlich als fünf
+auswertbare CSV-Dateien bereit. Auch die vollständige, erneut per Passkey
+bestätigte Kontolöschung ist umgesetzt. Der mobile Einstieg wurde bei 390 Pixel
+Breite ohne horizontales Überlaufen geprüft und die zentralen Navigationsziele
+sind mindestens 44 Pixel hoch.
+
+Damit befindet sich die Web-App funktional auf einem vorläufig finalen Stand.
+Vor größeren neuen Modulen folgen nur noch Fehlerkorrekturen, echte
+Geräte-Abnahmen und betriebliche Wartung. Eine angemeldete Safari-Abnahme auf
+dem Zielgerät sowie eine isolierte Wiederherstellungsprobe des produktiven
+Backups bleiben bewusste manuelle Betriebsprüfungen.
 
 ## Später: Apple Health
 

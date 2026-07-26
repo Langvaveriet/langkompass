@@ -31,11 +31,23 @@ async function request(path: string) {
 }
 
 async function main() {
-  const loginResponse = await request("/anmeldung");
+  const [loginResponse, healthResponse] = await Promise.all([
+    request("/anmeldung"),
+    request("/api/health"),
+  ]);
 
   if (!loginResponse.ok) {
     throw new Error(
       `Die öffentliche Anmeldung antwortet mit HTTP ${loginResponse.status}.`,
+    );
+  }
+
+  const health = healthResponse.ok
+    ? (await healthResponse.json()) as { status?: string }
+    : null;
+  if (!healthResponse.ok || health?.status !== "ok") {
+    throw new Error(
+      `Der technische Betriebsstatus antwortet mit HTTP ${healthResponse.status}.`,
     );
   }
 
@@ -77,7 +89,7 @@ async function main() {
   }
 
   console.log(
-    `${protectedRoutes.length} geschützte Seiten und ${protectedApiRoutes.length} Export-Endpunkt sind ohne Sitzung sicher gesperrt.`,
+    `Betriebsstatus gesund; ${protectedRoutes.length} geschützte Seiten und ${protectedApiRoutes.length} Export-Endpunkt sind ohne Sitzung sicher gesperrt.`,
   );
 }
 

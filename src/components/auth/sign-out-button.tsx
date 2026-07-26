@@ -18,7 +18,7 @@ export function SignOutButton() {
       type="button"
       onClick={signOut}
       disabled={isPending}
-      className="text-sm font-semibold text-forest-strong disabled:text-text-muted"
+      className="inline-flex min-h-11 items-center rounded-full px-3 text-sm font-semibold text-forest-strong hover:bg-surface-muted disabled:text-text-muted"
     >
       {isPending ? "Abmelden …" : "Abmelden"}
     </button>

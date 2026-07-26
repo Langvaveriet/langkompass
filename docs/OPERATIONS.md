@@ -71,7 +71,16 @@ SMOKE_BASE_URL="https://kompass.langvaveriet.se" corepack pnpm run test:smoke
 ```
 
 Der Test überträgt keine Gesundheitsdaten und bestätigt, dass öffentliche
-Anmeldung und sämtliche geschützten Kernbereiche korrekt reagieren.
+Anmeldung, Datenbankverbindung und sämtliche geschützten Kernbereiche korrekt
+reagieren.
+
+## Technischer Betriebsstatus
+
+`GET /api/health` prüft die Erreichbarkeit der Anwendung und führt eine minimale
+`SELECT 1`-Abfrage gegen PostgreSQL aus. Eine gesunde Instanz antwortet mit HTTP
+200 und `{ "status": "ok" }`, eine nicht erreichbare Datenbank mit HTTP 503.
+Der Endpunkt gibt weder Versions-, Benutzer- noch Gesundheitsdaten aus und darf
+von Plesk oder einem externen Verfügbarkeitsmonitor abgefragt werden.
 
 ## Fehlgeschlagenes Deployment
 
