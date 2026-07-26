@@ -5,7 +5,7 @@ import { PasskeyLogin } from "@/components/auth/passkey-login";
 import { getSession } from "@/lib/session";
 
 type PageProps = {
-  searchParams: Promise<{ setup?: string }>;
+  searchParams: Promise<{ setup?: string; deleted?: string }>;
 };
 
 export default async function AnmeldungPage({ searchParams }: PageProps) {
@@ -35,6 +35,17 @@ export default async function AnmeldungPage({ searchParams }: PageProps) {
             className="mt-5 rounded-[var(--radius-md)] bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong"
           >
             Der Passkey ist eingerichtet. Melde dich jetzt damit an.
+          </p>
+        ) : null}
+
+        {query.deleted === "1" ? (
+          <p
+            role="status"
+            className="mt-5 rounded-[var(--radius-md)] border border-red-300 bg-red-50 px-4 py-3 text-sm leading-6 text-red-900"
+          >
+            Das Konto und seine Daten wurden vollständig gelöscht. Für eine
+            erneute Nutzung müssen zuerst der Benutzer-Bootstrap und danach die
+            Passkey-Ersteinrichtung ausgeführt werden.
           </p>
         ) : null}
 

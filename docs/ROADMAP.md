@@ -19,8 +19,9 @@ Nicht-gefunden-Zustände sowie einen reproduzierbaren Benutzer-Bootstrap und ein
 Betriebs-Runbook. Ein automatisierter Smoke-Test prüft inzwischen sämtliche
 geschützten Kernrouten; die wichtigsten Eingabeverträge sind durch Grenzfälle
 abgesichert. Der vollständige Datenexport steht als versioniertes JSON-Archiv
-und zusätzlich als fünf auswertbare CSV-Dateien bereit. Als nächster
-Stabilitätsschritt folgt die vollständige Kontolöschung.
+und zusätzlich als fünf auswertbare CSV-Dateien bereit. Auch die vollständige,
+erneut per Passkey bestätigte Kontolöschung ist umgesetzt. Als nächster Schritt
+folgt der abschließende mobile und betriebliche Qualitätstest der Web-App.
 
 ## Später: Apple Health
 

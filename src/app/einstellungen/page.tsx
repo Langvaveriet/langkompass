@@ -4,6 +4,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
 import { UserSettingsForm } from "@/components/settings/user-settings-form";
+import { DeleteAccountForm } from "@/components/settings/delete-account-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import { prisma } from "@/lib/prisma";
@@ -120,6 +121,15 @@ export default async function EinstellungenPage({ searchParams }: PageProps) {
                   </a>
                 ))}
               </div>
+            </CardContent>
+          </Card>
+
+          <Card className="col-span-12 border-red-300 xl:col-span-8">
+            <CardHeader>
+              <CardTitle>Gefahrenbereich</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <DeleteAccountForm />
             </CardContent>
           </Card>
         </Section>

@@ -1,5 +1,18 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Vollständige Kontolöschung
+
+- Die Einstellungen enthalten einen klar getrennten Gefahrenbereich für die
+  endgültige Löschung des Benutzerkontos und aller zugehörigen Daten.
+- Checkbox, exaktes Bestätigungswort und eine höchstens fünf Minuten alte,
+  erneut per Passkey verifizierte Sitzung schützen vor versehentlicher oder
+  unberechtigter Ausführung.
+- Gesundheits-, Ernährungs-, Trainings-, Labor-, Supplement-, Planungs- und
+  Authentifizierungsdaten werden in einer Datenbanktransaktion gelöscht.
+- Ein Test mit einem isolierten Wegwerfkonto bestätigt die Löschreihenfolge auch
+  für restriktiv verknüpfte Trainings- und Rezeptdaten. Globale Katalogrezepte
+  bleiben unberührt.
+
 ## 2026-07-26 – Vollständiger Datenexport
 
 - In den Einstellungen lässt sich ein vollständiges, versioniertes JSON-Archiv
