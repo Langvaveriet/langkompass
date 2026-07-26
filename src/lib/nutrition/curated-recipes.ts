@@ -6,6 +6,7 @@ import type {
   QuantityUnit,
 } from "@/generated/prisma/enums";
 import { z } from "zod";
+import { expandedCuratedRecipes } from "./expanded-curated-recipes";
 
 export type CuratedRecipeItem = {
   foodKey?: string;
@@ -237,7 +238,6 @@ export const curatedRecipes: CuratedRecipe[] = [
     dietaryPatterns: patterns,
     items: [
       { name: "Lammfleisch", category: "MEAT", quantity: 180, unit: "GRAM", energyKcal: 396 },
-      { name: "Gurke und Paprika", category: "VEGETABLE", quantity: 200, unit: "GRAM", energyKcal: 50 },
       { name: "Feta", category: "DAIRY", quantity: 40, unit: "GRAM", energyKcal: 106, traits: fermented },
       { name: "Oliven", category: "FAT_OIL", quantity: 35, unit: "GRAM", energyKcal: 51, traits: fermented },
     ],
@@ -478,6 +478,7 @@ export const curatedRecipes: CuratedRecipe[] = [
     ],
     instructions: ["Joghurt mit Walnüssen und Zimt anrichten."],
   },
+  ...expandedCuratedRecipes,
 ];
 
 export const curatedRecipesByKey = new Map(

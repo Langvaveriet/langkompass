@@ -10,7 +10,7 @@ ist weder Diagnosesystem noch klassischer Kalorienzähler.
 - passwortlose Anmeldung mit Passkeys und ohne öffentliche Registrierung
 - Dashboard mit Tagesstatus und echten Verlaufsdaten
 - Morgen- und Abend-Check mit strukturierten Gesundheitswerten
-- Ernährungserfassung, Rezeptbibliothek, Wochenplan und Einkaufsliste
+- Ernährungserfassung, 120 Rezeptvorschläge, Wochenplan und Einkaufsliste
 - Trainingspläne, Übungsbibliothek, Trainingseinheiten und Fortschritt
 - Laboruntersuchungen, Referenzwerte, Korrekturverlauf und Trends
 - Supplementverwaltung, Einnahmen, Wirkung und Verträglichkeit

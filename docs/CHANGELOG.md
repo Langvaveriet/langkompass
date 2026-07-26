@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Rezeptkatalog auf 120 Gerichte erweitert
+
+- Frühstück, Mittagessen, Abendessen und Snacks enthalten jetzt jeweils exakt
+  30 mediterran-ketogene Vorschläge.
+- 100 zusätzliche Gerichte ergänzen den bisherigen Katalog mit unterschiedlichen
+  Proteinquellen, vegetarischen Varianten und Zubereitungsarten.
+- Zutatenmengen und Lebensmittelmerkmale bleiben strukturiert; Energie und
+  Makronährwerte werden aus den hinterlegten Zutatenwerten berechnet.
+- Tests sichern 120 eindeutige Schlüssel und Namen, die gleichmäßige Verteilung
+  sowie die bestehenden Profilfilter dauerhaft ab.
+
 ## 2026-07-26 – Einkaufsliste aus dem Wochenplan
 
 - Geplante Rezepte einer Kalenderwoche erzeugen automatisch eine gemeinsame
@@ -252,7 +263,7 @@
   persönlichen Rezeptvorlagen getrennt.
 - Ein streng validierter JSON-Import ergänzt oder aktualisiert bis zu 1.000
   Rezepte pro Datei anhand stabiler Schlüssel, ohne Duplikate anzulegen.
-- Die vorhandenen 20 Rezepte werden bei jedem Build idempotent synchronisiert;
+- Der mitgelieferte Rezeptkatalog wird bei jedem Build idempotent synchronisiert;
   zusätzlich importierte Rezeptpakete bleiben erhalten.
 - Eine dokumentierte Beispieldatei dient als Vorlage für weitere eigene oder
   lizenzierte Rezeptpakete.

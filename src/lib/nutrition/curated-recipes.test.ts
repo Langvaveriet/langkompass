@@ -9,9 +9,17 @@ import {
   suggestedRecipeFromCatalog,
 } from "./curated-recipes";
 
-test("enthält zwanzig eindeutig identifizierbare Rezeptvorschläge", () => {
-  assert.equal(curatedRecipes.length, 20);
-  assert.equal(curatedRecipesByKey.size, 20);
+test("enthält je Mahlzeitenkategorie dreißig eindeutige Rezeptvorschläge", () => {
+  assert.equal(curatedRecipes.length, 120);
+  assert.equal(curatedRecipesByKey.size, 120);
+  assert.equal(new Set(curatedRecipes.map((recipe) => recipe.name)).size, 120);
+
+  for (const type of ["BREAKFAST", "LUNCH", "DINNER", "SNACK"] as const) {
+    assert.equal(
+      curatedRecipes.filter((recipe) => recipe.type === type).length,
+      30,
+    );
+  }
 });
 
 test("alle Vorschläge besitzen strukturierte Nährwerte und Zutaten", () => {
@@ -21,6 +29,7 @@ test("alle Vorschläge besitzen strukturierte Nährwerte und Zutaten", () => {
     assert.ok(recipe.instructions.length >= 1);
     assert.ok(recipe.prepMinutes > 0);
     assert.ok(recipe.carbohydrateGrams >= 0);
+    assert.ok(recipe.carbohydrateGrams <= 30);
     assert.ok(recipe.dietaryPatterns.includes("MEDITERRANEAN"));
     assert.ok(recipe.dietaryPatterns.includes("KETOGENIC"));
   }
