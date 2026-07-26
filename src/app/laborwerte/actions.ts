@@ -5,7 +5,12 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { labAnalyteByKey } from "@/lib/labs/lab-catalog";
-import { labCorrectionReasons } from "@/lib/labs/correction-reasons";
+import {
+  labCorrectionInputSchema,
+  labReportDeletionSchema,
+  labReportInputSchema,
+  labResultInputSchema,
+} from "@/lib/labs/input-validation";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
@@ -13,95 +18,14 @@ import {
   localDateTimeToUtc,
 } from "@/lib/user-settings";
 
-const optionalText = (maximum: number) =>
-  z.string().trim().max(maximum).transform((value) => value || null);
-
-const reportSchema = z.object({
-  collectedDate: z.string().refine(isIsoDate),
-  collectedTime: z.string().refine(isTime),
-  fastingStatus: z.enum(["UNKNOWN", "FASTING", "NOT_FASTING"]),
-  laboratory: optionalText(120),
-  physicianComment: optionalText(1000),
-  controlDate: z
-    .string()
-    .trim()
-    .refine((value) => value === "" || isIsoDate(value))
-    .transform((value) => value || null),
-  notes: optionalText(1000),
-});
-
-const decimalInput = z
-  .string()
-  .trim()
-  .transform((value) => value.replace(",", "."))
-  .refine((value) => value !== "" && Number.isFinite(Number(value)))
-  .transform(Number)
-  .refine((value) => value >= 0 && value <= 1_000_000);
-
-const optionalDecimalInput = z
-  .string()
-  .trim()
-  .transform((value) => value.replace(",", "."))
-  .refine((value) => value === "" || Number.isFinite(Number(value)))
-  .transform((value) => (value === "" ? null : Number(value)))
-  .refine((value) => value === null || Math.abs(value) <= 1_000_000);
-
-const resultSchema = z.object({
-  labReportId: z.string().uuid(),
-  analyteKey: z.string().trim().min(1),
-  value: decimalInput,
-  referenceLow: optionalDecimalInput,
-  referenceHigh: optionalDecimalInput,
-  note: optionalText(500),
-}).refine(
-  ({ referenceLow, referenceHigh }) =>
-    referenceLow === null ||
-    referenceHigh === null ||
-    referenceLow <= referenceHigh,
-  { path: ["referenceHigh"] },
-);
-
-const correctionSchema = z.object({
-  labResultId: z.string().uuid(),
-  labReportId: z.string().uuid(),
-  value: decimalInput,
-  referenceLow: optionalDecimalInput,
-  referenceHigh: optionalDecimalInput,
-  note: optionalText(500),
-  reason: z.enum(labCorrectionReasons),
-}).refine(
-  ({ referenceLow, referenceHigh }) =>
-    referenceLow === null ||
-    referenceHigh === null ||
-    referenceLow <= referenceHigh,
-  { path: ["referenceHigh"] },
-);
-
-const deleteReportSchema = z.object({
-  labReportId: z.string().uuid(),
-  confirmDeletion: z.literal("DELETE"),
-});
-
 function formText(formData: FormData, field: string): string {
   const value = formData.get(field);
   return typeof value === "string" ? value : "";
 }
 
-function isIsoDate(value: string): boolean {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const date = new Date(`${value}T00:00:00.000Z`);
-  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
-}
-
-function isTime(value: string): boolean {
-  const match = /^(\d{2}):(\d{2})$/.exec(value);
-  if (!match) return false;
-  return Number(match[1]) <= 23 && Number(match[2]) <= 59;
-}
-
 export async function createLabReport(formData: FormData) {
   const user = await requireUser();
-  const parsed = reportSchema.safeParse({
+  const parsed = labReportInputSchema.safeParse({
     collectedDate: formText(formData, "collectedDate"),
     collectedTime: formText(formData, "collectedTime"),
     fastingStatus: formText(formData, "fastingStatus"),
@@ -143,7 +67,7 @@ export async function createLabReport(formData: FormData) {
 export async function addLabResult(formData: FormData) {
   const user = await requireUser();
   const submittedReportId = formText(formData, "labReportId");
-  const parsed = resultSchema.safeParse({
+  const parsed = labResultInputSchema.safeParse({
     labReportId: submittedReportId,
     analyteKey: formText(formData, "analyteKey"),
     value: formText(formData, "value"),
@@ -223,7 +147,7 @@ export async function correctLabResult(formData: FormData) {
   const user = await requireUser();
   const submittedReportId = formText(formData, "labReportId");
   const submittedResultId = formText(formData, "labResultId");
-  const parsed = correctionSchema.safeParse({
+  const parsed = labCorrectionInputSchema.safeParse({
     labResultId: submittedResultId,
     labReportId: submittedReportId,
     value: formText(formData, "value"),
@@ -315,7 +239,7 @@ export async function correctLabResult(formData: FormData) {
 export async function deleteLabReport(formData: FormData) {
   const user = await requireUser();
   const submittedReportId = formText(formData, "labReportId");
-  const parsed = deleteReportSchema.safeParse({
+  const parsed = labReportDeletionSchema.safeParse({
     labReportId: submittedReportId,
     confirmDeletion: formText(formData, "confirmDeletion"),
   });

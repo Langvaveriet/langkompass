@@ -1,0 +1,79 @@
+const baseUrl = process.env.SMOKE_BASE_URL ?? "http://localhost:3000";
+
+const protectedRoutes = [
+  "/",
+  "/gesundheitsprofil",
+  "/tageserfassung",
+  "/training",
+  "/training/plaene",
+  "/training/verlauf",
+  "/ernaehrung",
+  "/ernaehrung/rezepte",
+  "/ernaehrung/wochenplan",
+  "/laborwerte",
+  "/supplemente",
+  "/supplemente/verlauf",
+  "/compass-ai",
+  "/einstellungen",
+  "/konto/sicherheit",
+] as const;
+
+async function request(path: string) {
+  return fetch(new URL(path, baseUrl), {
+    redirect: "manual",
+    headers: {
+      accept: "text/html",
+    },
+  });
+}
+
+async function main() {
+  const loginResponse = await request("/anmeldung");
+
+  if (!loginResponse.ok) {
+    throw new Error(
+      `Die öffentliche Anmeldung antwortet mit HTTP ${loginResponse.status}.`,
+    );
+  }
+
+  const failures: string[] = [];
+
+  for (const path of protectedRoutes) {
+    const response = await request(path);
+    const location = response.headers.get("location");
+    const httpRedirectsToLogin =
+      response.status >= 300 &&
+      response.status < 400 &&
+      location !== null &&
+      new URL(location, baseUrl).pathname === "/anmeldung";
+    const responseBody = response.status === 200 ? await response.text() : "";
+    const streamedRedirectsToLogin = responseBody.includes(
+      "NEXT_REDIRECT;replace;/anmeldung;307;",
+    );
+    const redirectsToLogin =
+      httpRedirectsToLogin || streamedRedirectsToLogin;
+
+    if (!redirectsToLogin) {
+      failures.push(
+        `${path}: HTTP ${response.status}, Ziel ${location ?? "ohne Weiterleitung"}`,
+      );
+    }
+  }
+
+  if (failures.length > 0) {
+    throw new Error(
+      `Nicht ausreichend geschützte Routen:\n${failures.join("\n")}`,
+    );
+  }
+
+  console.log(
+    `${protectedRoutes.length} geschützte Routen leiten ohne Sitzung sicher zur Anmeldung weiter.`,
+  );
+}
+
+main().catch((error: unknown) => {
+  console.error(
+    error instanceof Error ? error.message : "Der Route-Smoke-Test ist fehlgeschlagen.",
+  );
+  process.exitCode = 1;
+});

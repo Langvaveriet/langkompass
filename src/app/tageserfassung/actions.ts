@@ -3,6 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import {
+  isTime,
+  parseIsoDate,
+  parseOptionalDecimal,
+  parseOptionalInteger,
+  parseOptionalScale,
+  type InputValidation,
+} from "@/lib/daily-entry/input-validation";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import {
@@ -33,29 +41,15 @@ function getStringList(
     .filter(Boolean);
 }
 
-function getInteger(formData: FormData, field: string): number | null {
-  const value = getText(formData, field);
-
-  if (value === null) {
-    return null;
+function validatedValue<T>(
+  validation: InputValidation<T>,
+  field: string,
+): T | null {
+  if (!validation.success) {
+    redirect(`/tageserfassung?error=${field}`);
   }
 
-  const parsedValue = Number.parseInt(value, 10);
-
-  return Number.isInteger(parsedValue) ? parsedValue : null;
-}
-
-function getDecimal(formData: FormData, field: string): string | null {
-  const value = getText(formData, field);
-
-  if (value === null) {
-    return null;
-  }
-
-  const normalizedValue = value.replace(",", ".");
-  const parsedValue = Number(normalizedValue);
-
-  return Number.isFinite(parsedValue) ? normalizedValue : null;
+  return validation.value;
 }
 
 function getBoundedInteger(
@@ -64,23 +58,10 @@ function getBoundedInteger(
   minimum: number,
   maximum: number,
 ): number | null {
-  const value = getText(formData, field);
-
-  if (value === null) {
-    return null;
-  }
-
-  if (!/^\d+$/.test(value)) {
-    redirect(`/tageserfassung?error=${field}`);
-  }
-
-  const parsedValue = Number(value);
-
-  if (parsedValue < minimum || parsedValue > maximum) {
-    redirect(`/tageserfassung?error=${field}`);
-  }
-
-  return parsedValue;
+  return validatedValue(
+    parseOptionalInteger(getText(formData, field), minimum, maximum),
+    field,
+  );
 }
 
 function getBoundedDecimal(
@@ -89,25 +70,10 @@ function getBoundedDecimal(
   minimum: number,
   maximum: number,
 ): string | null {
-  const value = getText(formData, field);
-
-  if (value === null) {
-    return null;
-  }
-
-  const normalizedValue = value.replace(",", ".");
-
-  if (!/^\d+(?:\.\d{1,2})?$/.test(normalizedValue)) {
-    redirect(`/tageserfassung?error=${field}`);
-  }
-
-  const parsedValue = Number(normalizedValue);
-
-  if (parsedValue < minimum || parsedValue > maximum) {
-    redirect(`/tageserfassung?error=${field}`);
-  }
-
-  return normalizedValue;
+  return validatedValue(
+    parseOptionalDecimal(getText(formData, field), minimum, maximum),
+    field,
+  );
 }
 
 function getDate(formData: FormData): {
@@ -116,76 +82,32 @@ function getDate(formData: FormData): {
 } {
   const value = getText(formData, "entryDate");
 
-  if (value === null || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    redirect("/tageserfassung?error=date");
-  }
+  const parsedDate = parseIsoDate(value);
 
-  const parsedDate = new Date(`${value}T00:00:00.000Z`);
-
-  if (Number.isNaN(parsedDate.getTime())) {
+  if (!parsedDate.success || parsedDate.value === null) {
     redirect("/tageserfassung?error=date");
   }
 
   return {
-    inputValue: value,
-    databaseValue: parsedDate,
+    inputValue: parsedDate.value.toISOString().slice(0, 10),
+    databaseValue: parsedDate.value,
   };
 }
 
 function validateScale(
-  value: number | null,
+  value: string | null,
   field: string,
   minimum = 1,
 ): number | null {
-  if (value !== null && (value < minimum || value > 10)) {
-    redirect(`/tageserfassung?error=${field}`);
-  }
-
-  return value;
+  return validatedValue(parseOptionalScale(value, minimum), field);
 }
 
 function getWeight(formData: FormData): string | null {
-  const value = getText(formData, "weightKg");
-
-  if (value === null) {
-    return null;
-  }
-
-  const normalizedValue = value.replace(",", ".");
-
-  if (!/^\d{2,3}(?:\.\d{1,2})?$/.test(normalizedValue)) {
-    redirect("/tageserfassung?error=weightKg");
-  }
-
-  const parsedValue = Number(normalizedValue);
-
-  if (parsedValue < 20 || parsedValue > 400) {
-    redirect("/tageserfassung?error=weightKg");
-  }
-
-  return normalizedValue;
+  return getBoundedDecimal(formData, "weightKg", 20, 400);
 }
 
 function getWaist(formData: FormData): string | null {
-  const value = getText(formData, "waistCm");
-
-  if (value === null) {
-    return null;
-  }
-
-  const normalizedValue = value.replace(",", ".");
-
-  if (!/^\d{2,3}(?:\.\d{1,2})?$/.test(normalizedValue)) {
-    redirect("/tageserfassung?error=waistCm");
-  }
-
-  const parsedValue = Number(normalizedValue);
-
-  if (parsedValue < 30 || parsedValue > 300) {
-    redirect("/tageserfassung?error=waistCm");
-  }
-
-  return normalizedValue;
+  return getBoundedDecimal(formData, "waistCm", 30, 300);
 }
 
 export async function saveDailyEntry(formData: FormData) {
@@ -202,44 +124,44 @@ export async function saveDailyEntry(formData: FormData) {
   const entryDate = getDate(formData);
 
   const wellbeing = validateScale(
-    getInteger(formData, "wellbeing"),
+    getText(formData, "wellbeing"),
     "wellbeing",
   );
 
   const mood = validateScale(
-    getInteger(formData, "mood"),
+    getText(formData, "mood"),
     "mood",
   );
 
   const energy = validateScale(
-    getInteger(formData, "energy"),
+    getText(formData, "energy"),
     "energy",
   );
 
   const sleepQuality = validateScale(
-    getInteger(formData, "sleepQuality"),
+    getText(formData, "sleepQuality"),
     "sleepQuality",
   );
 
   const hungerLevel = validateScale(
-    getInteger(formData, "hungerLevel"),
+    getText(formData, "hungerLevel"),
     "hungerLevel",
     0,
   );
 
   const painLevel = validateScale(
-    getInteger(formData, "painLevel"),
+    getText(formData, "painLevel"),
     "painLevel",
     0,
   );
 
   const stressLevel = validateScale(
-    getInteger(formData, "stressLevel"),
+    getText(formData, "stressLevel"),
     "stressLevel",
     0,
   );
 
-  const sleepHours = getDecimal(formData, "sleepHours");
+  const sleepHours = getBoundedDecimal(formData, "sleepHours", 0, 24);
   const weightKg = getWeight(formData);
   const weightMeasuredTime = getText(formData, "weightMeasuredTime");
   const waistCm = getWaist(formData);
@@ -254,26 +176,11 @@ export async function saveDailyEntry(formData: FormData) {
     1440,
   );
 
-  if (
-    sleepHours !== null &&
-    (Number(sleepHours) < 0 || Number(sleepHours) > 24)
-  ) {
-    redirect("/tageserfassung?error=sleepHours");
-  }
-
-  if (
-    weightKg !== null &&
-    (weightMeasuredTime === null ||
-      !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(weightMeasuredTime))
-  ) {
+  if (weightKg !== null && !isTime(weightMeasuredTime)) {
     redirect("/tageserfassung?error=weightMeasuredTime");
   }
 
-  if (
-    waistCm !== null &&
-    (waistMeasuredTime === null ||
-      !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(waistMeasuredTime))
-  ) {
+  if (waistCm !== null && !isTime(waistMeasuredTime)) {
     redirect("/tageserfassung?error=waistMeasuredTime");
   }
 

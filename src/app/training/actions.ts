@@ -15,6 +15,7 @@ import {
   exerciseEquipmentValues,
   muscleGroupValues,
 } from "@/lib/training/exercise-options";
+import { trainingSetInputSchema } from "@/lib/training/training-set-input";
 
 const exerciseSchema = z.object({
   exerciseId: z.string().trim().min(1).optional(),
@@ -36,27 +37,6 @@ const catalogExerciseSchema = z.object({
 
 const trainingSessionSchema = z.object({
   trainingSessionId: z.string().trim().min(1),
-});
-
-const trainingSetSchema = trainingSessionSchema.extend({
-  exerciseId: z.string().trim().min(1),
-  repetitions: z.coerce.number().int().min(1).max(1000),
-  weightKg: z
-    .string()
-    .trim()
-    .transform((value) =>
-      value === "" ? null : Number(value.replace(",", ".")),
-    )
-    .refine(
-      (value) => value === null || (Number.isFinite(value) && value >= 0 && value <= 2000),
-    ),
-  effort: z
-    .string()
-    .trim()
-    .transform((value) => (value === "" ? null : Number(value)))
-    .refine(
-      (value) => value === null || (Number.isInteger(value) && value >= 1 && value <= 10),
-    ),
 });
 
 const trainingSetIdSchema = z.object({
@@ -415,7 +395,7 @@ export async function startTrainingSession(formData: FormData) {
 
 export async function addTrainingSet(formData: FormData) {
   const user = await requireUser();
-  const parsed = trainingSetSchema.safeParse({
+  const parsed = trainingSetInputSchema.safeParse({
     trainingSessionId: formText(formData, "trainingSessionId"),
     exerciseId: formText(formData, "exerciseId"),
     repetitions: formText(formData, "repetitions"),

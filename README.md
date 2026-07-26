@@ -68,6 +68,16 @@ pnpm run build
 
 `pnpm run build` synchronisiert vor dem Build den mitgelieferten Rezeptkatalog.
 
+Während die Anwendung lokal läuft, prüft ein separater Smoke-Test ohne Sitzung
+den Schutz aller Kernbereiche:
+
+```bash
+cd /Users/ken/Projekte/langkompass
+pnpm run test:smoke
+```
+
+Ein abweichendes Ziel kann über `SMOKE_BASE_URL` gesetzt werden.
+
 ## Datenbankänderungen
 
 Das Prisma-Schema liegt in `prisma/schema.prisma`. Änderungen werden lokal als

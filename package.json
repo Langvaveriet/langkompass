@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "tsx --test src/lib/**/*.test.ts",
+    "test:smoke": "tsx scripts/smoke-protected-routes.ts",
     "typecheck": "tsc --noEmit",
     "db:check": "tsx scripts/check-database.ts",
     "db:check:daily": "tsx scripts/check-daily-entries.ts",

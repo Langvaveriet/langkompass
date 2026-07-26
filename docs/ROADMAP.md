@@ -16,9 +16,10 @@ Dashboard und lokale Compass-Berichte ein.
 
 Der erste Finalisierungsblock ergänzt zentrale Lade-, Fehler- und
 Nicht-gefunden-Zustände sowie einen reproduzierbaren Benutzer-Bootstrap und ein
-Betriebs-Runbook. Als nächster Stabilitätsschritt folgen automatisierte Tests
-der geschützten Kernabläufe und die Vorbereitung von Datenexport und
-vollständiger Kontolöschung.
+Betriebs-Runbook. Ein automatisierter Smoke-Test prüft inzwischen sämtliche
+geschützten Kernrouten; die wichtigsten Eingabeverträge sind durch Grenzfälle
+abgesichert. Als nächster Stabilitätsschritt folgen Datenexport und vollständige
+Kontolöschung.
 
 ## Später: Apple Health
 

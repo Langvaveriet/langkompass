@@ -6,15 +6,17 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
-import { supplementIntakeCorrectionReasons } from "@/lib/supplements/intake-corrections";
 import { supplementHistoryPeriods } from "@/lib/supplements/intake-history";
 import {
+  supplementIntakeCorrectionInputSchema,
+  supplementIntakeDeletionSchema,
+  supplementIntakeInputSchema,
+} from "@/lib/supplements/intake-input";
+import {
   supplementDoseUnits,
-  supplementEffects,
   supplementForms,
   supplementIngredientUnits,
   supplementReasons,
-  supplementTolerances,
 } from "@/lib/supplements/supplement-options";
 import {
   defaultTimeZone,
@@ -78,46 +80,9 @@ const supplementIdSchema = z.object({
   supplementId: z.string().trim().min(1),
 });
 
-const intakeSchema = supplementIdSchema.extend({
-  takenDate: z.string().refine(isIsoDate),
-  takenTime: z.string().refine(isTime),
-  dose: decimalInput,
-  tolerance: z.enum(supplementTolerances),
-  effect: z.enum(supplementEffects),
-  note: z.string().trim().max(500).transform((value) => value || null),
-});
-
-const intakeCorrectionSchema = z.object({
-  intakeId: z.string().trim().min(1),
-  takenDate: z.string().refine(isIsoDate),
-  takenTime: z.string().refine(isTime),
-  dose: decimalInput,
-  doseUnit: z.enum(supplementDoseUnits),
-  tolerance: z.enum(supplementTolerances),
-  effect: z.enum(supplementEffects),
-  note: z.string().trim().max(500).transform((value) => value || null),
-  reason: z.enum(supplementIntakeCorrectionReasons),
-});
-
-const intakeDeleteSchema = z.object({
-  intakeId: z.string().trim().min(1),
-  confirmDeletion: z.literal("DELETE"),
-});
-
 function formText(formData: FormData, field: string): string {
   const value = formData.get(field);
   return typeof value === "string" ? value : "";
-}
-
-function isIsoDate(value: string): boolean {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const date = new Date(`${value}T00:00:00.000Z`);
-  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
-}
-
-function isTime(value: string): boolean {
-  const match = /^(\d{2}):(\d{2})$/.exec(value);
-  return Boolean(match && Number(match[1]) <= 23 && Number(match[2]) <= 59);
 }
 
 function intakeHistoryUrl(
@@ -402,7 +367,7 @@ export async function logSupplementNow(formData: FormData) {
 
 export async function logSupplementIntake(formData: FormData) {
   const user = await requireUser();
-  const parsed = intakeSchema.safeParse({
+  const parsed = supplementIntakeInputSchema.safeParse({
     supplementId: formText(formData, "supplementId"),
     takenDate: formText(formData, "takenDate"),
     takenTime: formText(formData, "takenTime"),
@@ -450,7 +415,7 @@ export async function logSupplementIntake(formData: FormData) {
 export async function correctSupplementIntake(formData: FormData) {
   const user = await requireUser();
   const submittedIntakeId = formText(formData, "intakeId");
-  const parsed = intakeCorrectionSchema.safeParse({
+  const parsed = supplementIntakeCorrectionInputSchema.safeParse({
     intakeId: submittedIntakeId,
     takenDate: formText(formData, "takenDate"),
     takenTime: formText(formData, "takenTime"),
@@ -531,7 +496,7 @@ export async function correctSupplementIntake(formData: FormData) {
 
 export async function deleteSupplementIntake(formData: FormData) {
   const user = await requireUser();
-  const parsed = intakeDeleteSchema.safeParse({
+  const parsed = supplementIntakeDeletionSchema.safeParse({
     intakeId: formText(formData, "intakeId"),
     confirmDeletion: formText(formData, "confirmDeletion"),
   });

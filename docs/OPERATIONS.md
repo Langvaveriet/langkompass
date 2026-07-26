@@ -62,6 +62,17 @@ Anschließend werden Anmeldung, Dashboard, Tageserfassung, Ernährung, Training,
 Laborwerte und Supplemente stichprobenartig geprüft. Erst eine praktisch
 erfolgreiche Wiederherstellung gilt als geprüfte Sicherung.
 
+Ohne aktive Browsersitzung lässt sich der serverseitige Routenschutz gegen die
+laufende Instanz automatisiert prüfen:
+
+```bash
+cd /var/www/vhosts/langvaveriet.se/kompass.langvaveriet.se
+SMOKE_BASE_URL="https://kompass.langvaveriet.se" corepack pnpm run test:smoke
+```
+
+Der Test überträgt keine Gesundheitsdaten und bestätigt, dass öffentliche
+Anmeldung und sämtliche geschützten Kernbereiche korrekt reagieren.
+
 ## Fehlgeschlagenes Deployment
 
 - Keine Migration oder Tabelle wird manuell zurückeditiert.

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import type { MealType, PortionSize } from "@/generated/prisma/enums";
+import type { PortionSize } from "@/generated/prisma/enums";
 import {
   catalogRecipeSnapshot,
   type CuratedRecipe,
@@ -17,6 +17,7 @@ import {
   allowedPostMealSymptoms,
   allowedReactionDelays,
 } from "@/lib/nutrition/post-meal-reactions";
+import { mealDetailsInputSchema } from "@/lib/nutrition/meal-input";
 import {
   normalizeRecipeName,
   recipeNameSchema,
@@ -30,7 +31,6 @@ import {
   timeInTimeZone,
 } from "@/lib/user-settings";
 
-const mealTypes = new Set<MealType>(["BREAKFAST", "LUNCH", "DINNER", "SNACK", "DRINK"]);
 const portionSizes = new Set<PortionSize>(["SMALL", "MEDIUM", "LARGE"]);
 
 function text(formData: FormData, field: string): string | null {
@@ -86,7 +86,7 @@ export async function saveMeal(formData: FormData) {
   const timeZone = settings?.timeZone ?? defaultTimeZone;
   const date = selectedDate(formData);
   const time = text(formData, "consumedTime");
-  const typeValue = text(formData, "type") as MealType | null;
+  const typeValue = text(formData, "type");
   const mealId = text(formData, "mealId");
   const postMealSymptomTags = formData
     .getAll("postMealSymptomTags")
@@ -103,25 +103,27 @@ export async function saveMeal(formData: FormData) {
       ? parsedReactionDelay
       : null;
 
-  if (!time || !/^\d{2}:\d{2}$/.test(time) || !typeValue || !mealTypes.has(typeValue)) {
+  const parsedMealDetails = mealDetailsInputSchema.safeParse({
+    consumedTime: time ?? "",
+    type: typeValue ?? "",
+    customQuantity: text(formData, "customQuantity") ?? "",
+  });
+
+  if (!parsedMealDetails.success) {
     redirect(`/ernaehrung?date=${date}&error=meal`);
   }
+
+  const {
+    consumedTime,
+    type: mealType,
+    customQuantity,
+  } = parsedMealDetails.data;
 
   const selectedKeys = formData
     .getAll("foodKeys")
     .filter((value): value is string => typeof value === "string")
     .filter((key) => foodCatalogByKey.has(key));
   const customFood = text(formData, "customFood");
-  const customQuantityValue = text(formData, "customQuantity");
-  const customQuantity = customQuantityValue
-    ? Number(customQuantityValue.replace(",", "."))
-    : null;
-  const hasValidCustomQuantity =
-    customQuantity !== null &&
-    Number.isFinite(customQuantity) &&
-    customQuantity > 0 &&
-    customQuantity <= 5000;
-
   if (selectedKeys.length === 0 && !customFood) {
     redirect(`/ernaehrung?date=${date}&error=food`);
   }
@@ -159,16 +161,16 @@ export async function saveMeal(formData: FormData) {
           name: customFood,
           category: "OTHER" as const,
           portion: "MEDIUM" as const,
-          quantity: hasValidCustomQuantity ? customQuantity : null,
-          unit: hasValidCustomQuantity ? "GRAM" as const : null,
+          quantity: customQuantity,
+          unit: customQuantity !== null ? "GRAM" as const : null,
           energyKcal: null,
           traits: [],
         }]
       : []),
   ];
   const data = {
-    type: typeValue,
-    consumedAt: localDateTimeToUtc(date, time, timeZone),
+    type: mealType,
+    consumedAt: localDateTimeToUtc(date, consumedTime, timeZone),
     notes: text(formData, "notes"),
     postMealSymptomTags,
     reactionDelayMinutes,

@@ -1,5 +1,15 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Kernabläufe und Routenschutz abgesichert
+
+- Ein reproduzierbarer Smoke-Test bestätigt für 15 Kernrouten die
+  serverseitige Weiterleitung zur Anmeldung, wenn keine Sitzung besteht.
+- Testbare Eingabeverträge sichern Tageserfassung, Mahlzeiten, Trainingssätze,
+  Laborwerte und Supplementeinnahmen mit Grenz- und Korrekturfällen ab.
+- Unmögliche Kalendertage, partielle Skalenwerte und ungültige Uhrzeiten werden
+  nicht länger stillschweigend normalisiert oder akzeptiert.
+- Die Fachtests wurden von 50 auf 67 reproduzierbare Testfälle erweitert.
+
 ## 2026-07-26 – Finalisierung und reproduzierbarer Betrieb begonnen
 
 - Zentrale Lade-, Fehler- und Nicht-gefunden-Zustände ergänzen verständliche
