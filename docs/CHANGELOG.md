@@ -1,5 +1,18 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Einkaufsliste aus dem Wochenplan
+
+- Geplante Rezepte einer Kalenderwoche erzeugen automatisch eine gemeinsame
+  Einkaufsliste.
+- Wiederkehrende Zutaten mit gleicher strukturierter Einheit werden addiert;
+  verschiedene Einheiten bleiben getrennt und nachvollziehbar.
+- Große, kategorisierte Touch-Zeilen lassen sich dauerhaft pro Benutzer und
+  Woche abhaken.
+- Offene Positionen können über das mobile Teilen-Menü übergeben oder als
+  mengenlesbare Textliste für Pon kopiert werden.
+- Eine direkte Pon-Synchronisierung wird nicht vorgetäuscht: Pon dokumentiert
+  derzeit keine öffentliche Web-API oder OAuth-Anbindung für Drittanbieter.
+
 ## 2026-07-26 – Kernabläufe und Routenschutz abgesichert
 
 - Ein reproduzierbarer Smoke-Test bestätigt für 15 Kernrouten die

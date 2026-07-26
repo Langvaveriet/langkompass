@@ -162,3 +162,8 @@ export type CatalogRecipeItem = Prisma.CatalogRecipeItemModel
  *
  */
 export type MealPlanEntry = Prisma.MealPlanEntryModel
+/**
+ * Model ShoppingListItemState
+ *
+ */
+export type ShoppingListItemState = Prisma.ShoppingListItemStateModel

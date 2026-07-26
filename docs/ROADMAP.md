@@ -30,13 +30,13 @@ erhält einen lokal gebündelten Mobile-Client und eine kleine native
 HealthKit-Brücke. Die Umsetzung erfolgt bewusst erst nach der Finalisierung der
 Web-App und gehört zu den letzten geplanten größeren Erweiterungen.
 
-## Danach
+## Zuletzt abgeschlossen: Einkaufsliste aus dem Wochenplan
 
-### Einkaufsliste aus dem Wochenplan
-
-Aus den geplanten Rezepten einer Woche soll eine zusammengefasste Einkaufsliste
-entstehen. Gleiche Zutaten werden nach kompatiblen Einheiten gebündelt,
-Portionszahlen berücksichtigt und Positionen als erledigt markierbar.
+Aus den geplanten Rezepten einer Woche entsteht eine zusammengefasste
+Einkaufsliste. Gleiche Zutaten werden bei kompatiblen Einheiten gebündelt und
+Positionen bleiben pro Woche dauerhaft abhakbar. Offene Positionen lassen sich
+mobil teilen oder für Pon kopieren. Eine direkte Pon-Synchronisierung bleibt
+von einer zukünftig veröffentlichten, autorisierten Pon-Schnittstelle abhängig.
 
 ## Optionale Features
 

@@ -425,7 +425,8 @@ export const ModelName = {
   RecipeItem: 'RecipeItem',
   CatalogRecipe: 'CatalogRecipe',
   CatalogRecipeItem: 'CatalogRecipeItem',
-  MealPlanEntry: 'MealPlanEntry'
+  MealPlanEntry: 'MealPlanEntry',
+  ShoppingListItemState: 'ShoppingListItemState'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -441,7 +442,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "labReport" | "labResult" | "labResultRevision" | "labReferenceRange" | "supplement" | "supplementIngredient" | "supplementIntake" | "supplementIntakeRevision" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem" | "recipe" | "recipeItem" | "catalogRecipe" | "catalogRecipeItem" | "mealPlanEntry"
+    modelProps: "user" | "userSettings" | "session" | "account" | "verification" | "passkey" | "healthProfile" | "dailyEntry" | "bodyMeasurement" | "labReport" | "labResult" | "labResultRevision" | "labReferenceRange" | "supplement" | "supplementIngredient" | "supplementIntake" | "supplementIntakeRevision" | "exercise" | "trainingPlan" | "trainingPlanExercise" | "trainingSession" | "trainingSet" | "meal" | "mealItem" | "recipe" | "recipeItem" | "catalogRecipe" | "catalogRecipeItem" | "mealPlanEntry" | "shoppingListItemState"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2591,6 +2592,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ShoppingListItemState: {
+      payload: Prisma.$ShoppingListItemStatePayload<ExtArgs>
+      fields: Prisma.ShoppingListItemStateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ShoppingListItemStateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ShoppingListItemStateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>
+        }
+        findFirst: {
+          args: Prisma.ShoppingListItemStateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ShoppingListItemStateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>
+        }
+        findMany: {
+          args: Prisma.ShoppingListItemStateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>[]
+        }
+        create: {
+          args: Prisma.ShoppingListItemStateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>
+        }
+        createMany: {
+          args: Prisma.ShoppingListItemStateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ShoppingListItemStateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>[]
+        }
+        delete: {
+          args: Prisma.ShoppingListItemStateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>
+        }
+        update: {
+          args: Prisma.ShoppingListItemStateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>
+        }
+        deleteMany: {
+          args: Prisma.ShoppingListItemStateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ShoppingListItemStateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ShoppingListItemStateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>[]
+        }
+        upsert: {
+          args: Prisma.ShoppingListItemStateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShoppingListItemStatePayload>
+        }
+        aggregate: {
+          args: Prisma.ShoppingListItemStateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateShoppingListItemState>
+        }
+        groupBy: {
+          args: Prisma.ShoppingListItemStateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShoppingListItemStateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ShoppingListItemStateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShoppingListItemStateCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3129,6 +3204,19 @@ export const MealPlanEntryScalarFieldEnum = {
 } as const
 
 export type MealPlanEntryScalarFieldEnum = (typeof MealPlanEntryScalarFieldEnum)[keyof typeof MealPlanEntryScalarFieldEnum]
+
+
+export const ShoppingListItemStateScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  weekStart: 'weekStart',
+  itemKey: 'itemKey',
+  checkedAt: 'checkedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShoppingListItemStateScalarFieldEnum = (typeof ShoppingListItemStateScalarFieldEnum)[keyof typeof ShoppingListItemStateScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -3781,6 +3869,7 @@ export type GlobalOmitConfig = {
   catalogRecipe?: Prisma.CatalogRecipeOmit
   catalogRecipeItem?: Prisma.CatalogRecipeItemOmit
   mealPlanEntry?: Prisma.MealPlanEntryOmit
+  shoppingListItemState?: Prisma.ShoppingListItemStateOmit
 }
 
 /* Types for Logging */

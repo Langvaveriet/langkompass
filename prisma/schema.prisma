@@ -25,6 +25,7 @@ model User {
   recipes                   Recipe[]
   recipeItems               RecipeItem[]
   mealPlanEntries           MealPlanEntry[]
+  shoppingListItemStates    ShoppingListItemState[]
   labReports                LabReport[]
   labResults                LabResult[]
   labResultRevisions        LabResultRevision[]
@@ -816,4 +817,19 @@ model MealPlanEntry {
   @@unique([userId, plannedDate, type])
   @@index([userId, plannedDate])
   @@index([recipeId])
+}
+
+model ShoppingListItemState {
+  id        String    @id @default(cuid())
+  userId    String
+  weekStart DateTime  @db.Date
+  itemKey   String
+  checkedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, weekStart, itemKey])
+  @@index([userId, weekStart])
 }

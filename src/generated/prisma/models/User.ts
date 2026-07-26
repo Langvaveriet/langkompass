@@ -210,6 +210,7 @@ export type UserWhereInput = {
   recipes?: Prisma.RecipeListRelationFilter
   recipeItems?: Prisma.RecipeItemListRelationFilter
   mealPlanEntries?: Prisma.MealPlanEntryListRelationFilter
+  shoppingListItemStates?: Prisma.ShoppingListItemStateListRelationFilter
   labReports?: Prisma.LabReportListRelationFilter
   labResults?: Prisma.LabResultListRelationFilter
   labResultRevisions?: Prisma.LabResultRevisionListRelationFilter
@@ -243,6 +244,7 @@ export type UserOrderByWithRelationInput = {
   recipes?: Prisma.RecipeOrderByRelationAggregateInput
   recipeItems?: Prisma.RecipeItemOrderByRelationAggregateInput
   mealPlanEntries?: Prisma.MealPlanEntryOrderByRelationAggregateInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateOrderByRelationAggregateInput
   labReports?: Prisma.LabReportOrderByRelationAggregateInput
   labResults?: Prisma.LabResultOrderByRelationAggregateInput
   labResultRevisions?: Prisma.LabResultRevisionOrderByRelationAggregateInput
@@ -279,6 +281,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   recipes?: Prisma.RecipeListRelationFilter
   recipeItems?: Prisma.RecipeItemListRelationFilter
   mealPlanEntries?: Prisma.MealPlanEntryListRelationFilter
+  shoppingListItemStates?: Prisma.ShoppingListItemStateListRelationFilter
   labReports?: Prisma.LabReportListRelationFilter
   labResults?: Prisma.LabResultListRelationFilter
   labResultRevisions?: Prisma.LabResultRevisionListRelationFilter
@@ -338,6 +341,7 @@ export type UserCreateInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -371,6 +375,7 @@ export type UserUncheckedCreateInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -404,6 +409,7 @@ export type UserUpdateInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -437,6 +443,7 @@ export type UserUncheckedUpdateInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -853,6 +860,20 @@ export type UserUpdateOneRequiredWithoutMealPlanEntriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMealPlanEntriesInput, Prisma.UserUpdateWithoutMealPlanEntriesInput>, Prisma.UserUncheckedUpdateWithoutMealPlanEntriesInput>
 }
 
+export type UserCreateNestedOneWithoutShoppingListItemStatesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutShoppingListItemStatesInput, Prisma.UserUncheckedCreateWithoutShoppingListItemStatesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutShoppingListItemStatesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutShoppingListItemStatesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutShoppingListItemStatesInput, Prisma.UserUncheckedCreateWithoutShoppingListItemStatesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutShoppingListItemStatesInput
+  upsert?: Prisma.UserUpsertWithoutShoppingListItemStatesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutShoppingListItemStatesInput, Prisma.UserUpdateWithoutShoppingListItemStatesInput>, Prisma.UserUncheckedUpdateWithoutShoppingListItemStatesInput>
+}
+
 export type UserCreateWithoutSettingsInput = {
   id?: string
   email: string
@@ -872,6 +893,7 @@ export type UserCreateWithoutSettingsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -904,6 +926,7 @@ export type UserUncheckedCreateWithoutSettingsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -952,6 +975,7 @@ export type UserUpdateWithoutSettingsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -984,6 +1008,7 @@ export type UserUncheckedUpdateWithoutSettingsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -1017,6 +1042,7 @@ export type UserCreateWithoutSessionsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -1049,6 +1075,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -1097,6 +1124,7 @@ export type UserUpdateWithoutSessionsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -1129,6 +1157,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -1161,6 +1190,7 @@ export type UserCreateWithoutAccountsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -1193,6 +1223,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -1241,6 +1272,7 @@ export type UserUpdateWithoutAccountsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -1273,6 +1305,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -1305,6 +1338,7 @@ export type UserCreateWithoutPasskeysInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -1337,6 +1371,7 @@ export type UserUncheckedCreateWithoutPasskeysInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -1385,6 +1420,7 @@ export type UserUpdateWithoutPasskeysInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -1417,6 +1453,7 @@ export type UserUncheckedUpdateWithoutPasskeysInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -1448,6 +1485,7 @@ export type UserCreateWithoutHealthProfileInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -1480,6 +1518,7 @@ export type UserUncheckedCreateWithoutHealthProfileInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -1528,6 +1567,7 @@ export type UserUpdateWithoutHealthProfileInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -1560,6 +1600,7 @@ export type UserUncheckedUpdateWithoutHealthProfileInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -1592,6 +1633,7 @@ export type UserCreateWithoutDailyEntriesInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -1624,6 +1666,7 @@ export type UserUncheckedCreateWithoutDailyEntriesInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -1672,6 +1715,7 @@ export type UserUpdateWithoutDailyEntriesInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -1704,6 +1748,7 @@ export type UserUncheckedUpdateWithoutDailyEntriesInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -1736,6 +1781,7 @@ export type UserCreateWithoutMeasurementsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -1768,6 +1814,7 @@ export type UserUncheckedCreateWithoutMeasurementsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -1816,6 +1863,7 @@ export type UserUpdateWithoutMeasurementsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -1848,6 +1896,7 @@ export type UserUncheckedUpdateWithoutMeasurementsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -1881,6 +1930,7 @@ export type UserCreateWithoutLabReportsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
   labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
@@ -1913,6 +1963,7 @@ export type UserUncheckedCreateWithoutLabReportsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
   labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
@@ -1961,6 +2012,7 @@ export type UserUpdateWithoutLabReportsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
   labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
@@ -1993,6 +2045,7 @@ export type UserUncheckedUpdateWithoutLabReportsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
   labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
@@ -2025,6 +2078,7 @@ export type UserCreateWithoutLabResultsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
   labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
@@ -2057,6 +2111,7 @@ export type UserUncheckedCreateWithoutLabResultsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
   labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
@@ -2105,6 +2160,7 @@ export type UserUpdateWithoutLabResultsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
   labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
@@ -2137,6 +2193,7 @@ export type UserUncheckedUpdateWithoutLabResultsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
   labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
@@ -2169,6 +2226,7 @@ export type UserCreateWithoutLabResultRevisionsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
@@ -2201,6 +2259,7 @@ export type UserUncheckedCreateWithoutLabResultRevisionsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
@@ -2249,6 +2308,7 @@ export type UserUpdateWithoutLabResultRevisionsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
@@ -2281,6 +2341,7 @@ export type UserUncheckedUpdateWithoutLabResultRevisionsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
@@ -2313,6 +2374,7 @@ export type UserCreateWithoutLabReferenceRangesInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -2345,6 +2407,7 @@ export type UserUncheckedCreateWithoutLabReferenceRangesInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -2393,6 +2456,7 @@ export type UserUpdateWithoutLabReferenceRangesInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -2425,6 +2489,7 @@ export type UserUncheckedUpdateWithoutLabReferenceRangesInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -2457,6 +2522,7 @@ export type UserCreateWithoutSupplementsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -2489,6 +2555,7 @@ export type UserUncheckedCreateWithoutSupplementsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -2537,6 +2604,7 @@ export type UserUpdateWithoutSupplementsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -2569,6 +2637,7 @@ export type UserUncheckedUpdateWithoutSupplementsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -2601,6 +2670,7 @@ export type UserCreateWithoutSupplementIngredientsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -2633,6 +2703,7 @@ export type UserUncheckedCreateWithoutSupplementIngredientsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -2681,6 +2752,7 @@ export type UserUpdateWithoutSupplementIngredientsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -2713,6 +2785,7 @@ export type UserUncheckedUpdateWithoutSupplementIngredientsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -2745,6 +2818,7 @@ export type UserCreateWithoutSupplementIntakesInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -2777,6 +2851,7 @@ export type UserUncheckedCreateWithoutSupplementIntakesInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -2825,6 +2900,7 @@ export type UserUpdateWithoutSupplementIntakesInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -2857,6 +2933,7 @@ export type UserUncheckedUpdateWithoutSupplementIntakesInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -2889,6 +2966,7 @@ export type UserCreateWithoutSupplementIntakeRevisionsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -2921,6 +2999,7 @@ export type UserUncheckedCreateWithoutSupplementIntakeRevisionsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -2969,6 +3048,7 @@ export type UserUpdateWithoutSupplementIntakeRevisionsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -3001,6 +3081,7 @@ export type UserUncheckedUpdateWithoutSupplementIntakeRevisionsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -3032,6 +3113,7 @@ export type UserCreateWithoutExercisesInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -3064,6 +3146,7 @@ export type UserUncheckedCreateWithoutExercisesInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -3112,6 +3195,7 @@ export type UserUpdateWithoutExercisesInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -3144,6 +3228,7 @@ export type UserUncheckedUpdateWithoutExercisesInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -3176,6 +3261,7 @@ export type UserCreateWithoutTrainingPlansInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -3208,6 +3294,7 @@ export type UserUncheckedCreateWithoutTrainingPlansInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -3256,6 +3343,7 @@ export type UserUpdateWithoutTrainingPlansInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -3288,6 +3376,7 @@ export type UserUncheckedUpdateWithoutTrainingPlansInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -3320,6 +3409,7 @@ export type UserCreateWithoutTrainingPlanExercisesInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -3352,6 +3442,7 @@ export type UserUncheckedCreateWithoutTrainingPlanExercisesInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -3400,6 +3491,7 @@ export type UserUpdateWithoutTrainingPlanExercisesInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -3432,6 +3524,7 @@ export type UserUncheckedUpdateWithoutTrainingPlanExercisesInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -3464,6 +3557,7 @@ export type UserCreateWithoutTrainingSessionsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -3496,6 +3590,7 @@ export type UserUncheckedCreateWithoutTrainingSessionsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -3544,6 +3639,7 @@ export type UserUpdateWithoutTrainingSessionsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -3576,6 +3672,7 @@ export type UserUncheckedUpdateWithoutTrainingSessionsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -3608,6 +3705,7 @@ export type UserCreateWithoutTrainingSetsInput = {
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -3640,6 +3738,7 @@ export type UserUncheckedCreateWithoutTrainingSetsInput = {
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -3688,6 +3787,7 @@ export type UserUpdateWithoutTrainingSetsInput = {
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -3720,6 +3820,7 @@ export type UserUncheckedUpdateWithoutTrainingSetsInput = {
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -3752,6 +3853,7 @@ export type UserCreateWithoutRecipesInput = {
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -3784,6 +3886,7 @@ export type UserUncheckedCreateWithoutRecipesInput = {
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -3832,6 +3935,7 @@ export type UserUpdateWithoutRecipesInput = {
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -3864,6 +3968,7 @@ export type UserUncheckedUpdateWithoutRecipesInput = {
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -3896,6 +4001,7 @@ export type UserCreateWithoutRecipeItemsInput = {
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -3928,6 +4034,7 @@ export type UserUncheckedCreateWithoutRecipeItemsInput = {
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -3976,6 +4083,7 @@ export type UserUpdateWithoutRecipeItemsInput = {
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -4008,6 +4116,7 @@ export type UserUncheckedUpdateWithoutRecipeItemsInput = {
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -4040,6 +4149,7 @@ export type UserCreateWithoutMealPlanEntriesInput = {
   trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
@@ -4072,6 +4182,7 @@ export type UserUncheckedCreateWithoutMealPlanEntriesInput = {
   trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
   recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
   recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedCreateNestedManyWithoutUserInput
   labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
   labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
@@ -4120,6 +4231,7 @@ export type UserUpdateWithoutMealPlanEntriesInput = {
   trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
@@ -4152,6 +4264,155 @@ export type UserUncheckedUpdateWithoutMealPlanEntriesInput = {
   trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
   recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
   recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
+  shoppingListItemStates?: Prisma.ShoppingListItemStateUncheckedUpdateManyWithoutUserNestedInput
+  labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
+  labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
+  labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedUpdateManyWithoutUserNestedInput
+  supplements?: Prisma.SupplementUncheckedUpdateManyWithoutUserNestedInput
+  supplementIngredients?: Prisma.SupplementIngredientUncheckedUpdateManyWithoutUserNestedInput
+  supplementIntakes?: Prisma.SupplementIntakeUncheckedUpdateManyWithoutUserNestedInput
+  supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutShoppingListItemStatesInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  trainingPlans?: Prisma.TrainingPlanCreateNestedManyWithoutUserInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseCreateNestedManyWithoutUserInput
+  trainingSessions?: Prisma.TrainingSessionCreateNestedManyWithoutUserInput
+  trainingSets?: Prisma.TrainingSetCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemCreateNestedManyWithoutUserInput
+  mealPlanEntries?: Prisma.MealPlanEntryCreateNestedManyWithoutUserInput
+  labReports?: Prisma.LabReportCreateNestedManyWithoutUserInput
+  labResults?: Prisma.LabResultCreateNestedManyWithoutUserInput
+  labResultRevisions?: Prisma.LabResultRevisionCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeCreateNestedManyWithoutUserInput
+  supplements?: Prisma.SupplementCreateNestedManyWithoutUserInput
+  supplementIngredients?: Prisma.SupplementIngredientCreateNestedManyWithoutUserInput
+  supplementIntakes?: Prisma.SupplementIntakeCreateNestedManyWithoutUserInput
+  supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutShoppingListItemStatesInput = {
+  id?: string
+  email: string
+  name?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  dailyEntries?: Prisma.DailyEntryUncheckedCreateNestedManyWithoutUserInput
+  measurements?: Prisma.BodyMeasurementUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  trainingPlans?: Prisma.TrainingPlanUncheckedCreateNestedManyWithoutUserInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedCreateNestedManyWithoutUserInput
+  trainingSessions?: Prisma.TrainingSessionUncheckedCreateNestedManyWithoutUserInput
+  trainingSets?: Prisma.TrainingSetUncheckedCreateNestedManyWithoutUserInput
+  recipes?: Prisma.RecipeUncheckedCreateNestedManyWithoutUserInput
+  recipeItems?: Prisma.RecipeItemUncheckedCreateNestedManyWithoutUserInput
+  mealPlanEntries?: Prisma.MealPlanEntryUncheckedCreateNestedManyWithoutUserInput
+  labReports?: Prisma.LabReportUncheckedCreateNestedManyWithoutUserInput
+  labResults?: Prisma.LabResultUncheckedCreateNestedManyWithoutUserInput
+  labResultRevisions?: Prisma.LabResultRevisionUncheckedCreateNestedManyWithoutUserInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUncheckedCreateNestedManyWithoutUserInput
+  supplements?: Prisma.SupplementUncheckedCreateNestedManyWithoutUserInput
+  supplementIngredients?: Prisma.SupplementIngredientUncheckedCreateNestedManyWithoutUserInput
+  supplementIntakes?: Prisma.SupplementIntakeUncheckedCreateNestedManyWithoutUserInput
+  supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  passkeys?: Prisma.PasskeyUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutShoppingListItemStatesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutShoppingListItemStatesInput, Prisma.UserUncheckedCreateWithoutShoppingListItemStatesInput>
+}
+
+export type UserUpsertWithoutShoppingListItemStatesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutShoppingListItemStatesInput, Prisma.UserUncheckedUpdateWithoutShoppingListItemStatesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutShoppingListItemStatesInput, Prisma.UserUncheckedCreateWithoutShoppingListItemStatesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutShoppingListItemStatesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutShoppingListItemStatesInput, Prisma.UserUncheckedUpdateWithoutShoppingListItemStatesInput>
+}
+
+export type UserUpdateWithoutShoppingListItemStatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  trainingPlans?: Prisma.TrainingPlanUpdateManyWithoutUserNestedInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUpdateManyWithoutUserNestedInput
+  trainingSessions?: Prisma.TrainingSessionUpdateManyWithoutUserNestedInput
+  trainingSets?: Prisma.TrainingSetUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUpdateManyWithoutUserNestedInput
+  mealPlanEntries?: Prisma.MealPlanEntryUpdateManyWithoutUserNestedInput
+  labReports?: Prisma.LabReportUpdateManyWithoutUserNestedInput
+  labResults?: Prisma.LabResultUpdateManyWithoutUserNestedInput
+  labResultRevisions?: Prisma.LabResultRevisionUpdateManyWithoutUserNestedInput
+  labReferenceRanges?: Prisma.LabReferenceRangeUpdateManyWithoutUserNestedInput
+  supplements?: Prisma.SupplementUpdateManyWithoutUserNestedInput
+  supplementIngredients?: Prisma.SupplementIngredientUpdateManyWithoutUserNestedInput
+  supplementIntakes?: Prisma.SupplementIntakeUpdateManyWithoutUserNestedInput
+  supplementIntakeRevisions?: Prisma.SupplementIntakeRevisionUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  passkeys?: Prisma.PasskeyUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutShoppingListItemStatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  healthProfile?: Prisma.HealthProfileUncheckedUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  dailyEntries?: Prisma.DailyEntryUncheckedUpdateManyWithoutUserNestedInput
+  measurements?: Prisma.BodyMeasurementUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  trainingPlans?: Prisma.TrainingPlanUncheckedUpdateManyWithoutUserNestedInput
+  trainingPlanExercises?: Prisma.TrainingPlanExerciseUncheckedUpdateManyWithoutUserNestedInput
+  trainingSessions?: Prisma.TrainingSessionUncheckedUpdateManyWithoutUserNestedInput
+  trainingSets?: Prisma.TrainingSetUncheckedUpdateManyWithoutUserNestedInput
+  recipes?: Prisma.RecipeUncheckedUpdateManyWithoutUserNestedInput
+  recipeItems?: Prisma.RecipeItemUncheckedUpdateManyWithoutUserNestedInput
+  mealPlanEntries?: Prisma.MealPlanEntryUncheckedUpdateManyWithoutUserNestedInput
   labReports?: Prisma.LabReportUncheckedUpdateManyWithoutUserNestedInput
   labResults?: Prisma.LabResultUncheckedUpdateManyWithoutUserNestedInput
   labResultRevisions?: Prisma.LabResultRevisionUncheckedUpdateManyWithoutUserNestedInput
@@ -4181,6 +4442,7 @@ export type UserCountOutputType = {
   recipes: number
   recipeItems: number
   mealPlanEntries: number
+  shoppingListItemStates: number
   labReports: number
   labResults: number
   labResultRevisions: number
@@ -4205,6 +4467,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   recipes?: boolean | UserCountOutputTypeCountRecipesArgs
   recipeItems?: boolean | UserCountOutputTypeCountRecipeItemsArgs
   mealPlanEntries?: boolean | UserCountOutputTypeCountMealPlanEntriesArgs
+  shoppingListItemStates?: boolean | UserCountOutputTypeCountShoppingListItemStatesArgs
   labReports?: boolean | UserCountOutputTypeCountLabReportsArgs
   labResults?: boolean | UserCountOutputTypeCountLabResultsArgs
   labResultRevisions?: boolean | UserCountOutputTypeCountLabResultRevisionsArgs
@@ -4296,6 +4559,13 @@ export type UserCountOutputTypeCountRecipeItemsArgs<ExtArgs extends runtime.Type
  */
 export type UserCountOutputTypeCountMealPlanEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MealPlanEntryWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountShoppingListItemStatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShoppingListItemStateWhereInput
 }
 
 /**
@@ -4396,6 +4666,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   recipes?: boolean | Prisma.User$recipesArgs<ExtArgs>
   recipeItems?: boolean | Prisma.User$recipeItemsArgs<ExtArgs>
   mealPlanEntries?: boolean | Prisma.User$mealPlanEntriesArgs<ExtArgs>
+  shoppingListItemStates?: boolean | Prisma.User$shoppingListItemStatesArgs<ExtArgs>
   labReports?: boolean | Prisma.User$labReportsArgs<ExtArgs>
   labResults?: boolean | Prisma.User$labResultsArgs<ExtArgs>
   labResultRevisions?: boolean | Prisma.User$labResultRevisionsArgs<ExtArgs>
@@ -4454,6 +4725,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   recipes?: boolean | Prisma.User$recipesArgs<ExtArgs>
   recipeItems?: boolean | Prisma.User$recipeItemsArgs<ExtArgs>
   mealPlanEntries?: boolean | Prisma.User$mealPlanEntriesArgs<ExtArgs>
+  shoppingListItemStates?: boolean | Prisma.User$shoppingListItemStatesArgs<ExtArgs>
   labReports?: boolean | Prisma.User$labReportsArgs<ExtArgs>
   labResults?: boolean | Prisma.User$labResultsArgs<ExtArgs>
   labResultRevisions?: boolean | Prisma.User$labResultRevisionsArgs<ExtArgs>
@@ -4485,6 +4757,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     recipes: Prisma.$RecipePayload<ExtArgs>[]
     recipeItems: Prisma.$RecipeItemPayload<ExtArgs>[]
     mealPlanEntries: Prisma.$MealPlanEntryPayload<ExtArgs>[]
+    shoppingListItemStates: Prisma.$ShoppingListItemStatePayload<ExtArgs>[]
     labReports: Prisma.$LabReportPayload<ExtArgs>[]
     labResults: Prisma.$LabResultPayload<ExtArgs>[]
     labResultRevisions: Prisma.$LabResultRevisionPayload<ExtArgs>[]
@@ -4911,6 +5184,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   recipes<T extends Prisma.User$recipesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recipesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recipeItems<T extends Prisma.User$recipeItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recipeItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecipeItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   mealPlanEntries<T extends Prisma.User$mealPlanEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$mealPlanEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MealPlanEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shoppingListItemStates<T extends Prisma.User$shoppingListItemStatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$shoppingListItemStatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShoppingListItemStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   labReports<T extends Prisma.User$labReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$labReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LabReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   labResults<T extends Prisma.User$labResultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$labResultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LabResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   labResultRevisions<T extends Prisma.User$labResultRevisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$labResultRevisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LabResultRevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5626,6 +5900,30 @@ export type User$mealPlanEntriesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.MealPlanEntryScalarFieldEnum | Prisma.MealPlanEntryScalarFieldEnum[]
+}
+
+/**
+ * User.shoppingListItemStates
+ */
+export type User$shoppingListItemStatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShoppingListItemState
+   */
+  select?: Prisma.ShoppingListItemStateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ShoppingListItemState
+   */
+  omit?: Prisma.ShoppingListItemStateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShoppingListItemStateInclude<ExtArgs> | null
+  where?: Prisma.ShoppingListItemStateWhereInput
+  orderBy?: Prisma.ShoppingListItemStateOrderByWithRelationInput | Prisma.ShoppingListItemStateOrderByWithRelationInput[]
+  cursor?: Prisma.ShoppingListItemStateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShoppingListItemStateScalarFieldEnum | Prisma.ShoppingListItemStateScalarFieldEnum[]
 }
 
 /**

@@ -230,6 +230,17 @@ export default async function WeeklyPlanPage({
           </div>
         </section>
 
+        <Link
+          href={`/ernaehrung/einkaufsliste?date=${selectedDate}`}
+          className="mt-4 flex min-h-16 max-w-4xl items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised px-5 font-semibold text-forest-strong shadow-sm"
+        >
+          <span>
+            <span className="block text-text-primary">Einkaufsliste der Woche</span>
+            <span className="mt-1 block text-sm font-normal text-text-muted">Zutaten bündeln und abhaken</span>
+          </span>
+          <span aria-hidden="true">→</span>
+        </Link>
+
         <section className="mt-8 w-full min-w-0 max-w-4xl overflow-hidden" aria-label="Wochenauswahl">
           <div className="flex items-center justify-between gap-3">
             <Link

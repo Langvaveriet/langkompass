@@ -10,6 +10,7 @@ const protectedRoutes = [
   "/ernaehrung",
   "/ernaehrung/rezepte",
   "/ernaehrung/wochenplan",
+  "/ernaehrung/einkaufsliste",
   "/laborwerte",
   "/supplemente",
   "/supplemente/verlauf",

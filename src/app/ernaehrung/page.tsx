@@ -291,12 +291,20 @@ export default async function ErnaehrungPage({ searchParams }: PageProps) {
         <header className="max-w-4xl">
           <PageTitle>Ernährung</PageTitle>
           <PageSubtitle className="mt-4">Mahlzeiten schnell dokumentieren und langfristige Zusammenhänge erkennen.</PageSubtitle>
-          <Link
-            href={`/ernaehrung/wochenplan?date=${date}`}
-            className="mt-5 inline-flex min-h-12 items-center rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-sm font-semibold text-forest-strong"
-          >
-            Wochenplan öffnen →
-          </Link>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href={`/ernaehrung/wochenplan?date=${date}`}
+              className="inline-flex min-h-12 items-center rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-sm font-semibold text-forest-strong"
+            >
+              Wochenplan öffnen →
+            </Link>
+            <Link
+              href={`/ernaehrung/einkaufsliste?date=${date}`}
+              className="inline-flex min-h-12 items-center rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 text-sm font-semibold text-forest-strong"
+            >
+              Einkaufsliste öffnen →
+            </Link>
+          </div>
         </header>
 
         {query.saved === "1" || query.repeated === "1" || query.deleted === "1" || query.recipeSaved === "1" || query.recipeUsed === "1" || query.recipeArchived === "1" || query.favoriteRemoved === "1" || query.suggestionSaved === "1" || query.suggestionPlanned === "1" ? <div role="status" className="rounded-[var(--radius-md)] border border-border-subtle bg-forest-soft px-4 py-3 text-sm font-medium text-forest-strong">{query.suggestionPlanned === "1" ? "Der Rezeptvorschlag wurde für diesen Tag eingeplant." : query.suggestionSaved === "1" ? "Das Rezept wurde als Favorit gespeichert." : query.favoriteRemoved === "1" ? "Das Rezept wurde aus deinen Favoriten entfernt." : query.deleted === "1" ? "Mahlzeit wurde gelöscht." : query.repeated === "1" || query.recipeUsed === "1" ? "Mahlzeit wurde übernommen." : query.recipeSaved === "1" ? "Eigene Vorlage wurde gespeichert. Ein vorhandener Name wird dabei aktualisiert." : query.recipeArchived === "1" ? "Eigene Vorlage wurde entfernt." : "Mahlzeit wurde gespeichert."}</div> : null}
