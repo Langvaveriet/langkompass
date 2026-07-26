@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   labReportInputSchema,
   labResultInputSchema,
+  labTargetRangeInputSchema,
 } from "@/lib/labs/input-validation";
 
 const reportId = "11111111-1111-4111-8111-111111111111";
@@ -64,4 +65,34 @@ test("rejects reversed laboratory reference ranges", () => {
   });
 
   assert.equal(result.success, false);
+});
+
+test("accepts clearable personal laboratory target ranges", () => {
+  assert.deepEqual(
+    labTargetRangeInputSchema.parse({
+      analyteKey: "ferritin",
+      targetLow: "50,5",
+      targetHigh: "120",
+    }),
+    { analyteKey: "ferritin", targetLow: 50.5, targetHigh: 120 },
+  );
+  assert.deepEqual(
+    labTargetRangeInputSchema.parse({
+      analyteKey: "ferritin",
+      targetLow: "",
+      targetHigh: "",
+    }),
+    { analyteKey: "ferritin", targetLow: null, targetHigh: null },
+  );
+});
+
+test("rejects reversed personal laboratory target ranges", () => {
+  assert.equal(
+    labTargetRangeInputSchema.safeParse({
+      analyteKey: "ferritin",
+      targetLow: "120",
+      targetHigh: "50",
+    }).success,
+    false,
+  );
 });

@@ -331,6 +331,12 @@ function trainingRows(data: JsonObject): JsonObject[] {
 
 function labRows(data: JsonObject): JsonObject[] {
   const laboratory = objectValue(data.laboratory);
+  const targetRanges = new Map(
+    arrayValue(laboratory.referenceRanges).map((rangeValue) => {
+      const range = objectValue(rangeValue);
+      return [String(scalarValue(range.analyteKey) ?? ""), range] as const;
+    }),
+  );
   return arrayValue(laboratory.reports).flatMap((reportValue) => {
     const report = objectValue(reportValue);
     const results = arrayValue(report.results);
@@ -338,6 +344,9 @@ function labRows(data: JsonObject): JsonObject[] {
 
     return resultRows.map((resultValue) => {
       const result = objectValue(resultValue ?? undefined);
+      const targetRange = targetRanges.get(
+        String(scalarValue(result.analyteKey) ?? ""),
+      );
       return {
         entnommenAm: scalarValue(report.collectedAt),
         nuechternstatus: scalarValue(report.fastingStatus),
@@ -348,6 +357,8 @@ function labRows(data: JsonObject): JsonObject[] {
         einheit: scalarValue(result.unit),
         referenzVon: scalarValue(result.referenceLow),
         referenzBis: scalarValue(result.referenceHigh),
+        zielVon: scalarValue(targetRange?.targetLow),
+        zielBis: scalarValue(targetRange?.targetHigh),
         wertNotiz: scalarValue(result.note),
         arztkommentar: scalarValue(report.physicianComment),
         untersuchungsnotiz: scalarValue(report.notes),
@@ -406,6 +417,7 @@ const columnsByDataset: Record<DataExportDataset, { key: string; label: string }
     ["entnommenAm", "Entnommen am"], ["nuechternstatus", "Nüchternstatus"], ["labor", "Labor"],
     ["parameter", "Parameter"], ["schluessel", "Schlüssel"], ["wert", "Wert"],
     ["einheit", "Einheit"], ["referenzVon", "Referenz von"], ["referenzBis", "Referenz bis"],
+    ["zielVon", "Persönliches Ziel von"], ["zielBis", "Persönliches Ziel bis"],
     ["wertNotiz", "Wertnotiz"], ["arztkommentar", "Arztkommentar"], ["untersuchungsnotiz", "Untersuchungsnotiz"],
   ].map(([key, label]) => ({ key, label })),
   supplements: [

@@ -29,6 +29,11 @@ Lokale Berichte decken nun 7, 30 und 365 Tage ab. Ein gesonderter, druckbarer
 Arztbericht fasst die vorhandenen strukturierten Daten ohne externe Übertragung
 und ohne diagnostische Aussagen zusammen.
 
+Laborparameter unterstützen zusätzlich dauerhaft gespeicherte persönliche
+Zielbereiche. Sie bleiben getrennt von den aus dem Laborbericht übernommenen
+Referenzbereichen und werden in Verlauf, Arztbericht und Datenexport
+nachvollziehbar ausgewiesen.
+
 Damit befindet sich die Web-App funktional auf einem vorläufig finalen Stand.
 Vor größeren neuen Modulen folgen nur noch Fehlerkorrekturen, echte
 Geräte-Abnahmen und betriebliche Wartung. Eine angemeldete Safari-Abnahme auf

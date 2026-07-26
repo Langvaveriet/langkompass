@@ -57,9 +57,14 @@ test("bildet Ernährung, Training, Labor und Supplemente tabellarisch ab", () =>
       }],
     },
     laboratory: {
+      referenceRanges: [{
+        analyteKey: "hba1c",
+        targetLow: "28",
+        targetHigh: "36",
+      }],
       reports: [{
         collectedAt: "2026-07-22T07:30:00.000Z",
-        results: [{ analyteName: "HbA1c", value: "32", unit: "mmol/mol" }],
+        results: [{ analyteKey: "hba1c", analyteName: "HbA1c", value: "32", unit: "mmol/mol" }],
       }],
     },
     supplements: [{
@@ -71,6 +76,8 @@ test("bildet Ernährung, Training, Labor und Supplemente tabellarisch ab", () =>
   assert.match(createCsvExport("nutrition", data), /"Joghurt"/);
   assert.match(createCsvExport("training", data), /"Rudern"/);
   assert.match(createCsvExport("labs", data), /"HbA1c"/);
+  assert.match(createCsvExport("labs", data), /"Persönliches Ziel von"/);
+  assert.match(createCsvExport("labs", data), /"28"/);
   assert.match(createCsvExport("supplements", data), /"Magnesium"/);
 });
 

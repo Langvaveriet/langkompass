@@ -52,6 +52,8 @@ export type HealthContextInput = {
     unit: string;
     referenceLow: number | null;
     referenceHigh: number | null;
+    targetLow?: number | null;
+    targetHigh?: number | null;
   }>;
   supplements: Array<{
     name: string;
@@ -231,6 +233,8 @@ export function buildHealthContext(input: HealthContextInput) {
             unit: result.unit,
             referenceLow: result.referenceLow,
             referenceHigh: result.referenceHigh,
+            targetLow: result.targetLow ?? null,
+            targetHigh: result.targetHigh ?? null,
           })),
       },
       supplements: {

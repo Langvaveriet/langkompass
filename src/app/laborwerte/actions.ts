@@ -10,6 +10,7 @@ import {
   labReportDeletionSchema,
   labReportInputSchema,
   labResultInputSchema,
+  labTargetRangeInputSchema,
 } from "@/lib/labs/input-validation";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
@@ -259,4 +260,42 @@ export async function deleteLabReport(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/laborwerte");
   redirect("/laborwerte?deleted=1");
+}
+
+export async function saveLabTargetRange(formData: FormData) {
+  const user = await requireUser();
+  const parsed = labTargetRangeInputSchema.safeParse({
+    analyteKey: formText(formData, "analyteKey"),
+    targetLow: formText(formData, "targetLow"),
+    targetHigh: formText(formData, "targetHigh"),
+  });
+
+  if (!parsed.success) redirect("/laborwerte?error=target-validation#laborverlauf");
+
+  const analyte = labAnalyteByKey.get(parsed.data.analyteKey);
+  if (!analyte) redirect("/laborwerte?error=analyte#laborverlauf");
+
+  await prisma.labReferenceRange.upsert({
+    where: {
+      userId_analyteKey: {
+        userId: user.id,
+        analyteKey: analyte.key,
+      },
+    },
+    create: {
+      userId: user.id,
+      analyteKey: analyte.key,
+      unit: analyte.unit,
+      targetLow: parsed.data.targetLow,
+      targetHigh: parsed.data.targetHigh,
+    },
+    update: {
+      unit: analyte.unit,
+      targetLow: parsed.data.targetLow,
+      targetHigh: parsed.data.targetHigh,
+    },
+  });
+
+  revalidatePath("/laborwerte");
+  redirect(`/laborwerte?analyte=${encodeURIComponent(analyte.key)}&targetSaved=1#laborverlauf`);
 }

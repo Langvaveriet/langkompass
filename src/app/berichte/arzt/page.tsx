@@ -30,6 +30,17 @@ function dateLabel(value: string | Date, timeZone: string) {
   }).format(new Date(value));
 }
 
+function rangeLabel(
+  low: number | null,
+  high: number | null,
+  unit: string,
+) {
+  if (low !== null && high !== null) return `${low.toLocaleString("de-DE")}–${high.toLocaleString("de-DE")} ${unit}`;
+  if (low !== null) return `ab ${low.toLocaleString("de-DE")} ${unit}`;
+  if (high !== null) return `bis ${high.toLocaleString("de-DE")} ${unit}`;
+  return null;
+}
+
 export default async function PhysicianReportPage() {
   const user = await requireUser();
   const [context, profile] = await Promise.all([
@@ -138,7 +149,12 @@ export default async function PhysicianReportPage() {
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
               {observations.laboratory.latestResults.map((result) => (
                 <li key={result.analyteKey} className="flex items-start justify-between gap-4 rounded-[var(--radius-md)] bg-surface-muted p-4 text-sm">
-                  <span><strong className="block">{result.analyteName}</strong><span className="text-xs text-text-muted">{dateLabel(result.measuredAt, context.period.timeZone)}</span></span>
+                  <span>
+                    <strong className="block">{result.analyteName}</strong>
+                    <span className="text-xs text-text-muted">{dateLabel(result.measuredAt, context.period.timeZone)}</span>
+                    {rangeLabel(result.referenceLow, result.referenceHigh, result.unit) ? <span className="mt-1 block text-xs text-text-muted">Referenz: {rangeLabel(result.referenceLow, result.referenceHigh, result.unit)}</span> : null}
+                    {rangeLabel(result.targetLow, result.targetHigh, result.unit) ? <span className="mt-1 block text-xs text-text-muted">Persönliches Ziel: {rangeLabel(result.targetLow, result.targetHigh, result.unit)}</span> : null}
+                  </span>
                   <span className="text-right font-semibold">{result.value.toLocaleString("de-DE")} {result.unit}</span>
                 </li>
               ))}

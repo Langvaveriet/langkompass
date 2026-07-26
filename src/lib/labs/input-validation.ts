@@ -93,3 +93,15 @@ export const labReportDeletionSchema = z.object({
   labReportId: z.string().uuid(),
   confirmDeletion: z.literal("DELETE"),
 });
+
+export const labTargetRangeInputSchema = z
+  .object({
+    analyteKey: z.string().trim().min(1),
+    targetLow: optionalDecimalInput,
+    targetHigh: optionalDecimalInput,
+  })
+  .refine(
+    ({ targetLow, targetHigh }) =>
+      targetLow === null || targetHigh === null || targetLow <= targetHigh,
+    { path: ["targetHigh"] },
+  );

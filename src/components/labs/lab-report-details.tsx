@@ -11,6 +11,11 @@ type ReportWithResults = Prisma.LabReportGetPayload<{
 
 type LabReportDetailsProps = {
   report: ReportWithResults;
+  targetRanges: Array<{
+    analyteKey: string;
+    targetLow: { toString(): string } | null;
+    targetHigh: { toString(): string } | null;
+  }>;
   locale: string;
   timeZone: string;
   editResultId?: string;
@@ -36,6 +41,7 @@ function referenceRange(
 
 export function LabReportDetails({
   report,
+  targetRanges,
   locale,
   timeZone,
   editResultId,
@@ -80,6 +86,19 @@ export function LabReportDetails({
             const high = result.referenceHigh === null ? null : Number(result.referenceHigh);
             const status = labReferenceStatus(value, low, high);
             const range = referenceRange(result.referenceLow, result.referenceHigh, result.unit);
+            const targetRange = targetRanges.find(
+              ({ analyteKey }) => analyteKey === result.analyteKey,
+            );
+            const target = referenceRange(
+              targetRange?.targetLow ?? null,
+              targetRange?.targetHigh ?? null,
+              result.unit,
+            );
+            const targetStatus = labReferenceStatus(
+              value,
+              targetRange?.targetLow == null ? null : Number(targetRange.targetLow),
+              targetRange?.targetHigh == null ? null : Number(targetRange.targetHigh),
+            );
             return (
               <article key={result.id} className={`rounded-[var(--radius-lg)] border bg-surface p-4 ${editResultId === result.id ? "border-copper" : "border-border"}`}>
                 <div className="flex items-start justify-between gap-3">
@@ -94,6 +113,11 @@ export function LabReportDetails({
                   </span>
                 </div>
                 {range ? <p className="mt-3 text-sm text-text-muted">Laborreferenz: {range}</p> : null}
+                {target ? (
+                  <p className="mt-1 text-sm text-text-muted">
+                    Persönliches Ziel: {target} · {targetStatus === "WITHIN" ? "im Ziel" : targetStatus === "BELOW" ? "darunter" : "darüber"}
+                  </p>
+                ) : null}
                 {result.note ? <p className="mt-2 text-sm leading-6 text-text-secondary">{result.note}</p> : null}
                 {result._count.revisions > 0 ? (
                   <p className="mt-2 text-xs font-semibold text-copper">

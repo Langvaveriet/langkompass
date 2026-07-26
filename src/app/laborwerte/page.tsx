@@ -66,6 +66,8 @@ export default async function LaborwertePage({
         analyteKey: true,
         referenceLow: true,
         referenceHigh: true,
+        targetLow: true,
+        targetHigh: true,
       },
     }),
     prisma.labResult.findMany({
@@ -150,6 +152,8 @@ export default async function LaborwertePage({
                 ? "Bestätige das endgültige Löschen der Untersuchung."
                 : error === "analyte"
                   ? "Der ausgewählte Laborwert ist nicht verfügbar."
+                  : error === "target-validation"
+                    ? "Bitte prüfe den persönlichen Zielbereich. Die Untergrenze darf nicht über der Obergrenze liegen."
                   : null;
   const statusMessage = queryValue(query, "created")
     ? "Untersuchung angelegt. Jetzt kannst du die einzelnen Laborwerte ergänzen."
@@ -159,6 +163,8 @@ export default async function LaborwertePage({
         ? "Laborwert korrigiert. Der vorherige Stand wurde gespeichert."
         : queryValue(query, "deleted")
           ? "Untersuchung und zugehörige Laborwerte wurden gelöscht."
+          : queryValue(query, "targetSaved")
+            ? "Persönlicher Zielbereich gespeichert."
           : null;
   const now = new Date();
 
@@ -214,7 +220,13 @@ export default async function LaborwertePage({
 
         {selectedReport ? (
           <section className="mt-10 max-w-4xl" aria-label="Ausgewählte Laboruntersuchung">
-            <LabReportDetails report={selectedReport} locale={locale} timeZone={timeZone} editResultId={editResultId} />
+            <LabReportDetails
+              report={selectedReport}
+              targetRanges={savedReferenceRanges}
+              locale={locale}
+              timeZone={timeZone}
+              editResultId={editResultId}
+            />
             <LabResultForm
               reportId={selectedReport.id}
               recordedAnalyteKeys={selectedReport.results.map(({ analyteKey }) => analyteKey)}
@@ -230,6 +242,9 @@ export default async function LaborwertePage({
             selected={selectedTrendOption}
             results={trendResultsDescending.toReversed()}
             reportId={selectedReport?.id ?? null}
+            targetRange={savedReferenceRanges.find(
+              ({ analyteKey }) => analyteKey === selectedTrendOption.analyteKey,
+            ) ?? null}
             locale={locale}
             timeZone={timeZone}
           />

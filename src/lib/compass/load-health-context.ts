@@ -39,7 +39,7 @@ export async function loadHealthContext(
     timeZone,
   );
 
-  const [profile, entries, weights, waistMeasurements, trainingSessions, labResults, supplements, supplementIntakes] = await Promise.all([
+  const [profile, entries, weights, waistMeasurements, trainingSessions, labResults, labTargetRanges, supplements, supplementIntakes] = await Promise.all([
     prisma.healthProfile.findUnique({
       where: { userId },
       select: {
@@ -132,6 +132,10 @@ export async function loadHealthContext(
         referenceHigh: true,
       },
     }),
+    prisma.labReferenceRange.findMany({
+      where: { userId },
+      select: { analyteKey: true, targetLow: true, targetHigh: true },
+    }),
     prisma.supplement.findMany({
       where: { userId, archivedAt: null },
       orderBy: { name: "asc" },
@@ -152,6 +156,9 @@ export async function loadHealthContext(
       select: { takenAt: true, tolerance: true, effect: true },
     }),
   ]);
+  const labTargetRangeByAnalyteKey = new Map(
+    labTargetRanges.map((range) => [range.analyteKey, range]),
+  );
 
   return buildHealthContext({
     generatedAt: now,
@@ -206,15 +213,20 @@ export async function loadHealthContext(
         ? [{ completedAt: session.completedAt, setCount: session._count.sets }]
         : [],
     ),
-    labResults: labResults.map((result) => ({
-      analyteKey: result.analyteKey,
-      analyteName: result.analyteName,
-      measuredAt: result.measuredAt,
-      value: Number(result.value),
-      unit: result.unit,
-      referenceLow: result.referenceLow === null ? null : Number(result.referenceLow),
-      referenceHigh: result.referenceHigh === null ? null : Number(result.referenceHigh),
-    })),
+    labResults: labResults.map((result) => {
+      const targetRange = labTargetRangeByAnalyteKey.get(result.analyteKey);
+      return {
+        analyteKey: result.analyteKey,
+        analyteName: result.analyteName,
+        measuredAt: result.measuredAt,
+        value: Number(result.value),
+        unit: result.unit,
+        referenceLow: result.referenceLow === null ? null : Number(result.referenceLow),
+        referenceHigh: result.referenceHigh === null ? null : Number(result.referenceHigh),
+        targetLow: targetRange?.targetLow == null ? null : Number(targetRange.targetLow),
+        targetHigh: targetRange?.targetHigh == null ? null : Number(targetRange.targetHigh),
+      };
+    }),
     supplements: supplements.map((supplement) => ({
       name: supplement.name,
       ingredients: supplement.ingredients.map(({ name }) => name),

@@ -29,11 +29,15 @@ export type AggregateLabReferenceRange = {
 export type LabReferenceRangeAvgAggregateOutputType = {
   referenceLow: runtime.Decimal | null
   referenceHigh: runtime.Decimal | null
+  targetLow: runtime.Decimal | null
+  targetHigh: runtime.Decimal | null
 }
 
 export type LabReferenceRangeSumAggregateOutputType = {
   referenceLow: runtime.Decimal | null
   referenceHigh: runtime.Decimal | null
+  targetLow: runtime.Decimal | null
+  targetHigh: runtime.Decimal | null
 }
 
 export type LabReferenceRangeMinAggregateOutputType = {
@@ -43,6 +47,8 @@ export type LabReferenceRangeMinAggregateOutputType = {
   unit: string | null
   referenceLow: runtime.Decimal | null
   referenceHigh: runtime.Decimal | null
+  targetLow: runtime.Decimal | null
+  targetHigh: runtime.Decimal | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +60,8 @@ export type LabReferenceRangeMaxAggregateOutputType = {
   unit: string | null
   referenceLow: runtime.Decimal | null
   referenceHigh: runtime.Decimal | null
+  targetLow: runtime.Decimal | null
+  targetHigh: runtime.Decimal | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -65,6 +73,8 @@ export type LabReferenceRangeCountAggregateOutputType = {
   unit: number
   referenceLow: number
   referenceHigh: number
+  targetLow: number
+  targetHigh: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -74,11 +84,15 @@ export type LabReferenceRangeCountAggregateOutputType = {
 export type LabReferenceRangeAvgAggregateInputType = {
   referenceLow?: true
   referenceHigh?: true
+  targetLow?: true
+  targetHigh?: true
 }
 
 export type LabReferenceRangeSumAggregateInputType = {
   referenceLow?: true
   referenceHigh?: true
+  targetLow?: true
+  targetHigh?: true
 }
 
 export type LabReferenceRangeMinAggregateInputType = {
@@ -88,6 +102,8 @@ export type LabReferenceRangeMinAggregateInputType = {
   unit?: true
   referenceLow?: true
   referenceHigh?: true
+  targetLow?: true
+  targetHigh?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -99,6 +115,8 @@ export type LabReferenceRangeMaxAggregateInputType = {
   unit?: true
   referenceLow?: true
   referenceHigh?: true
+  targetLow?: true
+  targetHigh?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -110,6 +128,8 @@ export type LabReferenceRangeCountAggregateInputType = {
   unit?: true
   referenceLow?: true
   referenceHigh?: true
+  targetLow?: true
+  targetHigh?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -208,6 +228,8 @@ export type LabReferenceRangeGroupByOutputType = {
   unit: string
   referenceLow: runtime.Decimal | null
   referenceHigh: runtime.Decimal | null
+  targetLow: runtime.Decimal | null
+  targetHigh: runtime.Decimal | null
   createdAt: Date
   updatedAt: Date
   _count: LabReferenceRangeCountAggregateOutputType | null
@@ -242,6 +264,8 @@ export type LabReferenceRangeWhereInput = {
   unit?: Prisma.StringFilter<"LabReferenceRange"> | string
   referenceLow?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"LabReferenceRange"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LabReferenceRange"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -254,6 +278,8 @@ export type LabReferenceRangeOrderByWithRelationInput = {
   unit?: Prisma.SortOrder
   referenceLow?: Prisma.SortOrderInput | Prisma.SortOrder
   referenceHigh?: Prisma.SortOrderInput | Prisma.SortOrder
+  targetLow?: Prisma.SortOrderInput | Prisma.SortOrder
+  targetHigh?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -270,6 +296,8 @@ export type LabReferenceRangeWhereUniqueInput = Prisma.AtLeast<{
   unit?: Prisma.StringFilter<"LabReferenceRange"> | string
   referenceLow?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"LabReferenceRange"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LabReferenceRange"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -282,6 +310,8 @@ export type LabReferenceRangeOrderByWithAggregationInput = {
   unit?: Prisma.SortOrder
   referenceLow?: Prisma.SortOrderInput | Prisma.SortOrder
   referenceHigh?: Prisma.SortOrderInput | Prisma.SortOrder
+  targetLow?: Prisma.SortOrderInput | Prisma.SortOrder
+  targetHigh?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LabReferenceRangeCountOrderByAggregateInput
@@ -301,6 +331,8 @@ export type LabReferenceRangeScalarWhereWithAggregatesInput = {
   unit?: Prisma.StringWithAggregatesFilter<"LabReferenceRange"> | string
   referenceLow?: Prisma.DecimalNullableWithAggregatesFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.DecimalNullableWithAggregatesFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.DecimalNullableWithAggregatesFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.DecimalNullableWithAggregatesFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"LabReferenceRange"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"LabReferenceRange"> | Date | string
 }
@@ -311,6 +343,8 @@ export type LabReferenceRangeCreateInput = {
   unit: string
   referenceLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutLabReferenceRangesInput
@@ -323,6 +357,8 @@ export type LabReferenceRangeUncheckedCreateInput = {
   unit: string
   referenceLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -333,6 +369,8 @@ export type LabReferenceRangeUpdateInput = {
   unit?: Prisma.StringFieldUpdateOperationsInput | string
   referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutLabReferenceRangesNestedInput
@@ -345,6 +383,8 @@ export type LabReferenceRangeUncheckedUpdateInput = {
   unit?: Prisma.StringFieldUpdateOperationsInput | string
   referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -356,6 +396,8 @@ export type LabReferenceRangeCreateManyInput = {
   unit: string
   referenceLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -366,6 +408,8 @@ export type LabReferenceRangeUpdateManyMutationInput = {
   unit?: Prisma.StringFieldUpdateOperationsInput | string
   referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -377,6 +421,8 @@ export type LabReferenceRangeUncheckedUpdateManyInput = {
   unit?: Prisma.StringFieldUpdateOperationsInput | string
   referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -403,6 +449,8 @@ export type LabReferenceRangeCountOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   referenceLow?: Prisma.SortOrder
   referenceHigh?: Prisma.SortOrder
+  targetLow?: Prisma.SortOrder
+  targetHigh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -410,6 +458,8 @@ export type LabReferenceRangeCountOrderByAggregateInput = {
 export type LabReferenceRangeAvgOrderByAggregateInput = {
   referenceLow?: Prisma.SortOrder
   referenceHigh?: Prisma.SortOrder
+  targetLow?: Prisma.SortOrder
+  targetHigh?: Prisma.SortOrder
 }
 
 export type LabReferenceRangeMaxOrderByAggregateInput = {
@@ -419,6 +469,8 @@ export type LabReferenceRangeMaxOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   referenceLow?: Prisma.SortOrder
   referenceHigh?: Prisma.SortOrder
+  targetLow?: Prisma.SortOrder
+  targetHigh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -430,6 +482,8 @@ export type LabReferenceRangeMinOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   referenceLow?: Prisma.SortOrder
   referenceHigh?: Prisma.SortOrder
+  targetLow?: Prisma.SortOrder
+  targetHigh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -437,6 +491,8 @@ export type LabReferenceRangeMinOrderByAggregateInput = {
 export type LabReferenceRangeSumOrderByAggregateInput = {
   referenceLow?: Prisma.SortOrder
   referenceHigh?: Prisma.SortOrder
+  targetLow?: Prisma.SortOrder
+  targetHigh?: Prisma.SortOrder
 }
 
 export type LabReferenceRangeCreateNestedManyWithoutUserInput = {
@@ -487,6 +543,8 @@ export type LabReferenceRangeCreateWithoutUserInput = {
   unit: string
   referenceLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -497,6 +555,8 @@ export type LabReferenceRangeUncheckedCreateWithoutUserInput = {
   unit: string
   referenceLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -537,6 +597,8 @@ export type LabReferenceRangeScalarWhereInput = {
   unit?: Prisma.StringFilter<"LabReferenceRange"> | string
   referenceLow?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.DecimalNullableFilter<"LabReferenceRange"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"LabReferenceRange"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LabReferenceRange"> | Date | string
 }
@@ -547,6 +609,8 @@ export type LabReferenceRangeCreateManyUserInput = {
   unit: string
   referenceLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -557,6 +621,8 @@ export type LabReferenceRangeUpdateWithoutUserInput = {
   unit?: Prisma.StringFieldUpdateOperationsInput | string
   referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -567,6 +633,8 @@ export type LabReferenceRangeUncheckedUpdateWithoutUserInput = {
   unit?: Prisma.StringFieldUpdateOperationsInput | string
   referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -577,6 +645,8 @@ export type LabReferenceRangeUncheckedUpdateManyWithoutUserInput = {
   unit?: Prisma.StringFieldUpdateOperationsInput | string
   referenceLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   referenceHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetLow?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  targetHigh?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -590,6 +660,8 @@ export type LabReferenceRangeSelect<ExtArgs extends runtime.Types.Extensions.Int
   unit?: boolean
   referenceLow?: boolean
   referenceHigh?: boolean
+  targetLow?: boolean
+  targetHigh?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -602,6 +674,8 @@ export type LabReferenceRangeSelectCreateManyAndReturn<ExtArgs extends runtime.T
   unit?: boolean
   referenceLow?: boolean
   referenceHigh?: boolean
+  targetLow?: boolean
+  targetHigh?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -614,6 +688,8 @@ export type LabReferenceRangeSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   unit?: boolean
   referenceLow?: boolean
   referenceHigh?: boolean
+  targetLow?: boolean
+  targetHigh?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -626,11 +702,13 @@ export type LabReferenceRangeSelectScalar = {
   unit?: boolean
   referenceLow?: boolean
   referenceHigh?: boolean
+  targetLow?: boolean
+  targetHigh?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LabReferenceRangeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "analyteKey" | "unit" | "referenceLow" | "referenceHigh" | "createdAt" | "updatedAt", ExtArgs["result"]["labReferenceRange"]>
+export type LabReferenceRangeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "analyteKey" | "unit" | "referenceLow" | "referenceHigh" | "targetLow" | "targetHigh" | "createdAt" | "updatedAt", ExtArgs["result"]["labReferenceRange"]>
 export type LabReferenceRangeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -653,6 +731,8 @@ export type $LabReferenceRangePayload<ExtArgs extends runtime.Types.Extensions.I
     unit: string
     referenceLow: runtime.Decimal | null
     referenceHigh: runtime.Decimal | null
+    targetLow: runtime.Decimal | null
+    targetHigh: runtime.Decimal | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["labReferenceRange"]>
@@ -1085,6 +1165,8 @@ export interface LabReferenceRangeFieldRefs {
   readonly unit: Prisma.FieldRef<"LabReferenceRange", 'String'>
   readonly referenceLow: Prisma.FieldRef<"LabReferenceRange", 'Decimal'>
   readonly referenceHigh: Prisma.FieldRef<"LabReferenceRange", 'Decimal'>
+  readonly targetLow: Prisma.FieldRef<"LabReferenceRange", 'Decimal'>
+  readonly targetHigh: Prisma.FieldRef<"LabReferenceRange", 'Decimal'>
   readonly createdAt: Prisma.FieldRef<"LabReferenceRange", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"LabReferenceRange", 'DateTime'>
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { saveLabTargetRange } from "@/app/laborwerte/actions";
 import { labAnalyteByKey } from "@/lib/labs/lab-catalog";
 import { labReferenceStatus } from "@/lib/labs/reference-status";
 import { buildLabTrend } from "@/lib/labs/lab-trend";
@@ -23,6 +24,10 @@ type LabTrendProps = {
   selected: LabTrendOption;
   results: LabTrendResult[];
   reportId: string | null;
+  targetRange: {
+    targetLow: { toString(): string } | null;
+    targetHigh: { toString(): string } | null;
+  } | null;
   locale: string;
   timeZone: string;
 };
@@ -48,11 +53,26 @@ function referenceRangeLabel(
   return "Keine Laborreferenz";
 }
 
+function targetRangeLabel(
+  low: number | null,
+  high: number | null,
+  unit: string,
+  formatter: Intl.NumberFormat,
+): string {
+  if (low !== null && high !== null) {
+    return `Ziel ${formatter.format(low)}–${formatter.format(high)} ${unit}`;
+  }
+  if (low !== null) return `Ziel ab ${formatter.format(low)} ${unit}`;
+  if (high !== null) return `Ziel bis ${formatter.format(high)} ${unit}`;
+  return "Noch kein Zielbereich";
+}
+
 export function LabTrend({
   options,
   selected,
   results,
   reportId,
+  targetRange,
   locale,
   timeZone,
 }: LabTrendProps) {
@@ -87,6 +107,12 @@ export function LabTrend({
     : `${trend.difference > 0 ? "+" : ""}${numberFormatter.format(trend.difference)} ${selected.unit}`;
   const selectedCatalogEntry = labAnalyteByKey.get(selected.analyteKey);
   const sourceLabel = selectedCatalogEntry?.sourceLabels?.join(" · ") ?? null;
+  const targetLow = targetRange?.targetLow == null
+    ? null
+    : Number(targetRange.targetLow);
+  const targetHigh = targetRange?.targetHigh == null
+    ? null
+    : Number(targetRange.targetHigh);
 
   return (
     <section id="laborverlauf" className="mt-10 max-w-4xl" aria-labelledby="lab-trend-heading">
@@ -126,6 +152,44 @@ export function LabTrend({
           </div>
         </div>
 
+        <details className="mt-5 rounded-[var(--radius-md)] border border-border-subtle bg-surface">
+          <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-forest-strong marker:hidden">
+            Persönlichen Zielbereich festlegen
+            <span className="text-xs font-normal text-text-muted">
+              {targetRangeLabel(targetLow, targetHigh, selected.unit, numberFormatter)}
+            </span>
+          </summary>
+          <form action={saveLabTargetRange} className="grid gap-4 border-t border-border-subtle p-4 sm:grid-cols-2">
+            <input type="hidden" name="analyteKey" value={selected.analyteKey} />
+            <label className="grid gap-2 text-sm font-semibold text-text-primary">
+              Persönliches Ziel von
+              <input
+                name="targetLow"
+                inputMode="decimal"
+                defaultValue={targetRange?.targetLow?.toString() ?? ""}
+                placeholder="optional"
+                className="min-h-12 rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 font-normal"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold text-text-primary">
+              Persönliches Ziel bis
+              <input
+                name="targetHigh"
+                inputMode="decimal"
+                defaultValue={targetRange?.targetHigh?.toString() ?? ""}
+                placeholder="optional"
+                className="min-h-12 rounded-[var(--radius-md)] border border-border-strong bg-surface-raised px-4 font-normal"
+              />
+            </label>
+            <p className="text-xs leading-5 text-text-muted sm:col-span-2">
+              Dieser selbst gesetzte Orientierungsbereich bleibt getrennt von der Laborreferenz und ist keine medizinische Empfehlung.
+            </p>
+            <button type="submit" className="min-h-12 rounded-[var(--radius-md)] bg-forest-strong px-5 text-sm font-semibold text-white sm:col-span-2 sm:justify-self-start">
+              Zielbereich speichern
+            </button>
+          </form>
+        </details>
+
         {trend.points.length === 1 ? (
           <div className="grid min-h-48 place-content-center text-center">
             <p className="text-3xl font-semibold text-forest-strong">{numberFormatter.format(trend.latestValue ?? 0)} {selected.unit}</p>
@@ -151,6 +215,7 @@ export function LabTrend({
             const low = result.referenceLow === null ? null : Number(result.referenceLow);
             const high = result.referenceHigh === null ? null : Number(result.referenceHigh);
             const status = labReferenceStatus(value, low, high);
+            const targetStatus = labReferenceStatus(value, targetLow, targetHigh);
             return (
               <div key={result.id} className="grid gap-1 rounded-[var(--radius-md)] bg-surface px-4 py-3 text-sm sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-4">
                 <span className="text-text-secondary">{dateFormatter.format(result.measuredAt)}</span>
@@ -158,7 +223,10 @@ export function LabTrend({
                   <span className="block font-semibold text-text-primary">{numberFormatter.format(value)} {result.unit}</span>
                   <span className="mt-0.5 block text-xs text-text-muted">{referenceRangeLabel(low, high, result.unit, numberFormatter)}</span>
                 </span>
-                <span className="text-xs text-text-muted">{status === "WITHIN" ? "im Referenzbereich" : status === "BELOW" ? "unter Referenzbereich" : status === "ABOVE" ? "über Referenzbereich" : "ohne Referenzvergleich"}</span>
+                <span className="text-xs text-text-muted">
+                  {status === "WITHIN" ? "im Referenzbereich" : status === "BELOW" ? "unter Referenzbereich" : status === "ABOVE" ? "über Referenzbereich" : "ohne Referenzvergleich"}
+                  {targetStatus !== "UNAVAILABLE" ? ` · ${targetStatus === "WITHIN" ? "im persönlichen Ziel" : targetStatus === "BELOW" ? "unter persönlichem Ziel" : "über persönlichem Ziel"}` : ""}
+                </span>
               </div>
             );
           })}

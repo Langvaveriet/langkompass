@@ -469,6 +469,8 @@ model LabReferenceRange {
   unit          String
   referenceLow  Decimal? @db.Decimal(14, 4)
   referenceHigh Decimal? @db.Decimal(14, 4)
+  targetLow     Decimal? @db.Decimal(14, 4)
+  targetHigh    Decimal? @db.Decimal(14, 4)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

@@ -1,5 +1,15 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Persönliche Labor-Zielbereiche
+
+- Für jeden bereits dokumentierten Laborparameter lässt sich ein optionaler,
+  dauerhaft gespeicherter persönlicher Orientierungsbereich festlegen.
+- Persönliche Ziele bleiben sichtbar und fachlich strikt von den jeweiligen
+  Labor-Referenzbereichen getrennt.
+- Verlauf, Untersuchungsansicht und Arztbericht zeigen die Zielbereiche ohne
+  medizinische Bewertung; leere Zielgrenzen lassen sich bewusst speichern.
+- JSON- und Labor-CSV-Export enthalten die persönlichen Zielgrenzen.
+
 ## 2026-07-26 – Jahres- und Arztbericht
 
 - Compass kann die vorhandenen Gesundheitsdaten zusätzlich über 365 Tage

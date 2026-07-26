@@ -2920,6 +2920,8 @@ export const LabReferenceRangeScalarFieldEnum = {
   unit: 'unit',
   referenceLow: 'referenceLow',
   referenceHigh: 'referenceHigh',
+  targetLow: 'targetLow',
+  targetHigh: 'targetHigh',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
