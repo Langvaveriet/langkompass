@@ -15,6 +15,7 @@ const protectedRoutes = [
   "/supplemente",
   "/supplemente/verlauf",
   "/compass-ai",
+  "/berichte/arzt",
   "/einstellungen",
   "/konto/sicherheit",
 ] as const;

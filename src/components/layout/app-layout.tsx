@@ -17,7 +17,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       <div className="flex min-h-[calc(100vh-72px)] w-full">
         <Sidebar />
 
-        <main className="min-w-0 flex-1 px-6 py-10 md:px-8 lg:px-12 xl:px-14 2xl:px-16">
+        <main className="app-main min-w-0 flex-1 px-6 py-10 md:px-8 lg:px-12 xl:px-14 2xl:px-16">
           {children}
         </main>
       </div>

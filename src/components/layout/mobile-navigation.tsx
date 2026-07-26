@@ -14,7 +14,7 @@ export function MobileNavigation() {
   return (
     <nav
       aria-label="Mobile Hauptnavigation"
-      className="border-b border-border-subtle bg-surface-raised lg:hidden"
+      className="app-chrome border-b border-border-subtle bg-surface-raised lg:hidden"
     >
       <div className="overflow-x-auto px-4 py-3">
         <ul className="flex min-w-max gap-2">

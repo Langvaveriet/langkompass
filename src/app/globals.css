@@ -135,3 +135,32 @@ a {
   outline: 3px solid var(--focus);
   outline-offset: 3px;
 }
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  body {
+    background: #ffffff;
+    color: #20231f;
+  }
+
+  .app-chrome,
+  .print-hidden {
+    display: none !important;
+  }
+
+  .app-main {
+    padding: 0 !important;
+  }
+
+  .print-report {
+    font-size: 10pt;
+  }
+
+  .print-report section,
+  .print-report li {
+    break-inside: avoid;
+  }
+}

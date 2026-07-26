@@ -6,6 +6,7 @@ import { parseCompassReportPeriod } from "./report-periods";
 test("accepts supported local report periods", () => {
   assert.equal(parseCompassReportPeriod("7"), 7);
   assert.equal(parseCompassReportPeriod("30"), 30);
+  assert.equal(parseCompassReportPeriod("365"), 365);
 });
 
 test("falls back to the monthly report for invalid periods", () => {

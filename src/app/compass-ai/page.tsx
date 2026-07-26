@@ -58,6 +58,12 @@ export default async function CompassAIPage({ searchParams }: CompassAIPageProps
               </Link>
             );
           })}
+          <Link
+            href="/berichte/arzt"
+            className="flex min-h-12 shrink-0 items-center rounded-full border border-border-strong bg-surface-raised px-5 text-sm font-semibold text-text-secondary"
+          >
+            Arztbericht
+          </Link>
         </nav>
 
         <ProviderSummary response={response} />

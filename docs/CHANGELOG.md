@@ -1,5 +1,17 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Jahres- und Arztbericht
+
+- Compass kann die vorhandenen Gesundheitsdaten zusätzlich über 365 Tage
+  zusammenfassen.
+- Ein eigener, druckbarer Arztbericht bündelt Datenabdeckung, dokumentierte
+  Beobachtungen, Alltags-, Körper-, Trainings- und Laborwerte sowie aktive
+  Supplemente.
+- Der Bericht bleibt eine gekennzeichnete Selbstdokumentation, stellt keine
+  Diagnose und überträgt keine Daten an externe Anbieter.
+- Eine angepasste Druckansicht blendet Navigation und Bedienelemente aus und
+  eignet sich zum lokalen Sichern als PDF.
+
 ## 2026-07-26 – Mobiler und betrieblicher Abschlusscheck
 
 - Der öffentliche Betriebsstatus prüft Anwendung und PostgreSQL mit einer

@@ -12,7 +12,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden w-[260px] shrink-0 self-stretch border-r border-border-subtle bg-surface-raised px-6 py-8 lg:block">
+    <aside className="app-chrome hidden w-[260px] shrink-0 self-stretch border-r border-border-subtle bg-surface-raised px-6 py-8 lg:block">
       <nav aria-label="Hauptnavigation">
         <ul className="grid gap-2">
           {navigationItems.map((item) => {

@@ -25,6 +25,10 @@ bestätigte Kontolöschung ist umgesetzt. Der mobile Einstieg wurde bei 390 Pixe
 Breite ohne horizontales Überlaufen geprüft und die zentralen Navigationsziele
 sind mindestens 44 Pixel hoch.
 
+Lokale Berichte decken nun 7, 30 und 365 Tage ab. Ein gesonderter, druckbarer
+Arztbericht fasst die vorhandenen strukturierten Daten ohne externe Übertragung
+und ohne diagnostische Aussagen zusammen.
+
 Damit befindet sich die Web-App funktional auf einem vorläufig finalen Stand.
 Vor größeren neuen Modulen folgen nur noch Fehlerkorrekturen, echte
 Geräte-Abnahmen und betriebliche Wartung. Eine angemeldete Safari-Abnahme auf
