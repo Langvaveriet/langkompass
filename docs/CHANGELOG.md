@@ -1,5 +1,17 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Vollständiger Datenexport
+
+- In den Einstellungen lässt sich ein vollständiges, versioniertes JSON-Archiv
+  aller benutzerbezogenen Profil-, Gesundheits- und Planungsdaten laden.
+- Tageswerte, Ernährung, Training, Laborwerte und Supplemente stehen zusätzlich
+  als getrennte UTF-8-CSV-Dateien für Tabellenprogramme zur Verfügung.
+- Der Export ist ausschließlich mit aktiver Sitzung erreichbar und wird nicht
+  zwischengespeichert. Sitzungstokens, Passkey-Schlüssel und Zugangstokens
+  werden bewusst nicht ausgegeben.
+- Datums- und Dezimalwerte werden portabel serialisiert; CSV-Freitext ist gegen
+  die Ausführung eingeschleuster Tabellenformeln abgesichert.
+
 ## 2026-07-26 – Rezeptkatalog auf 120 Gerichte erweitert
 
 - Frühstück, Mittagessen, Abendessen und Snacks enthalten jetzt jeweils exakt

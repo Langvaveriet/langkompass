@@ -19,6 +19,8 @@ const protectedRoutes = [
   "/konto/sicherheit",
 ] as const;
 
+const protectedApiRoutes = ["/api/konto/datenexport?format=json"] as const;
+
 async function request(path: string) {
   return fetch(new URL(path, baseUrl), {
     redirect: "manual",
@@ -61,6 +63,13 @@ async function main() {
     }
   }
 
+  for (const path of protectedApiRoutes) {
+    const response = await request(path);
+    if (response.status !== 401) {
+      failures.push(`${path}: HTTP ${response.status} statt 401 ohne Sitzung`);
+    }
+  }
+
   if (failures.length > 0) {
     throw new Error(
       `Nicht ausreichend geschützte Routen:\n${failures.join("\n")}`,
@@ -68,7 +77,7 @@ async function main() {
   }
 
   console.log(
-    `${protectedRoutes.length} geschützte Routen leiten ohne Sitzung sicher zur Anmeldung weiter.`,
+    `${protectedRoutes.length} geschützte Seiten und ${protectedApiRoutes.length} Export-Endpunkt sind ohne Sitzung sicher gesperrt.`,
   );
 }
 

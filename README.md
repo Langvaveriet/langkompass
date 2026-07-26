@@ -15,6 +15,7 @@ ist weder Diagnosesystem noch klassischer Kalorienzähler.
 - Laboruntersuchungen, Referenzwerte, Korrekturverlauf und Trends
 - Supplementverwaltung, Einnahmen, Wirkung und Verträglichkeit
 - lokale Compass-Auswertungen ohne externe Übertragung von Gesundheitsdaten
+- vollständiger JSON-Datenexport und auswertbare CSV-Exporte
 
 Die aktuelle Priorisierung steht in [docs/ROADMAP.md](docs/ROADMAP.md). Die
 verbindlichen technischen Leitplanken stehen in der Architektur-Charta unter

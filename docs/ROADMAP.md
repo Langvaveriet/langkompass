@@ -18,8 +18,9 @@ Der erste Finalisierungsblock ergänzt zentrale Lade-, Fehler- und
 Nicht-gefunden-Zustände sowie einen reproduzierbaren Benutzer-Bootstrap und ein
 Betriebs-Runbook. Ein automatisierter Smoke-Test prüft inzwischen sämtliche
 geschützten Kernrouten; die wichtigsten Eingabeverträge sind durch Grenzfälle
-abgesichert. Als nächster Stabilitätsschritt folgen Datenexport und vollständige
-Kontolöschung.
+abgesichert. Der vollständige Datenexport steht als versioniertes JSON-Archiv
+und zusätzlich als fünf auswertbare CSV-Dateien bereit. Als nächster
+Stabilitätsschritt folgt die vollständige Kontolöschung.
 
 ## Später: Apple Health
 
@@ -62,6 +63,6 @@ nur nach bewusster Benutzeraktion.
 
 ## Zukünftige Features
 
-Weitere spätere Module gemäß Architektur-Charta sind Exporte, eine allgemeine
+Weitere spätere Module gemäß Architektur-Charta sind eine allgemeine
 Offline-Erfassung und weitere externe Integrationen. Lokale Wochen- und
-Monatsberichte sind bereits umgesetzt.
+Monatsberichte sowie Datenexporte sind bereits umgesetzt.
