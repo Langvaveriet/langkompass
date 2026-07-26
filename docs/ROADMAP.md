@@ -45,6 +45,12 @@ Geräte-Abnahmen und betriebliche Wartung. Eine angemeldete Safari-Abnahme auf
 dem Zielgerät sowie eine isolierte Wiederherstellungsprobe des produktiven
 Backups bleiben bewusste manuelle Betriebsprüfungen.
 
+Die installierbare PWA-Grundlage cached ausschließlich öffentliche Shell-Dateien
+und zeigt ohne Netz einen sicheren Offline-Hinweis. Eine spätere Offline-
+Schreibwarteschlange bleibt bewusst ausgeschlossen, solange verschlüsselte
+Speicherung, Konflikterkennung und sichtbare Synchronisation nicht gemeinsam
+umgesetzt werden.
+
 ## Später: Apple Health
 
 Die technische Entscheidung und die überprüfbaren Ausbaustufen sind in

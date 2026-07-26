@@ -32,15 +32,21 @@ async function request(path: string) {
 }
 
 async function main() {
-  const [loginResponse, healthResponse] = await Promise.all([
+  const [loginResponse, healthResponse, offlineResponse, manifestResponse, serviceWorkerResponse] = await Promise.all([
     request("/anmeldung"),
     request("/api/health"),
+    request("/offline"),
+    request("/manifest.webmanifest"),
+    request("/sw.js"),
   ]);
 
   if (!loginResponse.ok) {
     throw new Error(
       `Die öffentliche Anmeldung antwortet mit HTTP ${loginResponse.status}.`,
     );
+  }
+  if (!loginResponse.headers.get("x-request-id")) {
+    throw new Error("Die öffentliche Anmeldung liefert keine technische Korrelations-ID.");
   }
 
   const health = healthResponse.ok
@@ -50,6 +56,16 @@ async function main() {
     throw new Error(
       `Der technische Betriebsstatus antwortet mit HTTP ${healthResponse.status}.`,
     );
+  }
+
+  for (const [label, response] of [
+    ["Offline-Hinweis", offlineResponse],
+    ["Web-App-Manifest", manifestResponse],
+    ["Service Worker", serviceWorkerResponse],
+  ] as const) {
+    if (!response.ok) {
+      throw new Error(`${label} antwortet mit HTTP ${response.status}.`);
+    }
   }
 
   const failures: string[] = [];
@@ -90,7 +106,7 @@ async function main() {
   }
 
   console.log(
-    `Betriebsstatus gesund; ${protectedRoutes.length} geschützte Seiten und ${protectedApiRoutes.length} Export-Endpunkt sind ohne Sitzung sicher gesperrt.`,
+    `Betriebsstatus und PWA-Shell gesund; ${protectedRoutes.length} geschützte Seiten und ${protectedApiRoutes.length} Export-Endpunkt sind ohne Sitzung sicher gesperrt.`,
   );
 }
 

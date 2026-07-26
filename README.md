@@ -15,6 +15,8 @@ ist weder Diagnosesystem noch klassischer Kalorienzähler.
 - Laboruntersuchungen, Referenzwerte, Korrekturverlauf und Trends
 - Supplementverwaltung, Einnahmen, Wirkung und Verträglichkeit
 - lokale Compass-Auswertungen ohne externe Übertragung von Gesundheitsdaten
+- Jahres- und druckbarer Arztbericht
+- installierbare PWA-Shell mit datenschutzkonformem Offline-Hinweis
 - vollständiger Datenexport und passkey-geschützte Kontolöschung
 
 Die aktuelle Priorisierung steht in [docs/ROADMAP.md](docs/ROADMAP.md). Die
@@ -70,8 +72,8 @@ pnpm run build
 `pnpm run build` synchronisiert vor dem Build den mitgelieferten Rezeptkatalog.
 
 Während die Anwendung lokal läuft, prüft ein separater Smoke-Test ohne Sitzung
-den technischen Betriebsstatus einschließlich Datenbankverbindung sowie den
-Schutz aller Kernbereiche:
+den technischen Betriebsstatus einschließlich Datenbankverbindung, PWA-Shell
+und Korrelations-ID sowie den Schutz aller Kernbereiche:
 
 ```bash
 cd /Users/ken/Projekte/langkompass

@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Sichere PWA-Grundlage und Fehlerzuordnung
+
+- Manifest, App-Metadaten und Service Worker machen die Web-App auf
+  unterstützten Geräten installierbar.
+- Offline wird ausschließlich ein öffentlicher, verständlicher Hinweis
+  angezeigt; private Seiten und Gesundheitsdaten gelangen nicht in den Cache.
+- Jede dynamische Anfrage erhält eine zufällige technische Korrelations-ID ohne
+  Benutzer- oder Gesundheitsbezug.
+- Der Betriebs-Smoke-Test prüft nun zusätzlich Offline-Seite, Manifest, Service
+  Worker und Korrelations-ID.
+
 ## 2026-07-26 – Rezeptinformationen vervollständigt
 
 - Rezeptdetails weisen nachvollziehbare mögliche Mikronährstoffquellen anhand

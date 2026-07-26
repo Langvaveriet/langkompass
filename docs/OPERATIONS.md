@@ -71,8 +71,16 @@ SMOKE_BASE_URL="https://kompass.langvaveriet.se" corepack pnpm run test:smoke
 ```
 
 Der Test überträgt keine Gesundheitsdaten und bestätigt, dass öffentliche
-Anmeldung, Datenbankverbindung und sämtliche geschützten Kernbereiche korrekt
-reagieren.
+Anmeldung, Datenbankverbindung, PWA-Shell, technische Korrelations-ID und
+sämtliche geschützten Kernbereiche korrekt reagieren.
+
+## Progressive Web App und Offline-Verhalten
+
+Manifest und Service Worker machen LångKompass auf unterstützten Geräten
+installierbar. Der Service Worker speichert ausschließlich den öffentlichen
+Offline-Hinweis und statische App-Symbole. Private Seiten, API-Antworten und
+Gesundheitsdaten werden nicht im Cache abgelegt. Ohne Verbindung sind deshalb
+keine Gesundheitsdaten sichtbar oder veränderbar.
 
 ## Technischer Betriebsstatus
 
@@ -97,3 +105,7 @@ von Plesk oder einem externen Verfügbarkeitsmonitor abgefragt werden.
 Protokolle dürfen technische Zeitpunkte, Route und eine technische Kennung
 enthalten. Laborwerte, Beschwerden, Notizen, Mahlzeiten, vollständige Prompts,
 Passkeys und Secrets dürfen nicht protokolliert werden.
+
+Jede dynamische Anfrage erhält im Antwort-Header `x-request-id` eine neu
+erzeugte technische Korrelations-ID. Sie darf zur Zuordnung eines Fehlers
+verwendet werden, enthält aber selbst keine Benutzer- oder Gesundheitsdaten.
