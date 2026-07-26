@@ -7,6 +7,10 @@ import { RecipeDetailActions } from "@/components/nutrition/recipe-detail-action
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
 import type { DietaryPattern, MealType } from "@/generated/prisma/enums";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
+import {
+  buildMicronutrientSourceHints,
+  rankRecipeAlternatives,
+} from "@/lib/nutrition/recipe-insights";
 import { isIsoDate } from "@/lib/nutrition/weekly-plan";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
@@ -68,6 +72,20 @@ export default async function RecipeDetailPage({
   });
 
   if (!recipe || recipe.items.length === 0) notFound();
+
+  const alternativeCandidates = await prisma.recipe.findMany({
+    where: {
+      userId: user.id,
+      archivedAt: null,
+      type: recipe.type,
+      id: { not: recipe.id },
+    },
+    orderBy: { updatedAt: "desc" },
+    take: 20,
+    include: { items: { orderBy: { position: "asc" } } },
+  });
+  const alternatives = rankRecipeAlternatives(recipe, alternativeCandidates);
+  const micronutrientHints = buildMicronutrientSourceHints(recipe.items);
 
   const energyKcal = recipe.items.some(
     (item) => estimatedFoodEnergy(item) !== null,
@@ -138,6 +156,20 @@ export default async function RecipeDetailPage({
                   </span>
                 ))}
               </div>
+              {micronutrientHints.length > 0 ? (
+                <div className="mt-5 border-t border-border-subtle pt-4">
+                  <h3 className="text-sm font-semibold text-text-primary">Mögliche Mikronährstoff-Quellen</h3>
+                  <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                    {micronutrientHints.map((hint) => (
+                      <li key={hint.nutrient} className="rounded-[var(--radius-md)] bg-surface-muted p-3 text-sm">
+                        <strong className="block text-text-primary">{hint.nutrient}</strong>
+                        <span className="mt-1 block text-xs leading-5 text-text-muted">Quelle im Rezept: {hint.sources.join(", ")}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-3 text-xs leading-5 text-text-muted">Quellenhinweise aus den Zutaten, keine berechneten Mengen oder medizinische Bewertung.</p>
+                </div>
+              ) : null}
             </section>
 
             <section className="rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised p-5" aria-labelledby="ingredients-heading">
@@ -164,6 +196,25 @@ export default async function RecipeDetailPage({
                 </p>
               )}
             </section>
+
+            {alternatives.length > 0 ? (
+              <section className="rounded-[var(--radius-lg)] border border-border-strong bg-surface-raised p-5" aria-labelledby="alternatives-heading">
+                <h2 id="alternatives-heading" className="text-lg font-semibold text-text-primary">Passende Alternativen</h2>
+                <p className="mt-2 text-sm leading-6 text-text-muted">Ähnliche Rezepte nach Ernährungsrichtung und Lebensmittelgruppen.</p>
+                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  {alternatives.map((alternative) => (
+                    <Link
+                      key={alternative.id}
+                      href={`/ernaehrung/rezepte/${alternative.id}?date=${date}`}
+                      className="flex min-h-24 flex-col justify-between rounded-[var(--radius-md)] border border-border-subtle p-4"
+                    >
+                      <strong className="text-sm text-text-primary">{alternative.name}</strong>
+                      <span className="mt-3 text-xs font-semibold text-forest-strong">Rezept ansehen →</span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ) : null}
           </div>
 
           <RecipeDetailActions

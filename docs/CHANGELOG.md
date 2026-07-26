@@ -1,5 +1,15 @@
 # LångKompass – Changelog
 
+## 2026-07-26 – Rezeptinformationen vervollständigt
+
+- Rezeptdetails weisen nachvollziehbare mögliche Mikronährstoffquellen anhand
+  der tatsächlich enthaltenen Zutaten aus.
+- Die Hinweise nennen bewusst keine erfundenen Mengen und sind klar von einer
+  medizinischen oder vollständigen Nährwertberechnung getrennt.
+- Bis zu drei passende Rezeptalternativen werden nach Ernährungsrichtung und
+  gemeinsamen Lebensmittelgruppen geordnet.
+- Tests sichern die Quellenzuordnung und die stabile Alternativenauswahl.
+
 ## 2026-07-26 – Persönliche Labor-Zielbereiche
 
 - Für jeden bereits dokumentierten Laborparameter lässt sich ein optionaler,

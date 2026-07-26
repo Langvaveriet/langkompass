@@ -34,6 +34,11 @@ Zielbereiche. Sie bleiben getrennt von den aus dem Laborbericht übernommenen
 Referenzbereichen und werden in Verlauf, Arztbericht und Datenexport
 nachvollziehbar ausgewiesen.
 
+Rezeptdetails ergänzen mögliche Mikronährstoffquellen aus den vorhandenen
+Zutaten und passende Rezeptalternativen. Mangels verifizierter vollständiger
+Nährstoffdatenbank werden bewusst keine scheinpräzisen Mikronährstoffmengen
+erfunden.
+
 Damit befindet sich die Web-App funktional auf einem vorläufig finalen Stand.
 Vor größeren neuen Modulen folgen nur noch Fehlerkorrekturen, echte
 Geräte-Abnahmen und betriebliche Wartung. Eine angemeldete Safari-Abnahme auf
