@@ -186,6 +186,20 @@ export default async function LaborwertePage({
           <p role="alert" className="mt-8 max-w-4xl rounded-[var(--radius-md)] border border-danger bg-surface-raised px-4 py-3 text-sm font-semibold text-danger">{errorMessage}</p>
         ) : null}
 
+        {selectedTrendOption ? (
+          <LabTrend
+            options={trendOptions}
+            selected={selectedTrendOption}
+            results={trendResultsDescending.toReversed()}
+            reportId={selectedReport?.id ?? null}
+            targetRange={savedReferenceRanges.find(
+              ({ analyteKey }) => analyteKey === selectedTrendOption.analyteKey,
+            ) ?? null}
+            locale={locale}
+            timeZone={timeZone}
+          />
+        ) : null}
+
         <section className="mt-8 max-w-4xl" aria-label="Neue Laboruntersuchung">
           <LabReportForm
             defaultDate={dateInTimeZone(now, timeZone)}
@@ -234,20 +248,6 @@ export default async function LaborwertePage({
             />
             <LabReportDeletion reportId={selectedReport.id} resultCount={selectedReport.results.length} />
           </section>
-        ) : null}
-
-        {selectedTrendOption ? (
-          <LabTrend
-            options={trendOptions}
-            selected={selectedTrendOption}
-            results={trendResultsDescending.toReversed()}
-            reportId={selectedReport?.id ?? null}
-            targetRange={savedReferenceRanges.find(
-              ({ analyteKey }) => analyteKey === selectedTrendOption.analyteKey,
-            ) ?? null}
-            locale={locale}
-            timeZone={timeZone}
-          />
         ) : null}
 
         <p className="mt-8 max-w-4xl text-sm leading-6 text-text-muted">

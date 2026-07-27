@@ -1,5 +1,11 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Laborverlauf priorisieren
+
+- Der Verlauf der Laborwerte steht jetzt direkt am Kopf der Laborseite.
+- Untersuchungsauswahl, Werterfassung und Korrekturfunktionen folgen darunter
+  in ihrer bisherigen Reihenfolge.
+
 ## 2026-07-27 – Dashboard priorisieren und veredeln
 
 - Eine schmale, horizontal scrollbar bleibende Aktionsleiste zeigt die nächsten
