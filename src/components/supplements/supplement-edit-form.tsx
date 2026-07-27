@@ -1,6 +1,10 @@
 import { setSupplementArchived, updateSupplement } from "@/app/supplemente/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  SupplementIngredients,
+  type SupplementIngredientValues,
+} from "@/components/supplements/supplement-ingredients";
 import type {
   SupplementDoseUnit,
   SupplementForm,
@@ -25,14 +29,22 @@ type SupplementEditFormProps = {
     doseUnit: SupplementDoseUnit;
     reason: SupplementReason;
     notes: string | null;
+    ingredients: SupplementIngredientValues[];
   };
+  initiallyOpen?: boolean;
 };
 
-export function SupplementEditForm({ supplement }: SupplementEditFormProps) {
+export function SupplementEditForm({
+  supplement,
+  initiallyOpen = false,
+}: SupplementEditFormProps) {
   return (
-    <details className="mt-3 rounded-[var(--radius-md)] border border-border bg-surface">
+    <details
+      open={initiallyOpen}
+      className="mt-3 rounded-[var(--radius-md)] border border-border bg-surface"
+    >
       <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 text-sm font-semibold text-forest-strong marker:hidden">
-        <span>Präparat bearbeiten</span>
+        <span>Präparat und Wirkstoffe bearbeiten</span>
         <span aria-hidden="true">›</span>
       </summary>
       <div className="border-t border-border p-4">
@@ -84,6 +96,19 @@ export function SupplementEditForm({ supplement }: SupplementEditFormProps) {
           </label>
           <Button type="submit" className="mt-5 w-full sm:w-auto">Änderungen speichern</Button>
         </form>
+
+        <div className="mt-5 border-t border-border pt-5">
+          <h3 className="font-semibold text-text-primary">Wirkstoffe</h3>
+          <p className="mt-1 text-sm leading-6 text-text-muted">
+            Vorhandene Wirkstoffe ändern oder weitere Wirkstoffe zum Präparat
+            hinzufügen.
+          </p>
+          <SupplementIngredients
+            supplementId={supplement.id}
+            ingredients={supplement.ingredients}
+            initiallyOpen
+          />
+        </div>
 
         <details className="mt-5 rounded-[var(--radius-md)] border border-danger bg-surface-raised">
           <summary className="flex min-h-12 cursor-pointer list-none items-center px-4 text-sm font-semibold text-danger marker:hidden">Präparat archivieren</summary>

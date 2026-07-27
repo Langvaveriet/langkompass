@@ -5,7 +5,6 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { SupplementForm } from "@/components/supplements/supplement-form";
 import { SupplementEditForm } from "@/components/supplements/supplement-edit-form";
-import { SupplementIngredients } from "@/components/supplements/supplement-ingredients";
 import { SupplementIntakeForm } from "@/components/supplements/supplement-intake-form";
 import { Button } from "@/components/ui/button";
 import { PageSubtitle, PageTitle } from "@/components/ui/typography";
@@ -191,7 +190,6 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
                         : ""}
                     </p>
                   ))}
-                  <SupplementIngredients supplementId={supplement.id} ingredients={supplement.ingredients} />
                   {supplement.intakes[0] ? (
                     <p className="mt-3 text-xs font-semibold text-copper">Zuletzt: {dateTimeFormatter.format(supplement.intakes[0].takenAt)} Uhr</p>
                   ) : (
@@ -215,7 +213,12 @@ export default async function SupplementePage({ searchParams }: SupplementePageP
                       defaultTime={defaultTime}
                     />
                   </details>
-                  <SupplementEditForm supplement={supplement} />
+                  <SupplementEditForm
+                    supplement={supplement}
+                    initiallyOpen={
+                      queryValue(query, "supplement") === supplement.id
+                    }
+                  />
                 </article>
               ))}
             </div>

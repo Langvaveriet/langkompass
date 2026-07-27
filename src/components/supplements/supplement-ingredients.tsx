@@ -10,7 +10,7 @@ import {
   supplementIngredientUnits,
 } from "@/lib/supplements/supplement-options";
 
-type Ingredient = {
+export type SupplementIngredientValues = {
   id: string;
   name: string;
   amount: { toString(): string } | null;
@@ -20,7 +20,7 @@ type Ingredient = {
 
 type IngredientFieldsProps = {
   supplementId: string;
-  ingredient?: Ingredient;
+  ingredient?: SupplementIngredientValues;
 };
 
 function IngredientFields({ supplementId, ingredient }: IngredientFieldsProps) {
@@ -50,9 +50,20 @@ function IngredientFields({ supplementId, ingredient }: IngredientFieldsProps) {
   );
 }
 
-export function SupplementIngredients({ supplementId, ingredients }: { supplementId: string; ingredients: Ingredient[] }) {
+export function SupplementIngredients({
+  supplementId,
+  ingredients,
+  initiallyOpen = false,
+}: {
+  supplementId: string;
+  ingredients: SupplementIngredientValues[];
+  initiallyOpen?: boolean;
+}) {
   return (
-    <details className="mt-3 rounded-[var(--radius-md)] border border-border bg-surface">
+    <details
+      open={initiallyOpen}
+      className="mt-4 rounded-[var(--radius-md)] border border-border bg-surface"
+    >
       <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 text-sm font-semibold text-forest-strong marker:hidden">
         <span>Wirkstoffe verwalten · {ingredients.length}</span>
         <span aria-hidden="true">›</span>

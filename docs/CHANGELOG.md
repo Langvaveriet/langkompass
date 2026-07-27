@@ -1,5 +1,14 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Wirkstoffe beim Bearbeiten zugänglich machen
+
+- Produktdaten und Wirkstoffverwaltung befinden sich jetzt in einem gemeinsamen
+  Bearbeitungsbereich.
+- Bestehende Wirkstoffe können dort geändert und weitere direkt hinzugefügt
+  werden.
+- Nach einer Wirkstoffänderung öffnet sich das betroffene Präparat automatisch
+  wieder.
+
 ## 2026-07-27 – Mehrere Wirkstoffe direkt erfassen
 
 - Kombipräparate können bereits bei der Neuanlage mit bis zu 20 Wirkstoffen
