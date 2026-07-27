@@ -314,9 +314,16 @@ function trainingRows(data: JsonObject): JsonObject[] {
     return setRows.map((setValue) => {
       const set = objectValue(setValue ?? undefined);
       const exercise = objectValue(set.exercise);
+      const completedAt = scalarValue(session.completedAt);
+      const cancelledAt = scalarValue(session.cancelledAt);
       return {
         start: scalarValue(session.startedAt),
-        ende: scalarValue(session.completedAt),
+        ende: completedAt ?? cancelledAt,
+        status: completedAt
+          ? "ABGESCHLOSSEN"
+          : cancelledAt
+            ? "ABGEBROCHEN"
+            : "LAUFEND",
         trainingsplan: scalarValue(session.planName),
         uebung: scalarValue(exercise.name),
         satz: scalarValue(set.setNumber),
@@ -409,7 +416,7 @@ const columnsByDataset: Record<DataExportDataset, { key: string; label: string }
     ["notizen", "Notizen"],
   ].map(([key, label]) => ({ key, label })),
   training: [
-    ["start", "Start"], ["ende", "Ende"], ["trainingsplan", "Trainingsplan"],
+    ["start", "Start"], ["ende", "Ende"], ["status", "Status"], ["trainingsplan", "Trainingsplan"],
     ["uebung", "Übung"], ["satz", "Satz"], ["wiederholungen", "Wiederholungen"],
     ["gewichtKg", "Gewicht (kg)"], ["anstrengung", "Anstrengung"], ["notizen", "Notizen"],
   ].map(([key, label]) => ({ key, label })),

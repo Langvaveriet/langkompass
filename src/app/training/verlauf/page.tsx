@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { deleteTrainingSession } from "@/app/training/actions";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
@@ -41,8 +42,11 @@ export default async function TrainingHistoryPage({
     await Promise.all([
       searchParams,
       prisma.trainingSession.findMany({
-        where: { userId: user.id, completedAt: { not: null } },
-        orderBy: { completedAt: "desc" },
+        where: {
+          userId: user.id,
+          OR: [{ completedAt: { not: null } }, { cancelledAt: { not: null } }],
+        },
+        orderBy: { startedAt: "desc" },
         take: 30,
         include: {
           sets: {
@@ -75,7 +79,10 @@ export default async function TrainingHistoryPage({
     ]);
   const timeZone = settings?.timeZone ?? defaultTimeZone;
   const locale = settings?.locale ?? defaultLocale;
-  const totalSets = sessions.reduce(
+  const completedSessions = sessions.filter(
+    (session) => session.completedAt !== null,
+  );
+  const totalSets = completedSessions.reduce(
     (sum, session) => sum + session.sets.length,
     0,
   );
@@ -136,17 +143,19 @@ export default async function TrainingHistoryPage({
           </Link>
           <PageTitle className="mt-4">Trainingsverlauf</PageTitle>
           <PageSubtitle className="mt-4">
-            Vergleiche deine absolvierten Einheiten, Übungen und Satzwerte ohne
-            zusätzliche Eingaben.
+            Vergleiche abgeschlossene Einheiten und behalte auch abgebrochene
+            Trainings nachvollziehbar im Blick.
           </PageSubtitle>
         </header>
 
         <Section aria-label="Zusammenfassung des Trainingsverlaufs">
           <dl className="grid grid-cols-2 gap-3 sm:max-w-xl">
             <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
-              <dt className="text-xs text-text-muted">Einheiten</dt>
+              <dt className="text-xs text-text-muted">
+                Abgeschlossene Einheiten
+              </dt>
               <dd className="mt-1 text-xl font-semibold text-text-primary">
-                {sessions.length}
+                {completedSessions.length}
               </dd>
             </div>
             <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
@@ -178,16 +187,35 @@ export default async function TrainingHistoryPage({
           />
         ) : null}
 
-        <Section aria-label="Abgeschlossene Trainingseinheiten">
+        <Section aria-label="Beendete Trainingseinheiten">
+          {queryValue(query, "error") ? (
+            <p
+              role="alert"
+              className="mb-4 rounded-[var(--radius-md)] border border-danger bg-surface-raised px-4 py-3 text-sm font-semibold text-danger"
+            >
+              {queryValue(query, "error") ===
+              "training-deletion-confirmation"
+                ? "Bitte bestätige das endgültige Löschen der Trainingseinheit."
+                : "Die Trainingseinheit wurde nicht gefunden oder gehört nicht zu deinem Konto."}
+            </p>
+          ) : null}
+          {queryValue(query, "session-deleted") ? (
+            <p
+              role="status"
+              className="mb-4 rounded-[var(--radius-md)] border border-forest-soft bg-forest-soft px-4 py-3 text-sm font-semibold text-forest-strong"
+            >
+              Trainingseinheit und zugehörige Sätze wurden gelöscht.
+            </p>
+          ) : null}
           {sessions.length === 0 ? (
             <Card>
               <CardContent>
                 <p className="font-semibold text-text-primary">
-                  Noch keine abgeschlossene Einheit
+                  Noch keine beendete Einheit
                 </p>
                 <p className="mt-2 text-sm leading-6 text-text-muted">
-                  Sobald du ein Training abschließt, erscheinen die Übungen und
-                  Sätze automatisch hier.
+                  Sobald du ein Training abschließt oder abbrichst, erscheint
+                  es automatisch hier.
                 </p>
                 <Link
                   href="/training"
@@ -200,11 +228,14 @@ export default async function TrainingHistoryPage({
           ) : (
             <div className="grid gap-4">
               {sessions.map((session, sessionIndex) => {
-                const completedAt = session.completedAt ?? session.startedAt;
+                const endedAt =
+                  session.completedAt ??
+                  session.cancelledAt ??
+                  session.startedAt;
                 const durationMinutes = Math.max(
                   1,
                   Math.round(
-                    (completedAt.getTime() - session.startedAt.getTime()) /
+                    (endedAt.getTime() - session.startedAt.getTime()) /
                       60000,
                   ),
                 );
@@ -240,6 +271,18 @@ export default async function TrainingHistoryPage({
                         <div>
                           <p className="font-semibold text-text-primary">
                             {session.planName ?? "Freies Training"}
+                          </p>
+                          <p
+                            className={[
+                              "mt-1 text-xs font-semibold",
+                              session.cancelledAt
+                                ? "text-danger"
+                                : "text-forest-strong",
+                            ].join(" ")}
+                          >
+                            {session.cancelledAt
+                              ? "Abgebrochen"
+                              : "Abgeschlossen"}
                           </p>
                           <p className="mt-1 text-sm text-text-muted">
                             {new Intl.DateTimeFormat(locale, {
@@ -322,6 +365,42 @@ export default async function TrainingHistoryPage({
                             </article>
                           ))
                         )}
+                        <details className="mt-2 rounded-[var(--radius-md)] border border-danger bg-surface-raised">
+                          <summary className="flex min-h-11 cursor-pointer list-none items-center px-3 text-sm font-semibold text-danger marker:hidden">
+                            Trainingseinheit löschen
+                          </summary>
+                          <form
+                            action={deleteTrainingSession}
+                            className="border-t border-danger p-3"
+                          >
+                            <input
+                              type="hidden"
+                              name="trainingSessionId"
+                              value={session.id}
+                            />
+                            <p className="text-sm leading-6 text-text-secondary">
+                              Die Einheit und alle {session.sets.length}{" "}
+                              {session.sets.length === 1 ? "Satz" : "Sätze"}
+                              {" "}werden dauerhaft gelöscht.
+                            </p>
+                            <label className="mt-3 flex min-h-11 cursor-pointer items-center gap-3 text-sm font-semibold text-text-primary">
+                              <input
+                                type="checkbox"
+                                name="confirmation"
+                                value="DELETE"
+                                required
+                                className="size-5 accent-[var(--danger)]"
+                              />
+                              <span>Löschen bestätigen</span>
+                            </label>
+                            <button
+                              type="submit"
+                              className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-danger"
+                            >
+                              Trainingseinheit endgültig löschen
+                            </button>
+                          </form>
+                        </details>
                       </div>
                     </details>
                   </Card>

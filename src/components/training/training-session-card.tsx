@@ -6,6 +6,7 @@ import { useFormStatus } from "react-dom";
 
 import {
   addTrainingSet,
+  cancelTrainingSession,
   completeTrainingSession,
   deleteTrainingSet,
   startTrainingSession,
@@ -270,12 +271,49 @@ export function TrainingSessionCard({
             {session.sets.length === 1 ? "Satz" : "Sätze"}
           </p>
         </div>
-        <form action={completeTrainingSession}>
-          <input type="hidden" name="trainingSessionId" value={session.id} />
-          <Button type="submit" variant="secondary" size="sm">
-            Training abschließen
-          </Button>
-        </form>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <details className="relative">
+            <summary className="flex min-h-10 cursor-pointer list-none items-center px-3 text-sm font-semibold text-danger marker:hidden">
+              Abbrechen
+            </summary>
+            <form
+              action={cancelTrainingSession}
+              className="absolute right-0 z-10 mt-2 w-72 rounded-[var(--radius-md)] border border-danger bg-surface-raised p-4 shadow-lg"
+            >
+              <input
+                type="hidden"
+                name="trainingSessionId"
+                value={session.id}
+              />
+              <p className="text-sm leading-6 text-text-secondary">
+                Bereits erfasste Sätze bleiben im Verlauf erhalten, zählen aber
+                nicht als abgeschlossenes Training.
+              </p>
+              <label className="mt-3 flex min-h-11 cursor-pointer items-center gap-3 text-sm font-semibold text-text-primary">
+                <input
+                  type="checkbox"
+                  name="confirmation"
+                  value="ABORT"
+                  required
+                  className="size-5 accent-[var(--danger)]"
+                />
+                <span>Abbruch bestätigen</span>
+              </label>
+              <button
+                type="submit"
+                className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-danger"
+              >
+                Training jetzt abbrechen
+              </button>
+            </form>
+          </details>
+          <form action={completeTrainingSession}>
+            <input type="hidden" name="trainingSessionId" value={session.id} />
+            <Button type="submit" variant="secondary" size="sm">
+              Training abschließen
+            </Button>
+          </form>
+        </div>
       </div>
 
       {exercises.length === 0 ? (

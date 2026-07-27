@@ -80,7 +80,7 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
         })
       : null,
     prisma.trainingSession.findFirst({
-      where: { userId: user.id, completedAt: null },
+      where: { userId: user.id, completedAt: null, cancelledAt: null },
       orderBy: { startedAt: "desc" },
       include: {
         trainingPlan: {
@@ -143,6 +143,8 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
         return "Die Trainingseinheit oder Übung wurde nicht gefunden.";
       case "training-plan-required":
         return "Bitte wähle einen Trainingsplan mit mindestens einer Übung aus.";
+      case "training-cancellation-confirmation":
+        return "Bitte bestätige, dass du das laufende Training abbrechen möchtest.";
       default:
         return null;
     }
@@ -166,6 +168,8 @@ export default async function TrainingPage({ searchParams }: TrainingPageProps) 
                   ? "Satz entfernt."
                   : queryValue(query, "session-completed")
                     ? "Training abgeschlossen."
+                    : queryValue(query, "session-cancelled")
+                      ? "Training abgebrochen. Die erfassten Sätze bleiben im Verlauf erhalten."
             : null;
 
   const sessionForCard = activeSession

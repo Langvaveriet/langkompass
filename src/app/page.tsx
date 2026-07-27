@@ -141,7 +141,7 @@ export default async function HomePage() {
           orderBy: { entryDate: "desc" },
         }),
         prisma.trainingSession.findFirst({
-          where: { userId: user.id, completedAt: null },
+          where: { userId: user.id, completedAt: null, cancelledAt: null },
           orderBy: { startedAt: "desc" },
           select: {
             planName: true,

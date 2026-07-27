@@ -16,6 +16,10 @@ import {
   muscleGroupValues,
 } from "@/lib/training/exercise-options";
 import { trainingSetInputSchema } from "@/lib/training/training-set-input";
+import {
+  trainingSessionCancellationSchema,
+  trainingSessionDeletionSchema,
+} from "@/lib/training/training-session-lifecycle";
 
 const exerciseSchema = z.object({
   exerciseId: z.string().trim().min(1).optional(),
@@ -357,7 +361,7 @@ export async function startTrainingSession(formData: FormData) {
   }
 
   const activeSession = await prisma.trainingSession.findFirst({
-    where: { userId: user.id, completedAt: null },
+    where: { userId: user.id, completedAt: null, cancelledAt: null },
     orderBy: { startedAt: "desc" },
     select: { id: true },
   });
@@ -410,7 +414,12 @@ export async function addTrainingSet(formData: FormData) {
   const { trainingSessionId, exerciseId, repetitions, weightKg, effort } =
     parsed.data;
   const session = await prisma.trainingSession.findFirst({
-    where: { id: trainingSessionId, userId: user.id, completedAt: null },
+    where: {
+      id: trainingSessionId,
+      userId: user.id,
+      completedAt: null,
+      cancelledAt: null,
+    },
     select: { id: true, trainingPlanId: true },
   });
 
@@ -474,7 +483,7 @@ export async function deleteTrainingSet(formData: FormData) {
     where: {
       id: parsed.data.trainingSetId,
       userId: user.id,
-      trainingSession: { completedAt: null },
+      trainingSession: { completedAt: null, cancelledAt: null },
     },
     select: { id: true, trainingSessionId: true },
   });
@@ -504,6 +513,7 @@ export async function completeTrainingSession(formData: FormData) {
       id: parsed.data.trainingSessionId,
       userId: user.id,
       completedAt: null,
+      cancelledAt: null,
     },
     select: { id: true },
   });
@@ -518,5 +528,67 @@ export async function completeTrainingSession(formData: FormData) {
   });
 
   revalidatePath("/training");
+  revalidatePath("/");
+  revalidatePath("/training/verlauf");
   redirect("/training?session-completed=1");
+}
+
+export async function cancelTrainingSession(formData: FormData) {
+  const user = await requireUser();
+  const parsed = trainingSessionCancellationSchema.safeParse({
+    trainingSessionId: formText(formData, "trainingSessionId"),
+    confirmation: formText(formData, "confirmation"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training?error=training-cancellation-confirmation");
+  }
+
+  const result = await prisma.trainingSession.updateMany({
+    where: {
+      id: parsed.data.trainingSessionId,
+      userId: user.id,
+      completedAt: null,
+      cancelledAt: null,
+    },
+    data: { cancelledAt: new Date() },
+  });
+
+  if (result.count !== 1) {
+    redirect("/training?error=training-not-found");
+  }
+
+  revalidatePath("/");
+  revalidatePath("/training");
+  revalidatePath("/training/verlauf");
+  redirect("/training?session-cancelled=1");
+}
+
+export async function deleteTrainingSession(formData: FormData) {
+  const user = await requireUser();
+  const parsed = trainingSessionDeletionSchema.safeParse({
+    trainingSessionId: formText(formData, "trainingSessionId"),
+    confirmation: formText(formData, "confirmation"),
+  });
+
+  if (!parsed.success) {
+    redirect("/training/verlauf?error=training-deletion-confirmation");
+  }
+
+  const result = await prisma.trainingSession.deleteMany({
+    where: {
+      id: parsed.data.trainingSessionId,
+      userId: user.id,
+      OR: [{ completedAt: { not: null } }, { cancelledAt: { not: null } }],
+    },
+  });
+
+  if (result.count !== 1) {
+    redirect("/training/verlauf?error=training-not-found");
+  }
+
+  revalidatePath("/");
+  revalidatePath("/training");
+  revalidatePath("/training/verlauf");
+  redirect("/training/verlauf?session-deleted=1");
 }

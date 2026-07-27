@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Trainingseinheiten abbrechen und löschen
+
+- Laufende Trainings können nach ausdrücklicher Bestätigung abgebrochen werden;
+  bereits erfasste Sätze bleiben dabei im Verlauf nachvollziehbar.
+- Abgebrochene Einheiten werden nicht als Trainingserfolg, Fortschritt oder
+  Bestwert gewertet.
+- Beendete Trainingseinheiten lassen sich im Verlauf nach einer separaten
+  Bestätigung mitsamt allen Sätzen endgültig löschen.
+- Eigentumsprüfung und Bestätigungswerte werden für beide Vorgänge
+  serverseitig erzwungen.
+
 ## 2026-07-26 – Sichere PWA-Grundlage und Fehlerzuordnung
 
 - Manifest, App-Metadaten und Service Worker machen die Web-App auf

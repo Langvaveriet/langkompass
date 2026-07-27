@@ -3049,6 +3049,7 @@ export const TrainingSessionScalarFieldEnum = {
   planName: 'planName',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
+  cancelledAt: 'cancelledAt',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

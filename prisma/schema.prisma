@@ -627,6 +627,7 @@ model TrainingSession {
   planName       String?
   startedAt      DateTime  @default(now())
   completedAt    DateTime?
+  cancelledAt    DateTime?
   notes          String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
@@ -637,6 +638,7 @@ model TrainingSession {
 
   @@index([userId, startedAt])
   @@index([userId, completedAt])
+  @@index([userId, cancelledAt])
   @@index([trainingPlanId])
 }
 

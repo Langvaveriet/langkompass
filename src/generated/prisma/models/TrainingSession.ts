@@ -31,6 +31,7 @@ export type TrainingSessionMinAggregateOutputType = {
   planName: string | null
   startedAt: Date | null
   completedAt: Date | null
+  cancelledAt: Date | null
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -43,6 +44,7 @@ export type TrainingSessionMaxAggregateOutputType = {
   planName: string | null
   startedAt: Date | null
   completedAt: Date | null
+  cancelledAt: Date | null
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -55,6 +57,7 @@ export type TrainingSessionCountAggregateOutputType = {
   planName: number
   startedAt: number
   completedAt: number
+  cancelledAt: number
   notes: number
   createdAt: number
   updatedAt: number
@@ -69,6 +72,7 @@ export type TrainingSessionMinAggregateInputType = {
   planName?: true
   startedAt?: true
   completedAt?: true
+  cancelledAt?: true
   notes?: true
   createdAt?: true
   updatedAt?: true
@@ -81,6 +85,7 @@ export type TrainingSessionMaxAggregateInputType = {
   planName?: true
   startedAt?: true
   completedAt?: true
+  cancelledAt?: true
   notes?: true
   createdAt?: true
   updatedAt?: true
@@ -93,6 +98,7 @@ export type TrainingSessionCountAggregateInputType = {
   planName?: true
   startedAt?: true
   completedAt?: true
+  cancelledAt?: true
   notes?: true
   createdAt?: true
   updatedAt?: true
@@ -178,6 +184,7 @@ export type TrainingSessionGroupByOutputType = {
   planName: string | null
   startedAt: Date
   completedAt: Date | null
+  cancelledAt: Date | null
   notes: string | null
   createdAt: Date
   updatedAt: Date
@@ -211,6 +218,7 @@ export type TrainingSessionWhereInput = {
   planName?: Prisma.StringNullableFilter<"TrainingSession"> | string | null
   startedAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"TrainingSession"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"TrainingSession"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"TrainingSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
@@ -226,6 +234,7 @@ export type TrainingSessionOrderByWithRelationInput = {
   planName?: Prisma.SortOrderInput | Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -244,6 +253,7 @@ export type TrainingSessionWhereUniqueInput = Prisma.AtLeast<{
   planName?: Prisma.StringNullableFilter<"TrainingSession"> | string | null
   startedAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"TrainingSession"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"TrainingSession"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"TrainingSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
@@ -259,6 +269,7 @@ export type TrainingSessionOrderByWithAggregationInput = {
   planName?: Prisma.SortOrderInput | Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -277,6 +288,7 @@ export type TrainingSessionScalarWhereWithAggregatesInput = {
   planName?: Prisma.StringNullableWithAggregatesFilter<"TrainingSession"> | string | null
   startedAt?: Prisma.DateTimeWithAggregatesFilter<"TrainingSession"> | Date | string
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TrainingSession"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TrainingSession"> | Date | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"TrainingSession"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TrainingSession"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TrainingSession"> | Date | string
@@ -287,6 +299,7 @@ export type TrainingSessionCreateInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -302,6 +315,7 @@ export type TrainingSessionUncheckedCreateInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -313,6 +327,7 @@ export type TrainingSessionUpdateInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -328,6 +343,7 @@ export type TrainingSessionUncheckedUpdateInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -341,6 +357,7 @@ export type TrainingSessionCreateManyInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -351,6 +368,7 @@ export type TrainingSessionUpdateManyMutationInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -363,6 +381,7 @@ export type TrainingSessionUncheckedUpdateManyInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -385,6 +404,7 @@ export type TrainingSessionCountOrderByAggregateInput = {
   planName?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -397,6 +417,7 @@ export type TrainingSessionMaxOrderByAggregateInput = {
   planName?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -409,6 +430,7 @@ export type TrainingSessionMinOrderByAggregateInput = {
   planName?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -522,6 +544,7 @@ export type TrainingSessionCreateWithoutUserInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -535,6 +558,7 @@ export type TrainingSessionUncheckedCreateWithoutUserInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -577,6 +601,7 @@ export type TrainingSessionScalarWhereInput = {
   planName?: Prisma.StringNullableFilter<"TrainingSession"> | string | null
   startedAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"TrainingSession"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"TrainingSession"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"TrainingSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TrainingSession"> | Date | string
@@ -587,6 +612,7 @@ export type TrainingSessionCreateWithoutTrainingPlanInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -600,6 +626,7 @@ export type TrainingSessionUncheckedCreateWithoutTrainingPlanInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -637,6 +664,7 @@ export type TrainingSessionCreateWithoutSetsInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -651,6 +679,7 @@ export type TrainingSessionUncheckedCreateWithoutSetsInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -677,6 +706,7 @@ export type TrainingSessionUpdateWithoutSetsInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -691,6 +721,7 @@ export type TrainingSessionUncheckedUpdateWithoutSetsInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -702,6 +733,7 @@ export type TrainingSessionCreateManyUserInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -712,6 +744,7 @@ export type TrainingSessionUpdateWithoutUserInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -725,6 +758,7 @@ export type TrainingSessionUncheckedUpdateWithoutUserInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -737,6 +771,7 @@ export type TrainingSessionUncheckedUpdateManyWithoutUserInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -748,6 +783,7 @@ export type TrainingSessionCreateManyTrainingPlanInput = {
   planName?: string | null
   startedAt?: Date | string
   completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -758,6 +794,7 @@ export type TrainingSessionUpdateWithoutTrainingPlanInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -771,6 +808,7 @@ export type TrainingSessionUncheckedUpdateWithoutTrainingPlanInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -783,6 +821,7 @@ export type TrainingSessionUncheckedUpdateManyWithoutTrainingPlanInput = {
   planName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -826,6 +865,7 @@ export type TrainingSessionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   planName?: boolean
   startedAt?: boolean
   completedAt?: boolean
+  cancelledAt?: boolean
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -842,6 +882,7 @@ export type TrainingSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   planName?: boolean
   startedAt?: boolean
   completedAt?: boolean
+  cancelledAt?: boolean
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -856,6 +897,7 @@ export type TrainingSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   planName?: boolean
   startedAt?: boolean
   completedAt?: boolean
+  cancelledAt?: boolean
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -870,12 +912,13 @@ export type TrainingSessionSelectScalar = {
   planName?: boolean
   startedAt?: boolean
   completedAt?: boolean
+  cancelledAt?: boolean
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TrainingSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "trainingPlanId" | "planName" | "startedAt" | "completedAt" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["trainingSession"]>
+export type TrainingSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "trainingPlanId" | "planName" | "startedAt" | "completedAt" | "cancelledAt" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["trainingSession"]>
 export type TrainingSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   trainingPlan?: boolean | Prisma.TrainingSession$trainingPlanArgs<ExtArgs>
@@ -905,6 +948,7 @@ export type $TrainingSessionPayload<ExtArgs extends runtime.Types.Extensions.Int
     planName: string | null
     startedAt: Date
     completedAt: Date | null
+    cancelledAt: Date | null
     notes: string | null
     createdAt: Date
     updatedAt: Date
@@ -1340,6 +1384,7 @@ export interface TrainingSessionFieldRefs {
   readonly planName: Prisma.FieldRef<"TrainingSession", 'String'>
   readonly startedAt: Prisma.FieldRef<"TrainingSession", 'DateTime'>
   readonly completedAt: Prisma.FieldRef<"TrainingSession", 'DateTime'>
+  readonly cancelledAt: Prisma.FieldRef<"TrainingSession", 'DateTime'>
   readonly notes: Prisma.FieldRef<"TrainingSession", 'String'>
   readonly createdAt: Prisma.FieldRef<"TrainingSession", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TrainingSession", 'DateTime'>

@@ -52,6 +52,7 @@ test("bildet Ernährung, Training, Labor und Supplemente tabellarisch ab", () =>
     training: {
       sessions: [{
         startedAt: "2026-07-26T10:00:00.000Z",
+        cancelledAt: "2026-07-26T10:15:00.000Z",
         planName: "Ganzkörper",
         sets: [{ exercise: { name: "Rudern" }, setNumber: 1, repetitions: 10 }],
       }],
@@ -75,6 +76,7 @@ test("bildet Ernährung, Training, Labor und Supplemente tabellarisch ab", () =>
 
   assert.match(createCsvExport("nutrition", data), /"Joghurt"/);
   assert.match(createCsvExport("training", data), /"Rudern"/);
+  assert.match(createCsvExport("training", data), /"ABGEBROCHEN"/);
   assert.match(createCsvExport("labs", data), /"HbA1c"/);
   assert.match(createCsvExport("labs", data), /"Persönliches Ziel von"/);
   assert.match(createCsvExport("labs", data), /"28"/);
