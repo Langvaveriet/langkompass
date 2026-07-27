@@ -40,7 +40,7 @@ function queryValue(query: Record<string, string | string[] | undefined>, name: 
 function supplementErrorMessage(error: string | undefined): string | null {
   switch (error) {
     case "validation":
-      return "Bitte prüfe Produkt, Standarddosis, Grund und Hauptwirkstoff.";
+      return "Bitte prüfe Produkt, Standarddosis, Grund und Wirkstoffe. Mindestens ein eindeutiger Wirkstoff ist erforderlich.";
     case "duplicate":
       return "Ein aktives Supplement mit diesem Namen ist bereits vorhanden.";
     case "archived-exists":

@@ -1,5 +1,14 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Mehrere Wirkstoffe direkt erfassen
+
+- Kombipräparate können bereits bei der Neuanlage mit bis zu 20 Wirkstoffen
+  erfasst werden.
+- Weitere Wirkstoffkarten werden über einen großen Touch-Button ergänzt und
+  können vor dem Speichern wieder entfernt werden.
+- Mindestens ein Wirkstoff und eindeutige Wirkstoffnamen werden serverseitig
+  erzwungen.
+
 ## 2026-07-27 – Trainingseinheiten abbrechen und löschen
 
 - Laufende Trainings können nach ausdrücklicher Bestätigung abgebrochen werden;

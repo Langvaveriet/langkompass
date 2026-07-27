@@ -13,55 +13,27 @@ import {
   supplementIntakeInputSchema,
 } from "@/lib/supplements/intake-input";
 import {
-  supplementDoseUnits,
-  supplementForms,
-  supplementIngredientUnits,
-  supplementReasons,
-} from "@/lib/supplements/supplement-options";
+  supplementCreationIngredientsSchema,
+  supplementIngredientInputSchema,
+  supplementProductInputSchema,
+} from "@/lib/supplements/supplement-product-input";
 import {
   defaultTimeZone,
   localDateTimeToUtc,
 } from "@/lib/user-settings";
 
-const decimalInput = z
-  .string()
-  .trim()
-  .transform((value) => Number(value.replace(",", ".")))
-  .refine((value) => Number.isFinite(value) && value > 0 && value <= 100_000);
-
-const optionalDecimalInput = z
-  .string()
-  .trim()
-  .transform((value) => value === "" ? null : Number(value.replace(",", ".")))
-  .refine((value) => value === null || (Number.isFinite(value) && value > 0 && value <= 100_000));
-
-const supplementProductSchema = z.object({
-  name: z.string().trim().min(2).max(100),
-  brand: z.string().trim().max(100).transform((value) => value || null),
-  form: z.enum(supplementForms),
-  defaultDose: decimalInput,
-  doseUnit: z.enum(supplementDoseUnits),
-  reason: z.enum(supplementReasons),
-  notes: z.string().trim().max(500).transform((value) => value || null),
+const supplementSchema = supplementProductInputSchema.extend({
+  ingredients: supplementCreationIngredientsSchema,
 });
 
-const ingredientFields = {
-  ingredientName: z.string().trim().min(2).max(100),
-  ingredientAmount: optionalDecimalInput,
-  elementalAmount: optionalDecimalInput,
-  ingredientUnit: z.enum(supplementIngredientUnits),
-} as const;
-
-const supplementSchema = supplementProductSchema.extend(ingredientFields);
-
-const supplementUpdateSchema = supplementProductSchema.extend({
+const supplementUpdateSchema = supplementProductInputSchema.extend({
   supplementId: z.string().trim().min(1),
 });
 
 const ingredientSchema = z.object({
   supplementId: z.string().trim().min(1),
   ingredientId: z.string().trim().min(1).optional(),
-  ...ingredientFields,
+  ...supplementIngredientInputSchema.shape,
 });
 
 const ingredientDeleteSchema = z.object({
@@ -105,6 +77,10 @@ function intakeHistoryUrl(
 
 export async function createSupplement(formData: FormData) {
   const user = await requireUser();
+  const ingredientKeys = formData
+    .getAll("ingredientKey")
+    .filter((value): value is string => typeof value === "string")
+    .slice(0, 21);
   const parsed = supplementSchema.safeParse({
     name: formText(formData, "name"),
     brand: formText(formData, "brand"),
@@ -112,10 +88,12 @@ export async function createSupplement(formData: FormData) {
     defaultDose: formText(formData, "defaultDose"),
     doseUnit: formText(formData, "doseUnit"),
     reason: formText(formData, "reason"),
-    ingredientName: formText(formData, "ingredientName"),
-    ingredientAmount: formText(formData, "ingredientAmount"),
-    elementalAmount: formText(formData, "elementalAmount"),
-    ingredientUnit: formText(formData, "ingredientUnit"),
+    ingredients: ingredientKeys.map((key) => ({
+      ingredientName: formText(formData, `ingredientName:${key}`),
+      ingredientAmount: formText(formData, `ingredientAmount:${key}`),
+      elementalAmount: formText(formData, `elementalAmount:${key}`),
+      ingredientUnit: formText(formData, `ingredientUnit:${key}`),
+    })),
     notes: formText(formData, "notes"),
   });
 
@@ -143,13 +121,13 @@ export async function createSupplement(formData: FormData) {
       reason: parsed.data.reason,
       notes: parsed.data.notes,
       ingredients: {
-        create: {
+        create: parsed.data.ingredients.map((ingredient) => ({
           userId: user.id,
-          name: parsed.data.ingredientName,
-          amount: parsed.data.ingredientAmount,
-          elementalAmount: parsed.data.elementalAmount,
-          unit: parsed.data.ingredientUnit,
-        },
+          name: ingredient.ingredientName,
+          amount: ingredient.ingredientAmount,
+          elementalAmount: ingredient.elementalAmount,
+          unit: ingredient.ingredientUnit,
+        })),
       },
     },
   });
