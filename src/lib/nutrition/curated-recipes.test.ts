@@ -9,15 +9,15 @@ import {
   suggestedRecipeFromCatalog,
 } from "./curated-recipes";
 
-test("enthält je Mahlzeitenkategorie dreißig eindeutige Rezeptvorschläge", () => {
-  assert.equal(curatedRecipes.length, 120);
-  assert.equal(curatedRecipesByKey.size, 120);
-  assert.equal(new Set(curatedRecipes.map((recipe) => recipe.name)).size, 120);
+test("enthält je Mahlzeitenkategorie sechzig eindeutige Rezeptvorschläge", () => {
+  assert.equal(curatedRecipes.length, 240);
+  assert.equal(curatedRecipesByKey.size, 240);
+  assert.equal(new Set(curatedRecipes.map((recipe) => recipe.name)).size, 240);
 
   for (const type of ["BREAKFAST", "LUNCH", "DINNER", "SNACK"] as const) {
     assert.equal(
       curatedRecipes.filter((recipe) => recipe.type === type).length,
-      30,
+      60,
     );
   }
 });

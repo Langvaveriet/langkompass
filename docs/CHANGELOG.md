@@ -1,5 +1,13 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Rezeptkatalog auf 240 Vorschläge erweitern
+
+- Frühstück, Mittagessen, Abendessen und Snacks enthalten jetzt jeweils 60
+  mediterran-ketogene Rezeptvorschläge statt bisher 30.
+- Alle neuen Gerichte besitzen strukturierte Zutaten, Mengen, geschätzte
+  Nährwerte und Zubereitungsschritte und bleiben dadurch für Wochenplan,
+  Einkaufsliste und Profilfilter auswertbar.
+
 ## 2026-07-27 – Mediterran-ketogenen Lebensmittelkatalog erweitern
 
 - Der Schnellkatalog enthält jetzt konkrete Milchprodukte, Gemüse, Fisch,
