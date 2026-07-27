@@ -1,5 +1,17 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Dashboard priorisieren und veredeln
+
+- Gewicht, 7-Tage-Verlauf, Ernährung und Supplemente stehen jetzt in dieser
+  Reihenfolge im oberen Dashboardbereich.
+- Die Ernährungskachel zeigt Tages-kcal, persönlichen Näherungswert,
+  Fortschritt, Mahlzeitenanzahl und Planstatus.
+- Die Supplementkachel unterscheidet aktive Präparate, heutige Einnahmen und
+  die dokumentierte 7-Tage-Summe.
+- Tageserfassung, Training, Labor, Profil und Compass sind als ruhigere
+  Sekundärbereiche angeordnet; ein neuer Tageskopf schafft eine klarere
+  visuelle Hierarchie auf Mobilgeräten und Desktop.
+
 ## 2026-07-27 – Rezeptkatalog auf 240 Vorschläge erweitern
 
 - Frühstück, Mittagessen, Abendessen und Snacks enthalten jetzt jeweils 60

@@ -1,5 +1,12 @@
 import Link from "next/link";
 
+import {
+  DashboardAreaLink,
+  NutritionSummaryCard,
+  SevenDaySummaryCard,
+  SupplementSummaryCard,
+  type DashboardAreaCard,
+} from "@/components/dashboard/dashboard-summary-cards";
 import { TodayMealPlan } from "@/components/dashboard/today-meal-plan";
 import { WeightTrend } from "@/components/dashboard/weight-trend";
 import { AppLayout } from "@/components/layout/app-layout";
@@ -11,9 +18,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PageSubtitle, PageTitle } from "@/components/ui/typography";
+import { PageSubtitle } from "@/components/ui/typography";
 import { summarizeCheckIns } from "@/lib/dashboard/check-in-summary";
 import { summarizeMealPlan } from "@/lib/dashboard/meal-plan-summary";
+import { calculateDailyCalorieTarget } from "@/lib/nutrition/calorie-target";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
@@ -36,10 +44,6 @@ function addUtcDays(date: Date, days: number): Date {
   return result;
 }
 
-function formatAverage(value: number | null, suffix = ""): string {
-  return value === null ? "–" : `${value.toFixed(1).replace(".", ",")}${suffix}`;
-}
-
 export default async function HomePage() {
   const sessionUser = await requireUser();
   const user = await prisma.user.findUnique({
@@ -56,6 +60,11 @@ export default async function HomePage() {
   const timeZone = user?.settings?.timeZone ?? defaultTimeZone;
   const todayEntryDate = getTodayEntryDate(timeZone);
   const sevenDayStart = addUtcDays(todayEntryDate, -6);
+  const sevenDayPeriodStart = localDateTimeToUtc(
+    sevenDayStart.toISOString().slice(0, 10),
+    "00:00",
+    timeZone,
+  );
   const weightStartDate = addUtcDays(todayEntryDate, -29)
     .toISOString()
     .slice(0, 10);
@@ -88,7 +97,7 @@ export default async function HomePage() {
     todayMealPlanEntries,
     labMeasurementCount,
     activeSupplementCount,
-    todaySupplementIntakeCount,
+    recentSupplementIntakes,
   ] = user
     ? await Promise.all([
         prisma.dailyEntry.findUnique({
@@ -181,19 +190,43 @@ export default async function HomePage() {
         prisma.supplement.count({
           where: { userId: user.id, archivedAt: null },
         }),
-        prisma.supplementIntake.count({
+        prisma.supplementIntake.findMany({
           where: {
             userId: user.id,
-            takenAt: { gte: todayPeriodStart, lt: weightPeriodEnd },
+            takenAt: { gte: sevenDayPeriodStart, lt: weightPeriodEnd },
           },
+          select: { supplementId: true, takenAt: true },
         }),
       ])
-    : [null, [], [], null, [], 0, [], 0, 0, 0];
+    : [null, [], [], null, [], 0, [], 0, 0, []];
   const weightMeasurements = weightMeasurementsDescending.toReversed();
   const latestWeight = weightMeasurements.at(-1);
   const checkInSummary = summarizeCheckIns(recentEntries);
   const mealPlanSummary = summarizeMealPlan(todayMealPlanEntries);
   const todayDate = todayEntryDate.toISOString().slice(0, 10);
+  const calorieTargetProfile = profile
+    ? {
+        ...profile,
+        weightKg: latestWeight?.value ?? profile.weightKg,
+      }
+    : null;
+  const calorieTarget = calculateDailyCalorieTarget(
+    calorieTargetProfile,
+    todayEntryDate,
+  );
+  const todaySupplementIntakes = recentSupplementIntakes.filter(
+    (intake) => intake.takenAt >= todayPeriodStart,
+  );
+  const todaySupplementIntakeCount = todaySupplementIntakes.length;
+  const todaySupplementCount = new Set(
+    todaySupplementIntakes.map((intake) => intake.supplementId),
+  ).size;
+  const dashboardDateLabel = new Intl.DateTimeFormat("de-DE", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    timeZone,
+  }).format(new Date());
   const mealTypeLabels = {
     BREAKFAST: "Frühstück",
     LUNCH: "Mittagessen",
@@ -268,111 +301,120 @@ export default async function HomePage() {
     (completedProfileFields / totalProfileFields) * 100,
   );
 
-  const overviewCards = [
+  const overviewCards: DashboardAreaCard[] = [
     {
-      title: "Gesundheitsprofil",
-      value: profile
-        ? `${profileProgress} % vollständig`
-        : "Noch nicht eingerichtet",
-      description: profile
-        ? "Persönliche Basisdaten und Gesundheitsziele sind bereits gespeichert."
-        : "Persönliche Basisdaten, Gesundheitsziele und relevante Rahmenbedingungen.",
-      href: "/gesundheitsprofil",
+      eyebrow: "Heute",
+      title: "Tageserfassung",
+      value: dailyEntryStatus,
+      description:
+        "Schlaf, Energie, Bewegung, Beschwerden und Wohlbefinden ergänzen.",
+      href: "/tageserfassung",
     },
     {
+      eyebrow: "Bewegung",
+      title: "Training",
+      value: trainingStatus,
+      description: trainingDescription,
+      href: "/training",
+    },
+    {
+      eyebrow: "Diagnostik",
       title: "Laborwerte",
       value: labMeasurementCount > 0
         ? `${labMeasurementCount} ${labMeasurementCount === 1 ? "Messung" : "Messungen"}`
         : "Noch keine Messungen",
       description:
-        "Blutwerte und andere Laborergebnisse strukturiert erfassen und vergleichen.",
+        "Laborergebnisse strukturiert erfassen und Veränderungen vergleichen.",
       href: "/laborwerte",
     },
     {
-      title: "Supplemente",
-      value: activeSupplementCount > 0
-        ? `${activeSupplementCount} aktiv · ${todaySupplementIntakeCount} heute`
-        : "Noch keine Präparate",
-      description:
-        "Präparate, Wirkstoffe, Einnahmen und mögliche Reaktionen strukturiert dokumentieren.",
-      href: "/supplemente",
+      eyebrow: "Persönliche Basis",
+      title: "Gesundheitsprofil",
+      value: profile
+        ? `${profileProgress} % vollständig`
+        : "Noch nicht eingerichtet",
+      description: profile
+        ? "Basisdaten, Zielwerte und Gesundheitsziele aktuell halten."
+        : "Basisdaten, Gesundheitsziele und relevante Rahmenbedingungen ergänzen.",
+      href: "/gesundheitsprofil",
     },
     {
+      eyebrow: "Lokale Auswertung",
       title: "Compass AI",
       value: profile ? "Profilkontext verfügbar" : "Bereit für Kontext",
       description:
-        "Ruhige, verständliche Einordnung auf Basis deiner freigegebenen Gesundheitsdaten.",
+        "Zusammenhänge aus deinen strukturierten Daten lokal einordnen.",
       href: "/compass-ai",
-    },
-    {
-      title: "Tageserfassung",
-      value: dailyEntryStatus,
-      description:
-        "Wohlbefinden, Symptome, Schlaf und persönliche Beobachtungen dokumentieren.",
-      href: "/tageserfassung",
-    },
-    {
-      title: "Ernährung",
-      value: todayMealCount > 0
-        ? `${todayMealCount} ${todayMealCount === 1 ? "Eintrag" : "Einträge"} · ca. ${todayEnergyKcal} kcal`
-        : "Heute noch nichts erfasst",
-      description:
-        mealPlanSummary.plannedCount > 0
-          ? `${mealPlanSummary.completedCount} von ${mealPlanSummary.plannedCount} geplanten Mahlzeiten sind bereits erfasst.`
-          : "Mahlzeiten, Getränke und mögliche Reaktionen strukturiert dokumentieren.",
-      href: "/ernaehrung",
-    },
-    {
-      title: "Training",
-      value: trainingStatus,
-      description: trainingDescription,
-      href: "/training",
     },
   ];
 
   return (
     <AppLayout>
       <Page>
-        <header className="max-w-4xl">
-          <PageTitle>Dein Gesundheitskompass</PageTitle>
-
-          <PageSubtitle className="mt-4">
-            Gesundheitsdaten verstehen, Entwicklungen erkennen und die nächsten
-            Schritte klar einordnen.
-          </PageSubtitle>
+        <header className="relative overflow-hidden rounded-[var(--radius-xl)] border border-border-subtle bg-surface-raised px-6 py-7 shadow-sm sm:px-8 sm:py-9">
+          <div
+            className="pointer-events-none absolute -right-16 -top-28 h-72 w-72 rounded-full bg-forest-soft opacity-80 blur-3xl"
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute -bottom-24 left-1/3 h-48 w-48 rounded-full bg-copper-soft opacity-60 blur-3xl"
+            aria-hidden="true"
+          />
+          <div className="relative max-w-4xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-copper">
+              {dashboardDateLabel}
+            </p>
+            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-forest-strong sm:text-5xl">
+              Dein Gesundheitskompass
+            </h1>
+            <PageSubtitle className="mt-4 max-w-3xl">
+              Die wichtigsten Entwicklungen zuerst – ruhig, klar und auf Basis
+              deiner tatsächlich erfassten Daten.
+            </PageSubtitle>
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              <Link
+                href="/tageserfassung"
+                className="inline-flex min-h-11 items-center rounded-full bg-forest-soft px-4 py-2 text-sm font-semibold text-forest-strong transition hover:opacity-80"
+              >
+                {dailyEntryStatus} →
+              </Link>
+              <span className="inline-flex min-h-11 items-center rounded-full border border-border-subtle bg-surface-raised/80 px-4 py-2 text-sm font-medium text-text-secondary">
+                {profileProgress} % Profilkontext
+              </span>
+            </div>
+          </div>
         </header>
 
         <Section
-          aria-label="Gesundheitsübersicht"
-          className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3"
+          aria-label="Wichtige Gesundheitsdaten"
+          className="!mt-6 grid grid-cols-12 gap-5"
         >
-          {overviewCards.map((card) => (
-            <Link
-              key={card.title}
-              href={card.href}
-              className="group rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4"
-            >
-              <Card className="h-full transition duration-200 group-hover:-translate-y-1 group-hover:shadow-md">
-                <CardHeader>
-                  <CardTitle>{card.title}</CardTitle>
-                </CardHeader>
-
-                <CardContent className="grid gap-3">
-                  <p className="text-base font-semibold text-text-primary">
-                    {card.value}
-                  </p>
-
-                  <p className="text-sm leading-6 text-text-muted">
-                    {card.description}
-                  </p>
-
-                  <span className="mt-2 text-sm font-semibold text-forest-strong">
-                    Bereich öffnen →
-                  </span>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+          <div className="col-span-12 xl:col-span-7">
+            <WeightTrend
+              measurements={weightMeasurements}
+              timeZone={timeZone}
+            />
+          </div>
+          <div className="col-span-12 xl:col-span-5">
+            <SevenDaySummaryCard summary={checkInSummary} />
+          </div>
+          <div className="col-span-12 md:col-span-6">
+            <NutritionSummaryCard
+              mealCount={todayMealCount}
+              energyKcal={todayEnergyKcal}
+              calorieTarget={calorieTarget}
+              plannedCount={mealPlanSummary.plannedCount}
+              completedPlannedCount={mealPlanSummary.completedCount}
+            />
+          </div>
+          <div className="col-span-12 md:col-span-6">
+            <SupplementSummaryCard
+              activeCount={activeSupplementCount}
+              todayIntakeCount={todaySupplementIntakeCount}
+              todaySupplementCount={todaySupplementCount}
+              sevenDayIntakeCount={recentSupplementIntakes.length}
+            />
+          </div>
         </Section>
 
         {mealPlanSummary.plannedCount > 0 ? (
@@ -390,87 +432,25 @@ export default async function HomePage() {
           </Section>
         ) : null}
 
-        <Section
-          aria-label="Gesundheitsverlauf"
-          className="grid grid-cols-12 gap-5"
-        >
-          <div className="col-span-12 xl:col-span-8">
-            <WeightTrend
-              measurements={weightMeasurements}
-              timeZone={timeZone}
-            />
-          </div>
-
-          <Card className="col-span-12 xl:col-span-4">
-            <CardHeader>
-              <CardTitle>Letzte 7 Tage</CardTitle>
-            </CardHeader>
-
-            <CardContent className="grid gap-5">
-              <p className="text-sm leading-6 text-text-muted">
-                Zusammenfassung aus deinen tatsächlich erfassten Check-ins.
+        <Section aria-labelledby="weitere-bereiche-title">
+          <div className="mb-5 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-copper">
+                Überblick
               </p>
-
-              <dl className="grid grid-cols-2 gap-3">
-                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
-                  <dt className="text-xs text-text-muted">Erfasste Tage</dt>
-                  <dd className="mt-1 text-lg font-semibold text-text-primary">
-                    {checkInSummary.recordedDays} / 7
-                  </dd>
-                </div>
-                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
-                  <dt className="text-xs text-text-muted">Abgeschlossen</dt>
-                  <dd className="mt-1 text-lg font-semibold text-text-primary">
-                    {checkInSummary.completedDays}
-                  </dd>
-                </div>
-                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
-                  <dt className="text-xs text-text-muted">Ø Schlaf</dt>
-                  <dd className="mt-1 text-lg font-semibold text-text-primary">
-                    {formatAverage(checkInSummary.averageSleepHours, " Std.")}
-                  </dd>
-                </div>
-                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
-                  <dt className="text-xs text-text-muted">Ø Energie</dt>
-                  <dd className="mt-1 text-lg font-semibold text-text-primary">
-                    {formatAverage(checkInSummary.averageEnergy, " / 10")}
-                  </dd>
-                </div>
-                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
-                  <dt className="text-xs text-text-muted">Ø Schritte</dt>
-                  <dd className="mt-1 text-lg font-semibold text-text-primary">
-                    {checkInSummary.averageSteps === null
-                      ? "–"
-                      : Math.round(checkInSummary.averageSteps).toLocaleString("de-DE")}
-                  </dd>
-                </div>
-                <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
-                  <dt className="text-xs text-text-muted">Ø aktive Zeit</dt>
-                  <dd className="mt-1 text-lg font-semibold text-text-primary">
-                    {formatAverage(checkInSummary.averageActiveMinutes, " Min.")}
-                  </dd>
-                </div>
-              </dl>
-
-              {checkInSummary.averageWellbeing !== null ? (
-                <p className="text-xs leading-5 text-text-muted">
-                  Durchschnittliches Wohlbefinden am Abend:{" "}
-                  {formatAverage(
-                    checkInSummary.averageWellbeing,
-                    " / 10",
-                  )}
-                </p>
-              ) : null}
-              {checkInSummary.averageWaterLiters !== null ? (
-                <p className="text-xs leading-5 text-text-muted">
-                  Durchschnittliche Trinkmenge: {formatAverage(
-                    checkInSummary.averageWaterLiters,
-                    " l",
-                  )}
-                </p>
-              ) : null}
-            </CardContent>
-          </Card>
+              <h2
+                id="weitere-bereiche-title"
+                className="mt-1.5 text-2xl font-semibold tracking-[-0.03em] text-text-primary"
+              >
+                Weitere Bereiche
+              </h2>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3">
+            {overviewCards.map((card) => (
+              <DashboardAreaLink key={card.title} card={card} />
+            ))}
+          </div>
         </Section>
 
         <Section aria-label="Nächste Schritte">

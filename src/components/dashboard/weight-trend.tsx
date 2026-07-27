@@ -42,9 +42,12 @@ export function WeightTrend({
 
   if (!firstPoint || !lastPoint) {
     return (
-      <Card className="h-full">
-        <CardHeader>
-          <CardTitle>Gewichtsverlauf</CardTitle>
+      <Card className="h-full overflow-hidden">
+        <CardHeader className="border-b-0 pb-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-copper">
+            Körpergewicht
+          </p>
+          <CardTitle className="mt-1.5 tracking-[-0.02em]">Gewichtsverlauf</CardTitle>
         </CardHeader>
         <CardContent className="grid min-h-64 place-content-center gap-4 text-center">
           <div>
@@ -96,13 +99,16 @@ export function WeightTrend({
   const differenceLabel = `${difference > 0 ? "+" : ""}${formatWeight(difference)} kg`;
 
   return (
-    <Card className="h-full">
-      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3">
+    <Card className="h-full overflow-hidden">
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 border-b-0 pb-2">
         <div>
-          <CardTitle>Gewichtsverlauf</CardTitle>
-          <p className="mt-1 text-xs text-text-muted">Letzte 30 Tage</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-copper">
+            Körpergewicht
+          </p>
+          <CardTitle className="mt-1.5 tracking-[-0.02em]">Gewichtsverlauf</CardTitle>
+          <p className="mt-1 text-xs text-text-muted">30-Tage-Entwicklung</p>
         </div>
-        <p className="text-xl font-semibold text-forest-strong">
+        <p className="text-3xl font-semibold tracking-[-0.04em] text-forest-strong">
           {formatWeight(lastPoint.numericValue)} kg
         </p>
       </CardHeader>
