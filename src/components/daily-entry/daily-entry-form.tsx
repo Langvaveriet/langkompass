@@ -167,7 +167,10 @@ export function DailyEntryForm({
         </div>
       </section>
 
-      <section className="grid gap-6 rounded-[var(--radius-lg)] bg-surface-muted p-4 sm:p-6">
+      <section
+        id="morgen-check"
+        className="grid scroll-mt-24 gap-6 rounded-[var(--radius-lg)] bg-surface-muted p-4 sm:p-6"
+      >
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-text-muted">
             Morgen-Check

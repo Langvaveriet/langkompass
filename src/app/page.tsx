@@ -15,6 +15,7 @@ import { Section } from "@/components/layout/section";
 import { Card } from "@/components/ui/card";
 import { PageSubtitle } from "@/components/ui/typography";
 import { summarizeCheckIns } from "@/lib/dashboard/check-in-summary";
+import { buildDailyReminders } from "@/lib/dashboard/daily-reminders";
 import { summarizeMealPlan } from "@/lib/dashboard/meal-plan-summary";
 import { calculateDailyCalorieTarget } from "@/lib/nutrition/calorie-target";
 import { estimatedFoodEnergy } from "@/lib/nutrition/energy";
@@ -227,6 +228,11 @@ export default async function HomePage() {
   const todaySupplementCount = new Set(
     todaySupplementIntakes.map((intake) => intake.supplementId),
   ).size;
+  const hasWeightMeasurementToday = weightMeasurementsDescending.some(
+    (measurement) =>
+      measurement.measuredAt >= todayPeriodStart &&
+      measurement.measuredAt < weightPeriodEnd,
+  );
   const dashboardDateLabel = new Intl.DateTimeFormat("de-DE", {
     weekday: "long",
     day: "2-digit",
@@ -440,13 +446,13 @@ export default async function HomePage() {
           },
         ]
       : []),
-    ...(weightMeasurements.length < 2
-      ? [{ href: "/tageserfassung", label: "Gewichtsverlauf ergänzen" }]
-      : []),
-    ...(activeSupplementCount === 0
-      ? [{ href: "/supplemente", label: "Supplement anlegen" }]
-      : []),
   ];
+  const headerReminders = buildDailyReminders({
+    date: todayDate,
+    hasWeightMeasurement: hasWeightMeasurementToday,
+    supplementIntakeCount: todaySupplementIntakeCount,
+    activeSupplementCount,
+  });
 
   return (
     <AppLayout>
@@ -482,6 +488,42 @@ export default async function HomePage() {
                 {profileProgress} % Profilkontext
               </span>
             </div>
+
+            {headerReminders.length > 0 ? (
+              <div
+                className="mt-6 grid gap-3 sm:grid-cols-2"
+                aria-label="Offene Erinnerungen für heute"
+              >
+                {headerReminders.map((reminder) => (
+                  <Link
+                    key={reminder.key}
+                    href={reminder.href}
+                    className="group flex min-h-20 items-center gap-3 rounded-[var(--radius-lg)] border border-border-subtle bg-surface-raised/90 p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:border-forest-strong hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-2"
+                  >
+                    <span
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-copper-soft text-sm font-semibold text-copper"
+                      aria-hidden="true"
+                    >
+                      {reminder.marker}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-copper">
+                        {reminder.eyebrow}
+                      </span>
+                      <span className="mt-0.5 block font-semibold text-text-primary">
+                        {reminder.title}
+                      </span>
+                      <span className="mt-0.5 block text-xs text-text-muted">
+                        {reminder.detail}
+                      </span>
+                    </span>
+                    <span className="shrink-0 text-sm font-semibold text-forest-strong">
+                      <span className="hidden xl:inline">{reminder.action} </span>→
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : null}
           </div>
         </header>
 

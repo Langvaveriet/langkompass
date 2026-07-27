@@ -1,5 +1,14 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Tägliche Erinnerungen im Dashboard
+
+- Die Kopfkachel erinnert an die heutige Gewichtsmessung, solange noch kein
+  Gewicht für den aktuellen Tag gespeichert wurde.
+- Eine zweite Erinnerung führt zur Supplementdokumentation, solange heute noch
+  keine Einnahme erfasst wurde; ohne aktive Präparate führt sie zur Einrichtung.
+- Beide Hinweise verschwinden unabhängig voneinander nach der jeweiligen
+  Dokumentation und verlinken direkt in den passenden Trackingbereich.
+
 ## 2026-07-27 – Laborwerte in Compass einordnen
 
 - Compass wiederholt Laborwerte nicht mehr als Zahlenliste, sondern priorisiert
