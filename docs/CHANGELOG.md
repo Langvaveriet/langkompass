@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Mediterran-ketogenen Lebensmittelkatalog erweitern
+
+- Der Schnellkatalog enthält jetzt konkrete Milchprodukte, Gemüse, Fisch,
+  Fleisch, Nüsse, Samen und Fette für eine mediterran-ketogene Ernährung,
+  darunter Hüttenkäse und Skyr.
+- Lebensmittelbereiche sind trotz des größeren Katalogs weiterhin
+  touchfreundlich und übersichtlich gegliedert.
+- Jede Standardportion zeigt ihre geschätzten kcal bereits vor dem Speichern;
+  Anzeige und Speicherung verwenden dieselbe zentrale Berechnung.
+- Energieangaben bleiben gekennzeichnete Näherungswerte je 100 g oder 100 ml.
+
 ## 2026-07-27 – Wirkstoffe beim Bearbeiten zugänglich machen
 
 - Produktdaten und Wirkstoffverwaltung befinden sich jetzt in einem gemeinsamen

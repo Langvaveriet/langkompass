@@ -12,7 +12,10 @@ import {
   recipeMatchesPreferences,
   recipePreferencesFromProfile,
 } from "@/lib/nutrition/recipe-preferences";
-import { foodCatalogByKey } from "@/lib/nutrition/food-catalog";
+import {
+  catalogFoodEnergyKcal,
+  foodCatalogByKey,
+} from "@/lib/nutrition/food-catalog";
 import {
   allowedPostMealSymptoms,
   allowedReactionDelays,
@@ -149,9 +152,7 @@ export async function saveMeal(formData: FormData) {
         portion,
         quantity: food.portions[portion],
         unit: food.unit,
-        energyKcal: Math.round(
-          (food.kcalPer100 * food.portions[portion]) / 100,
-        ),
+        energyKcal: catalogFoodEnergyKcal(food, portion),
         traits: food.traits,
       };
     }),

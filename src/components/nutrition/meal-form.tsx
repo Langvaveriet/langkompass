@@ -9,7 +9,11 @@ import type {
   MealType,
   PortionSize,
 } from "@/generated/prisma/enums";
-import { foodCatalog, foodCatalogByKey } from "@/lib/nutrition/food-catalog";
+import {
+  catalogFoodEnergyKcal,
+  foodCatalog,
+  foodCatalogByKey,
+} from "@/lib/nutrition/food-catalog";
 import {
   postMealSymptomOptions,
   reactionDelayOptions,
@@ -47,24 +51,33 @@ const portionSizes = ["SMALL", "MEDIUM", "LARGE"] as const;
 const foodGroups = [
   {
     key: "BASICS",
-    label: "Grundlagen",
+    label: "Gemüse & Obst",
     emoji: "🥗",
-    categories: ["GRAIN", "VEGETABLE", "FRUIT"] satisfies FoodCategory[],
+    categories: ["VEGETABLE", "FRUIT"] satisfies FoodCategory[],
   },
   {
-    key: "PROTEIN",
-    label: "Eiweiß & Beilagen",
+    key: "CARBS",
+    label: "Stärke & Hülsenfrüchte",
+    emoji: "🫘",
+    categories: ["GRAIN", "LEGUME"] satisfies FoodCategory[],
+  },
+  {
+    key: "DAIRY_EGGS",
+    label: "Milchprodukte & Eier",
     emoji: "🍳",
-    categories: [
-      "LEGUME",
-      "NUT_SEED",
-      "DAIRY",
-      "EGG",
-      "MEAT",
-      "FISH_SEAFOOD",
-      "FAT_OIL",
-      "CONDIMENT",
-    ] satisfies FoodCategory[],
+    categories: ["DAIRY", "EGG"] satisfies FoodCategory[],
+  },
+  {
+    key: "FISH_MEAT",
+    label: "Fisch & Fleisch",
+    emoji: "🐟",
+    categories: ["FISH_SEAFOOD", "MEAT"] satisfies FoodCategory[],
+  },
+  {
+    key: "FATS",
+    label: "Fette, Nüsse & Extras",
+    emoji: "🫒",
+    categories: ["NUT_SEED", "FAT_OIL", "CONDIMENT"] satisfies FoodCategory[],
   },
   {
     key: "CONVENIENCE",
@@ -184,7 +197,10 @@ export function MealForm({ entryDate, values }: MealFormProps) {
               <button key={food.key} type="button" aria-pressed={selected} onClick={() => toggleFood(food.key)} className={["inline-flex min-h-11 items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition", selected ? "border-forest-strong bg-forest-soft text-forest-strong ring-2 ring-forest-soft" : "border-border-strong bg-surface-primary text-text-primary hover:border-forest-strong"].join(" ")}>
                 <span aria-hidden="true">{food.emoji}</span>
                 <span>{food.name}</span>
-                <span className="text-xs opacity-70">ca. {food.portions.MEDIUM} {unit}</span>
+                <span className="text-xs opacity-70">
+                  ca. {food.portions.MEDIUM} {unit} ·{" "}
+                  {catalogFoodEnergyKcal(food, "MEDIUM")} kcal
+                </span>
               </button>
             );
           })}
@@ -205,8 +221,11 @@ export function MealForm({ entryDate, values }: MealFormProps) {
                 <p className="text-sm font-semibold text-text-primary"><span aria-hidden="true">{food.emoji}</span> {food.name}</p>
                 <div className="grid grid-cols-3 gap-2">
                   {portionSizes.map((portion) => (
-                    <button key={portion} type="button" aria-pressed={selectedFood.portion === portion} onClick={() => selectPortion(food.key, portion)} className={["min-h-11 rounded-[var(--radius-md)] border px-2 text-sm font-semibold transition", selectedFood.portion === portion ? "border-forest-strong bg-forest-soft text-forest-strong" : "border-border-strong bg-surface-raised text-text-primary"].join(" ")}>
-                      {food.portions[portion]} {unit}
+                    <button key={portion} type="button" aria-pressed={selectedFood.portion === portion} onClick={() => selectPortion(food.key, portion)} className={["min-h-14 rounded-[var(--radius-md)] border px-2 py-2 text-sm font-semibold transition", selectedFood.portion === portion ? "border-forest-strong bg-forest-soft text-forest-strong" : "border-border-strong bg-surface-raised text-text-primary"].join(" ")}>
+                      <span className="block">{food.portions[portion]} {unit}</span>
+                      <span className="mt-0.5 block text-xs font-normal opacity-75">
+                        ca. {catalogFoodEnergyKcal(food, portion)} kcal
+                      </span>
                     </button>
                   ))}
                 </div>
