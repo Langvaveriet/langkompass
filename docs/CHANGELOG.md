@@ -2,6 +2,12 @@
 
 ## 2026-07-27 – Dashboard priorisieren und veredeln
 
+- Eine schmale, horizontal scrollbar bleibende Aktionsleiste zeigt die nächsten
+  sinnvollen Schritte jetzt direkt unter dem Tageskopf.
+- Die vier priorisierten Kacheln nutzen auf großen Displays eine gemeinsame
+  kompakte Zeile und sparen dadurch deutlich vertikalen Platz.
+- Sekundärbereiche zeigen statt allgemeiner Beschreibungen aktuelle Kennzahlen
+  aus Tageserfassung, Training, Labor, Profil und lokaler Auswertung.
 - Gewicht, 7-Tage-Verlauf, Ernährung und Supplemente stehen jetzt in dieser
   Reihenfolge im oberen Dashboardbereich.
 - Die Ernährungskachel zeigt Tages-kcal, persönlichen Näherungswert,

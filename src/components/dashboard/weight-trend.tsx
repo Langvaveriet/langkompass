@@ -14,11 +14,11 @@ type WeightTrendProps = {
 };
 
 const chartWidth = 600;
-const chartHeight = 180;
+const chartHeight = 116;
 const plotLeft = 18;
 const plotRight = 582;
-const plotTop = 20;
-const plotBottom = 146;
+const plotTop = 12;
+const plotBottom = 88;
 
 function formatWeight(value: number): string {
   return value.toFixed(1).replace(".", ",");
@@ -43,20 +43,19 @@ export function WeightTrend({
   if (!firstPoint || !lastPoint) {
     return (
       <Card className="h-full overflow-hidden">
-        <CardHeader className="border-b-0 pb-2">
+        <CardHeader className="border-b-0 px-5 pb-2 pt-4">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-copper">
             Körpergewicht
           </p>
-          <CardTitle className="mt-1.5 tracking-[-0.02em]">Gewichtsverlauf</CardTitle>
+          <CardTitle className="mt-1 text-lg tracking-[-0.02em]">Gewichtsverlauf</CardTitle>
         </CardHeader>
-        <CardContent className="grid min-h-64 place-content-center gap-4 text-center">
+        <CardContent className="grid min-h-52 place-content-center gap-3 px-5 pb-5 pt-2 text-center">
           <div>
             <p className="font-semibold text-text-primary">
               Noch keine Gewichtsmessung
             </p>
-            <p className="mt-2 max-w-sm text-sm leading-6 text-text-muted">
-              Erfasse dein Gewicht im Morgen-Check. Der Verlauf erscheint hier
-              automatisch, sobald echte Messwerte vorliegen.
+            <p className="mt-2 max-w-sm text-sm text-text-muted">
+              Im Morgen-Check erfassen und hier verfolgen.
             </p>
           </div>
           <Link
@@ -100,22 +99,22 @@ export function WeightTrend({
 
   return (
     <Card className="h-full overflow-hidden">
-      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 border-b-0 pb-2">
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 border-b-0 px-5 pb-2 pt-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-copper">
             Körpergewicht
           </p>
-          <CardTitle className="mt-1.5 tracking-[-0.02em]">Gewichtsverlauf</CardTitle>
+          <CardTitle className="mt-1 text-lg tracking-[-0.02em]">Gewichtsverlauf</CardTitle>
           <p className="mt-1 text-xs text-text-muted">30-Tage-Entwicklung</p>
         </div>
-        <p className="text-3xl font-semibold tracking-[-0.04em] text-forest-strong">
+        <p className="text-2xl font-semibold tracking-[-0.04em] text-forest-strong">
           {formatWeight(lastPoint.numericValue)} kg
         </p>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="px-5 pb-5 pt-1">
         {points.length === 1 ? (
-          <div className="grid min-h-52 place-content-center text-center">
+          <div className="grid min-h-32 place-content-center text-center">
             <p className="font-semibold text-text-primary">
               Erster Messwert gespeichert
             </p>
@@ -179,17 +178,11 @@ export function WeightTrend({
           </>
         )}
 
-        <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-border-subtle pt-5 sm:grid-cols-3">
+        <dl className="mt-3 grid grid-cols-2 gap-3 border-t border-border-subtle pt-3">
           <div>
             <dt className="text-xs text-text-muted">Veränderung</dt>
             <dd className="mt-1 font-semibold text-text-primary">
               {points.length > 1 ? differenceLabel : "–"}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-xs text-text-muted">Spanne</dt>
-            <dd className="mt-1 font-semibold text-text-primary">
-              {formatWeight(minimum)}–{formatWeight(maximum)} kg
             </dd>
           </div>
           <div>

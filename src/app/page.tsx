@@ -12,12 +12,7 @@ import { WeightTrend } from "@/components/dashboard/weight-trend";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Page } from "@/components/layout/page";
 import { Section } from "@/components/layout/section";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { PageSubtitle } from "@/components/ui/typography";
 import { summarizeCheckIns } from "@/lib/dashboard/check-in-summary";
 import { summarizeMealPlan } from "@/lib/dashboard/meal-plan-summary";
@@ -95,7 +90,7 @@ export default async function HomePage() {
     todayTrainingSessions,
     trainingPlanCount,
     todayMealPlanEntries,
-    labMeasurementCount,
+    labReports,
     activeSupplementCount,
     recentSupplementIntakes,
   ] = user
@@ -110,6 +105,12 @@ export default async function HomePage() {
           select: {
             id: true,
             status: true,
+            sleepHours: true,
+            energy: true,
+            wellbeing: true,
+            waterLiters: true,
+            steps: true,
+            activeMinutes: true,
             meals: {
               select: {
                 id: true,
@@ -184,8 +185,13 @@ export default async function HomePage() {
           },
           orderBy: { type: "asc" },
         }),
-        prisma.labResult.count({
+        prisma.labReport.findMany({
           where: { userId: user.id },
+          select: {
+            collectedAt: true,
+            _count: { select: { results: true } },
+          },
+          orderBy: { collectedAt: "desc" },
         }),
         prisma.supplement.count({
           where: { userId: user.id, archivedAt: null },
@@ -198,7 +204,7 @@ export default async function HomePage() {
           select: { supplementId: true, takenAt: true },
         }),
       ])
-    : [null, [], [], null, [], 0, [], 0, 0, []];
+    : [null, [], [], null, [], 0, [], [], 0, []];
   const weightMeasurements = weightMeasurementsDescending.toReversed();
   const latestWeight = weightMeasurements.at(-1);
   const checkInSummary = summarizeCheckIns(recentEntries);
@@ -274,14 +280,6 @@ export default async function HomePage() {
         : trainingPlanCount > 0
           ? `${trainingPlanCount} ${trainingPlanCount === 1 ? "Trainingsplan" : "Trainingspläne"} bereit`
           : "Noch kein Trainingsplan";
-  const trainingDescription = activeTrainingSession
-    ? "Deine laufende Einheit fortsetzen und den nächsten Satz direkt erfassen."
-    : todayTrainingSessions.length > 0
-      ? "Die heutige Aktivität ist dokumentiert und fließt in deinen Trainingsverlauf ein."
-      : trainingPlanCount > 0
-        ? "Einen vorbereiteten Trainingsplan wählen und die Einheit mit wenigen Handgriffen starten."
-        : "Wiederverwendbare Trainingspläne mit einer grafischen Übungsauswahl zusammenstellen.";
-
   const completedProfileFields = [
     profile?.firstName,
     profile?.lastName,
@@ -300,22 +298,81 @@ export default async function HomePage() {
   const profileProgress = Math.round(
     (completedProfileFields / totalProfileFields) * 100,
   );
+  const labMeasurementCount = labReports.reduce(
+    (sum, report) => sum + report._count.results,
+    0,
+  );
+  const latestLabDate = labReports[0]
+    ? new Intl.DateTimeFormat("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+        timeZone,
+      }).format(labReports[0].collectedAt)
+    : "–";
+  const calorieTargetLabel = calorieTarget
+    ? `${calorieTarget.toLocaleString("de-DE")} kcal`
+    : "–";
+  const latestWeightLabel = latestWeight
+    ? `${Number(latestWeight.value).toFixed(1).replace(".", ",")} kg`
+    : "–";
+  const todaySleepLabel = todayEntry?.sleepHours
+    ? `${Number(todayEntry.sleepHours).toFixed(1).replace(".", ",")} Std.`
+    : "–";
+  const todayWaterLabel = todayEntry?.waterLiters
+    ? `${Number(todayEntry.waterLiters).toFixed(1).replace(".", ",")} l`
+    : "–";
 
   const overviewCards: DashboardAreaCard[] = [
     {
       eyebrow: "Heute",
       title: "Tageserfassung",
       value: dailyEntryStatus,
-      description:
-        "Schlaf, Energie, Bewegung, Beschwerden und Wohlbefinden ergänzen.",
       href: "/tageserfassung",
+      metrics: [
+        { label: "Schlaf", value: todaySleepLabel },
+        {
+          label: "Energie",
+          value: todayEntry?.energy ? `${todayEntry.energy} / 10` : "–",
+        },
+        {
+          label: "Schritte",
+          value: todayEntry?.steps?.toLocaleString("de-DE") ?? "–",
+        },
+        {
+          label: "Aktive Zeit",
+          value: todayEntry?.activeMinutes
+            ? `${todayEntry.activeMinutes} Min.`
+            : "–",
+        },
+        {
+          label: "Wohlbefinden",
+          value: todayEntry?.wellbeing
+            ? `${todayEntry.wellbeing} / 10`
+            : "–",
+        },
+        { label: "Trinkmenge", value: todayWaterLabel },
+      ],
     },
     {
       eyebrow: "Bewegung",
       title: "Training",
       value: trainingStatus,
-      description: trainingDescription,
       href: "/training",
+      metrics: [
+        {
+          label: "Einheiten heute",
+          value: todayTrainingSessions.length.toLocaleString("de-DE"),
+        },
+        {
+          label: "Sätze heute",
+          value: todayTrainingSetCount.toLocaleString("de-DE"),
+        },
+        {
+          label: "Trainingspläne",
+          value: trainingPlanCount.toLocaleString("de-DE"),
+        },
+      ],
     },
     {
       eyebrow: "Diagnostik",
@@ -323,9 +380,14 @@ export default async function HomePage() {
       value: labMeasurementCount > 0
         ? `${labMeasurementCount} ${labMeasurementCount === 1 ? "Messung" : "Messungen"}`
         : "Noch keine Messungen",
-      description:
-        "Laborergebnisse strukturiert erfassen und Veränderungen vergleichen.",
       href: "/laborwerte",
+      metrics: [
+        {
+          label: "Untersuchungen",
+          value: labReports.length.toLocaleString("de-DE"),
+        },
+        { label: "Letzte Untersuchung", value: latestLabDate },
+      ],
     },
     {
       eyebrow: "Persönliche Basis",
@@ -333,19 +395,57 @@ export default async function HomePage() {
       value: profile
         ? `${profileProgress} % vollständig`
         : "Noch nicht eingerichtet",
-      description: profile
-        ? "Basisdaten, Zielwerte und Gesundheitsziele aktuell halten."
-        : "Basisdaten, Gesundheitsziele und relevante Rahmenbedingungen ergänzen.",
       href: "/gesundheitsprofil",
+      metrics: [
+        { label: "Aktuelles Gewicht", value: latestWeightLabel },
+        { label: "Tagesziel", value: calorieTargetLabel },
+      ],
     },
     {
       eyebrow: "Lokale Auswertung",
       title: "Compass AI",
       value: profile ? "Profilkontext verfügbar" : "Bereit für Kontext",
-      description:
-        "Zusammenhänge aus deinen strukturierten Daten lokal einordnen.",
       href: "/compass-ai",
+      metrics: [
+        {
+          label: "Check-ins · 7 Tage",
+          value: `${checkInSummary.recordedDays} / 7`,
+        },
+        {
+          label: "Gewichtswerte · 30 Tage",
+          value: weightMeasurements.length.toLocaleString("de-DE"),
+        },
+        {
+          label: "Laborwerte",
+          value: labMeasurementCount.toLocaleString("de-DE"),
+        },
+      ],
     },
+  ];
+  const nextSteps = [
+    ...(profileProgress < 100
+      ? [{ href: "/gesundheitsprofil", label: "Profil vervollständigen" }]
+      : []),
+    ...(!todayEntry
+      ? [{ href: "/tageserfassung", label: "Check-in beginnen" }]
+      : []),
+    ...(todayMealCount === 0
+      ? [{ href: "/ernaehrung", label: "Erste Mahlzeit erfassen" }]
+      : []),
+    ...(mealPlanSummary.plannedCount === 0
+      ? [
+          {
+            href: `/ernaehrung/wochenplan?date=${todayDate}`,
+            label: "Mahlzeiten planen",
+          },
+        ]
+      : []),
+    ...(weightMeasurements.length < 2
+      ? [{ href: "/tageserfassung", label: "Gewichtsverlauf ergänzen" }]
+      : []),
+    ...(activeSupplementCount === 0
+      ? [{ href: "/supplemente", label: "Supplement anlegen" }]
+      : []),
   ];
 
   return (
@@ -385,20 +485,48 @@ export default async function HomePage() {
           </div>
         </header>
 
+        <Section aria-label="Nächste Schritte" className="!mt-4">
+          <Card className="overflow-hidden">
+            <div className="flex min-h-14 items-center gap-4 px-4 py-2.5 sm:px-5">
+              <p className="shrink-0 text-xs font-semibold uppercase tracking-[0.15em] text-copper">
+                Nächste Schritte
+              </p>
+              <div className="h-5 w-px shrink-0 bg-border-subtle" aria-hidden="true" />
+              {nextSteps.length > 0 ? (
+                <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto py-1">
+                  {nextSteps.map((step) => (
+                    <Link
+                      key={`${step.href}-${step.label}`}
+                      href={step.href}
+                      className="shrink-0 rounded-full bg-forest-soft px-3 py-1.5 text-sm font-semibold text-forest-strong transition hover:opacity-80"
+                    >
+                      {step.label} →
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm font-medium text-forest-strong">
+                  Alles Wichtige für heute ist erfasst.
+                </p>
+              )}
+            </div>
+          </Card>
+        </Section>
+
         <Section
           aria-label="Wichtige Gesundheitsdaten"
           className="!mt-6 grid grid-cols-12 gap-5"
         >
-          <div className="col-span-12 xl:col-span-7">
+          <div className="col-span-12 md:col-span-6 2xl:col-span-3">
             <WeightTrend
               measurements={weightMeasurements}
               timeZone={timeZone}
             />
           </div>
-          <div className="col-span-12 xl:col-span-5">
+          <div className="col-span-12 md:col-span-6 2xl:col-span-3">
             <SevenDaySummaryCard summary={checkInSummary} />
           </div>
-          <div className="col-span-12 md:col-span-6">
+          <div className="col-span-12 md:col-span-6 2xl:col-span-3">
             <NutritionSummaryCard
               mealCount={todayMealCount}
               energyKcal={todayEnergyKcal}
@@ -407,7 +535,7 @@ export default async function HomePage() {
               completedPlannedCount={mealPlanSummary.completedCount}
             />
           </div>
-          <div className="col-span-12 md:col-span-6">
+          <div className="col-span-12 md:col-span-6 2xl:col-span-3">
             <SupplementSummaryCard
               activeCount={activeSupplementCount}
               todayIntakeCount={todaySupplementIntakeCount}
@@ -451,87 +579,6 @@ export default async function HomePage() {
               <DashboardAreaLink key={card.title} card={card} />
             ))}
           </div>
-        </Section>
-
-        <Section aria-label="Nächste Schritte">
-          <Card>
-            <CardHeader>
-              <CardTitle>Nächste Schritte</CardTitle>
-            </CardHeader>
-
-            <CardContent>
-              <ul className="grid gap-3 text-sm">
-                {profileProgress < 100 ? (
-                  <li>
-                    <Link
-                      href="/gesundheitsprofil"
-                      className="font-semibold text-forest-strong"
-                    >
-                      Gesundheitsprofil vervollständigen →
-                    </Link>
-                  </li>
-                ) : null}
-
-                {!todayEntry ? (
-                  <li>
-                    <Link
-                      href="/tageserfassung"
-                      className="font-semibold text-forest-strong"
-                    >
-                      Heutigen Check-in beginnen →
-                    </Link>
-                  </li>
-                ) : null}
-                {todayMealCount === 0 ? (
-                  <li>
-                    <Link
-                      href="/ernaehrung"
-                      className="font-semibold text-forest-strong"
-                    >
-                      Erste Mahlzeit heute erfassen →
-                    </Link>
-                  </li>
-                ) : null}
-                {mealPlanSummary.plannedCount === 0 ? (
-                  <li>
-                    <Link
-                      href={`/ernaehrung/wochenplan?date=${todayDate}`}
-                      className="font-semibold text-forest-strong"
-                    >
-                      Heutige Mahlzeiten planen →
-                    </Link>
-                  </li>
-                ) : null}
-                {weightMeasurements.length < 2 ? (
-                  <li>
-                    <Link
-                      href="/tageserfassung"
-                      className="font-semibold text-forest-strong"
-                    >
-                      Weiteren Gewichtswert erfassen →
-                    </Link>
-                  </li>
-                ) : null}
-                {activeSupplementCount === 0 ? (
-                  <li>
-                    <Link href="/supplemente" className="font-semibold text-forest-strong">
-                      Erstes Supplement anlegen →
-                    </Link>
-                  </li>
-                ) : null}
-                {profileProgress === 100 &&
-                todayEntry &&
-                todayMealCount > 0 &&
-                mealPlanSummary.plannedCount > 0 &&
-                activeSupplementCount > 0 &&
-                weightMeasurements.length >= 2 ? (
-                  <li className="text-text-muted">
-                    Alles Wichtige für heute ist erfasst.
-                  </li>
-                ) : null}
-              </ul>
-            </CardContent>
-          </Card>
         </Section>
       </Page>
     </AppLayout>

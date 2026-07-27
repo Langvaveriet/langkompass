@@ -15,9 +15,9 @@ function SummaryMetric({
   value: string;
 }) {
   return (
-    <div className="rounded-[var(--radius-md)] border border-border-subtle bg-surface-muted/70 px-4 py-3.5">
+    <div className="rounded-[var(--radius-md)] border border-border-subtle bg-surface-muted/70 px-3 py-2.5">
       <dt className="text-xs font-medium text-text-muted">{label}</dt>
-      <dd className="mt-1.5 text-lg font-semibold tracking-[-0.02em] text-text-primary">
+      <dd className="mt-1 text-base font-semibold tracking-[-0.02em] text-text-primary">
         {value}
       </dd>
     </div>
@@ -27,21 +27,21 @@ function SummaryMetric({
 export function SevenDaySummaryCard({ summary }: { summary: CheckInSummary }) {
   return (
     <Card className="h-full overflow-hidden">
-      <div className="flex items-start justify-between gap-4 border-b border-border-subtle px-5 py-5 sm:px-6">
+      <div className="flex items-start justify-between gap-3 border-b border-border-subtle px-5 py-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-copper">
             Verlauf
           </p>
-          <h2 className="mt-1.5 text-xl font-semibold tracking-[-0.02em] text-text-primary">
+          <h2 className="mt-1 text-lg font-semibold tracking-[-0.02em] text-text-primary">
             Letzte 7 Tage
           </h2>
         </div>
-        <span className="rounded-full bg-forest-soft px-3 py-1.5 text-sm font-semibold text-forest-strong">
+        <span className="rounded-full bg-forest-soft px-2.5 py-1 text-xs font-semibold text-forest-strong">
           {summary.recordedDays} / 7 erfasst
         </span>
       </div>
 
-      <div className="p-5 sm:p-6">
+      <div className="p-4 sm:p-5">
         <dl className="grid grid-cols-2 gap-3">
           <SummaryMetric
             label="Ø Schlaf"
@@ -65,20 +65,14 @@ export function SevenDaySummaryCard({ summary }: { summary: CheckInSummary }) {
           />
         </dl>
 
-        <dl className="mt-5 grid grid-cols-3 gap-3 border-t border-border-subtle pt-5 text-sm">
-          <div>
-            <dt className="text-xs text-text-muted">Abgeschlossen</dt>
-            <dd className="mt-1 font-semibold text-text-primary">
-              {summary.completedDays} Tage
-            </dd>
-          </div>
+        <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border-subtle pt-4 text-sm">
           <div>
             <dt className="text-xs text-text-muted">Ø Wohlbefinden</dt>
             <dd className="mt-1 font-semibold text-text-primary">
               {formatAverage(summary.averageWellbeing, " / 10")}
             </dd>
           </div>
-          <div>
+          <div className="text-right">
             <dt className="text-xs text-text-muted">Ø Trinkmenge</dt>
             <dd className="mt-1 font-semibold text-text-primary">
               {formatAverage(summary.averageWaterLiters, " l")}
@@ -114,16 +108,16 @@ export function NutritionSummaryCard({
   return (
     <Link
       href="/ernaehrung"
-      className="group block rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4"
+      className="group block h-full rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4"
     >
       <Card className="h-full overflow-hidden transition duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
-        <div className="p-5 sm:p-6">
+        <div className="p-5">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-copper">
                 Heute
               </p>
-              <h2 className="mt-1.5 text-xl font-semibold tracking-[-0.02em] text-text-primary">
+              <h2 className="mt-1 text-lg font-semibold tracking-[-0.02em] text-text-primary">
                 Ernährung
               </h2>
             </div>
@@ -132,9 +126,9 @@ export function NutritionSummaryCard({
             </span>
           </div>
 
-          <div className="mt-7 flex items-end justify-between gap-4">
+          <div className="mt-5 flex items-end justify-between gap-3">
             <div>
-              <p className="text-3xl font-semibold tracking-[-0.04em] text-text-primary sm:text-4xl">
+              <p className="text-2xl font-semibold tracking-[-0.04em] text-text-primary">
                 {energyKcal.toLocaleString("de-DE")} kcal
               </p>
               <p className="mt-1 text-sm text-text-muted">
@@ -144,14 +138,14 @@ export function NutritionSummaryCard({
               </p>
             </div>
             {percentage !== null ? (
-              <span className="text-2xl font-semibold text-forest-strong">
+              <span className="text-xl font-semibold text-forest-strong">
                 {percentage} %
               </span>
             ) : null}
           </div>
 
           {calorieTarget ? (
-            <div className="mt-5">
+            <div className="mt-4">
               <div
                 className="h-2 overflow-hidden rounded-full bg-surface-muted"
                 role="progressbar"
@@ -173,7 +167,7 @@ export function NutritionSummaryCard({
             </div>
           ) : null}
 
-          <dl className="mt-6 grid grid-cols-2 gap-3 border-t border-border-subtle pt-5">
+          <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border-subtle pt-4">
             <div>
               <dt className="text-xs text-text-muted">Erfasste Mahlzeiten</dt>
               <dd className="mt-1 font-semibold text-text-primary">
@@ -209,16 +203,16 @@ export function SupplementSummaryCard({
   return (
     <Link
       href="/supplemente"
-      className="group block rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4"
+      className="group block h-full rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4"
     >
       <Card className="h-full overflow-hidden transition duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
-        <div className="p-5 sm:p-6">
+        <div className="p-5">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-copper">
                 Dokumentation
               </p>
-              <h2 className="mt-1.5 text-xl font-semibold tracking-[-0.02em] text-text-primary">
+              <h2 className="mt-1 text-lg font-semibold tracking-[-0.02em] text-text-primary">
                 Supplemente
               </h2>
             </div>
@@ -227,14 +221,14 @@ export function SupplementSummaryCard({
             </span>
           </div>
 
-          <div className="mt-7">
-            <p className="text-3xl font-semibold tracking-[-0.04em] text-text-primary sm:text-4xl">
+          <div className="mt-5">
+            <p className="text-2xl font-semibold tracking-[-0.04em] text-text-primary">
               {todayIntakeCount} {todayIntakeCount === 1 ? "Einnahme" : "Einnahmen"}
             </p>
             <p className="mt-1 text-sm text-text-muted">heute dokumentiert</p>
           </div>
 
-          <div className="mt-6 rounded-[var(--radius-md)] bg-forest-soft px-4 py-3.5">
+          <div className="mt-4 rounded-[var(--radius-md)] bg-forest-soft px-3 py-2.5">
             <p className="text-sm font-semibold text-forest-strong">
               {todaySupplementCount > 0
                 ? `${todaySupplementCount} ${todaySupplementCount === 1 ? "Präparat" : "Präparate"} heute erfasst`
@@ -244,7 +238,7 @@ export function SupplementSummaryCard({
             </p>
           </div>
 
-          <dl className="mt-6 grid grid-cols-2 gap-3 border-t border-border-subtle pt-5">
+          <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border-subtle pt-4">
             <div>
               <dt className="text-xs text-text-muted">Aktive Präparate</dt>
               <dd className="mt-1 font-semibold text-text-primary">
@@ -267,16 +261,16 @@ export function SupplementSummaryCard({
 export type DashboardAreaCard = {
   title: string;
   value: string;
-  description: string;
   href: string;
   eyebrow: string;
+  metrics: ReadonlyArray<{ label: string; value: string }>;
 };
 
 export function DashboardAreaLink({ card }: { card: DashboardAreaCard }) {
   return (
     <Link
       href={card.href}
-      className="group block rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4"
+      className="group block h-full rounded-[var(--radius-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-strong focus-visible:ring-offset-4"
     >
       <Card className="h-full overflow-hidden transition duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
         <div className="h-1 bg-gradient-to-r from-forest-strong via-forest to-copper" />
@@ -293,9 +287,16 @@ export function DashboardAreaLink({ card }: { card: DashboardAreaCard }) {
           <p className="mt-2 text-base font-semibold text-forest-strong">
             {card.value}
           </p>
-          <p className="mt-3 text-sm leading-6 text-text-muted">
-            {card.description}
-          </p>
+          <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border-subtle pt-4">
+            {card.metrics.map((metric) => (
+              <div key={metric.label}>
+                <dt className="text-xs text-text-muted">{metric.label}</dt>
+                <dd className="mt-1 text-sm font-semibold text-text-primary">
+                  {metric.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </Card>
     </Link>
