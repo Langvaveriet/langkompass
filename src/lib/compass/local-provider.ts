@@ -4,6 +4,7 @@ import type {
   CompassProvider,
   CompassStatement,
 } from "@/lib/compass/provider";
+import { buildLaboratoryAssessment } from "@/lib/compass/laboratory-assessment";
 
 function number(value: number): string {
   return value.toLocaleString("de-DE");
@@ -14,13 +15,16 @@ function decimal(value: number): string {
 }
 
 export const localStructuredProvider: CompassProvider = {
-  id: "local-structured-v1",
+  id: "local-structured-v2",
   label: "Lokale strukturierte Zusammenfassung",
   mode: "LOCAL",
   async analyze(request: CompassAnalysisRequest): Promise<CompassAnalysisResponse> {
     const { context } = request;
     const { coverage, observations } = context;
     const statements: CompassStatement[] = [];
+    const laboratoryAssessment = buildLaboratoryAssessment(
+      observations.laboratory.latestResults,
+    );
 
     if (coverage.dailyEntryCount > 0) {
       statements.push({
@@ -79,7 +83,9 @@ export const localStructuredProvider: CompassProvider = {
     if (coverage.latestLabAnalyteCount > 0) {
       statements.push({
         category: "LABORATORY",
-        text: `Für ${number(coverage.latestLabAnalyteCount)} Laborparameter ist jeweils der neueste dokumentierte Messwert im Kontext enthalten.`,
+        text: laboratoryAssessment.outsideReferenceCount > 0
+          ? `${number(laboratoryAssessment.outsideReferenceCount)} von ${number(laboratoryAssessment.assessedCount)} anhand einer Laborreferenz beurteilbaren Parametern liegen außerhalb des dokumentierten Bereichs und werden unten vorsichtig eingeordnet.`
+          : `${number(laboratoryAssessment.withinReferenceCount)} beurteilbare Laborparameter liegen innerhalb des jeweils dokumentierten Laborreferenzbereichs.`,
         evidencePaths: ["coverage.latestLabAnalyteCount", "observations.laboratory.latestResults"],
       });
     }
@@ -92,7 +98,7 @@ export const localStructuredProvider: CompassProvider = {
     }
 
     return {
-      responseVersion: "compass-response.v1",
+      responseVersion: "compass-response.v2",
       provider: {
         id: localStructuredProvider.id,
         label: localStructuredProvider.label,
@@ -102,11 +108,12 @@ export const localStructuredProvider: CompassProvider = {
       generatedAt: request.requestedAt,
       title: "Strukturierter Überblick",
       summary: statements.length > 0
-        ? "Diese Zusammenfassung beschreibt ausschließlich die vorhandene Datengrundlage und nimmt keine medizinische Bewertung vor."
+        ? "Compass trennt dokumentierte Beobachtungen von einer vorsichtigen, regelbasierten Laboreinordnung. Mögliche Einflussfaktoren sind keine festgestellten Ursachen."
         : "Für eine strukturierte Zusammenfassung liegen noch keine ausreichenden Daten vor.",
       statements,
+      laboratoryAssessment,
       limitations: context.dataGaps,
-      safetyNotice: "Keine Diagnose, keine medizinische Entscheidung und keine automatische Änderung deiner Gesundheitsdaten.",
+      safetyNotice: "Keine Diagnose und kein Ersatz für ärztliche Beratung. Laborabweichungen werden ausschließlich gegen den mitgespeicherten Laborreferenzbereich eingeordnet; keine automatische Änderung deiner Gesundheitsdaten.",
     };
   },
 };

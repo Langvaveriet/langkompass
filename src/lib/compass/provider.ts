@@ -1,4 +1,5 @@
 import type { HealthContext } from "@/lib/compass/health-context";
+import type { LaboratoryAssessment } from "@/lib/compass/laboratory-assessment";
 
 export type CompassProviderMode = "LOCAL" | "REMOTE";
 
@@ -22,7 +23,7 @@ export type CompassStatement = {
 };
 
 export type CompassAnalysisResponse = {
-  responseVersion: "compass-response.v1";
+  responseVersion: "compass-response.v2";
   provider: {
     id: string;
     label: string;
@@ -33,6 +34,7 @@ export type CompassAnalysisResponse = {
   title: string;
   summary: string;
   statements: CompassStatement[];
+  laboratoryAssessment: LaboratoryAssessment;
   limitations: string[];
   safetyNotice: string;
 };

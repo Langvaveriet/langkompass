@@ -5,6 +5,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { HealthContext } from "@/lib/compass/health-context";
+import { buildLaboratoryAssessment } from "@/lib/compass/laboratory-assessment";
 
 type HealthContextPreviewProps = {
   context: HealthContext;
@@ -25,6 +26,9 @@ function dateLabel(value: string, timeZone: string): string {
 
 export function HealthContextPreview({ context }: HealthContextPreviewProps) {
   const { coverage, observations } = context;
+  const laboratoryAssessment = buildLaboratoryAssessment(
+    observations.laboratory.latestResults,
+  );
   const periodLabel = `${dateLabel(context.period.from, context.period.timeZone)} bis ${dateLabel(new Date(new Date(context.period.toExclusive).getTime() - 1).toISOString(), context.period.timeZone)}`;
 
   return (
@@ -109,17 +113,29 @@ export function HealthContextPreview({ context }: HealthContextPreviewProps) {
         </Card>
 
         <Card>
-          <CardHeader><CardTitle>Labor</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Labor-Datengrundlage</CardTitle></CardHeader>
           <CardContent>
             {observations.laboratory.latestResults.length > 0 ? (
-              <ul className="grid gap-3">
-                {observations.laboratory.latestResults.map((result) => (
-                  <li key={result.analyteKey} className="flex items-start justify-between gap-4 rounded-[var(--radius-md)] bg-surface-muted p-4">
-                    <span><span className="block font-semibold text-text-primary">{result.analyteName}</span><span className="mt-1 block text-xs text-text-muted">{dateLabel(result.measuredAt, context.period.timeZone)}</span></span>
-                    <span className="shrink-0 font-semibold text-text-primary">{result.value.toLocaleString("de-DE")} {result.unit}</span>
-                  </li>
-                ))}
-              </ul>
+              <>
+                <dl className="grid grid-cols-2 gap-3">
+                  <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                    <dt className="text-xs text-text-muted">Beurteilbar</dt>
+                    <dd className="mt-1 font-semibold text-text-primary">
+                      {laboratoryAssessment.assessedCount}
+                    </dd>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] bg-surface-muted p-4">
+                    <dt className="text-xs text-text-muted">Außerhalb Referenz</dt>
+                    <dd className="mt-1 font-semibold text-text-primary">
+                      {laboratoryAssessment.outsideReferenceCount}
+                    </dd>
+                  </div>
+                </dl>
+                <p className="mt-4 text-sm leading-6 text-text-muted">
+                  Einzelne Messzahlen werden hier bewusst nicht wiederholt. Die
+                  vorsichtige Einordnung steht im Compass-Bericht darüber.
+                </p>
+              </>
             ) : <p className="text-sm text-text-muted">Noch keine Laborwerte vorhanden.</p>}
           </CardContent>
         </Card>

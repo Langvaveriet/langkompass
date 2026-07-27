@@ -1,5 +1,16 @@
 # LångKompass – Changelog
 
+## 2026-07-27 – Laborwerte in Compass einordnen
+
+- Compass wiederholt Laborwerte nicht mehr als Zahlenliste, sondern priorisiert
+  Abweichungen vom jeweils gespeicherten Laborreferenzbereich.
+- Auffällige Parameter erhalten getrennte Hinweise zu möglichen
+  Einflussfaktoren, sinnvollen nächsten Schritten und natürlichen
+  Unterstützungsmöglichkeiten.
+- Die lokale Logik formuliert keine Diagnosen, wertet Parameter ohne
+  Referenzbereich nicht aus und rät von eigenständigen hoch dosierten
+  Supplement- oder Medikamentenänderungen ab.
+
 ## 2026-07-27 – Laborverlauf priorisieren
 
 - Der Verlauf der Laborwerte steht jetzt direkt am Kopf der Laborseite.
